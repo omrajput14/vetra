@@ -1,0 +1,1 @@
+ /Users/0mrajput/vetra/.dart_tool/flutter_build/ce344163e5abdcfb16db1cb29747bec7/dart_build_result.json:  /Users/0mrajput/develop/flutter/bin/cache/dart-sdk/version /Users/0mrajput/vetra/.dart_tool/package_config.json /Users/0mrajput/vetra/pubspec.yaml
