@@ -26,6 +26,13 @@ import '../../features/animal/presentation/pages/animal_documents_page.dart';
 import '../../features/animal/presentation/pages/breeding_record_page.dart';
 import '../../features/animal/presentation/pages/delete_animal_confirmation_page.dart';
 import '../../features/animal/presentation/pages/transfer_animal_ownership_page.dart';
+import '../../features/medical/presentation/pages/add_prescription_page.dart';
+import '../../features/medical/presentation/pages/add_treatment_page.dart';
+import '../../features/medical/presentation/pages/deworming_record_page.dart';
+import '../../features/medical/presentation/pages/diagnosis_entry_page.dart';
+import '../../features/medical/presentation/pages/medical_history_details_page.dart';
+import '../../features/medical/presentation/pages/vaccination_details_page.dart';
+import '../../features/medical/presentation/pages/vaccination_schedule_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -140,6 +147,34 @@ class AppRouter {
       GoRoute(
         path: '/transfer-animal-ownership',
         builder: (context, state) => const TransferAnimalOwnershipPage(),
+      ),
+      GoRoute(
+        path: '/add-prescription',
+        builder: (context, state) => const AddPrescriptionPage(),
+      ),
+      GoRoute(
+        path: '/add-treatment',
+        builder: (context, state) => const AddTreatmentPage(),
+      ),
+      GoRoute(
+        path: '/deworming-record',
+        builder: (context, state) => const DewormingRecordPage(),
+      ),
+      GoRoute(
+        path: '/diagnosis-entry',
+        builder: (context, state) => const DiagnosisEntryPage(),
+      ),
+      GoRoute(
+        path: '/medical-history-details',
+        builder: (context, state) => const MedicalHistoryDetailsPage(),
+      ),
+      GoRoute(
+        path: '/vaccination-details',
+        builder: (context, state) => const VaccinationDetailsPage(),
+      ),
+      GoRoute(
+        path: '/vaccination-schedule',
+        builder: (context, state) => const VaccinationSchedulePage(),
       ),
     ],
   );
