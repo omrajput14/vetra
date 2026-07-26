@@ -43,6 +43,9 @@ import '../../features/disease/presentation/pages/nearby_outbreak_details_page.d
 import '../../features/disease/presentation/pages/report_disease_page.dart';
 import '../../features/maps/presentation/pages/outbreak_map_page.dart';
 import '../../features/maps/presentation/pages/risk_zone_page.dart';
+import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/profile/presentation/pages/edit_profile_page.dart';
+import '../../features/profile/presentation/pages/vet_profile_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -225,6 +228,18 @@ class AppRouter {
       GoRoute(
         path: '/risk-zone',
         builder: (context, state) => const RiskZonePage(),
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfilePage(),
+      ),
+      GoRoute(
+        path: '/edit-profile',
+        builder: (context, state) => const EditProfilePage(),
+      ),
+      GoRoute(
+        path: '/vet-profile',
+        builder: (context, state) => const VetProfilePage(),
       ),
     ],
   );
