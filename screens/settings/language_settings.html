@@ -1,0 +1,124 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary": "#ffffff", "tertiary-fixed": "#ffd6fd", "surface-bright": "#f7fce9", "surface": "#f7fce9", "alert-critical": "#C62828", "on-primary-container": "#396000", "on-tertiary-container": "#7b3f81", "surface-dim": "#d7dcca", "on-tertiary-fixed": "#36003f", "secondary-fixed": "#d9e2ff", "on-background": "#181d12", "surface-background": "#f4eee5", "caution-amber": "#F2994A", "text-primary": "#141414", "text-secondary": "#4e4d4c", "primary-fixed": "#a9f847", "primary-fixed-dim": "#8fdb29", "surface-tint": "#3f6900", "tertiary": "#84478a", "outline": "#717a64", "on-surface": "#181d12", "primary": "#3f6900", "on-secondary-fixed-variant": "#004299", "outline-variant": "#c1cab0", "text-metadata": "#737373", "tertiary-fixed-dim": "#f6aef9", "tertiary-container": "#fcb4ff", "secondary": "#0159c7", "surface-variant": "#e0e5d2", "on-error-container": "#93000a", "on-error": "#ffffff", "primary-container": "#94e130", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#692f70", "error": "#ba1a1a", "on-secondary-fixed": "#001944", "inverse-primary": "#8fdb29", "surface-container-highest": "#e0e5d2", "surface-container-lowest": "#ffffff", "inverse-surface": "#2d3226", "on-surface-variant": "#414a36", "on-tertiary": "#ffffff", "secondary-fixed-dim": "#afc6ff", "on-secondary": "#ffffff", "background": "#f7fce9", "surface-container-low": "#f1f6e3", "surface-container": "#ebf0dd", "surface-container-high": "#e5ead8", "on-secondary-container": "#002760", "on-primary-fixed": "#102000", "on-primary-fixed-variant": "#2e4f00", "secondary-container": "#548dfe", "border-hairline": "#a1a1a1", "surface-card": "#ffffff", "inverse-on-surface": "#eef3e0" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "touch-target-min": "52px", "edge-margin": "20px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "section-heading": ["Lexend"], "screen-title": ["Lexend"], "vet-data-row": ["Inter"], "button-label": ["Lexend"], "body-default": ["Lexend"], "alert-text": ["Lexend"], "card-title": ["Lexend"], "caption-metadata": ["Inter"] } } } }</script><style>@layer base { body { background-color: #f4eee5; overscroll-behavior: none; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } } ::-webkit-scrollbar { display: none; }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface-background text-on-surface font-body-default min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface-background/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 flex items-center justify-between px-edge-margin"><div class="flex items-center gap-2"><div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[20px]">agriculture</span></div><span class="font-screen-title text-screen-title tracking-tight text-primary">VETRA</span></div><div class="flex items-center gap-4"><h2 class="hidden md:block font-screen-title text-body-default text-text-secondary">Profile</h2><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative w-full pt-16 bg-surface-background min-h-screen pb-[100px] pb-6"><div class="flex flex-col w-full h-full">
+<!-- Header Area -->
+<div class="px-edge-margin pb-stack-gap border-b border-border-hairline">
+<h1 class="font-screen-title text-screen-title text-primary tracking-tight">Language Settings</h1>
+<p class="font-body-default text-body-default text-text-secondary mt-1">Select your preferred app language.</p>
+</div>
+<!-- Language Options List -->
+<div class="flex-1 px-edge-margin py-stack-gap flex flex-col gap-element-gap">
+<!-- English (Selected) -->
+<label class="relative flex items-center justify-between p-4 min-h-[52px] bg-surface-card border border-primary rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-lowest">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">language</span>
+<span class="font-card-title text-card-title text-primary">English</span>
+</div>
+<div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-primary bg-surface-card">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+</div>
+<input checked="" class="hidden" name="app_language" type="radio" value="en"/>
+</label>
+<!-- Hindi -->
+<label class="relative flex items-center justify-between p-4 min-h-[52px] bg-surface-card border border-border-hairline rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-low">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary">translate</span>
+<div class="flex flex-col">
+<span class="font-card-title text-card-title text-text-primary">Hindi (हिन्दी)</span>
+</div>
+</div>
+<div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-border-hairline bg-surface-card">
+<!-- Unselected empty circle -->
+</div>
+<input class="hidden" name="app_language" type="radio" value="hi"/>
+</label>
+<!-- Marathi -->
+<label class="relative flex items-center justify-between p-4 min-h-[52px] bg-surface-card border border-border-hairline rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-low">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary">translate</span>
+<div class="flex flex-col">
+<span class="font-card-title text-card-title text-text-primary">Marathi (मराठी)</span>
+</div>
+</div>
+<div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-border-hairline bg-surface-card">
+</div>
+<input class="hidden" name="app_language" type="radio" value="mr"/>
+</label>
+<!-- Telugu -->
+<label class="relative flex items-center justify-between p-4 min-h-[52px] bg-surface-card border border-border-hairline rounded-lg shadow-sm cursor-pointer transition-colors hover:bg-surface-container-low">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-text-secondary">translate</span>
+<div class="flex flex-col">
+<span class="font-card-title text-card-title text-text-primary">Telugu (తెలుగు)</span>
+</div>
+</div>
+<div class="flex items-center justify-center w-6 h-6 rounded-full border-2 border-border-hairline bg-surface-card">
+</div>
+<input class="hidden" name="app_language" type="radio" value="te"/>
+</label>
+</div>
+<!-- Sticky Bottom Action -->
+<div class="sticky bottom-0 px-edge-margin py-stack-gap bg-surface-background/90 backdrop-blur-md border-t border-border-hairline mt-auto">
+<button class="w-full min-h-[52px] bg-primary text-on-primary font-button-label text-button-label rounded-lg flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined">save</span>
+            Save Changes
+        </button>
+</div>
+</div>
+<script>
+    // Simple script to handle radio button visual state changes
+    document.addEventListener('DOMContentLoaded', () => {
+        const labels = document.querySelectorAll('label:has(input[type="radio"])');
+        
+        labels.forEach(label => {
+            const input = label.querySelector('input');
+            
+            input.addEventListener('change', () => {
+                // Reset all labels
+                labels.forEach(l => {
+                    l.classList.remove('border-primary');
+                    l.classList.add('border-border-hairline');
+                    const icon = l.querySelector('.material-symbols-outlined');
+                    icon.classList.remove('text-primary');
+                    icon.classList.add('text-text-secondary');
+                    icon.style.fontVariationSettings = "'FILL' 0";
+                    
+                    const text = l.querySelector('.font-card-title');
+                    text.classList.remove('text-primary');
+                    text.classList.add('text-text-primary');
+
+                    const circle = l.querySelector('.w-6');
+                    circle.classList.remove('border-primary');
+                    circle.classList.add('border-border-hairline');
+                    circle.innerHTML = ''; // Remove inner dot
+                });
+
+                // Set active label
+                if (input.checked) {
+                    label.classList.remove('border-border-hairline');
+                    label.classList.add('border-primary');
+                    
+                    const icon = label.querySelector('.material-symbols-outlined');
+                    icon.classList.remove('text-text-secondary');
+                    icon.classList.add('text-primary');
+                    icon.style.fontVariationSettings = "'FILL' 1";
+                    
+                    const text = label.querySelector('.font-card-title');
+                    text.classList.remove('text-text-primary');
+                    text.classList.add('text-primary');
+
+                    const circle = label.querySelector('.w-6');
+                    circle.classList.remove('border-border-hairline');
+                    circle.classList.add('border-primary');
+                    circle.innerHTML = '<div class="w-3 h-3 rounded-full bg-primary"></div>';
+                }
+            });
+        });
+    });
+</script></main>
+
+</body></html>

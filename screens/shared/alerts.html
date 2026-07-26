@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>Health & Disease Alerts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-variant":"#e0e5d2","surface-tint":"#3f6900","primary-fixed":"#a9f847","caution-amber":"#F2994A","tertiary-container":"#fcb4ff","surface-container-lowest":"#ffffff","outline-variant":"#c1cab0","on-tertiary-fixed":"#36003f","on-secondary-container":"#002760",outline:"#717a64","on-error-container":"#93000a","on-tertiary-fixed-variant":"#692f70","on-primary-fixed":"#102000","text-primary":"#141414","surface-container-highest":"#e0e5d2","tertiary-fixed-dim":"#f6aef9","on-background":"#181d12","tertiary-fixed":"#ffd6fd","on-secondary-fixed":"#001944","text-secondary":"#4e4d4c","alert-critical":"#C62828","surface-container-high":"#e5ead8","on-secondary-fixed-variant":"#004299","on-primary-container":"#396000","primary-container":"#94e130",background:"#f7fce9","surface-container":"#ebf0dd","primary-fixed-dim":"#8fdb29","error-container":"#ffdad6","on-secondary":"#ffffff",error:"#ba1a1a",secondary:"#0159c7",tertiary:"#84478a","on-surface-variant":"#414a36","secondary-container":"#548dfe","on-surface":"#181d12","surface-bright":"#f7fce9","surface-container-low":"#f1f6e3","text-metadata":"#737373","secondary-fixed-dim":"#afc6ff",surface:"#f7fce9","secondary-fixed":"#d9e2ff",primary:"#3f6900","surface-background":"#f4eee5","on-tertiary":"#ffffff","on-error":"#ffffff","inverse-surface":"#2d3226","surface-dim":"#d7dcca","on-primary":"#ffffff","inverse-on-surface":"#eef3e0","on-tertiary-container":"#7b3f81","border-hairline":"#a1a1a1","inverse-primary":"#8fdb29","on-primary-fixed-variant":"#2e4f00","surface-card":"#ffffff"}}}}
+  </script>
+</head>
+<body class="bg-background font-body-default text-text-primary flex flex-col min-h-screen">
+  <header class="sticky top-0 bg-surface-card border-b border-border-hairline px-4 py-3 flex items-center justify-between z-40">
+    <h1 class="font-screen-title text-screen-title text-on-surface">Health & Disease Alerts</h1>
+    <a href="notifications.html" class="w-10 h-10 flex items-center justify-center text-on-surface rounded-full hover:bg-surface-container transition-colors">
+      <span class="material-symbols-outlined">notifications</span>
+    </a>
+  </header>
+
+  <main class="flex-1 max-w-[480px] w-full mx-auto p-4 pb-24 flex flex-col gap-4">
+    <!-- Outbreak Alert Banner -->
+    <div class="bg-surface-card rounded-2xl p-4 border border-alert-critical bg-error_container/20 flex gap-3 shadow-sm">
+      <span class="material-symbols-outlined text-alert-critical text-[28px]">warning</span>
+      <div class="flex-1">
+        <div class="flex items-center justify-between">
+          <h3 class="font-button-label text-alert-critical">FMD Outbreak Reported</h3>
+          <span class="text-xs text-text-metadata">2 km away</span>
+        </div>
+        <p class="font-caption-metadata text-xs text-text-primary mt-1">Foot-and-Mouth disease detected in adjacent village. Quarantine recommended.</p>
+        <a href="../disease/nearby_outbreak_details.html" class="inline-block mt-2 text-xs font-bold text-alert-critical underline">View Outbreak Details</a>
+      </div>
+    </div>
+
+    <!-- AI Health Scan Alert -->
+    <div class="bg-surface-card rounded-2xl p-4 border border-caution-amber bg-caution-amber/10 flex gap-3 shadow-sm">
+      <span class="material-symbols-outlined text-caution-amber text-[28px]">biotech</span>
+      <div class="flex-1">
+        <div class="flex items-center justify-between">
+          <h3 class="font-button-label text-on-surface">AI Diagnostic Alert</h3>
+          <span class="text-xs text-text-metadata">Today</span>
+        </div>
+        <p class="font-caption-metadata text-xs text-text-primary mt-1">High risk of Mastitis detected from recent scan on Cow #GIR-104.</p>
+        <a href="../ai/scan_accuracy_comparison.html" class="inline-block mt-2 text-xs font-bold text-primary underline">Review Scan Report</a>
+      </div>
+    </div>
+
+    <!-- Biosecurity Recommendation -->
+    <div class="bg-surface-card rounded-2xl p-4 border border-border-hairline flex gap-3 shadow-sm">
+      <span class="material-symbols-outlined text-primary text-[28px]">verified_user</span>
+      <div class="flex-1">
+        <div class="flex items-center justify-between">
+          <h3 class="font-button-label text-on-surface">Biosecurity Advisory</h3>
+          <span class="text-xs text-text-metadata">Yesterday</span>
+        </div>
+        <p class="font-caption-metadata text-xs text-text-secondary mt-1">Monsoon moisture increases fungal infection risks. Disinfect cattle shed weekly.</p>
+        <a href="../disease/biosecurity_recommendations.html" class="inline-block mt-2 text-xs font-bold text-primary underline">Read Guidelines</a>
+      </div>
+    </div>
+  </main>
+
+<!-- Farmer Bottom Navigation Bar (Primary Destination Only) -->
+<nav class="fixed bottom-0 inset-x-0 z-50 bg-[#f7fce9] border-t border-outline-variant/30 shadow-[0_-4px_16px_rgba(0,0,0,0.05)] rounded-t-2xl">
+  <div class="max-w-[480px] mx-auto h-16 px-2 flex items-center justify-around">
+    <a href="../../farmer/farmer_dashboard.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">home</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Home</span>
+    </a>
+    <a href="../../farmer/my_animals.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">pets</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Animals</span>
+    </a>
+    <a href="../../shared/alerts.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#3f6900]">notifications</span>
+      <span class="text-[12px] leading-tight text-[#3f6900] font-bold">Alerts</span>
+    </a>
+    <a href="../../farmer/nearby_veterinarians.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">explore</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Nearby</span>
+    </a>
+    <a href="../../profile/profile.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">account_circle</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Profile</span>
+    </a>
+  </div>
+</nav>
+</body>
+</html>

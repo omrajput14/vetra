@@ -1,0 +1,58 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lexend:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary-fixed": "#d9e2ff", "surface-tint": "#3f6900", "surface": "#f7fce9", "on-error-container": "#93000a", "surface-background": "#f4eee5", "surface-container-low": "#f1f6e3", "secondary-fixed-dim": "#afc6ff", "error-container": "#ffdad6", "inverse-on-surface": "#eef3e0", "surface-container-lowest": "#ffffff", "caution-amber": "#F2994A", "tertiary-container": "#fcb4ff", "inverse-primary": "#8fdb29", "surface-variant": "#e0e5d2", "on-primary-fixed": "#102000", "primary": "#3f6900", "tertiary-fixed-dim": "#f6aef9", "on-primary": "#ffffff", "primary-container": "#94e130", "surface-container-highest": "#e0e5d2", "surface-container": "#ebf0dd", "on-secondary-fixed": "#001944", "on-error": "#ffffff", "on-tertiary": "#ffffff", "on-secondary": "#ffffff", "surface-container-high": "#e5ead8", "on-secondary-fixed-variant": "#004299", "text-primary": "#141414", "secondary-container": "#548dfe", "outline": "#717a64", "on-primary-fixed-variant": "#2e4f00", "surface-card": "#ffffff", "error": "#ba1a1a", "background": "#f7fce9", "primary-fixed": "#a9f847", "on-surface-variant": "#414a36", "primary-fixed-dim": "#8fdb29", "on-primary-container": "#396000", "on-secondary-container": "#002760", "text-secondary": "#4e4d4c", "secondary": "#0159c7", "on-background": "#181d12", "inverse-surface": "#2d3226", "surface-bright": "#f7fce9", "text-metadata": "#737373", "on-surface": "#181d12", "tertiary-fixed": "#ffd6fd", "on-tertiary-container": "#7b3f81", "tertiary": "#84478a", "border-hairline": "#a1a1a1", "outline-variant": "#c1cab0", "on-tertiary-fixed": "#36003f", "alert-critical": "#C62828", "on-tertiary-fixed-variant": "#692f70", "surface-dim": "#d7dcca" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "stack-gap": "16px", "edge-margin": "20px", "touch-target-min": "52px", "element-gap": "8px" }, "fontFamily": { "vet-data-row": ["Inter"], "section-heading": ["Lexend"], "screen-title": ["Lexend"], "caption-metadata": ["Inter"], "alert-text": ["Lexend"], "card-title": ["Lexend"], "button-label": ["Lexend"], "body-default": ["Lexend"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } } </style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body-default text-text-primary"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 flex items-center px-edge-margin gap-4"><button class="w-10 h-10 flex items-center justify-center -ml-2 text-on-surface" onclick="history.back()"><span class="material-symbols-outlined">arrow_back</span></button><div class="flex items-center gap-2"><img class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtglVzZupsVg6xn671df_vwJybEtkD7ZLgRH8dPnA2rKZ9U94Fmp_eH1frR5MHpwcFLGhOhxTFuL8gHQyb6BjkX3MPM_xnK9Z_h_iVuX4h5UbHRI2mHcpgjGXsbfePKvYlfjriW1i5UTemhUPsm1KpFA5lijgwsr8DBsoOZe3CYzqTNDthA-l3g4i2Sq4zjlOVFFnISoJFS5HiQafNXL8ysd66wK08jtWrX4vvlf_GEhuGzteJfHSrL5R4i"/><h1 class="font-screen-title text-screen-title text-on-surface">Add Treatment</h1></div></div></header><main class="relative w-full pt-16 bg-background min-h-screen"><div class="flex flex-col w-full pb-6">
+<div class="px-edge-margin pt-stack-gap flex flex-col gap-element-gap">
+<h2 class="font-section-heading text-section-heading text-text-primary">Add Treatment Record</h2>
+<p class="font-body-default text-body-default text-text-secondary">Enter details for the current visit. This will be added to the animal's permanent passport.</p>
+</div>
+<form class="flex flex-col gap-stack-gap px-edge-margin mt-stack-gap">
+<div class="flex flex-col gap-element-gap">
+<label class="font-card-title text-card-title text-text-primary">Diagnosis</label>
+<textarea class="w-full h-32 bg-surface-card border-hairline rounded-lg p-3 font-body-default text-body-default text-text-primary placeholder-text-secondary resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Enter clinical diagnosis..."></textarea>
+</div>
+<div class="flex flex-col gap-element-gap">
+<label class="font-card-title text-card-title text-text-primary">Treatment Plan</label>
+<textarea class="w-full h-32 bg-surface-card border-hairline rounded-lg p-3 font-body-default text-body-default text-text-primary placeholder-text-secondary resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Describe the procedures performed..."></textarea>
+</div>
+<div class="flex flex-col gap-element-gap">
+<label class="font-card-title text-card-title text-text-primary">Medications Administered</label>
+<div class="flex items-center gap-element-gap">
+<input class="flex-1 h-[52px] bg-surface-card border-hairline rounded-lg px-4 font-body-default text-body-default text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="e.g. Penicillin" type="text"/>
+<button class="h-[52px] w-[52px] flex items-center justify-center bg-surface-container rounded-lg border-hairline text-primary active:scale-95 transition-transform" type="button">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mt-2">
+<div class="inline-flex items-center gap-2 px-3 py-1.5 bg-surface-container rounded-full border border-border-hairline">
+<span class="font-caption-metadata text-caption-metadata text-text-primary">Oxytetracycline 200mg</span>
+<button class="text-text-secondary flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[16px]">close</span></button>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-element-gap">
+<label class="font-card-title text-card-title text-text-primary">Follow-up Instructions</label>
+<textarea class="w-full h-24 bg-surface-card border-hairline rounded-lg p-3 font-body-default text-body-default text-text-primary placeholder-text-secondary resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="Instructions for the farmer..."></textarea>
+</div>
+<div class="flex flex-col gap-element-gap">
+<label class="font-card-title text-card-title text-text-primary">Next Visit Required</label>
+<select class="w-full h-[52px] bg-surface-card border-hairline rounded-lg px-4 font-body-default text-body-default text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all appearance-none">
+<option value="none">No follow-up needed</option>
+<option value="3days">In 3 days</option>
+<option value="1week">In 1 week</option>
+<option value="1month">In 1 month</option>
+<option value="custom">Custom Date...</option>
+</select>
+</div>
+<button class="w-full h-[52px] bg-primary text-on-primary rounded-lg font-button-label text-button-label mt-4 active:scale-[0.98] transition-transform flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined">save</span>
+            Save Treatment Record
+        </button>
+</form>
+
+</div></main>
+
+</body></html>

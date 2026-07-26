@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "primary-fixed-dim": "#8fdb29", "primary-container": "#94e130", "secondary-fixed-dim": "#afc6ff", "on-primary-fixed": "#102000", "inverse-primary": "#8fdb29", "on-error": "#ffffff", "caution-amber": "#F2994A", "secondary": "#0159c7", "background": "#f7fce9", "on-tertiary-fixed-variant": "#692f70", "outline": "#717a64", "on-background": "#181d12", "primary-fixed": "#a9f847", "tertiary-fixed-dim": "#f6aef9", "on-tertiary": "#ffffff", "on-primary-fixed-variant": "#2e4f00", "surface-container-highest": "#e0e5d2", "text-metadata": "#737373", "surface-container-high": "#e5ead8", "surface-variant": "#e0e5d2", "on-secondary-fixed": "#001944", "on-tertiary-container": "#7b3f81", "on-secondary": "#ffffff", "text-secondary": "#4e4d4c", "error-container": "#ffdad6", "on-primary": "#ffffff", "on-secondary-container": "#002760", "surface-container-lowest": "#ffffff", "surface-card": "#ffffff", "primary": "#3f6900", "inverse-on-surface": "#eef3e0", "surface-dim": "#d7dcca", "surface-bright": "#f7fce9", "surface": "#f7fce9", "border-hairline": "#a1a1a1", "on-primary-container": "#396000", "on-tertiary-fixed": "#36003f", "error": "#ba1a1a", "tertiary-fixed": "#ffd6fd", "tertiary-container": "#fcb4ff", "secondary-container": "#548dfe", "text-primary": "#141414", "on-secondary-fixed-variant": "#004299", "on-surface-variant": "#414a36", "on-surface": "#181d12", "surface-container": "#ebf0dd", "alert-critical": "#C62828", "surface-tint": "#3f6900", "outline-variant": "#c1cab0", "surface-background": "#f4eee5", "inverse-surface": "#2d3226", "tertiary": "#84478a", "surface-container-low": "#f1f6e3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "edge-margin": "20px", "touch-target-min": "52px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "body-default": ["Lexend"], "section-heading": ["Lexend"], "alert-text": ["Lexend"], "caption-metadata": ["Inter"], "card-title": ["Lexend"], "screen-title": ["Lexend"], "button-label": ["Lexend"], "vet-data-row": ["Inter"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: contain; } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } }</style></head><body class="bg-surface-background font-body-default text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-background/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-edge-margin flex items-center justify-between"><div class="flex items-center gap-element-gap"><img alt="Vetra App Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBed1iD3yCiLY23a8v-BZChBJIYpZhX3TyLD-xUZ30yBieFVpcVciNFgxoXT3WJ46jxgX8VvGDBcbDZg9ZccMryoIyv8snvidk7BK5m69d5ycCTgHC2vWlukX6C4lkBAMIrt30lKEZXz_-1Dy3DQ6kiASsf1y951FID37F6JHiPCD-9mVqiOjmDzHGnis4lOUbB65LgOwQlO-CZABy68n4CGjYrPyeKgt_zsx9qF-cU5GpdfPGqBL8vqKiJmCQvSfy35FnJcrVPN6DP"><span class="font-screen-title text-lg">My Animals</span></div><div class="flex items-center gap-3"><button class="h- touch-target-min px-4 bg-alert-critical text-white rounded-lg flex items-center gap-2 shadow-sm active:scale-95 transition-transform"><span class="material-symbols-outlined text-[20px]">emergency_share</span><span class="font-button-label text-sm">SOS</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="pt-16 pb-32 min-h-screen px-edge-margin pb-24"><div class="flex flex-col w-full h-full gap-stack-gap">
+<!-- Search and Filter Bar -->
+<div class="flex items-center gap-element-gap sticky top-16 z-40 bg-surface-background/95 backdrop-blur-md py-4">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
+<input class="w-full h-touch-target-min pl-10 pr-4 rounded-lg bg-surface-card border border-border-hairline font-body-default text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors placeholder:text-text-secondary shadow-sm" placeholder="Search by name, tag ID..." type="text">
+</div>
+<button class="h-touch-target-min px-4 bg-surface-card border border-border-hairline rounded-lg flex items-center justify-center gap-2 text-text-primary shadow-sm active:scale-95 transition-transform shrink-0">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<!-- Animal List -->
+<div class="flex flex-col gap-element-gap">
+<!-- Animal Card 1 -->
+<div class="bg-surface-card rounded-xl p-4 shadow-sm border border-border-hairline flex flex-col gap-3 relative overflow-hidden transition-all hover:shadow-md active:scale-[0.98]">
+<div class="flex gap-4">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-surface-container-high border border-border-hairline relative flex items-center justify-center">
+<img alt="Passport Icon" class="w-12 h-12 object-contain opacity-70" src="https://lh3.googleusercontent.com/aida/AP1WRLuaZ-_jh5Wz0gyzkoNXDW7P-sk5eWr1-nkZxeBs3V3dcnzO9CXct7z2EB_Rg5pFWs8uK1yW8X2qi9hboCCHOv5uYeyQD6dMPLnjZK-QviEqtyGVHWO5mwwHOtIPIlIgLcLYjbdDSg8C6UElf6VGX8e2lHy-GxaCKjw8VbN9UODrTU7hu858Rn3I2izmCN1su09EZ02AGz4yqs5616BFunllvobRZABMo2eRgKEZPBl6-4-kGKRnpNFnfaeD">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<div class="flex justify-between items-start">
+<h3 class="font-card-title text-text-primary truncate">Bessie</h3>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">more_vert</span>
+</div>
+<p class="font-caption-metadata text-text-secondary mt-0.5">Tag ID: NL-93842</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container border border-primary text-primary-fixed-variant shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span> Healthy
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface-container-low text-text-secondary border border-border-hairline">
+              Holstein
+            </span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 mt-2 pt-3 border-t border-surface-container-high">
+<div class="flex flex-col">
+<span class="font-caption-metadata text-text-metadata text-[11px] uppercase tracking-wider">Age</span>
+<span class="font-vet-data-row text-text-primary font-medium">4 Yrs</span>
+</div>
+<div class="flex flex-col">
+<span class="font-caption-metadata text-text-metadata text-[11px] uppercase tracking-wider">Last Check</span>
+<span class="font-vet-data-row text-text-primary font-medium">12 Oct</span>
+</div>
+<div class="flex flex-col items-end justify-center">
+<button class="text-primary text-sm font-semibold flex items-center gap-1 active:opacity-70">
+              View <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Animal Card 2 -->
+<div class="bg-surface-card rounded-xl p-4 shadow-sm border border-border-hairline flex flex-col gap-3 relative overflow-hidden transition-all hover:shadow-md active:scale-[0.98]">
+<div class="flex gap-4">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-surface-container-high border border-border-hairline relative flex items-center justify-center">
+<img alt="Passport Icon" class="w-12 h-12 object-contain opacity-70" src="https://lh3.googleusercontent.com/aida/AP1WRLuaZ-_jh5Wz0gyzkoNXDW7P-sk5eWr1-nkZxeBs3V3dcnzO9CXct7z2EB_Rg5pFWs8uK1yW8X2qi9hboCCHOv5uYeyQD6dMPLnjZK-QviEqtyGVHWO5mwwHOtIPIlIgLcLYjbdDSg8C6UElf6VGX8e2lHy-GxaCKjw8VbN9UODrTU7hu858Rn3I2izmCN1su09EZ02AGz4yqs5616BFunllvobRZABMo2eRgKEZPBl6-4-kGKRnpNFnfaeD">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<div class="flex justify-between items-start">
+<h3 class="font-card-title text-text-primary truncate">Daisy</h3>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">more_vert</span>
+</div>
+<p class="font-caption-metadata text-text-secondary mt-0.5">Tag ID: NL-93845</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-caution-amber/10 border border-caution-amber text-caution-amber shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-caution-amber mr-1.5"></span> Checkup Due
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface-container-low text-text-secondary border border-border-hairline">
+              Jersey
+            </span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 mt-2 pt-3 border-t border-surface-container-high">
+<div class="flex flex-col">
+<span class="font-caption-metadata text-text-metadata text-[11px] uppercase tracking-wider">Age</span>
+<span class="font-vet-data-row text-text-primary font-medium">3 Yrs</span>
+</div>
+<div class="flex flex-col">
+<span class="font-caption-metadata text-text-metadata text-[11px] uppercase tracking-wider">Last Check</span>
+<span class="font-vet-data-row text-caution-amber font-medium">05 Jan</span>
+</div>
+<div class="flex flex-col items-end justify-center">
+<button class="text-primary text-sm font-semibold flex items-center gap-1 active:opacity-70">
+              View <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Animal Card 3 -->
+<div class="bg-surface-card rounded-xl p-4 shadow-sm border border-border-hairline flex flex-col gap-3 relative overflow-hidden transition-all hover:shadow-md active:scale-[0.98]">
+<div class="flex gap-4">
+<div class="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-surface-container-high border border-border-hairline relative flex items-center justify-center">
+<img alt="Passport Icon" class="w-12 h-12 object-contain opacity-70" src="https://lh3.googleusercontent.com/aida/AP1WRLuaZ-_jh5Wz0gyzkoNXDW7P-sk5eWr1-nkZxeBs3V3dcnzO9CXct7z2EB_Rg5pFWs8uK1yW8X2qi9hboCCHOv5uYeyQD6dMPLnjZK-QviEqtyGVHWO5mwwHOtIPIlIgLcLYjbdDSg8C6UElf6VGX8e2lHy-GxaCKjw8VbN9UODrTU7hu858Rn3I2izmCN1su09EZ02AGz4yqs5616BFunllvobRZABMo2eRgKEZPBl6-4-kGKRnpNFnfaeD">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+</div>
+<div class="flex flex-col justify-center flex-1">
+<div class="flex justify-between items-start">
+<h3 class="font-card-title text-text-primary truncate">Thunder</h3>
+<span class="material-symbols-outlined text-text-secondary text-[20px]">more_vert</span>
+</div>
+<p class="font-caption-metadata text-text-secondary mt-0.5">Tag ID: IE-44501</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-container border border-primary text-primary-fixed-variant shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span> Healthy
+              </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface-container-low text-text-secondary border border-border-hairline">
+                Angus
+              </span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 mt-2 pt-3 border-t border-surface-container-high">
+<div class="flex flex-col">
+<span class="font-caption-metadata text-text-metadata text-[11px] uppercase tracking-wider">Age</span>
+<span class="font-vet-data-row text-text-primary font-medium">5 Yrs</span>
+</div>
+<div class="flex flex-col">
+<span class="font-caption-metadata text-text-metadata text-[11px] uppercase tracking-wider">Last Check</span>
+<span class="font-vet-data-row text-text-primary font-medium">20 Sep</span>
+</div>
+<div class="flex flex-col items-end justify-center">
+<button class="text-primary text-sm font-semibold flex items-center gap-1 active:opacity-70">
+                View <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State (Hidden by default, shown for demo purposes) -->
+<div class="hidden flex-col items-center justify-center py-12 px-4 text-center">
+<div class="w-32 h-32 mb-6 opacity-80" data-alt="A stylized, flat vector illustration of a curious, friendly farm animal peering over a fence in warm parchment colors. Clean lines, minimalist." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-eJrq145DNivwHF6PiWppbf5Rxoan8_n-ttV0UalNxO0nx4ktgbNn3M123Qlr3SMN6fqcLl0YePomsqHzepDO2l5MYmaAA8JSpKFh9yCkYFjistQHeWbCaKGXzhuwvJIHVPxAFUxGIXWFc1fyzI-oQcf7agTgFtcIUZCuj6NGVKdF4JN4Xt8K1VdecuNC4AWxAawBoAWbyGDbKMYcNXQ-ssQRIicS9lPOCpQFYOcqMMVwTO79zcdmfdTtGlWgAJwFBbqMUa11We18')"></div>
+<h2 class="font-section-heading text-text-primary mb-2">No Animals Registered</h2>
+<p class="font-body-default text-text-secondary mb-8 max-w-[280px]">Your digital herd is empty. Add your first animal to start tracking their health and records.</p>
+</div>
+<!-- Spacer for FAB -->
+<div class="h-20"></div>
+<!-- Floating Action Button -->
+<div class="fixed bottom-24 right-4 z-40">
+<button class="h-[64px] px-6 bg-primary-container text-on-primary-fixed-variant rounded-full shadow-lg border border-[#8fdb29]/30 flex items-center gap-3 active:scale-95 transition-transform group">
+<span class="material-symbols-outlined text-[28px] group-hover:rotate-90 transition-transform duration-300">add</span>
+<span class="font-button-label text-[18px]">Add Animal</span>
+</button>
+</div>
+</div>
+<script>
+  // Simple interaction for demo purposes
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Add a tiny haptic feedback simulation if supported
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(50);
+      }
+    });
+  });
+</script></main>
+
+
+
+
+
+
+
+<!-- Farmer Bottom Navigation Bar (Primary Destination Only) -->
+<nav class="fixed bottom-0 inset-x-0 z-50 bg-[#f7fce9] border-t border-outline-variant/30 shadow-[0_-4px_16px_rgba(0,0,0,0.05)] rounded-t-2xl">
+  <div class="max-w-[480px] mx-auto h-16 px-2 flex items-center justify-around">
+    <a href="../../farmer/farmer_dashboard.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">home</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Home</span>
+    </a>
+    <a href="../../farmer/my_animals.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#3f6900]">pets</span>
+      <span class="text-[12px] leading-tight text-[#3f6900] font-bold">Animals</span>
+    </a>
+    <a href="../../shared/alerts.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">notifications</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Alerts</span>
+    </a>
+    <a href="../../farmer/nearby_veterinarians.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">explore</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Nearby</span>
+    </a>
+    <a href="../../profile/profile.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">account_circle</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Profile</span>
+    </a>
+  </div>
+</nav>
+</body></html>

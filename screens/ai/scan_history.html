@@ -1,0 +1,121 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "text-primary": "#141414", "on-primary-fixed-variant": "#2e4f00", "on-error-container": "#93000a", "inverse-on-surface": "#eef3e0", "surface-container": "#ebf0dd", "secondary-container": "#548dfe", "on-surface-variant": "#414a36", "on-primary-container": "#396000", "on-tertiary-fixed": "#36003f", "on-secondary-fixed-variant": "#004299", "on-primary": "#ffffff", "inverse-surface": "#2d3226", "surface": "#f7fce9", "secondary-fixed": "#d9e2ff", "secondary-fixed-dim": "#afc6ff", "tertiary": "#84478a", "text-metadata": "#737373", "tertiary-container": "#fcb4ff", "on-primary-fixed": "#102000", "caution-amber": "#F2994A", "alert-critical": "#C62828", "surface-container-low": "#f1f6e3", "tertiary-fixed-dim": "#f6aef9", "text-secondary": "#4e4d4c", "surface-container-highest": "#e0e5d2", "on-secondary": "#ffffff", "background": "#f7fce9", "inverse-primary": "#8fdb29", "on-tertiary-container": "#7b3f81", "surface-container-high": "#e5ead8", "error": "#ba1a1a", "surface-card": "#ffffff", "surface-variant": "#e0e5d2", "on-tertiary-fixed-variant": "#692f70", "primary-fixed": "#a9f847", "secondary": "#0159c7", "primary-fixed-dim": "#8fdb29", "on-tertiary": "#ffffff", "error-container": "#ffdad6", "surface-container-lowest": "#ffffff", "on-secondary-container": "#002760", "on-secondary-fixed": "#001944", "surface-dim": "#d7dcca", "on-surface": "#181d12", "surface-bright": "#f7fce9", "primary-container": "#94e130", "border-hairline": "#a1a1a1", "on-error": "#ffffff", "outline-variant": "#c1cab0", "surface-background": "#f4eee5", "primary": "#3f6900", "tertiary-fixed": "#ffd6fd", "on-background": "#181d12", "surface-tint": "#3f6900", "outline": "#717a64" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "element-gap": "8px", "touch-target-min": "52px", "edge-margin": "20px", "stack-gap": "16px" }, "fontFamily": { "screen-title": ["Lexend"], "vet-data-row": ["Inter"], "caption-metadata": ["Inter"], "button-label": ["Lexend"], "alert-text": ["Lexend"], "section-heading": ["Lexend"], "body-default": ["Lexend"], "card-title": ["Lexend"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: contain; } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } } .no-scrollbar::-webkit-scrollbar { display: none; } </style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body-default text-text-primary"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 flex items-center justify-between px-edge-margin"><div class="flex items-center gap-element-gap"><img alt="Vetra logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtglVzZupsVg6xn671df_vwJybEtkD7ZLgRH8dPnA2rKZ9U94Fmp_eH1frR5MHpwcFLGhOhxTFuL8gHQyb6BjkX3MPM_xnK9Z_h_iVuX4h5UbHRI2mHcpgjGXsbfePKvYlfjriW1i5UTemhUPsm1KpFA5lijgwsr8DBsoOZe3CYzqTNDthA-l3g4i2Sq4zjlOVFFnISoJFS5HiQafNXL8ysd66wK08jtWrX4vvlf_GEhuGzteJfHSrL5R4i"/><h1 class="font-screen-title text-screen-title text-on-surface">Alerts</h1></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 pb-6 bg-surface min-h-screen"><div class="flex flex-col w-full gap-stack-gap p-edge-margin">
+<div class="relative w-full h-touch-target-min bg-surface-card rounded-full border-hairline border-outline-variant flex items-center px-4 gap-3 shadow-sm">
+<span class="material-symbols-outlined text-text-secondary">search</span>
+<input class="flex-1 bg-transparent border-none outline-none font-body-default text-text-primary placeholder:text-text-secondary h-full" id="searchInput" placeholder="Search by animal name, ID, or date" type="text"/>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center border-hairline border-outline-variant text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+</button>
+</div>
+<div class="flex flex-col gap-element-gap" id="scanList">
+<a class="block bg-surface-card rounded-xl border-hairline border-outline-variant p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0 border-hairline border-outline-variant relative">
+<img class="w-full h-full object-cover" data-alt="A close up, well lit photo of a cow's snout showing early signs of a mild blister, taken outdoors on a sunny farm day. The aesthetic is documentary and high-contrast, fitting a rural veterinary context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcIjmb48BokXMQ8j_Ei9eBvuvUUtCSrIhZkGZn2fnXJHmguvXr3nMnU2Q2bjirSTFmv5SzTz72v0Jr36RoHqIFTdVxWL7TBrwZghOsrhPiU2hjYVsiCIhUSXlRFnJFRLl4ejOHfZ6gfMKF9gEuSjEsBcJ5xWJE_kWc-CmJC7vierwrEIwn57WOkdLNhBaH8b_dnMRiDoCCTuXRyGS3tz76B-ukPOHw5x8tNNnsFwKbiZS42nxEql7tVzBqzJcIH7WifczZKpybf6uv"/>
+<div class="absolute inset-0 bg-alert-critical/10"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-2 mb-1">
+<h3 class="font-card-title text-card-title text-text-primary truncate">Bessie #402</h3>
+<span class="font-caption-metadata text-caption-metadata text-text-metadata whitespace-nowrap">Today, 08:30</span>
+</div>
+<div class="flex items-center gap-2 mb-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-alert-critical text-on-error font-caption-metadata text-[11px] font-bold">
+<span class="material-symbols-outlined text-[12px]">warning</span>
+               Likely FMD (88%)
+            </span>
+</div>
+<p class="font-vet-data-row text-vet-data-row text-text-secondary truncate">Scan area: Snout lesions detected.</p>
+</div>
+<div class="flex flex-col items-end justify-center h-full pt-2">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</a>
+<a class="block bg-surface-card rounded-xl border-hairline border-outline-variant p-4 hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0 border-hairline border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A clear photo of a sheep's hoof showing healthy tissue, taken in bright daylight on a farm. High clarity and utility focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmQE-d_JBDqg8xE-skCGWyB3yitJ_Bqmw2RMBKHM0t9qKG7wgbrc7dzqlcoGyYMwCTZUDXJ4-qaFUoFrPAFEtT_iRedwNql7ouj4121DqkPwk6ay2q04WMYdtGoX7P25oKTkf746p-8XDgApItsNbaVWUlzEVta0fY5BRou1p4LRqLKj116_0v4--Py3MGpjRopPvlAAfqHGW6l2lPLcQmEpD-TS_xIx-E0udy77JqgO-CGuT7LSJhyAs6a7tvzY_TYum_J1_yB49E"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-2 mb-1">
+<h3 class="font-card-title text-card-title text-text-primary truncate">Flock A - Ewe 12</h3>
+<span class="font-caption-metadata text-caption-metadata text-text-metadata whitespace-nowrap">Yesterday, 14:15</span>
+</div>
+<div class="flex items-center gap-2 mb-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface text-primary border-hairline border-primary font-caption-metadata text-[11px] font-bold">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+               Healthy (95%)
+            </span>
+</div>
+<p class="font-vet-data-row text-vet-data-row text-text-secondary truncate">Scan area: Hoof routine check.</p>
+</div>
+<div class="flex flex-col items-end justify-center h-full pt-2">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</a>
+<a class="block bg-surface-card rounded-xl border-hairline border-outline-variant p-4 hover:bg-surface-container-low transition-colors group opacity-70" href="#">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0 border-hairline border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-text-metadata">broken_image</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-2 mb-1">
+<h3 class="font-card-title text-card-title text-text-primary truncate">Calf #089</h3>
+<span class="font-caption-metadata text-caption-metadata text-text-metadata whitespace-nowrap">Oct 24, 09:10</span>
+</div>
+<div class="flex items-center gap-2 mb-2">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption-metadata text-[11px]">
+<span class="material-symbols-outlined text-[12px]">help</span>
+               Inconclusive
+            </span>
+</div>
+<p class="font-vet-data-row text-vet-data-row text-text-secondary truncate">Scan area: Blurred image. Rescan needed.</p>
+</div>
+<div class="flex flex-col items-end justify-center h-full pt-2">
+<span class="material-symbols-outlined text-text-secondary group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</a>
+</div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Basic search filtering
+    const searchInput = document.getElementById('searchInput');
+    const scanList = document.getElementById('scanList');
+    const items = scanList.querySelectorAll('a');
+
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(term)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+
+    // Ensure Alerts tab is active in shell context if possible via data attributes
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        if(link.getAttribute('data-path') === 'alerts') {
+             const activeClasses = link.closest('nav').getAttribute('data-active-classes');
+             if(activeClasses) {
+                 link.classList.remove('text-on-surface-variant');
+                 link.className += ' ' + activeClasses;
+             }
+        }
+    });
+  });
+</script></main>
+
+</body></html>

@@ -1,0 +1,91 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "primary-fixed-dim": "#8fdb29", "primary-container": "#94e130", "secondary-fixed-dim": "#afc6ff", "on-primary-fixed": "#102000", "inverse-primary": "#8fdb29", "on-error": "#ffffff", "caution-amber": "#F2994A", "secondary": "#0159c7", "background": "#f7fce9", "on-tertiary-fixed-variant": "#692f70", "outline": "#717a64", "on-background": "#181d12", "primary-fixed": "#a9f847", "tertiary-fixed-dim": "#f6aef9", "on-tertiary": "#ffffff", "on-primary-fixed-variant": "#2e4f00", "surface-container-highest": "#e0e5d2", "text-metadata": "#737373", "surface-container-high": "#e5ead8", "surface-variant": "#e0e5d2", "on-secondary-fixed": "#001944", "on-tertiary-container": "#7b3f81", "on-secondary": "#ffffff", "text-secondary": "#4e4d4c", "error-container": "#ffdad6", "on-primary": "#ffffff", "on-secondary-container": "#002760", "surface-container-lowest": "#ffffff", "surface-card": "#ffffff", "primary": "#3f6900", "inverse-on-surface": "#eef3e0", "surface-dim": "#d7dcca", "surface-bright": "#f7fce9", "surface": "#f7fce9", "border-hairline": "#a1a1a1", "on-primary-container": "#396000", "on-tertiary-fixed": "#36003f", "error": "#ba1a1a", "tertiary-fixed": "#ffd6fd", "tertiary-container": "#fcb4ff", "secondary-container": "#548dfe", "text-primary": "#141414", "on-secondary-fixed-variant": "#004299", "on-surface-variant": "#414a36", "on-surface": "#181d12", "surface-container": "#ebf0dd", "alert-critical": "#C62828", "surface-tint": "#3f6900", "outline-variant": "#c1cab0", "surface-background": "#f4eee5", "inverse-surface": "#2d3226", "tertiary": "#84478a", "surface-container-low": "#f1f6e3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "edge-margin": "20px", "touch-target-min": "52px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "body-default": ["Lexend"], "section-heading": ["Lexend"], "alert-text": ["Lexend"], "caption-metadata": ["Inter"], "card-title": ["Lexend"], "screen-title": ["Lexend"], "button-label": ["Lexend"], "vet-data-row": ["Inter"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pt-safe { padding-top: env(safe-area-inset-top); } }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface-background font-body-default text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-background/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-edge-margin flex items-center gap-4"><button class="w-12 h-12 flex items-center justify-center active:bg-black/5 rounded-full transition-colors" onclick="history.back()"><span class="material-symbols-outlined">arrow_back</span></button><div class="flex items-center gap-element-gap flex-1"><img alt="Vetra App Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBed1iD3yCiLY23a8v-BZChBJIYpZhX3TyLD-xUZ30yBieFVpcVciNFgxoXT3WJ46jxgX8VvGDBcbDZg9ZccMryoIyv8snvidk7BK5m69d5ycCTgHC2vWlukX6C4lkBAMIrt30lKEZXz_-1Dy3DQ6kiASsf1y951FID37F6JHiPCD-9mVqiOjmDzHGnis4lOUbB65LgOwQlO-CZABy68n4CGjYrPyeKgt_zsx9qF-cU5GpdfPGqBL8vqKiJmCQvSfy35FnJcrVPN6DP"/><span class="font-screen-title text-lg">Search Results</span></div><button class="w-12 h-12 flex items-center justify-center active:bg-black/5 rounded-full transition-colors" data-path="global-search"><span class="material-symbols-outlined text-on-surface">search</span></button></div></header><main class="pt-16 pb-12 min-h-screen px-edge-margin pb-6"><div class="flex flex-col w-full gap-stack-gap">
+<!-- Search Header -->
+<div class="bg-surface-card rounded-xl border border-border-hairline p-element-gap flex items-center gap-element-gap sticky top-16 z-40 shadow-sm">
+<span class="material-symbols-outlined text-text-secondary ml-2">search</span>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-body-default font-body-default h-[52px] outline-none text-text-primary" placeholder="Search animals, IDs, records..." type="text" value="Bessie"/>
+<button class="w-10 h-10 flex items-center justify-center rounded-full active:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-text-secondary">close</span>
+</button>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-element-gap overflow-x-auto pb-2 scrollbar-hide px-1 -mx-1">
+<button class="h-[52px] px-6 rounded-full border border-primary bg-primary text-on-primary font-button-label whitespace-nowrap flex-shrink-0 transition-colors">All</button>
+<button class="h-[52px] px-6 rounded-full border border-border-hairline bg-surface-card text-text-primary font-button-label whitespace-nowrap flex-shrink-0 active:bg-surface-container transition-colors">Animals</button>
+<button class="h-[52px] px-6 rounded-full border border-border-hairline bg-surface-card text-text-primary font-button-label whitespace-nowrap flex-shrink-0 active:bg-surface-container transition-colors">Records</button>
+<button class="h-[52px] px-6 rounded-full border border-border-hairline bg-surface-card text-text-primary font-button-label whitespace-nowrap flex-shrink-0 active:bg-surface-container transition-colors">Reports</button>
+</div>
+<!-- Results Section: Animals -->
+<div class="flex flex-col gap-element-gap mt-4">
+<h2 class="font-section-heading text-text-primary text-section-heading mb-2">Animals (2)</h2>
+<!-- Animal Card 1 -->
+<div class="bg-surface-card rounded-xl border border-border-hairline p-stack-gap flex gap-stack-gap items-center active:bg-surface-container transition-colors">
+<div class="w-[72px] h-[72px] rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of a healthy Holstein dairy cow named Bessie, standing in a sunny, green pasture. The lighting is bright and natural, casting sharp shadows suitable for an outdoor environment. The aesthetic is realistic and high-contrast, matching the Vetra Parchment and Ink style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr_zHBErOwtJIeMHEKK6futhuR7qBy3yCu_zuvq5Z4GuDO8AE3wWV3WOLLMAHbfc8rg1Zc30GmZ2pjvi4FVWy-E4vvHwgLbYbsFdztfcyhPC3rBl0d7Rkd9De3AV_Dz_OFkL0ju9-PpnEEvBlnsuodKaGdwUnVOoUL1duGsEeniP4CLPct3tB12dLvFpWRhxcTwMauJA4XN-oC7xLQ6ECPjWlnrn5x6h71MeEgzIxazekt2K2pY7Cg85QYFnNytpzoZ2jubsHecICY"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-card-title text-card-title text-text-primary truncate">Bessie</h3>
+<span class="px-2 py-1 rounded-full border border-primary text-primary font-caption-metadata text-caption-metadata">Healthy</span>
+</div>
+<p class="font-body-default text-body-default text-text-secondary truncate">ID: #4092 • Holstein</p>
+<p class="font-caption-metadata text-caption-metadata text-text-metadata mt-1">Last check: 2 days ago</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary">chevron_right</span>
+</div>
+<!-- Animal Card 2 -->
+<div class="bg-surface-card rounded-xl border border-border-hairline p-stack-gap flex gap-stack-gap items-center active:bg-surface-container transition-colors">
+<div class="w-[72px] h-[72px] rounded-lg bg-surface-container overflow-hidden flex-shrink-0 flex items-center justify-center border border-border-hairline border-dashed">
+<span class="material-symbols-outlined text-text-metadata text-3xl">pets</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-card-title text-card-title text-text-primary truncate">Bessie II</h3>
+<span class="px-2 py-1 rounded-full border border-outline text-text-secondary font-caption-metadata text-caption-metadata">Observation</span>
+</div>
+<p class="font-body-default text-body-default text-text-secondary truncate">ID: #4110 • Angus Cross</p>
+<p class="font-caption-metadata text-caption-metadata text-text-metadata mt-1">Last check: 1 week ago</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary">chevron_right</span>
+</div>
+</div>
+<!-- Results Section: Records -->
+<div class="flex flex-col gap-element-gap mt-6 mb-24">
+<h2 class="font-section-heading text-text-primary text-section-heading mb-2">Health Records (1)</h2>
+<!-- Record Card -->
+<div class="bg-surface-card rounded-xl border border-border-hairline p-stack-gap flex flex-col gap-element-gap active:bg-surface-container transition-colors relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-caution-amber"></div>
+<div class="flex justify-between items-start pl-2">
+<div>
+<h3 class="font-card-title text-card-title text-text-primary">Mild Mastitis Treatment</h3>
+<p class="font-caption-metadata text-caption-metadata text-text-secondary mt-1">Oct 12, 2023 • Dr. Aris</p>
+</div>
+<span class="material-symbols-outlined text-text-secondary">article</span>
+</div>
+<div class="pl-2">
+<p class="font-body-default text-body-default text-text-primary">Patient: <span class="font-semibold">Bessie (#4092)</span></p>
+<p class="font-body-default text-body-default text-text-secondary line-clamp-2 mt-1">Administered standard antibiotic course for early-stage mastitis in left rear quarter. Monitor closely for 48h.</p>
+</div>
+</div>
+</div>
+<!-- Empty State (Hidden by default for this mock, but structure is here) -->
+<!--
+  <div class="flex flex-col items-center justify-center py-16 px-4 text-center">
+    <div class="w-24 h-24 bg-surface-container rounded-full flex items-center justify-center mb-6 border border-border-hairline">
+        <span class="material-symbols-outlined text-text-secondary text-5xl">search_off</span>
+    </div>
+    <h3 class="font-card-title text-card-title text-text-primary mb-2">No results for 'Bessie'</h3>
+    <p class="font-body-default text-body-default text-text-secondary max-w-[250px]">Check for typos or try searching by ID number instead.</p>
+    <button class="mt-6 h-[52px] px-8 rounded-lg border border-border-hairline bg-surface-card text-text-primary font-button-label active:bg-surface-container transition-colors">Clear Search</button>
+  </div>
+  -->
+<!-- Bottom Navigation (Fixed) -->
+
+</div></main>
+
+</body></html>

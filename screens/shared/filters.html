@@ -1,0 +1,164 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "primary-fixed-dim": "#8fdb29", "primary-container": "#94e130", "secondary-fixed-dim": "#afc6ff", "on-primary-fixed": "#102000", "inverse-primary": "#8fdb29", "on-error": "#ffffff", "caution-amber": "#F2994A", "secondary": "#0159c7", "background": "#f7fce9", "on-tertiary-fixed-variant": "#692f70", "outline": "#717a64", "on-background": "#181d12", "primary-fixed": "#a9f847", "tertiary-fixed-dim": "#f6aef9", "on-tertiary": "#ffffff", "on-primary-fixed-variant": "#2e4f00", "surface-container-highest": "#e0e5d2", "text-metadata": "#737373", "surface-container-high": "#e5ead8", "surface-variant": "#e0e5d2", "on-secondary-fixed": "#001944", "on-tertiary-container": "#7b3f81", "on-secondary": "#ffffff", "text-secondary": "#4e4d4c", "error-container": "#ffdad6", "on-primary": "#ffffff", "on-secondary-container": "#002760", "surface-container-lowest": "#ffffff", "surface-card": "#ffffff", "primary": "#3f6900", "inverse-on-surface": "#eef3e0", "surface-dim": "#d7dcca", "surface-bright": "#f7fce9", "surface": "#f7fce9", "border-hairline": "#a1a1a1", "on-primary-container": "#396000", "on-tertiary-fixed": "#36003f", "error": "#ba1a1a", "tertiary-fixed": "#ffd6fd", "tertiary-container": "#fcb4ff", "secondary-container": "#548dfe", "text-primary": "#141414", "on-secondary-fixed-variant": "#004299", "on-surface-variant": "#414a36", "on-surface": "#181d12", "surface-container": "#ebf0dd", "alert-critical": "#C62828", "surface-tint": "#3f6900", "outline-variant": "#c1cab0", "surface-background": "#f4eee5", "inverse-surface": "#2d3226", "tertiary": "#84478a", "surface-container-low": "#f1f6e3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "edge-margin": "20px", "touch-target-min": "52px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "body-default": ["Lexend"], "section-heading": ["Lexend"], "alert-text": ["Lexend"], "caption-metadata": ["Inter"], "card-title": ["Lexend"], "screen-title": ["Lexend"], "button-label": ["Lexend"], "vet-data-row": ["Inter"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pt-safe { padding-top: env(safe-area-inset-top); } }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface-background font-body-default text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-background/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-edge-margin flex items-center gap-4"><button class="w-12 h-12 flex items-center justify-center active:bg-black/5 rounded-full transition-colors" onclick="history.back()"><span class="material-symbols-outlined">arrow_back</span></button><div class="flex items-center gap-element-gap flex-1"><img alt="Vetra App Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBed1iD3yCiLY23a8v-BZChBJIYpZhX3TyLD-xUZ30yBieFVpcVciNFgxoXT3WJ46jxgX8VvGDBcbDZg9ZccMryoIyv8snvidk7BK5m69d5ycCTgHC2vWlukX6C4lkBAMIrt30lKEZXz_-1Dy3DQ6kiASsf1y951FID37F6JHiPCD-9mVqiOjmDzHGnis4lOUbB65LgOwQlO-CZABy68n4CGjYrPyeKgt_zsx9qF-cU5GpdfPGqBL8vqKiJmCQvSfy35FnJcrVPN6DP"/><span class="font-screen-title text-lg">Global Search</span></div><button class="w-12 h-12 flex items-center justify-center active:bg-black/5 rounded-full transition-colors" data-path="global-search"><span class="material-symbols-outlined text-on-surface">search</span></button></div></header><main class="pt-16 pb-12 min-h-screen px-edge-margin pb-6"><div class="flex flex-col w-full h-full relative" id="filter-overlay-container">
+<div class="flex items-center justify-between px-edge-margin py-4 border-b border-border-hairline bg-surface/90 backdrop-blur-sm sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface">filter_list</span>
+<h2 class="font-screen-title text-screen-title text-on-surface">Filters</h2>
+</div>
+<button class="font-button-label text-button-label text-primary hover:text-primary-fixed-dim transition-colors h-10 px-4 rounded-lg flex items-center justify-center border border-transparent hover:border-primary/20" id="reset-filters-btn">
+      Reset
+    </button>
+</div>
+<div class="flex-1 overflow-y-auto px-edge-margin py-6 flex flex-col gap-8 pb-32">
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<h3 class="font-section-heading text-section-heading text-on-surface">Animal Type</h3>
+<span class="font-caption-metadata text-caption-metadata text-text-secondary bg-surface-container-low px-2 py-1 rounded-full border border-border-hairline/50">Multi-select</span>
+</div>
+<div class="flex flex-wrap gap-3">
+<label class="filter-chip-label cursor-pointer group">
+<input checked="" class="peer hidden" type="checkbox" value="cattle"/>
+<div class="h-12 px-5 flex items-center justify-center gap-2 rounded-full border border-border-hairline bg-surface peer-checked:bg-primary-container peer-checked:border-primary peer-checked:text-on-primary-container text-on-surface transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px] opacity-70 group-hover:opacity-100">pets</span>
+<span class="font-button-label text-button-label">Cattle</span>
+</div>
+</label>
+<label class="filter-chip-label cursor-pointer group">
+<input class="peer hidden" type="checkbox" value="goat"/>
+<div class="h-12 px-5 flex items-center justify-center gap-2 rounded-full border border-border-hairline bg-surface peer-checked:bg-primary-container peer-checked:border-primary peer-checked:text-on-primary-container text-on-surface transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px] opacity-70 group-hover:opacity-100">agriculture</span>
+<span class="font-button-label text-button-label">Goat</span>
+</div>
+</label>
+<label class="filter-chip-label cursor-pointer group">
+<input class="peer hidden" type="checkbox" value="sheep"/>
+<div class="h-12 px-5 flex items-center justify-center gap-2 rounded-full border border-border-hairline bg-surface peer-checked:bg-primary-container peer-checked:border-primary peer-checked:text-on-primary-container text-on-surface transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px] opacity-70 group-hover:opacity-100">grass</span>
+<span class="font-button-label text-button-label">Sheep</span>
+</div>
+</label>
+<label class="filter-chip-label cursor-pointer group">
+<input class="peer hidden" type="checkbox" value="pig"/>
+<div class="h-12 px-5 flex items-center justify-center gap-2 rounded-full border border-border-hairline bg-surface peer-checked:bg-primary-container peer-checked:border-primary peer-checked:text-on-primary-container text-on-surface transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px] opacity-70 group-hover:opacity-100">savings</span>
+<span class="font-button-label text-button-label">Pig</span>
+</div>
+</label>
+</div>
+</section>
+<div class="h-px w-full bg-border-hairline/30 rounded-full"></div>
+<section class="flex flex-col gap-4">
+<h3 class="font-section-heading text-section-heading text-on-surface">Health Status</h3>
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-3 p-3 rounded-xl border border-border-hairline/50 hover:bg-surface-container-low transition-colors cursor-pointer bg-surface-card shadow-sm">
+<div class="relative flex items-center justify-center w-6 h-6 rounded-full border-2 border-outline-variant bg-surface">
+<input class="peer absolute opacity-0 w-full h-full cursor-pointer" type="checkbox" value="healthy"/>
+<span class="material-symbols-outlined text-[16px] text-primary opacity-0 peer-checked:opacity-100 transition-opacity" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-default text-body-default text-on-surface flex-1">Healthy</span>
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(63,105,0,0.4)]"></span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-xl border border-border-hairline/50 hover:bg-surface-container-low transition-colors cursor-pointer bg-surface-card shadow-sm">
+<div class="relative flex items-center justify-center w-6 h-6 rounded-full border-2 border-outline-variant bg-surface">
+<input checked="" class="peer absolute opacity-0 w-full h-full cursor-pointer" type="checkbox" value="treatment"/>
+<span class="material-symbols-outlined text-[16px] text-caution-amber opacity-0 peer-checked:opacity-100 transition-opacity" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-default text-body-default text-on-surface flex-1">Under Treatment</span>
+<span class="w-2 h-2 rounded-full bg-caution-amber shadow-[0_0_8px_rgba(242,153,74,0.4)]"></span>
+</label>
+<label class="flex items-center gap-3 p-3 rounded-xl border border-border-hairline/50 hover:bg-surface-container-low transition-colors cursor-pointer bg-surface-card shadow-sm">
+<div class="relative flex items-center justify-center w-6 h-6 rounded-full border-2 border-outline-variant bg-surface">
+<input class="peer absolute opacity-0 w-full h-full cursor-pointer" type="checkbox" value="quarantine"/>
+<span class="material-symbols-outlined text-[16px] text-alert-critical opacity-0 peer-checked:opacity-100 transition-opacity" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-body-default text-body-default text-on-surface flex-1">Quarantined</span>
+<span class="w-2 h-2 rounded-full bg-alert-critical shadow-[0_0_8px_rgba(198,40,40,0.4)]"></span>
+</label>
+</div>
+</section>
+<div class="h-px w-full bg-border-hairline/30 rounded-full"></div>
+<section class="flex flex-col gap-4">
+<h3 class="font-section-heading text-section-heading text-on-surface">Timeframe</h3>
+<div class="grid grid-cols-2 gap-3">
+<label class="cursor-pointer">
+<input checked="" class="peer hidden" name="timeframe" type="radio" value="7days"/>
+<div class="h-[52px] rounded-lg border border-border-hairline bg-surface peer-checked:bg-secondary-container peer-checked:border-secondary peer-checked:text-on-secondary-container text-on-surface flex items-center justify-center font-button-label text-button-label transition-all shadow-sm">
+             Last 7 Days
+           </div>
+</label>
+<label class="cursor-pointer">
+<input class="peer hidden" name="timeframe" type="radio" value="30days"/>
+<div class="h-[52px] rounded-lg border border-border-hairline bg-surface peer-checked:bg-secondary-container peer-checked:border-secondary peer-checked:text-on-secondary-container text-on-surface flex items-center justify-center font-button-label text-button-label transition-all shadow-sm">
+             Last 30 Days
+           </div>
+</label>
+</div>
+<div class="mt-2 bg-surface-container-lowest border border-border-hairline rounded-lg p-4 shadow-sm relative overflow-hidden group">
+<div class="absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-surface-container-lowest to-transparent pointer-events-none z-10 flex items-center justify-end pr-2">
+<span class="material-symbols-outlined text-outline">calendar_month</span>
+</div>
+<label class="flex flex-col gap-1 w-full">
+<span class="font-caption-metadata text-caption-metadata text-text-secondary">Custom Range (Optional)</span>
+<input class="w-full bg-transparent font-body-default text-body-default text-on-surface outline-none placeholder:text-outline" disabled="" placeholder="Select dates..." type="text"/>
+</label>
+</div>
+</section>
+</div>
+<div class="fixed bottom-0 left-0 w-full p-edge-margin bg-gradient-to-t from-surface-background via-surface-background to-transparent pb-[env(safe-area-inset-bottom,20px)] pt-12 z-20 pointer-events-none">
+<button class="w-full h-[52px] bg-primary rounded-lg flex items-center justify-center gap-2 font-button-label text-button-label text-on-primary shadow-lg hover:bg-surface-tint active:scale-[0.98] transition-all pointer-events-auto relative overflow-hidden" id="apply-filters-btn">
+<span class="relative z-10">Apply Filters</span>
+<span class="material-symbols-outlined relative z-10 text-[20px]">check</span>
+<div class="absolute inset-0 bg-white/20 translate-y-full rounded-lg transition-transform" id="btn-highlight"></div>
+</button>
+</div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const applyBtn = document.getElementById('apply-filters-btn');
+    const resetBtn = document.getElementById('reset-filters-btn');
+    const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+    const allRadios = document.querySelectorAll('input[type="radio"]');
+
+    // Simple interaction feedback for apply button
+    applyBtn.addEventListener('mousedown', () => {
+        const highlight = applyBtn.querySelector('#btn-highlight');
+        if(highlight) highlight.classList.remove('translate-y-full');
+    });
+    applyBtn.addEventListener('mouseup', () => {
+        const highlight = applyBtn.querySelector('#btn-highlight');
+        if(highlight) {
+            setTimeout(() => { highlight.classList.add('translate-y-full'); }, 200);
+        }
+        
+        // Simulate applying
+        applyBtn.querySelector('span:first-child').textContent = "Updating View...";
+        applyBtn.querySelector('span.material-symbols-outlined').textContent = "sync";
+        applyBtn.querySelector('span.material-symbols-outlined').classList.add('animate-spin');
+        
+        setTimeout(() => {
+             applyBtn.querySelector('span:first-child').textContent = "Apply Filters";
+             applyBtn.querySelector('span.material-symbols-outlined').textContent = "check";
+             applyBtn.querySelector('span.material-symbols-outlined').classList.remove('animate-spin');
+        }, 800);
+    });
+
+    // Reset functionality
+    resetBtn.addEventListener('click', () => {
+       allCheckboxes.forEach(cb => cb.checked = false);
+       allRadios.forEach(radio => {
+           if(radio.value === '7days') radio.checked = true;
+       });
+       
+       // Visual feedback for reset
+       resetBtn.style.transform = 'scale(0.95)';
+       setTimeout(() => resetBtn.style.transform = 'scale(1)', 150);
+    });
+  });
+</script></main>
+
+</body></html>

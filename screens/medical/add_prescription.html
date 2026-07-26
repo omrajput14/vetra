@@ -1,0 +1,218 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lexend:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary-fixed": "#d9e2ff", "surface-tint": "#3f6900", "surface": "#f7fce9", "on-error-container": "#93000a", "surface-background": "#f4eee5", "surface-container-low": "#f1f6e3", "secondary-fixed-dim": "#afc6ff", "error-container": "#ffdad6", "inverse-on-surface": "#eef3e0", "surface-container-lowest": "#ffffff", "caution-amber": "#F2994A", "tertiary-container": "#fcb4ff", "inverse-primary": "#8fdb29", "surface-variant": "#e0e5d2", "on-primary-fixed": "#102000", "primary": "#3f6900", "tertiary-fixed-dim": "#f6aef9", "on-primary": "#ffffff", "primary-container": "#94e130", "surface-container-highest": "#e0e5d2", "surface-container": "#ebf0dd", "on-secondary-fixed": "#001944", "on-error": "#ffffff", "on-tertiary": "#ffffff", "on-secondary": "#ffffff", "surface-container-high": "#e5ead8", "on-secondary-fixed-variant": "#004299", "text-primary": "#141414", "secondary-container": "#548dfe", "outline": "#717a64", "on-primary-fixed-variant": "#2e4f00", "surface-card": "#ffffff", "error": "#ba1a1a", "background": "#f7fce9", "primary-fixed": "#a9f847", "on-surface-variant": "#414a36", "primary-fixed-dim": "#8fdb29", "on-primary-container": "#396000", "on-secondary-container": "#002760", "text-secondary": "#4e4d4c", "secondary": "#0159c7", "on-background": "#181d12", "inverse-surface": "#2d3226", "surface-bright": "#f7fce9", "text-metadata": "#737373", "on-surface": "#181d12", "tertiary-fixed": "#ffd6fd", "on-tertiary-container": "#7b3f81", "tertiary": "#84478a", "border-hairline": "#a1a1a1", "outline-variant": "#c1cab0", "on-tertiary-fixed": "#36003f", "alert-critical": "#C62828", "on-tertiary-fixed-variant": "#692f70", "surface-dim": "#d7dcca" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "stack-gap": "16px", "edge-margin": "20px", "touch-target-min": "52px", "element-gap": "8px" }, "fontFamily": { "vet-data-row": ["Inter"], "section-heading": ["Lexend"], "screen-title": ["Lexend"], "caption-metadata": ["Inter"], "alert-text": ["Lexend"], "card-title": ["Lexend"], "button-label": ["Lexend"], "body-default": ["Lexend"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } } </style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body-default text-text-primary"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 flex items-center px-edge-margin gap-4"><button class="w-10 h-10 flex items-center justify-center -ml-2 text-on-surface" onclick="history.back()"><span class="material-symbols-outlined">arrow_back</span></button><div class="flex items-center gap-2"><img class="h-6 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtglVzZupsVg6xn671df_vwJybEtkD7ZLgRH8dPnA2rKZ9U94Fmp_eH1frR5MHpwcFLGhOhxTFuL8gHQyb6BjkX3MPM_xnK9Z_h_iVuX4h5UbHRI2mHcpgjGXsbfePKvYlfjriW1i5UTemhUPsm1KpFA5lijgwsr8DBsoOZe3CYzqTNDthA-l3g4i2Sq4zjlOVFFnISoJFS5HiQafNXL8ysd66wK08jtWrX4vvlf_GEhuGzteJfHSrL5R4i"/><h1 class="font-screen-title text-screen-title text-on-surface">Issue Prescription</h1></div></div></header><main class="relative w-full pt-16 bg-background min-h-screen pb-6"><div class="flex flex-col w-full pb-32">
+<!-- Content Area -->
+<div class="px-edge-margin py-stack-gap flex flex-col gap-stack-gap">
+<div class="flex flex-col gap-element-gap">
+<h2 class="font-section-heading text-section-heading text-text-primary">New Prescription</h2>
+<p class="font-caption-metadata text-caption-metadata text-text-secondary">Issue digital prescription for current patient</p>
+</div>
+<!-- Animal Passport Card Summary -->
+<div class="bg-surface-card rounded-xl border border-border-hairline p-4 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-border-hairline">
+<img class="w-full h-full object-cover" data-alt="A close up photo of a healthy brown dairy cow in a clean barn setting, high contrast modernism style, bright and clear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa7z9hZSRLGPHAlGtmByBL-88pwoWoqBJD1UXxhCNrwSMeI95bVy1z8SotmaxO2rymoZG1mYpT3KkitJogkysNLlDHAXbB_kXaHzr3MYvR_3u3gXMAysJbxcBT0Ya49JzH46rYDU9slxzkbRORXA6wTvBTKAl54RoTihwmYjaRV48kKuG76MslyOsO0XjdOXpEzuSM5HXtm7Cez4rTqEH98LgfMvvWRi5wWSUFg3hs9DtYpHKZnHN73eRDt2R-fiRzGFU5Tf0_45wJ"/>
+</div>
+<div class="flex flex-col min-w-0">
+<h3 class="font-card-title text-card-title text-text-primary truncate">Bessie (Tag: #4829)</h3>
+<p class="font-caption-metadata text-caption-metadata text-text-secondary truncate">Holstein Friesian • 4 Years</p>
+</div>
+<div class="ml-auto">
+<span class="inline-flex items-center px-2 py-1 rounded-full border border-primary text-primary font-caption-metadata text-caption-metadata">
+          Active
+        </span>
+</div>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-stack-gap mt-2" onsubmit="event.preventDefault(); showSuccessState();">
+<!-- Medicine Selection -->
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-text-primary" for="medicine">Medicine</label>
+<div class="relative">
+<input class="w-full h-13 min-h-[52px] bg-surface-card border border-border-hairline rounded-lg px-4 font-body-default text-body-default text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-12" id="medicine" placeholder="Search medication..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">search</span>
+</div>
+</div>
+<!-- Dosage & Frequency Row -->
+<div class="flex gap-4 w-full">
+<div class="flex flex-col gap-2 flex-1 min-w-0">
+<label class="font-button-label text-button-label text-text-primary truncate" for="dosage">Dosage</label>
+<input class="w-full h-13 min-h-[52px] bg-surface-card border border-border-hairline rounded-lg px-4 font-body-default text-body-default text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" id="dosage" placeholder="e.g. 50ml" type="text"/>
+</div>
+<div class="flex flex-col gap-2 flex-1 min-w-0">
+<label class="font-button-label text-button-label text-text-primary truncate" for="frequency">Frequency</label>
+<select class="w-full h-13 min-h-[52px] bg-surface-card border border-border-hairline rounded-lg px-4 font-body-default text-body-default text-text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M7%2010L12%2015L17%2010%22%20stroke%3D%22%234e4d4c%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E')] bg-[position:right_12px_center]" id="frequency">
+<option value="1">Once Daily</option>
+<option value="2">Twice Daily</option>
+<option value="3">Every 8 Hours</option>
+<option value="4">As Needed</option>
+</select>
+</div>
+</div>
+<!-- Duration -->
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-text-primary" for="duration">Duration (Days)</label>
+<div class="flex items-center">
+<button class="w-13 h-13 min-w-[52px] min-h-[52px] flex items-center justify-center border border-border-hairline rounded-l-lg bg-surface-card text-text-primary active:bg-surface-variant transition-colors" onclick="adjustDuration(-1)" type="button">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<input class="flex-1 h-13 min-h-[52px] border-y border-border-hairline bg-surface-card text-center font-body-default text-body-default text-text-primary focus:outline-none focus:ring-inset focus:ring-2 focus:ring-primary" id="duration" min="1" type="number" value="7"/>
+<button class="w-13 h-13 min-w-[52px] min-h-[52px] flex items-center justify-center border border-border-hairline rounded-r-lg bg-surface-card text-text-primary active:bg-surface-variant transition-colors" onclick="adjustDuration(1)" type="button">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Notes -->
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-text-primary" for="notes">Additional Instructions</label>
+<textarea class="w-full bg-surface-card border border-border-hairline rounded-lg p-4 font-body-default text-body-default text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none" id="notes" placeholder="Administer with food..." rows="3"></textarea>
+</div>
+<!-- Digital Signature Area -->
+<div class="flex flex-col gap-2 mt-4">
+<div class="flex items-center justify-between">
+<label class="font-button-label text-button-label text-text-primary">Digital Signature</label>
+<button class="font-caption-metadata text-caption-metadata text-primary underline" onclick="clearSignature()" type="button">Clear</button>
+</div>
+<div class="relative w-full h-32 bg-surface-card border border-border-hairline rounded-lg overflow-hidden touch-none" id="signature-container">
+<canvas class="w-full h-full absolute inset-0" id="signature-pad"></canvas>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none" id="signature-placeholder">
+<span class="font-caption-metadata text-caption-metadata text-text-secondary">Sign here to authorize</span>
+</div>
+</div>
+<p class="font-caption-metadata text-caption-metadata text-text-metadata text-center mt-1">Dr. Sarah Jenkins, DVM - License #84729</p>
+</div>
+<!-- Submit Action -->
+<button class="w-full h-13 min-h-[52px] bg-primary text-on-primary font-button-label text-button-label rounded-lg mt-4 flex items-center justify-center gap-2 active:bg-on-primary-container transition-colors shadow-sm" type="submit">
+<span class="material-symbols-outlined">send</span>
+        Issue Prescription
+      </button>
+</form>
+<!-- Success Overlay (Hidden by default) -->
+<div class="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center p-edge-margin hidden opacity-0 transition-opacity duration-300" id="success-overlay">
+<div class="w-24 h-24 rounded-full bg-primary-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-4xl text-on-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-screen-title text-screen-title text-text-primary mb-2 text-center">Prescription Sent</h2>
+<p class="font-body-default text-body-default text-text-secondary text-center mb-8">The pharmacy and farm manager have been notified.</p>
+<button class="w-full h-13 min-h-[52px] bg-primary text-on-primary font-button-label text-button-label rounded-lg flex items-center justify-center" onclick="resetForm()" type="button">
+        Return to Patient Profile
+      </button>
+</div>
+</div>
+<!-- Bottom Navigation (4-tab Vet Nav) -->
+
+</div>
+<script>
+  // Duration stepper logic
+  function adjustDuration(amount) {
+    const input = document.getElementById('duration');
+    let val = parseInt(input.value) || 0;
+    val += amount;
+    if (val < 1) val = 1;
+    input.value = val;
+  }
+
+  // Simple signature pad logic
+  const canvas = document.getElementById('signature-pad');
+  const ctx = canvas.getContext('2d');
+  const container = document.getElementById('signature-container');
+  const placeholder = document.getElementById('signature-placeholder');
+  
+  let isDrawing = false;
+  let hasSignature = false;
+
+  function resizeCanvas() {
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+    ctx.strokeStyle = '#141414'; // text-primary
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  // Need slight delay to ensure container has rendered dimensions
+  setTimeout(resizeCanvas, 100);
+
+  function startPosition(e) {
+    isDrawing = true;
+    hasSignature = true;
+    placeholder.style.display = 'none';
+    draw(e);
+  }
+
+  function endPosition() {
+    isDrawing = false;
+    ctx.beginPath();
+  }
+
+  function draw(e) {
+    if (!isDrawing) return;
+    
+    e.preventDefault(); // Prevent scrolling on touch
+    
+    let clientX, clientY;
+    if (e.type.includes('touch')) {
+      const rect = canvas.getBoundingClientRect();
+      clientX = e.touches[0].clientX - rect.left;
+      clientY = e.touches[0].clientY - rect.top;
+    } else {
+      clientX = e.offsetX;
+      clientY = e.offsetY;
+    }
+
+    ctx.lineTo(clientX, clientY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(clientX, clientY);
+  }
+
+  // Mouse events
+  canvas.addEventListener('mousedown', startPosition);
+  canvas.addEventListener('mouseup', endPosition);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseleave', endPosition);
+
+  // Touch events
+  canvas.addEventListener('touchstart', startPosition, {passive: false});
+  canvas.addEventListener('touchend', endPosition);
+  canvas.addEventListener('touchmove', draw, {passive: false});
+
+  function clearSignature() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasSignature = false;
+    placeholder.style.display = 'flex';
+  }
+
+  // Success state handling
+  function showSuccessState() {
+    if(!hasSignature) {
+        // Subtle visual shake if not signed (pseudo-validation for demo)
+        container.classList.add('border-alert-critical');
+        setTimeout(() => container.classList.remove('border-alert-critical'), 500);
+        return;
+    }
+    
+    const overlay = document.getElementById('success-overlay');
+    overlay.classList.remove('hidden');
+    // Trigger reflow
+    void overlay.offsetWidth;
+    overlay.classList.remove('opacity-0');
+  }
+
+  function resetForm() {
+    const overlay = document.getElementById('success-overlay');
+    overlay.classList.add('opacity-0');
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      document.querySelector('form').reset();
+      clearSignature();
+      document.getElementById('duration').value = 7;
+    }, 300);
+  }
+</script></main>
+
+</body></html>

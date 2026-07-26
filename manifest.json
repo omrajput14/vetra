@@ -1,0 +1,656 @@
+[
+  {
+    "name": "projects/15416074341219702274/screens/3672fdda4e8e48d899b106c58fb7c041",
+    "title": "Animal Gallery",
+    "width": "948",
+    "height": "1882",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtcPyaTBelGRAhMLFbTEyK-NxJkbzquQvlAsRyuV0OkEirKZ0eRBCYERAHDxnplSwYTfP-b3dT21GfF_WAalmk0BNhIkoi20iYlX30_19JkngGuAsgnAwFD_-B-13c9lrOjVXJbwzW0PzCaVvDU507Dl1CaY0zrHXAzcyXwqjevjM2IgOFtM7BxPIjLkaKtvibAVCUyLSUBwflfdqDc7AWxSjIn_OKh_yO_-01Y0aBvE-6bZG0CjTk7BdVs",
+    "localPath": "screens/animal_gallery.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/c1bd309c9c9f404dbed3f13d94edf10a",
+    "title": "Animal Documents",
+    "width": "948",
+    "height": "2396",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvL2x-6yW51_6LgANnC8jk1Lf4cZLjXrlS1kuDd2iZ_EA-oTQ68xgQOwiyVuX6DgeAZBs9CXNawqRwAsYEKO-NhXhHVlTc1t3_rFktF8VEWzKQRxUqnk3zF6TuoZmGGPoJR3LtCv-27KyVcgUHfOVjrf9T0Ymo9SDtEiu0ZSc6JkJvgD31rhFLloUBnp2WRWmpV6Zh0E8Fqg-7rUs1o9-v8xLyadukgM0A5HeST4MbNYDIeHJHLAB1S7mPN",
+    "localPath": "screens/animal_documents.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/356427cf72a7451aa1cc4f546efe1d55",
+    "title": "Notification Preferences",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLv3duj6CrLE_eF1c-gLckL0PBsMr949IHXlwepq-q9ULWsNyauIEqn_vWpFadtOWeg9PTByMPUQjoqfzFLLgE47yLaDpN4gv4RpSuEspi-rzWg9PjSSBz9aujGe55H05ipKu_MSydnENAn2679to3gykvrOU8f_dabjBiiXGBFA0_4UVMP-CiiO7LCf6oI4hiHnSiL1wnvAOqrFnK9-Db8K0VGiKUMS83qIv4OwxK2eSGRaynlhc7TmBQA",
+    "localPath": "screens/notification_preferences.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/e17e861321284ac8a8613409ef7c1456",
+    "title": "Appointment Details",
+    "width": "780",
+    "height": "2110",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtu8haOfuivNiuQVKElF4nK54a77FAuKy2QFoYbhlZN7BTFrFJjWiuuv9agXwb4YDLQ1WBoCLeyQdzhoWcoaZcy04bUhi9uFLnkcM4kBnWH56zrHLL1QcXqOSah63LngQrUexfjbbSFeZF3Jib_59lEa_vX0r0LU6AGZFzbNHmF7aEY0lcjqsuhshOv1FUOa6NbUdkzMf2gA00367c_EST_C9o38Lq6s5Ny6mynvZ25S-IzQ35YWRhCK30e",
+    "localPath": "screens/appointment_details.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/f2bd21d9111e4260a3b073d62290e303",
+    "title": "Risk Zone Screen",
+    "width": "948",
+    "height": "2692",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtuOyb2PV-3km-8qLiNDWxhZNn2kjyIvMajEgMA1ff_0U38dN96gtfkZnJZ4r4IoSflRR3Vk3cge3cfYpnLjfcPYCG1isD-clqIHX9r69GX7zK6DhuJeBvf_Jl0zqq60RqyyAjAO90aiiB3Rd_i1q9SFxwCNvfyfbtk_MxC-SuJ1fTdq2ks7bRGMNyPtvH9GI6EWqXItskISHY9NsujksVDsxNkS7L2GGKb9a9hqgJ4VBiciZGgcYUWkuWy",
+    "localPath": "screens/risk_zone_screen.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/10877ef5d3794a8e9fdead992da45a0d",
+    "title": "Deworming Record",
+    "width": "780",
+    "height": "2196",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLviomiCQXvHVk9ll0rSfzyGDHg4vHN2ckpzj1oZqkbTT3WpN7L295rJ1xAfwJDtq44fax-5cn1CN2nk1Q3LCf0HtLqlrmTKGhDNmEdoHHUyJzk9efrvFuzedHaj0hZMeFWqDbiprMwAsg0cDfIvlfPmmsqwACccv7cT_aqFOu3FLSy-yy47_vUjSMbpOe_bnUx5IIQp6YjSEa_y7EUJ54FO1hg8hX7VVd2_TATx4Vx2ZQWcqKJVizVsMUaf",
+    "localPath": "screens/deworming_record.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/6f1f06aa578e4567974d84be5686980d",
+    "title": "Filters",
+    "width": "780",
+    "height": "1992",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvEhAnaDc1jPGGVeceVdoBBqu6pLxONn-eKkXAXAVn4MalP_22FRVl5M-7K5AN_gaDxzhA95gc9sctF5bUKoz0LDsAMKjqLvrLyvT5slIm0P1OrY0PKvRQlwI4zy0f7AYbIAmde5ZcRflIhwgf_HRJUCmOsTYK0eaivFe_6n_frSScAmrFPS4zzMBclMKMGP8FGpSXzHJgj8ExFNQTMnn75d1oz-NMQTQWiEHC_czQnxhe3ypWwcGi6VnE",
+    "localPath": "screens/filters.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/e5fbc54af0304dc3971ae4c04f52b2f7",
+    "title": "Privacy",
+    "width": "780",
+    "height": "2416",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLt3B_LDqmyyvAMOK9AGZX_UiLRC8qj5_45Q0BDnDcBSQuyQCn9kKu3j2Rgf86rhXZ2EGWUcMa-vfKoRkTOunvY6U-RT7K7hpFSx0_EM5XNypV9CVJ7TFkJRJbTuRFtQtieXwLMedKHI7Wlg8djXsiLOXZhB79LvGRwx4kdDZP7Q3MP4DYEr2x1V2y28ANE_jLasC5e21oM-5203-sc-tq8Kylwt3x1YkM6QtkOjjrIA6g9hkyMYLozfYjw",
+    "localPath": "screens/privacy.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/484fd8db42074c269d1227b4652bdcf4",
+    "title": "Scan History",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtsPTr6ts42Vi1P70kTJTOzjE3ZhWI5lWHAcaod6tX509V8ibAI61M1Lhdy0ikI38sXn-48TRd6YEfNWeIbnX3zj6Zjr9_3VZ7K8Tf0VJp6rGVhrtDgGCn29Wbjz4Qp1XjDkN0WLJmnfJK4aj-1aSBhCw4eq0eDfISs4zqgAqkgso83QE8Uk45DGa-_giTVBLZCttoFY2vTBBeuTUoDE6LDVLUQDY3boyOUnshVTK4szX79sKW_L9386kE",
+    "localPath": "screens/scan_history.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/72b408446c7e4b608fcd666c9b2fa504",
+    "title": "Notifications",
+    "width": "780",
+    "height": "2404",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvG0hBxy4i28gMknzkVlXt0JgtTGk0tpC0R7FM_9mN-1Xl_2T8F1NxE2g6GAgeugY7j1e850pV2trc-AMIiMoIHLFQk4kUMhLgkoSksKfLCbj_dX-1hLOD92kGIDZ7keOwzhdL_6Z1X3Eao4d9mscuVgzO5jAxssX6BrS9ord6x1KR1PBqXLsI0d3pxHhuAQepzIwMrE6B9x4obE390PA5MjNc2q8Re24FYphvhuISWfR7IrUlYd6o7MxX8",
+    "localPath": "screens/notifications.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/10bf59245fb94b0fac6ea92865634450",
+    "title": "Alert Details",
+    "width": "948",
+    "height": "2342",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLt5WG_TMf33ZtiDHYgMcioP6Vb_C6SotFotClJrkI8DXcsuIt28O0JckYUMLOnVXLE4t-CQB9Ud1tlvEZHf6BM5UcMHV5-eIm-l7bKzAWPYYTJYkIJJ0r8tnraIqQu36mLEZii9s713d6pjW3uO9GTw2hYZBk6o9YpJWig-5yMl1gentt2ozob19yU3HQjEYl4-usa9oxjxCL710soY8JTlyhXxhxPcEuvOtIgXQqvb4wyW8Aw1dw4LYwFb",
+    "localPath": "screens/alert_details.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/12d1031dc0014f6ebf46efcf2cec30b2",
+    "title": "Vaccination Details",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLsASDjqrBFnMvVe74FxpPcrjBq2bZuVAy9DWu4O10NGe_by0ncdrZZJuCVqOqmjfy3vv0Q6pucmCIl1PikJQNujGbF4KZgWrp9iY7fwCyGNhK1APtd6Q6bapHnElae9J3JcMDtsCepKNtSFgTjHevWaG2pVeM7WbkQbG8bG3uQCHrtET5tnFYaY8-5bxnTjSn2u9TSbAuhlgwTElyPjBh43Gj5x0jZc7uofPlZe9-Jmfvu4z7pfK2bJ2uHf",
+    "localPath": "screens/vaccination_details.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/f463e5b3e3d5479392609a05cb6b53cb",
+    "title": "Vetra App Logo",
+    "width": "1024",
+    "height": "1024",
+    "deviceType": null,
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLs9T6NaESRQWFgr5BW3nGaGJvKXjX1S8sXwkoz7-xgnvLTkodfTcqWuTAzCWoPDajhfu2NxXsnsRBq8AHh9WWf3tdTYD5nk0trneljiBYLlOuDmN5MBpp2gJxCp8ESLp_NvWOMZIrlXvq-M7qyIMRB1gGdh4GN-iyFS2Na_qjDbBnsUvgHWgxAVpX8XilyTUsJ-QN4C-twZJIwiDSLD7Wnm91a5b7nQ71htb4iAhg6hwUr7dBTlMkBk6haf"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/819941868666430991793e1d5cae494d",
+    "title": "Delete Animal Confirmation",
+    "width": "948",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLusmksN0Tew9hxY4W0nFbeZw_zH1HCr0y29ZL7vLjbv2gb1j-xfKinvAuEBZEdHkDS_Vv2u1xlI9yF5pl1-nmt_JE9nIwpgic6_UAojEGlIyjEcvS9l-OsB0BmAusPy42tpCuvIWGeTihGlXpDelNoUIGTYi6uMPn6dVEC9YDjbZ_ldabMA1aK6tbaKBeBuL9feUCw1lMK57msJJ9s2or6yBsjcLz76hVl--r2k2iD4HDoCTisJmi1FlxOI",
+    "localPath": "screens/delete_animal_confirmation.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/0335089f3993449a82b5bc9b50002c45",
+    "title": "Scan Accuracy & Comparison",
+    "width": "780",
+    "height": "3036",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLs4MNJ_XUWLTQo5BWhUvkZ6dyP9x7vXW4QJOtldhuHXQaMFua-YZ4Uc4Pkeegp3NDkCA4owK7tOPQqrEZm9ZmU1n8Dj7InXlBEJ01n6BcvzfxYQ7wPYG-IALJ--JGV63VOCSol_RrK5xzyRuJfruOe6dX7IKHlOKybfMOr_1eSWgJ-8mGUPx7jyaG1kzZXETph9INu5eN9Gb_EcarNg0TktBs0jiCyVOk84zJlxasfO8Z7Kdpn8Og5fyIC4",
+    "localPath": "screens/scan_accuracy_comparison.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/7e08a78b21da47fc9db20cd6914d2016",
+    "title": "Add Animal",
+    "width": "780",
+    "height": "2262",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLssp3CYcxV-3W8x5z5n77v_DODUHkvtVUd09-IXqQct7pvQ_jkgEDvgrHemjs9XdwwP6X8KL_18KGC7BK0juuEfB6_Lsx35pgs201DipysbDI6t8saZs2cvTLgQgL-THrnhFgrGF9AGqU9E-3aA4-qkpKfZuiRIJoVZ5FArKLlN9ZNmAcfV1NPL0Xia_7i7vLTJy4RrLHuSTd3_A7dH42qm0h6ui1SUD2sqfeBJ3AUA5O5JOYP5c_xepIKV",
+    "localPath": "screens/add_animal.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/5508d640601d4c029966b6c67a248017",
+    "title": "Appointment Booking",
+    "width": "780",
+    "height": "2128",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtHPIfOvtIr5wqwY550FHkhLRU2Fama4U8EeBQHXrAenCwmpvIqhl125KBCfQzj4AoCTgahpf72sgZ2u03eoziY7CbwEUgymRsaf6H8RUFzq_lmS7lftUfb1Ph6CX3cdqUfIiE1zrDduozaZ730d2XaW5FqkAdMnsjGgYjSvIOjeB823iPWIeElC2k1cK4ZkI-cyhLBRQdUIE8Fhry5fMd4v4Q8xISH7ixxkXY2MH5FGHxwuWhzm9fm-pEs",
+    "localPath": "screens/appointment_booking.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/3bb682c8d58745f3beb3363db71e0210",
+    "title": "Analyzing Scan...",
+    "width": "780",
+    "height": "2088",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvMiuG8qhAJlMAzuMgsBs9dbFRIi6-nCRao5DiKMQkjwg9oub2TSpDfUfq2NWTYDd9514kFSj5AfeCyaMa2fvSB8HkjW9SxQWh8a7Se7WYGn05ci6ZfTrma-8FcRkYuFiHABiGuDqC_H3kundDJ9P3VW7OTeZOVprYrdDT5wYgmhenulH77HiZoXr3OrF5OQFAF-fA8r_84UlNJZSWXGRX6TOsQP0BZe4cDFjBytta0Qoz0o8yXCzxSkrw",
+    "localPath": "screens/analyzing_scan.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/12742511538883993303",
+    "title": "Vetra_PRD.md",
+    "width": "780",
+    "height": "1768",
+    "deviceType": null,
+    "screenshotUrl": null,
+    "localPath": "docs/Vetra_PRD.md"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/1d675de806524896883ce84e1b157ffc",
+    "title": "Add Treatment",
+    "width": "780",
+    "height": "2212",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLue_neeVeD2VZEHdjBVEQwpWP-KPeDTadbZSHI0hxXIwaiuer3JVW5tz77HfWgOtuwn8pNkdsz20bH54d0PDaw4aLwFrc093BvLKLlYWANVE81SGX6Be0mevG3JpHUBWFZbh9-2cMPAVFWOGaolVCxJ1vJon2JVhx6pENXTg5IHJMGj2lk4jh8zDZOS1UhQJyk3Uo1idE_zZ-dqktRcR86WGojyLfdJ-jiOMAHiJeJKTdAmpOR2SRTOhzNj",
+    "localPath": "screens/add_treatment.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/15d56cb009724fbdb6a2678726136deb",
+    "title": "Disease Scanner",
+    "width": "780",
+    "height": "2152",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuxApJA7XtsJrYc_-glJuSDUIIIvMffbmIV8EEcTheTTRI5mCXfHJi1E_8aqYkQU6aTOrRbu_N177plwG-qdeMCsoD2jWbNMUOEQCKtInVdlkDejwwzO2hhI2svrnCe_KnYxhS4i4JznOjxhpEKQeWdFTrTQrK9wrMHgKDNClmBx9lidEkNk2PvCpEsPn1Iq-NA5nIwAWX7vOLEn7D6ovbUYZF18-kEtw0YYmLP6G6JCotL3bcUJiyOtzrm",
+    "localPath": "screens/disease_scanner.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/dfd4bbd2eaed47b5add67109f2502a71",
+    "title": "Animal Passport (Offline State)",
+    "width": "780",
+    "height": "3042",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvKo09wltjsvPUF37-SKZyKULmSMV5WulNyeXD_3z5DWfYu3NA8cTMFRj8Kb-h-o7PfYejTgiRZNAaTIy0SOieavv9EVAIo_lQKBD0tyo5vQ7r0H8GWi6NnvQavvla6EAe0kB1JGjgH-OJnMBW-e1rlADxC-JLarb2yOFbOPxR3H7vfq-w-EQHI_2qkyvC4r9d4E6vENiV1f2fiXNiMmbe6RJTcHkms352uW9Xcc07N4yUHn1WYh_yoFbiW",
+    "localPath": "screens/animal_passport_offline_state.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/07c51b18b9e0476a960107a050751c02",
+    "title": "Register - Role Selection",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtmOatBp-fpIsHavtyeMYvBag37te7xu_JohLOUlfjzvbZXZ0VlzFkncPup5H2iBbLIsYXEK_oj1Cwcr9IvvM9-XolxKXYZrOV2ohT7XFc0m09XHlw5QlGxZ1nMwvoIEwAWgcUEcqssmTUBOrYxlUpM63dd-EcmHnt5zgn2HEX_xFHx_Ac5ktuuFNs4MxqjMATfRgSnDfi02Q2Nj-giXRNqtQM03p01Dg8U5_zEPyOgGfq4m81RueFrHzo",
+    "localPath": "screens/register_role_selection.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/e80040e214cb4db5aeb9b563241030f4",
+    "title": "Consultation History",
+    "width": "780",
+    "height": "2688",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtPrgEkZa-xRI8i8fXq-vlcXsvUb0gLYC0uNPsqbREqmLvp6S0oO9nPOCuL_V1TK70xjtJ1ykBVtx4nGKr8Rch_l24KPtypHG-_JDaGjAoMWjuTiUyXGFQdoT6KGuJFC3y48nxiToPvnyaO4rR20-0ZBdEm4wLWM3SxccbsDNtvWriincKHguP5cug2Z_PWHA4h-ACGcwe-8VN2gQDsDZCH36vwGeaH5cME0Tu2QLX7pP88_80iAjvlb0c9",
+    "localPath": "screens/consultation_history.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/350788ee0fe14c9facad5aeea3af87c2",
+    "title": "Stethoscope Icon",
+    "width": "512",
+    "height": "512",
+    "deviceType": null,
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLsGeRBPzxEHqopowHe3O-SxtT_J5K0xNycnThMMCKyR3B4fJiZdhrvJrkJQdoSEwZuOT0CTtmz3HBqhrc1OYYGlZ6G0NkwNqxjGjGXt9SIYkdYhfLCBqOsxCwG-9Rl7xxjs2C4Uzd3D17ut2z093zTbyAebQAdTZ-KACMn0tsDnYAjwdjSmOK9H7bXgKOSiVhbfJbIJcuGqS4Ac284iAmVVeFc9JbohYHnWm-oygnE3gfySKWGebKv2MrE-",
+    "localPath": "assets/stethoscope_icon.svg"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/33e8cce3299d45928ef693a70edf4033",
+    "title": "Forgot Password",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLum1plySzr2HhMPJZeJj-HTtFz_AgfkZB0YLPocMOmn41y_jIF0vLeZ8w5Csl54w1GN6GTgN5v248452e8dgFaaOCSFbffmIMIF8tCpm5hmERnrIDSvCIv55aBzhUoyNNp8NwvpuKNd05Oe8Ocp4K9l23y5XtdeIqX9VTbkwnifHR4yHWMBG3kmMjjQ5xir5vuDKZMrWgZd0GiRlKkvb5zq7iLVJ6cOCI0d9fssmD9HHD8-ROWe62EWmA",
+    "localPath": "screens/forgot_password.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/c94d9237d7bc4936a3bd97d005b4be3f",
+    "title": "Vet Profile",
+    "width": "780",
+    "height": "2194",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLsR3AaTMXtM8sv9QPdxB35vyg_ghhRkgV5aiHkEyvz-BRuFSFNvrN6AFlp-bWc3VF5kcA-L33Ip3N2I_hxcOgfJsAMjAZ92XtQpZ9c1TdgSoYzsSJlcp-nH9WF-jhhkmq8P6nzXUTiQS7ExyXl1ObtWz2dTLsOBi33V26lGFHCBToxj0e0ZMJ7jiYoKeZRijzfy8sH1u5meFUW8q9s2J1AamYSGBGB1gcNfHdOh5FwMRYT9FjKPhHt1LBJ5",
+    "localPath": "screens/vet_profile.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/56912bdfff154d83beb0e55817f3722c",
+    "title": "Warning Icon",
+    "width": "512",
+    "height": "512",
+    "deviceType": null,
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLu9Lqm01L4BmPGhh12hov1mIjMUTmWLH9cHOmXrzSAc9LLt62gkxJpJrfUMfsG-FdY4cmtiGGhbxPMxCZ_sdP-vstNJ5GuEeAWf3O0Uy7E92UNzt5tvRaS8g1M0wOemF9dwDI4RHf1kxcHLlHHwmXDdrqcSAsU2gqqrMlX7CWPInDpdsyF7M-zmCkn2t67ermvrQKRA46Qags_ccKVhPplEEyJsUuPjcz30IzocSg-nJFyCew9SnNxCNgU0",
+    "localPath": "assets/warning_icon.svg"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/75ce3c1b818a4d1b873f3c5e12bd0502",
+    "title": "A friendly Indian farmer in a field with a healthy cow, warm morning light, professional photography, high quality.",
+    "width": "1024",
+    "height": "1024",
+    "deviceType": null,
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvnge78P1ci9gt88bSVWjTv_c4Mv_oIOzdi8uLI5D2-8Tg3IuAk3wV8myzVYiP6fj_367_InPeASyOSZLtaUs1EUYLz6RQ2arOD_56BnzKTdenPrJjwGl0siWXGlNDOtjnWcpxzV2GZXHJjGBKaNdwurfGYRn8hl8Vo2tPf-UvuulzBbkESJfi6O74nxBtznYq94_bdZwD8ssVTDv7U-E0lg4UF2KZjrwP1oJVh16SrMupm9HjIwTWbJxqk"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/84a6542618fb4d70b1e47ad47257763e",
+    "title": "Edit Profile",
+    "width": "780",
+    "height": "2088",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtFtyaFGnQvcZAzrz5Pnk6t2O7RoxYLduuFIoN1NL66NdAX7ZlRHyruYwbLmF85pCxFDdmk82gVTO4YXvlvOBw9x98BqaADdJ8rEnHJBvbpHxTPFqSgWs8EtRPOOCDW5m9TA6eXihslUeIRh4hEzRqXXlp4UewHIMGcpo3MOW5ureEdufj8fT90Kb-ZeQOU_4mZzzptpX4LfE41ilnTHAQzi8hHCjtqXnItfBqzES1H008MFcw0u4qYlPkp",
+    "localPath": "screens/edit_profile.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/d934195b7a80485f87b28fce54ecb5ac",
+    "title": "Notification Details",
+    "width": "820",
+    "height": "1992",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvSA4TywIZg3iaXomiYnAt0P0_XSggxy5wMucmWp8bBVPMVow8cBipiPhMGVTIt2MkJZARCflYC4pZ4sbv2t9FvROSijXFTm6Y-IBh1RPpmjfLLj4B6B0JBfZZmf2WYMbNLX2kqZX1b2DZOmol4FlzW9znmmZDuSM3dcpC0ejbLjkIhWap1aVePEiJHOuv78qqMhKapM3LidT8iEIA9SiC_fJi9Qpszt2OemtTtSKCnojJEIUHxyyDQnWV_",
+    "localPath": "screens/notification_details.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/cbf0ca20bcdc40ae981398b09174178f",
+    "title": "Nearby Outbreak Details",
+    "width": "948",
+    "height": "2196",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvZeeM4AAE-I3wmrbKhBeXN7gbrRtertdal9Tf31NE3DaBZ3EzdGPNYvmklcYpv9D7-3nZbpQ389mInB0GNgqUW0sYAbMaSmzX4LtJK7XBvw2HaP13cw41TDZRmbT1SKV63BLHhQUFJfZMpEcNyz8Q8HWQMWaPG75pJNytQVAzZI9H7HJ8AvoDjlNtm5sEk8rW1zgZfJ6sfcb9vqpOVotGdYmxt9l__x2dMmc27JviUMqXisWdn2fjLO4sb",
+    "localPath": "screens/nearby_outbreak_details.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/b97beadc7d384f21a40fd96ae02986f4",
+    "title": "Animal Timeline",
+    "width": "948",
+    "height": "2072",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLt4D4c2KlRT92hW5_akFJMMReTOSL5wUHMHQWj4Tkow2607imCyV6hApS1PRdCwVGGvmSHHQbg6fYO0_jYXkh0BRp3U7NP2rs2-OQ3zKPJMG4EeR-1qa9ZmViV9Il9Uu__1T8ZZO_C6_VVmJi7y27E9s9V83lzZT7XDvMJyUqAjancMIM2zoKU8k4EAjHjdMoQt3n-QCZ7vgOnVz3BgBmTn2To-t5Vl2ocTP423d_XG79HDysTH5rGf-swA",
+    "localPath": "screens/animal_timeline.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/7258f1f9e7fd49c0b360b285b69646c4",
+    "title": "Nearby Veterinarians",
+    "width": "780",
+    "height": "2088",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLsVczoQ3S8XJHPgf56vUKolf_i3a8rQoKIeSBs5y2x4IOOFLfP2aUEcpkK6mb94OeJBBG57_trdNZtd-y4X7bLOW1mLTv5uvY2e4Lkwe-mqMb8aVBfEH8cc1HpZh5uRjLYkZd7DrFQT8v10MSPchzXns31X0IR3KoTlsNQ41XRfFwEgTIsFHQAfupZo-iDlSeRv0QmMv01lyF4UlpoRVu-6S7pgnqlbQUsuqseDVbrQrJaJd3EdrigRv3Ui",
+    "localPath": "screens/nearby_veterinarians.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/310ff7d3e95f4cab85060a19fa094f1b",
+    "title": "Vet Dashboard",
+    "width": "780",
+    "height": "2184",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLsHY6ZN8Uww28xCyZpGPJZ7M9P4Ao115gxT8pid4mb8fAphzpAHk0qjpiw_1FruLCiRRj-G6SSHOEzLeFpfurELP1Hbrak2Dq8Pzo-gAgmJVJ3fP78aKtX-7D6t6T9e3B2No2mTHyzftPdxBxxifKUNr4DOgW8O37tpA922QVakkD6emLPnzhJ9p2LU912lYarVMd7TGrCkjozAA9e4vAV0_7Zhh7go-bNU7XXYGSbQI08FJUPXpaODWlXh",
+    "localPath": "screens/vet_dashboard.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/9902a77ed0d849e5a3b548003e345bac",
+    "title": "Report Disease",
+    "width": "948",
+    "height": "3576",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLufKOcDYOPjualUyCQNGiGpzYsvfSwBz-na-igPmp6vw8xSPTCLnqMVmevm9IB18Pvd_FhZNDUcw2KqbtW_h1k4j3OgoylANqwKS2dJlFhPT-XdtTsBDi7a27hlakQ81fgYYXcOydad3iz7q3ubRMiCsBwpeb2tIZYfUuZKGfgVPGrfD7UhHXwKILtmpslOAYN5znaLxCE3YhkOhl4yCmIKFlCIJciRFnfPICL3nPcpR4HjWbitEdreHb9A",
+    "localPath": "screens/report_disease.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/55ea28b8c6214e4db719c5613f4aed7d",
+    "title": "Help & Support",
+    "width": "780",
+    "height": "1824",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtH0rnkpFBBuVRxouCdjVU8zUlLgaWk_xmZ-3mkgk5ujYR4nuuyOHnZnzbnGc9R9ChCqh_yrGjDJo1BvPUjQCSOomO83xur7ZJedXkKGPLGvPta_QIjwxgcLEwLeZWHndPU_lcIiOCA2ZyMr3h-k-MgmdHVxV6koIn8uknwDLFKfxIM_ADrNpQ0aVyHZkmO5lzjJntOaTNkisrBldped-sSF8Jy190P20aBCG_Lwiq3lRJpKToIxjfXk2A",
+    "localPath": "screens/help_support.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/c219861f143e4b9291c42889548fa148",
+    "title": "Disease Information",
+    "width": "780",
+    "height": "3610",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvul13kHnAA8cmRlD5p0dYEuzZ4g_om0XXAjb2VvVSvoh8axvridcci3ahybNWn4Jt4l9e-BW2szoPVRCTEtAYPhfvVTSftmdcckXa6k0GHRVfBLghq-DShUbXh0OL5XqzopV-q2PFES_OFlMWcogI8SfDNif4E6vJVQAuuUHXzbKf6brqVKrObYfozsQUTZFyUIdDsc2c57-TgmLkpyPFKYogIwSec_bf4pgMGNFq2NsgySD-tvFMNVy1q",
+    "localPath": "screens/disease_information.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/1db5814caaee45e9b6bfd336a510b80d",
+    "title": "Search Results",
+    "width": "780",
+    "height": "1864",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtyzNDtRSnsRY3i5f3juzZYxZcc8rIfP_RcQsMBfSzDlyvXuBqwItxR4fggbMjOaT0teXeaL1qcoq-QzrWvqhQ5FIYTV6P6pM6ib6hjqm4zSVPaS0UFdylOKYKtmS9rM1qJjhIX49w-Mk2Ps8qLi736l5OlVr67UlYxbfXcpVJhTCls5Ypt3O8Vy6NDr-QCnYRYUvwt0QYamUN4ttyB-MxoT-x2xaDNiE6RzXodMu4-Tp7aHFSSW8OAHpU",
+    "localPath": "screens/search_results.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/4b0cdbd290ad42d6bf47e2565adac242",
+    "title": "Vet Requests",
+    "width": "948",
+    "height": "2464",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvC5WtZp5SCb7LfYV8t6oMD1nJ5S-973m3qkZUxwRYeF07WPdHrx-xqSTFwojPQN3X4xxfVtHBA5Q1w4XayFJ6Ig-KmGDklqA2RI-mYRYJhlILuc-nghx0Ekd9yalA_8ssmCGXOHnhBifRuaN9DtNEtYT8vS7UPPii2R6w76Ojg_VFwXU43KX2SYtDUYqnkKJfELtcbjQPo0rwJjOyNYAve9P_jyuaFvC4V72flUb-TsjWXkT8ygQgTIoRk",
+    "localPath": "screens/vet_requests.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/b5e719856b5e47479731d7d7a0773464",
+    "title": "My Animals",
+    "width": "780",
+    "height": "2152",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuud1KI04FeV7vnYGhTGuLZ_X2pHO5d1whgs05e_kjN04zkqyrgwMOHf1WV-T6J8PKhp0oxBRCqYKdz8CYkt_r6_rWn9s7Uscc3G6vLd1QpN7kCybxs4_8xR849C1P5uqQsf6ve3JyfrSoYGBKLNoPgajZYVBkyfXkZwKM7zXgpywrafOiXIDCKEIdaGjZZjy_RywfZiwMqq30XvY-d-G2cxbosSoe2oGUBmSshjKqxZ9atlX9JgB55jLAU",
+    "localPath": "screens/my_animals.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/e43f59459abc43528d95e1539a934afc",
+    "title": "Outbreak Map",
+    "width": "948",
+    "height": "2500",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLsKAGUI5pxb-Wr5c_uQlUVAMCnKXU7tt1wmetorYzpENODSQDEfrFw-hWtNBAAupCg7DjelyjroMUtx2SvIKdBsYe57wcUN72tr0Eyd8mrguQjSD4nzkcig2c_O_k6LLj0V4PGezgkb23ETmnjijAhg_vYPYs6cRAatk1kgy23XzUkQhdGpCDP6S_7qAq5gaRHgM-xEvlv5GtHCL3Nhm5SfY_ltJXab96WDonrNvqfJ8xJAyCLrN4_1CzOB",
+    "localPath": "screens/outbreak_map.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/5765a82a53b248f6b531557e3ba8a7fe",
+    "title": "Medical History Details",
+    "width": "780",
+    "height": "2568",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLs0Ew_KiwjLM-6dra7XaElKgCkaB7ZMCz2q2LCU5Gu6y3mQytmyQ4dwTkoozKqe7SGtvVBbBps6jE5CrRz3fb0mWiUnCsIhI_uuNSiQCl6Y1XV7Uu49OvY0EawFISHpel6GQJPYsW2LFwNs5L2vplOSXy9GuvAN3ykSyLz9M-bXoG879HM-axt6B4E1V3aP56Arrs3Tiym66Rtlp9zmTn64V8sCQ-q0hzN8lXKA9bxhMZzj0cbVh5YIm9pW",
+    "localPath": "screens/medical_history_details.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/847922b97ebb449a9c6470cde2466c1d",
+    "title": "Vaccination Schedule",
+    "width": "780",
+    "height": "2344",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLs04irv1v54xsbLA1qxT8oA-V5924Gpd4-LPV1nbEkI8F8Lr8-e-UjOwxyJWAfjcAisDndGUSePoqFkl57Y1FuBhP6-fp4ihauZ2CgAPHOcaz1d4aNk2k3MOQIvFgvaMrJ2CdM2AWxNzeHEDA4wozgdLfBPpQHJVm9q4YYIwLlz1AHUi6qDTHODQeWUp6-3xh7QndxFrKnMB-9BFIyM5QwDRYqqE83Dmits9Dmik8an8tm0cDjlWuKeMaa_",
+    "localPath": "screens/vaccination_schedule.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/bf3555893d274bea97b59ed929c0e0ee",
+    "title": "Global Search",
+    "width": "780",
+    "height": "1876",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtmMBzOr1rv5uflGiKGXFTuJS-1e5hIr9NGV-ICBcLJ9RG5-c0Rgwjub1iBqf6BPCKHg6zw3lv5Rsa21ZYpBWPBo-cewBGuGp90OEQtbSQhwiczpAIpa3tdrb0D8V1xpx7zTP0LfOxZIraU0T11wKMebuFv3PoZ5SMSkUwdwFJ4lwAJoCvY2OCMZocqmqQefWbOOlrF-Pjkzkkhsu6DNGjyPFXcfvUX44-erGAZB5DUasb9J4YdbCuiwds",
+    "localPath": "screens/global_search.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/9153d536691746dd97a6e66e8215a6f8",
+    "title": "My Animals (Offline State)",
+    "width": "780",
+    "height": "2034",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLt2oqbdg1zs-YwElzX31X8JQIphKlViMuT6YOweMtibqyXzP0TbogYepm3JP4mShyg506kaAdQWZOpsp32lZBJ52gFgtvDZYHWhHOslxw2pPKfpyC0r_FgY9e-Rp2VC5H5AvXpA6jkg40cG3nd_Ehbr-wg-da_HCyXt-ZQ4HXnhXfVBEXUadXYIWccwMRdk8T50DjplyMpkHTrWsS2MvTVCP8a_JNmkMwAaFrbwtRyY4JRLn3wPLAuZC5o",
+    "localPath": "screens/my_animals_offline_state.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/a9eca270f7c04ce5a442af2bfa954a61",
+    "title": "Add Prescription",
+    "width": "780",
+    "height": "2336",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvZDki3pPqk--saqmfda4gdn5UjE6-2n8CBgXn4OUM0zDFfL-tAgaPV0u7nCiPo_hlaeIiV09OSQfLqprlsyzQDR9u7ht-hWMcNANuDihnB60wdoXXb7txDEDh7-V_Le8T08udYZ5nMWPRLx1zKj8gOMCgn19i3vM1Mf1b0N4un_7S_MuGUMfMKlY38LuhkaKGSaCtDSgQ_Lid0GqL_RxU6jjIJ6M8QqsCxYVFIlYympevDsqT7asFbsAw",
+    "localPath": "screens/add_prescription.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/62d019aeacf34179bc83863f63402e01",
+    "title": "Passport Icon",
+    "width": "512",
+    "height": "512",
+    "deviceType": null,
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuaZ-_jh5Wz0gyzkoNXDW7P-sk5eWr1-nkZxeBs3V3dcnzO9CXct7z2EB_Rg5pFWs8uK1yW8X2qi9hboCCHOv5uYeyQD6dMPLnjZK-QviEqtyGVHWO5mwwHOtIPIlIgLcLYjbdDSg8C6UElf6VGX8e2lHy-GxaCKjw8VbN9UODrTU7hu858Rn3I2izmCN1su09EZ02AGz4yqs5616BFunllvobRZABMo2eRgKEZPBl6-4-kGKRnpNFnfaeD",
+    "localPath": "assets/passport_icon.svg"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/453a30d4f60a4e8b9202240ef34c5345",
+    "title": "Login",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLufYcr3xG16dw94j0ZhN17EP0K6qXRnYLRJvGWjOnf737LX_0BTuzjbzgYfOhl1CNIdHSE46BbhAKuNQ2WUSm21J_gwJ3RHlPHeoCjxqaTSCBAEfe26ziQ4rnxNyw0Q-LnI8QFkq8pEqK7gooMdoMbP5NjnBNIVziyUcqdAQYClBUu1iD16Mw0uurc44HmLjFAgTItNTcrqP7eMY3qShRrRyPqqMs-bdFVrqSW1g86JT9MAltmiBBmrqCRQ",
+    "localPath": "screens/login.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/526cbb48a64d41368c62a8fbbfe2bb71",
+    "title": "QR Scanner (Vet)",
+    "width": "780",
+    "height": "1896",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvKkrH810R_U6656KK5sRRgS1oTIhAxiPpeFtRn26gVQv-d1v0z5P4FIW6GsRDafNkRUCKztdVYpZYBSfFWkMebLdUhFagebepTO3XgSV7QnP_dnKKD_3iE3N7DeFy8kwgnwg0LKUJyss4nLAHNDFsVDkXtod0-W-cc0bsLJYeKGqxooFbzRJ7saPKDcrz8d7Ms35duqJsiENgEE42O_-gE9-25in3YZ8-cBxjm_y48m1qsu544X9gEA5P5",
+    "localPath": "screens/qr_scanner_vet.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/12742511538883990777",
+    "title": "VETRA_DESIGN.md",
+    "width": "780",
+    "height": "1768",
+    "deviceType": null,
+    "screenshotUrl": null,
+    "localPath": "docs/VETRA_DESIGN.md"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/7508abb1f7fa4440b523305ff78f2c12",
+    "title": "Vetra Logo",
+    "width": "1024",
+    "height": "1024",
+    "deviceType": null,
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtglVzZupsVg6xn671df_vwJybEtkD7ZLgRH8dPnA2rKZ9U94Fmp_eH1frR5MHpwcFLGhOhxTFuL8gHQyb6BjkX3MPM_xnK9Z_h_iVuX4h5UbHRI2mHcpgjGXsbfePKvYlfjriW1i5UTemhUPsm1KpFA5lijgwsr8DBsoOZe3CYzqTNDthA-l3g4i2Sq4zjlOVFFnISoJFS5HiQafNXL8ysd66wK08jtWrX4vvlf_GEhuGzteJfHSrL5R4i"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/ffac2bc901e24b62bb2e12a411b54efd",
+    "title": "Settings",
+    "width": "780",
+    "height": "1924",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLsOHSDm61hADBcBxsdOxaWp7oAwdgCxeUVb0pHPETjIVu1DSAaN39h-wU0grDkXmX67gAtFqWCKxUZcJFRJTBVXemb3Vw-YatWe09qpzwMy_zAjpQYyrhmRACz0AMCWCGoh6M4SIM9GUuRypi7wzQoqNW6g3xlfm2EbuUceupRjfG5M4mlzIni_Q6HQ6F1O-CBJCZNMxPKM2uo0UxlUz9_ObtpbZfpJxHRQ2Qy-UE6iRBZGYJ4DSS3qD5Qs",
+    "localPath": "screens/settings.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/d345cf24f0cc451c8d5ce5f618ab48dc",
+    "title": "Diagnosis Entry",
+    "width": "948",
+    "height": "2356",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuGij3HbBYSv03f3nw4ttNqdxQYjOCk7k8kzFOYrcqy_RGlksNJMYICcPD9-W-fJNIh1kwwZQ8pCsJ5WHYrCDx0oTg4oPFV0jTyeFEBIdL1ktd1PbzA0jAEZQuk74NzF267ERzx0fXiUVJldMnCLN2_BP0BRy7dx40a_bh3va9JUTD__HTRQ_VYKius0bNhaNqdHFoAiZiY0ejLa0_NJci7bk-C_gIlYJvqXp90Xq6lCf6F80uHmM3_SiH4",
+    "localPath": "screens/diagnosis_entry.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/90bff6853150425f839fe8208e2949b4",
+    "title": "Animal Passport",
+    "width": "780",
+    "height": "2976",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLstkkknMuCngt1EW_GKLzJJ7v8cQJBslpPL7YhXMDKXRlRhYT6no1PV7dMbxbr30fD6xpzhI1FxdEh2vWHz46BiO0WDFMfE422Ha7IEqf5ZnBG1BIuEqIvdgFlp0n4WVqn-ZtenhDjncIDbogyOmJxnPa22-RvzOEwjUIGBMmjksr7T6z4v09O4gugKZ4lcBeJgWMjkf_0nz6ms0ZIfVBJUnBcSKCRW2QzFhA-Z79n0qrVcBCRpaHPhdJw",
+    "localPath": "screens/animal_passport.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/e17b83ddcc6b4f109f85cbe26085a4bd",
+    "title": "Splash Screen",
+    "width": "780",
+    "height": "2088",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLupBc8PhrahITOGJ6PvQZbj64tmroG2Su-4ZvI2EdBoJrvGyFBIMv1SSoYGOFPCCeDENChUEQ1l_0u3NKStPEkiEQw6wqA3nratdeLdmNFBiaYZFaz_YDl38GwE3_ajplfb9sDMn9LozabPLar5ELJ8YkeOqWAfTACmsU97GUOnXe4W8Gfdl2WzMe_09BQY9hEDC7P3yAr6DeNCYGiU7JsM-2r2xIWvNSdCfY6O_7g8jyS3uahhYPLK-iA",
+    "localPath": "screens/splash_screen.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/4ba5c6e59f814649bacfc713f6185328",
+    "title": "Biosecurity Recommendations",
+    "width": "948",
+    "height": "2652",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvcVHcEGuQZwUNhQFrjeFZXgkIbp9VAdiB8p4Zh0wbaSs7ah-sEzoWMkJeodVFv-jjCazxRD0ptTe9Y6jOXV02bXlHNt-9Divf7P_CnBCSVRBqFTT3BsN7sD8UZ4zT1slPL33DDQDeg6K0MqSwpJw-p-Uf2Q63xQT23TR9NBWja006_p-PlajILuaI57jNvx_-8Gf1DjtLZs_7jj6UeRy9xPV9g0L5_umb5SBLfPOBSG5yh-2dG5kK48Do0",
+    "localPath": "screens/biosecurity_recommendations.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/eae8326ee72b471989a4823b31ea41d6",
+    "title": "QR Scan Icon",
+    "width": "512",
+    "height": "512",
+    "deviceType": null,
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLsJnZaQFbCta-BpVT_4J0fQPgJIOY4G0wquZU_MjZkTozzZmkTMT6quYtr4c10mXTy49znhw3iJs-Grg_mhXJfhconwaoaKpeV5atTlVnkxqHfW_Ybca7vnOuRffCCDA1ON97dvV0VbT_fHVIspPGT5EwKx4mqfresDf00D3giB3ZOPXTooilnPkcAEYcxePaW5tQGxL3agyRagl65toTnvPw52d1uZG21TLtA1agUDTg42hDv7shlMBxON",
+    "localPath": "assets/qr_scan_icon.svg"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/9c494b14f64e4e98a8a262a6591c0049",
+    "title": "Farmer Dashboard",
+    "width": "780",
+    "height": "1942",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuK8qqC633HMbptdPlTv2PcPssrg36Se4JaUZUFIbHOoOb1cDC1Yf0Zx6Q3YVGOZXV0QzySpimiG5YmungSVZiOP_s7s-0RlgODz8ogeRVDLNIJ7LHk3A76wO9W7bbLwch98ZZIBuRtTMdn4P7uTtYU0AAxrdrBGFXd-wVLTImaw3FKtVTJH86UGp70L3z-UtqT1PVePUj0phkOlHiJg--Y9l1v-g-7nJWdQiHeYl8GRgXaCA-zD82rNQM",
+    "localPath": "screens/farmer_dashboard.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/aa51e849faf645149d5dddc46e7d354b",
+    "title": "Language Settings",
+    "width": "780",
+    "height": "2096",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvVbNCQZwPAStgXPEFB0lWa7yFlsXsRAcBwIgLV312SrYWvynLOGHa2co-SKf5iR-B3CMVMKS-fOKF05yJ3bBFrImajLUyYPUCYDcy60odVn2bEv8iYRQE_DKOiTYnRSoskEyt0kXw0BKHMIROaODKnn02sOjtAWATTeZpo4XZPwR_EzswOS2dftciZ1UCGNUepMYwEXH_gAB2DFjhXvqoVJM2tKz2zjsWgM_lZRSeVii2Yx3fTXKwQy5M",
+    "localPath": "screens/language_settings.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/26213fc65192455ebd3cac3dc92cbbb1",
+    "title": "About & Legal",
+    "width": "780",
+    "height": "2096",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuAoATycG527f7mOQc34iayLfztevOCxvBs_DaHY44hc7blvC_xwSBlq_oEB6e2TPU9B6ui_J0jT1i0GaUDgcHpeiYc_fSBBYNfxh8LE7OPniZ6OfDTxggq9ij-etslknQZxRHF6-o3FKz4urKVlMEHVR_0yVeCZqBKNs-kGNKtD1cyEhaXw7VkERh4pSpJkq2XQ986RSvrujSQNQ3jr3rXEX7KnK2NnVNGzRKpC9ps8MKGkKnCBfVfgM3K",
+    "localPath": "screens/about_legal.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/7ef1af3dd4724db0bca516f79c83fd32",
+    "title": "Animal Passport (QR Updated)",
+    "width": "780",
+    "height": "2936",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtXyhVQMf6oamUwVogn_2dXCNsMmorUNsrWf9ep3mV9aGbNqYOamOZVSZ52gPL1k12ZMhPRS7l6MJ2lYhJ06q_YJmIYrGzkGieRPy5byhic_CnE0Hm4wVEm_zJWvfPbf1x_hzrgkxo0owBspSlIANA9zyDKg3g0HrNl6pTsixpZARcKQA0yGG-ed82ohdgTnpwTJul3tXlaS_dxCjgtKclQmjrkOmbTUBPugdLhIiGh_PauLGiTuiOxf14r",
+    "localPath": "screens/animal_passport_qr_updated.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/baa49fe6448a4a4e9f20a2422cdfbeb2",
+    "title": "Edit Animal",
+    "width": "948",
+    "height": "2742",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvvks4YEIA6HAJyKmH7vpwtqqtgW8_0ZlpFGYZucFZKQCJgOAPu0v-CJ1Q8a7epW3ixYsYh1crnVLPhnUC4LZBzpywLOpVhRao4jCa3SZd5NPRPLSeEnnNP2XkiAV99HvB5UVya8iCprZH0VlLNTqW1iC6rdJBTTdKxwkX9MUkkR5ZAv9wKa3mkFUvKtsS6Xukwn3Sx2VBFgE0TI0J56lLVi1V4tDl2Qqo2H1OwhqzvO3Ta1N2LkfK4myLU",
+    "localPath": "screens/edit_animal.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/6c2eb72541064b9195a4ee7af561c6a7",
+    "title": "Syringe Icon",
+    "width": "512",
+    "height": "512",
+    "deviceType": null,
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuH4a8rJo34T9eNwsR74RS5I8drUnWtErmfuFJa03GQDyxNHNrht73EPUagSL-rQAeWXB5LNjuVOH9XTS4RD1mNMqPQKLEA4QNnCqN6OE2TZ6FMv-zwtfBBnX3sy-KYzriA9DP6sh-egWsMmFWYLdVr7Dw3WFDvFFWVK0nHS3tiUNP3coaOgb4ep40-yTW73AdLqi_VYWP3zqHPqSrpMbsEu-SxUrPEhMZbTAyQDf_8DBx4elattBVInH9u",
+    "localPath": "assets/syringe_icon.svg"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/4d6ca6e8fd974540b1e77c936b966190",
+    "title": "Breeding Record",
+    "width": "780",
+    "height": "2642",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuoSHdev1v1nzxYK_o6xmSO2FITdPmoK7d9fg5idy3N2ZIwMi9aJvWhxkOwV1JjxDYsWKl8HtgY6G8nijOdF1Aas2fcXhBXIb4gPB7jjx5Zyzuhb69y_Zq-I5JFYU9wDkhOVe95WfFhFGdPOAPvEkb12bA6M9AxwJaRJbZhO6LtxUHrKnU2utdizxdWUkviLcifaWpAqN_RwJWhtc8HICuZD69_rt3AFWAarn8tJA-HqA5Zx80bhL6cFClq",
+    "localPath": "screens/breeding_record.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/388960de92454ede9e5f730133296d9b",
+    "title": "Register - Vet Details",
+    "width": "780",
+    "height": "1808",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLs_eLFSDYrqihZUx1ujbAgd18M78wkf-oHb5kKMYpPgkciXUnlarqMpXq7RwJcKgpgqmNqIRw1e5D6LT4TNRPnDZH2xV0kT-XzRG3IssYv1jtjj5T7Q1gMiQDccPAeiEVAZ5vVwYaGx0ZTlRCajaRzAYE2Vlzb1SNIv1On5B4o7Tq5h5nF6XOipk6zjngzkO8U3pIUEW9NnAvcnKPnQ1yFNoYzBOZXeHaAIgCVFG47B8udzpVazZwjAo7XM",
+    "localPath": "screens/register_vet_details.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/a5224a3cc5a94752a25cfad6f4180371",
+    "title": "Transfer Animal Ownership",
+    "width": "948",
+    "height": "2088",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLufwRQi9mnzr0TP6M2oejIRX7wzhyvn_GvrbxAL2riS38XRifbBaXdLBxNAqbyxodF7HMYbGhgqwKpY0jw5BvKqTSbstEyHlr_0_uwMAFz8fUA6P7ZoOr_9YlNKv3GzyyJLytnJYd4fatRqFYpiNOG7dR_vFmoaCgoU9tQnNFmf139925BfZSyiAl76LNaaGP9l1G-C_FtFZVV1-NMTHdhxoro3r8yXCbZJOrcrK06b5bmwxulcriyA8uHi",
+    "localPath": "screens/transfer_animal_ownership.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/ecd829b4f81f46eb8eff1549615a7d6a",
+    "title": "Login",
+    "width": "780",
+    "height": "2088",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLt9plK4r3PvXyGpkV10r-Vvb4R-_waMNtphEh7Da7MY8mGyIfLlIpB0OOq95zyOgpjgYsVb3PoaDIRQB3216nic7B83WnOFaiZ5jxEQL-YdTOzV9DEuNARCOR1ka-_1I9mgYUrdrZhxPr36Cdk9VNbMYZzMgK3AlYhQXC6WydnjbMtiYpfzEX9GgpIFQinI2L7GNCH-gmK9P3NKwwCgud9cgWo1u73ZU-q2BBhTdg_z7AEefeFHzhEziUga",
+    "localPath": "screens/login.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/509c43251e31480caaa1e1511022ed0b",
+    "title": "Security",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtdMD6FBU_VhipOOUj0cQolmSby6Kw3oPcYCMTPwKxAVs6-G08YkeYgNDZu2WfEcgMkrkbikwqtFK_pfsHb_S327koBAbE5iI-S8-8a_mUL5sJjKWzs6LHAhFt7JwIHP0A9Eux5z6UVYIy-D3500Z27qZ4rH1kcT0uBNc-n1IAGJaTubQD5SnV9Z8KJR2w3VNj93zVByEuSUhgHAU3zzflu1HZUW8cTDIzCJzzYmXugHCbmxqeKNMJppHE5",
+    "localPath": "screens/security.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/4460b87468574955968aee2b2ce54996",
+    "title": "Email Verification",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvfQQvjI5rEp8OdXklfvVFdu7GuLSJxzXusxpaBjgBINQC-hU434PcGmNNRjAy5qtvv6Vklg1cVkPpNcT5Szw1ytxL2oNFFC8UvkA6wm7r6BxLNfwd1YLJMPyZKaZzQWvbiJkuLyzyc2Dxh9KEERimzcWUHP2cjEtzZVLfnU5BO5xoAi1Nll8tEWQuvtSdsL9SE8DYDadhIyscIH-yLc8NRsBcdeKwg2MDkvd4Z9PPXfCHaJXa9algbBgeH",
+    "localPath": "screens/email_verification.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/e2bec21c3ab6464c81c3cc175819baae",
+    "title": "Onboarding",
+    "width": "780",
+    "height": "1960",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuYnkVWgQgq9iSRjgCNae79hxjhMyBUVOAkmcCPFlsFTJRL8V3cI_7SbXrMH3wCnxEDDafe24OgnwqSk0_okWBg4zaVoUDsqWgzORASieSA3vh-pKI_7Rf5MNWM3KE8T6ssROwV7G5BUO_ottbCLP4uujJW6k4yeqebGPpOem7x4px-mzy1E4JPtGcQH-bMoFg1OCe5u7qBMX7_U2E7VE6_Z663Mz5IvYktsrucEUGo71-QBE0zi2jZCUO0",
+    "localPath": "screens/onboarding.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/1b94ac5d70f74caca47cce45fd9415b8",
+    "title": "Vet Verification",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLvbeJ1nwJvBNlklHAmfjiTnkMlJSkXEIBmqsf8EL782pmA1jp-3weojpZyfncHqDMA6RAo97ZdXj29oM3gnSQps9EwkzCdstnOkPhs_Jivlz4z6bDRIeXEH1-TbgUCldK_Ghm0s2Npf2CDluPMqMIYf2JrC65E8jA6WolC91xcIlkr3J0ftqW1amoutZ9k2wZG4jV_wHMKsoFrSxKU3wq9S0sNBz-xoV5nVz_ojYYMXC18M5XeWvZVgZTPV",
+    "localPath": "screens/vet_verification.html"
+  },
+  {
+    "name": "projects/15416074341219702274/screens/73d75cafc93b4a269bd46d89ebbaf7e3",
+    "title": "Reset Password",
+    "width": "780",
+    "height": "1768",
+    "deviceType": "MOBILE",
+    "screenshotUrl": "https://lh3.googleusercontent.com/aida/AP1WRLs4kcNoZCxlWI79aZxctxH1J_brvxS72JquD8AawvApD0vFr5MGuGbWsFMRTH58iqW3z_lqyPBNBQEsoA2Ewq5dEgw0ly79y2YpAKN4e3LyYl7CCZ-1926SXdH8NCNZIGPQhw0HMaL5QKjY48rerWwtTvPugXCZNjNmh-4FCzqjybOrEnS0xw36MyHskR0VgZNML0p2DhJSACHd0ZESvdNwtnhPU5dFasS_rtAHPmZ0K0LGQ9bQV6BUo12P",
+    "localPath": "screens/reset_password.html"
+  }
+]

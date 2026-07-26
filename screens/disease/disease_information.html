@@ -1,0 +1,111 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "text-primary": "#141414", "on-primary-fixed-variant": "#2e4f00", "on-error-container": "#93000a", "inverse-on-surface": "#eef3e0", "surface-container": "#ebf0dd", "secondary-container": "#548dfe", "on-surface-variant": "#414a36", "on-primary-container": "#396000", "on-tertiary-fixed": "#36003f", "on-secondary-fixed-variant": "#004299", "on-primary": "#ffffff", "inverse-surface": "#2d3226", "surface": "#f7fce9", "secondary-fixed": "#d9e2ff", "secondary-fixed-dim": "#afc6ff", "tertiary": "#84478a", "text-metadata": "#737373", "tertiary-container": "#fcb4ff", "on-primary-fixed": "#102000", "caution-amber": "#F2994A", "alert-critical": "#C62828", "surface-container-low": "#f1f6e3", "tertiary-fixed-dim": "#f6aef9", "text-secondary": "#4e4d4c", "surface-container-highest": "#e0e5d2", "on-secondary": "#ffffff", "background": "#f7fce9", "inverse-primary": "#8fdb29", "on-tertiary-container": "#7b3f81", "surface-container-high": "#e5ead8", "error": "#ba1a1a", "surface-card": "#ffffff", "surface-variant": "#e0e5d2", "on-tertiary-fixed-variant": "#692f70", "primary-fixed": "#a9f847", "secondary": "#0159c7", "primary-fixed-dim": "#8fdb29", "on-tertiary": "#ffffff", "error-container": "#ffdad6", "surface-container-lowest": "#ffffff", "on-secondary-container": "#002760", "on-secondary-fixed": "#001944", "surface-dim": "#d7dcca", "on-surface": "#181d12", "surface-bright": "#f7fce9", "primary-container": "#94e130", "border-hairline": "#a1a1a1", "on-error": "#ffffff", "outline-variant": "#c1cab0", "surface-background": "#f4eee5", "primary": "#3f6900", "tertiary-fixed": "#ffd6fd", "on-background": "#181d12", "surface-tint": "#3f6900", "outline": "#717a64" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "element-gap": "8px", "touch-target-min": "52px", "edge-margin": "20px", "stack-gap": "16px" }, "fontFamily": { "screen-title": ["Lexend"], "vet-data-row": ["Inter"], "caption-metadata": ["Inter"], "button-label": ["Lexend"], "alert-text": ["Lexend"], "section-heading": ["Lexend"], "body-default": ["Lexend"], "card-title": ["Lexend"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: contain; } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } } .no-scrollbar::-webkit-scrollbar { display: none; } </style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body-default text-text-primary"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 flex items-center justify-between px-edge-margin"><div class="flex items-center gap-element-gap"><img alt="Vetra logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtglVzZupsVg6xn671df_vwJybEtkD7ZLgRH8dPnA2rKZ9U94Fmp_eH1frR5MHpwcFLGhOhxTFuL8gHQyb6BjkX3MPM_xnK9Z_h_iVuX4h5UbHRI2mHcpgjGXsbfePKvYlfjriW1i5UTemhUPsm1KpFA5lijgwsr8DBsoOZe3CYzqTNDthA-l3g4i2Sq4zjlOVFFnISoJFS5HiQafNXL8ysd66wK08jtWrX4vvlf_GEhuGzteJfHSrL5R4i"/><h1 class="font-screen-title text-screen-title text-on-surface">Alerts</h1></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 pb-6 bg-surface min-h-screen"><div class="flex flex-col w-full pb-6 px-edge-margin space-y-stack-gap">
+<!-- Hero / Warning Header -->
+<div class="w-full bg-alert-critical rounded-xl overflow-hidden mt-6 relative shadow-md p-6 flex flex-col justify-end text-on-error min-h-[140px]">
+<div class="absolute inset-0 bg-gradient-to-t from-alert-critical via-alert-critical/80 to-transparent z-0"></div>
+<div class="absolute top-4 right-4 z-10 w-12 h-12 bg-on-error/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+<span class="material-symbols-outlined text-[32px] text-on-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="px-2 py-1 bg-on-error/20 rounded text-[11px] font-bold tracking-wider uppercase backdrop-blur-sm">Critical Alert</span>
+</div>
+<h2 class="font-screen-title text-screen-title">Foot and Mouth Disease</h2>
+<p class="font-caption-metadata text-caption-metadata opacity-90 mt-1">Detected on 24 Oct 2023 • Tag ID: A4920</p>
+</div>
+</div>
+<!-- Overview Card -->
+<div class="bg-surface-card rounded-xl p-6 shadow-sm flex flex-col gap-3">
+<h3 class="font-card-title text-card-title text-text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">info</span>
+            Overview
+        </h3>
+<p class="font-body-default text-body-default text-text-secondary">
+            Foot and Mouth Disease (FMD) is a severe, highly contagious viral disease. It affects cloven-hoofed animals, including cattle, swine, sheep, and goats. The virus causes illness, severe production losses, and can spread rapidly through contact or contaminated environments.
+        </p>
+</div>
+<!-- Symptoms Card -->
+<div class="bg-surface-card rounded-xl p-6 shadow-sm flex flex-col gap-4">
+<h3 class="font-card-title text-card-title text-text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-caution-amber">monitor_heart</span>
+            Detected Symptoms
+        </h3>
+<ul class="flex flex-col gap-3">
+<li class="flex gap-3 items-start">
+<div class="w-6 h-6 rounded-full bg-caution-amber/20 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-caution-amber text-[14px]" style="font-variation-settings: 'FILL' 1;">lens</span>
+</div>
+<div>
+<span class="font-body-default text-body-default text-text-primary font-semibold block">High Fever</span>
+<span class="font-caption-metadata text-caption-metadata text-text-secondary">Recorded 40.5°C at morning check.</span>
+</div>
+</li>
+<li class="flex gap-3 items-start">
+<div class="w-6 h-6 rounded-full bg-caution-amber/20 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-caution-amber text-[14px]" style="font-variation-settings: 'FILL' 1;">lens</span>
+</div>
+<div>
+<span class="font-body-default text-body-default text-text-primary font-semibold block">Blisters/Lesions</span>
+<span class="font-caption-metadata text-caption-metadata text-text-secondary">Observed on mouth and hooves.</span>
+</div>
+</li>
+<li class="flex gap-3 items-start">
+<div class="w-6 h-6 rounded-full bg-caution-amber/20 flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-caution-amber text-[14px]" style="font-variation-settings: 'FILL' 1;">lens</span>
+</div>
+<div>
+<span class="font-body-default text-body-default text-text-primary font-semibold block">Lameness</span>
+<span class="font-caption-metadata text-caption-metadata text-text-secondary">Reluctance to move or put weight on feet.</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Immediate Action Plan -->
+<div class="bg-surface-container rounded-xl p-6 shadow-sm flex flex-col gap-4">
+<h3 class="font-card-title text-card-title text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant">emergency</span>
+            Immediate Action Required
+        </h3>
+<div class="flex flex-col gap-element-gap">
+<div class="flex items-center gap-3 bg-surface-card p-4 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[28px]">maps_ar</span>
+<span class="font-body-default text-body-default text-text-primary">Isolate infected animal immediately</span>
+</div>
+<div class="flex items-center gap-3 bg-surface-card p-4 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[28px]">sanitizer</span>
+<span class="font-body-default text-body-default text-text-primary">Disinfect all shared equipment</span>
+</div>
+<div class="flex items-center gap-3 bg-surface-card p-4 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[28px]">block</span>
+<span class="font-body-default text-body-default text-text-primary">Halt movement of all livestock</span>
+</div>
+</div>
+</div>
+<!-- Prevention -->
+<div class="bg-surface-card rounded-xl p-6 shadow-sm flex flex-col gap-3">
+<h3 class="font-card-title text-card-title text-text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">shield</span>
+            Prevention Tips
+        </h3>
+<p class="font-body-default text-body-default text-text-secondary">
+            Maintain strict biosecurity measures. Ensure all incoming animals are quarantined for 30 days. Restrict farm access to essential personnel only, and require protective clothing and boot washing stations.
+        </p>
+</div>
+<!-- Spacer for fixed bottom CTA if needed, or just let it flow -->
+<div class="h-6"></div>
+<!-- Primary CTA -->
+<button class="w-full h-touch-target-min bg-primary-container text-on-primary-container font-button-label text-button-label rounded-lg flex items-center justify-center gap-2 shadow-md active:bg-primary-fixed-dim transition-colors mt-4">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">call</span>
+        Contact Veterinarian
+    </button>
+<button class="w-full h-touch-target-min bg-transparent border border-outline text-text-primary font-button-label text-button-label rounded-lg flex items-center justify-center gap-2 active:bg-surface-container transition-colors mt-2">
+        Dismiss Alert
+    </button>
+</div></main>
+
+</body></html>

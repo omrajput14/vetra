@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "primary-fixed-dim": "#8fdb29", "primary-container": "#94e130", "secondary-fixed-dim": "#afc6ff", "on-primary-fixed": "#102000", "inverse-primary": "#8fdb29", "on-error": "#ffffff", "caution-amber": "#F2994A", "secondary": "#0159c7", "background": "#f7fce9", "on-tertiary-fixed-variant": "#692f70", "outline": "#717a64", "on-background": "#181d12", "primary-fixed": "#a9f847", "tertiary-fixed-dim": "#f6aef9", "on-tertiary": "#ffffff", "on-primary-fixed-variant": "#2e4f00", "surface-container-highest": "#e0e5d2", "text-metadata": "#737373", "surface-container-high": "#e5ead8", "surface-variant": "#e0e5d2", "on-secondary-fixed": "#001944", "on-tertiary-container": "#7b3f81", "on-secondary": "#ffffff", "text-secondary": "#4e4d4c", "error-container": "#ffdad6", "on-primary": "#ffffff", "on-secondary-container": "#002760", "surface-container-lowest": "#ffffff", "surface-card": "#ffffff", "primary": "#3f6900", "inverse-on-surface": "#eef3e0", "surface-dim": "#d7dcca", "surface-bright": "#f7fce9", "surface": "#f7fce9", "border-hairline": "#a1a1a1", "on-primary-container": "#396000", "on-tertiary-fixed": "#36003f", "error": "#ba1a1a", "tertiary-fixed": "#ffd6fd", "tertiary-container": "#fcb4ff", "secondary-container": "#548dfe", "text-primary": "#141414", "on-secondary-fixed-variant": "#004299", "on-surface-variant": "#414a36", "on-surface": "#181d12", "surface-container": "#ebf0dd", "alert-critical": "#C62828", "surface-tint": "#3f6900", "outline-variant": "#c1cab0", "surface-background": "#f4eee5", "inverse-surface": "#2d3226", "tertiary": "#84478a", "surface-container-low": "#f1f6e3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "edge-margin": "20px", "touch-target-min": "52px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "body-default": ["Lexend"], "section-heading": ["Lexend"], "alert-text": ["Lexend"], "caption-metadata": ["Inter"], "card-title": ["Lexend"], "screen-title": ["Lexend"], "button-label": ["Lexend"], "vet-data-row": ["Inter"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } }</style></head><body class="bg-surface-background font-body-default text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-background/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-edge-margin flex items-center justify-between"><div class="flex items-center gap-element-gap"><img alt="Vetra App Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBed1iD3yCiLY23a8v-BZChBJIYpZhX3TyLD-xUZ30yBieFVpcVciNFgxoXT3WJ46jxgX8VvGDBcbDZg9ZccMryoIyv8snvidk7BK5m69d5ycCTgHC2vWlukX6C4lkBAMIrt30lKEZXz_-1Dy3DQ6kiASsf1y951FID37F6JHiPCD-9mVqiOjmDzHGnis4lOUbB65LgOwQlO-CZABy68n4CGjYrPyeKgt_zsx9qF-cU5GpdfPGqBL8vqKiJmCQvSfy35FnJcrVPN6DP"><span class="font-screen-title text-lg">Vet Cases</span></div><div class="flex items-center gap-3"><div class="px-3 py-1 bg-secondary text-white rounded-full text-[10px] font-bold uppercase tracking-widest">VET ROLE</div><div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center"><span class="material-symbols-outlined text-white text-[18px]">stethoscope</span></div></div></div></header><main class="pt-16 pb-6 min-h-screen px-edge-margin"><div class="flex flex-col w-full gap-stack-gap">
+<div class="flex flex-col gap-element-gap">
+<h1 class="font-screen-title text-text-primary text-xl px-2">Diagnosis Entry</h1>
+<p class="font-body-default text-text-secondary text-sm px-2">Review AI suggestion and confirm final diagnosis.</p>
+</div>
+<div class="bg-surface-card rounded-xl border border-border-hairline p-4 flex flex-col gap-4 shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<span class="font-caption-metadata text-text-metadata uppercase tracking-wider text-xs">AI Suggestion</span>
+<h2 class="font-card-title text-text-primary text-lg">Bovine Viral Diarrhea (BVD)</h2>
+</div>
+<div class="px-3 py-1 rounded-full border border-primary text-primary font-caption-metadata text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+<span class="">85% Match</span>
+</div>
+</div>
+<p class="font-body-default text-text-secondary text-sm">Symptoms observed match primary indicators for BVD. High likelihood of transmission within herd.</p>
+</div>
+<div class="bg-surface-card rounded-xl border border-border-hairline p-4 flex flex-col gap-4 shadow-sm">
+<label class="flex flex-col gap-2">
+<span class="font-button-label text-text-primary text-sm">Final Diagnosis</span>
+<input class="h-touch-target-min w-full rounded-lg border border-border-hairline px-4 font-body-default text-text-primary placeholder:text-text-secondary bg-surface-lowest focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary" type="text" value="Bovine Viral Diarrhea (BVD)">
+</label>
+<label class="flex flex-col gap-2">
+<span class="font-button-label text-text-primary text-sm">Severity</span>
+<div class="relative w-full">
+<select class="h-touch-target-min w-full rounded-lg border border-border-hairline px-4 font-body-default text-text-primary bg-surface-lowest appearance-none focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary pr-10">
+<option value="mild">Mild - Monitor closely</option>
+<option value="moderate">Moderate - Treatment required</option>
+<option selected="" value="severe">Severe - Immediate action</option>
+<option value="critical">Critical - Life threatening</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-secondary">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+</label>
+<div class="bg-error-container/20 rounded-lg p-4 border border-error/20 flex gap-3 items-start mt-2 relative overflow-hidden group cursor-pointer transition-colors hover:bg-error-container/30" id="contagious-toggle">
+<div class="w-6 h-6 flex-shrink-0 mt-0.5">
+<img alt="Warning Icon" class="w-full h-full object-contain filter-error" src="https://lh3.googleusercontent.com/aida/AP1WRLu9Lqm01L4BmPGhh12hov1mIjMUTmWLH9cHOmXrzSAc9LLt62gkxJpJrfUMfsG-FdY4cmtiGGhbxPMxCZ_sdP-vstNJ5GuEeAWf3O0Uy7E92UNzt5tvRaS8g1M0wOemF9dwDI4RHf1kxcHLlHHwmXDdrqcSAsU2gqqrMlX7CWPInDpdsyF7M-zmCkn2t67ermvrQKRA46Qags_ccKVhPplEEyJsUuPjcz30IzocSg-nJFyCew9SnNxCNgU0">
+</div>
+<div class="flex flex-col flex-1">
+<span class="font-alert-text text-error text-base">Contagious Disease Alert</span>
+<span class="font-caption-metadata text-error/80 text-xs mt-1">Activating this will send immediate notifications to neighboring farms within a 5km radius.</span>
+</div>
+<div class="h-6 w-11 bg-error rounded-full relative shadow-inner shrink-0 flex items-center transition-colors">
+<div class="w-4 h-4 bg-white rounded-full mx-1 absolute right-0 shadow-sm transition-all duration-200"></div>
+</div>
+</div>
+<label class="flex flex-col gap-2 mt-2">
+<span class="font-button-label text-text-primary text-sm">Prescription &amp; Treatment Plan</span>
+<textarea class="w-full min-h-[120px] rounded-lg border border-border-hairline p-4 font-body-default text-text-primary placeholder:text-text-secondary bg-surface-lowest focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary resize-y" placeholder="Detail the treatment protocol..."></textarea>
+</label>
+</div>
+<div class="h-4"></div>
+<button class="w-full h-touch-target-min bg-alert-critical text-on-error rounded-lg font-button-label flex items-center justify-center gap-2 shadow-sm shadow-alert-critical/20 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">campaign</span>
+    Confirm &amp; Alert Farmers
+  </button>
+<button class="w-full h-touch-target-min bg-transparent border border-border-hairline text-text-primary rounded-lg font-button-label flex items-center justify-center gap-2 active:bg-surface-container transition-colors">
+    Save Draft
+  </button>
+</div>
+<style>
+  .filter-error {
+    filter: invert(16%) sepia(87%) saturate(5833%) hue-rotate(352deg) brightness(97%) contrast(100%);
+  }
+</style>
+<script>
+  document.getElementById('contagious-toggle').addEventListener('click', function() {
+    const toggleKnob = this.querySelector('.bg-white');
+    const toggleTrack = this.querySelector('.bg-error');
+    const titleText = this.querySelector('.font-alert-text');
+    const subtitleText = this.querySelector('.font-caption-metadata');
+    const icon = this.querySelector('img');
+    const bgContainer = this;
+    const mainButton = document.querySelector('.bg-alert-critical, .bg-primary');
+    
+    const isActive = toggleKnob.style.right === '0px' || toggleKnob.style.right === '';
+    
+    if (isActive) {
+      // Turn off
+      toggleKnob.style.right = 'calc(100% - 20px)';
+      toggleTrack.classList.remove('bg-error');
+      toggleTrack.classList.add('bg-outline-variant');
+      titleText.classList.remove('text-error');
+      titleText.classList.add('text-text-primary');
+      titleText.textContent = "Not Contagious";
+      subtitleText.classList.remove('text-error/80');
+      subtitleText.classList.add('text-text-secondary');
+      subtitleText.textContent = "Standard logging. No alerts will be sent.";
+      icon.style.filter = "invert(46%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(94%) contrast(89%)";
+      bgContainer.classList.remove('bg-error-container/20', 'border-error/20');
+      bgContainer.classList.add('bg-surface-container', 'border-border-hairline');
+      
+      mainButton.classList.remove('bg-alert-critical', 'text-on-error', 'shadow-alert-critical/20');
+      mainButton.classList.add('bg-primary', 'text-on-primary', 'shadow-primary/20');
+      mainButton.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1">check_circle</span> Confirm Diagnosis';
+    } else {
+      // Turn on
+      toggleKnob.style.right = '0px';
+      toggleTrack.classList.add('bg-error');
+      toggleTrack.classList.remove('bg-outline-variant');
+      titleText.classList.add('text-error');
+      titleText.classList.remove('text-text-primary');
+      titleText.textContent = "Contagious Disease Alert";
+      subtitleText.classList.add('text-error/80');
+      subtitleText.classList.remove('text-text-secondary');
+      subtitleText.textContent = "Activating this will send immediate notifications to neighboring farms within a 5km radius.";
+      icon.style.filter = "invert(16%) sepia(87%) saturate(5833%) hue-rotate(352deg) brightness(97%) contrast(100%)";
+      bgContainer.classList.add('bg-error-container/20', 'border-error/20');
+      bgContainer.classList.remove('bg-surface-container', 'border-border-hairline');
+      
+      mainButton.classList.add('bg-alert-critical', 'text-on-error', 'shadow-alert-critical/20');
+      mainButton.classList.remove('bg-primary', 'text-on-primary', 'shadow-primary/20');
+      mainButton.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings: \'FILL\' 1">campaign</span> Confirm & Alert Farmers';
+    }
+  });
+</script></main>
+
+
+
+</body></html>

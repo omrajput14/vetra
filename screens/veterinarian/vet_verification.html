@@ -1,0 +1,228 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Lexend:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-variant":"#e0e5d2","surface-tint":"#3f6900","primary-fixed":"#a9f847","caution-amber":"#F2994A","tertiary-container":"#fcb4ff","surface-container-lowest":"#ffffff","outline-variant":"#c1cab0","on-tertiary-fixed":"#36003f","on-secondary-container":"#002760",outline:"#717a64","on-error-container":"#93000a","on-tertiary-fixed-variant":"#692f70","on-primary-fixed":"#102000","text-primary":"#141414","surface-container-highest":"#e0e5d2","tertiary-fixed-dim":"#f6aef9","on-background":"#181d12","tertiary-fixed":"#ffd6fd","on-secondary-fixed":"#001944","text-secondary":"#4e4d4c","alert-critical":"#C62828","surface-container-high":"#e5ead8","on-secondary-fixed-variant":"#004299","on-primary-container":"#396000","primary-container":"#94e130",background:"#f7fce9","surface-container":"#ebf0dd","primary-fixed-dim":"#8fdb29","error-container":"#ffdad6","on-secondary":"#ffffff",error:"#ba1a1a",secondary:"#0159c7",tertiary:"#84478a","on-surface-variant":"#414a36","secondary-container":"#548dfe","on-surface":"#181d12","surface-bright":"#f7fce9","surface-container-low":"#f1f6e3","text-metadata":"#737373","secondary-fixed-dim":"#afc6ff",surface:"#f7fce9","secondary-fixed":"#d9e2ff",primary:"#3f6900","surface-background":"#f4eee5","on-tertiary":"#ffffff","on-error":"#ffffff","inverse-surface":"#2d3226","surface-dim":"#d7dcca","on-primary":"#ffffff","inverse-on-surface":"#eef3e0","on-tertiary-container":"#7b3f81","border-hairline":"#a1a1a1","inverse-primary":"#8fdb29","on-primary-fixed-variant":"#2e4f00","surface-card":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"stack-gap":"16px","edge-margin":"20px","touch-target-min":"52px","element-gap":"8px"},fontFamily:{"vet-data-row":["Inter"],"alert-text":["Lexend"],"card-title":["Lexend"],"caption-metadata":["Inter"],"button-label":["Lexend"],"section-heading":["Lexend"],"body-default":["Lexend"],"screen-title":["Lexend"]},fontSize:{"vet-data-row":["15px",{lineHeight:"20px",fontWeight:"400"}],"alert-text":["16px",{lineHeight:"20px",fontWeight:"600"}],"card-title":["18px",{lineHeight:"24px",fontWeight:"600"}],"caption-metadata":["13px",{lineHeight:"16px",fontWeight:"400"}],"button-label":["16px",{lineHeight:"20px",fontWeight:"600"}],"section-heading":["20px",{lineHeight:"28px",fontWeight:"600"}],"body-default":["16px",{lineHeight:"24px",fontWeight:"400"}],"screen-title":["24px",{lineHeight:"32px",fontWeight:"600"}]}}}}</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;min-height:100%;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body-default text-text-primary flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-edge-margin flex items-center justify-between"><div class="flex items-center gap-element-gap"><img alt="Vetra" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANPCfw9bKmW4Jei98bWa7u9OtVn7D3kQ9gRHBdSnr23fxmMBAFSDFzD4reAs5NjqskgQMVJj3I6I3bqfLDETarE8Px1I6QSWNfyAcpp48WMg_WKLRtfcm7lZ5qodMyGwUP0YU0TJSNzfYBSXcAJImE4PUmvlN40wlMd6qLO12IxHsVcui6Vnuk36AKa5DTF3q58HUrwQjWxRTYR5FjCMiTDSEts5EyepcrPla_pPwG-ymarl5-kAMnnqMVO6LX9ZOIUxxxwR9-Wv4x"/><span class="bg-primary text-on-primary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Vet Role</span></div><div class="flex items-center gap-4"><h1 class="hidden md:block font-screen-title text-screen-title">Vet Profile</h1><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 relative w-full pt-16 pb-6 bg-background"><div class="flex flex-col w-full px-edge-margin gap-stack-gap">
+<!-- Status Banner (Hidden by default, shown when pending) -->
+<div class="hidden flex-col gap-2 p-4 bg-tertiary-fixed rounded-xl border-hairline border-outline-variant" id="verification-status">
+<div class="flex items-center gap-2 text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[20px] font-bold">hourglass_empty</span>
+<h2 class="font-section-heading text-[18px]">Verification Pending</h2>
+</div>
+<p class="font-body-default text-text-primary text-[14px]">Your documents are currently under review. This usually takes 1-2 business days.</p>
+</div>
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-screen-title text-text-primary">Verify Your Identity</h2>
+<p class="font-body-default text-text-secondary text-[14px]">Required for rural practice access</p>
+</div>
+<span class="material-symbols-outlined text-surface-tint text-[32px]">shield_person</span>
+</div>
+<!-- Stepper -->
+<div class="flex items-center justify-between relative px-2">
+<div class="absolute top-1/2 left-0 right-0 h-[2px] bg-outline-variant -z-10 -translate-y-1/2"></div>
+<div class="absolute top-1/2 left-0 h-[2px] bg-primary transition-all duration-300 w-0 -z-10 -translate-y-1/2" id="progress-bar"></div>
+<div class="flex flex-col items-center gap-1 step-indicator" data-step="1">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-[14px] shadow-sm ring-4 ring-background">1</div>
+<span class="font-caption-metadata text-text-primary">Identity</span>
+</div>
+<div class="flex flex-col items-center gap-1 step-indicator" data-step="2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-[14px] ring-4 ring-background">2</div>
+<span class="font-caption-metadata text-text-secondary">License</span>
+</div>
+<div class="flex flex-col items-center gap-1 step-indicator" data-step="3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-[14px] ring-4 ring-background">3</div>
+<span class="font-caption-metadata text-text-secondary">Clinic</span>
+</div>
+</div>
+<!-- Form Steps Container -->
+<div class="relative overflow-hidden min-h-[400px]">
+<!-- Step 1: Personal Identity -->
+<div class="absolute inset-0 transition-transform duration-300 transform translate-x-0 flex flex-col gap-stack-gap" id="step-1">
+<div class="bg-surface-card rounded-xl border-hairline border-outline-variant p-4 flex flex-col gap-4">
+<div>
+<label class="font-card-title text-[16px] text-text-primary block mb-1">Government ID</label>
+<p class="font-body-default text-text-secondary text-[13px]">Upload a clear photo of your driver's license or passport.</p>
+</div>
+<button class="w-full h-[120px] rounded-lg border-2 border-dashed border-outline-variant bg-surface-container-low hover:bg-surface-container flex flex-col items-center justify-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined text-surface-tint text-[32px]">add_photo_alternate</span>
+<span class="font-button-label text-text-primary text-[14px]">Tap to upload ID</span>
+</button>
+<div class="flex flex-col gap-2 mt-2">
+<label class="font-caption-metadata text-text-primary font-semibold">Full Legal Name</label>
+<input class="w-full h-touch-target-min bg-surface-container-lowest border-hairline border-outline-variant rounded-lg px-4 font-body-default text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary" placeholder="As it appears on your ID" type="text"/>
+</div>
+</div>
+</div>
+<!-- Step 2: Professional License -->
+<div class="absolute inset-0 transition-transform duration-300 transform translate-x-full flex flex-col gap-stack-gap invisible" id="step-2">
+<div class="bg-surface-card rounded-xl border-hairline border-outline-variant p-4 flex flex-col gap-4">
+<div>
+<label class="font-card-title text-[16px] text-text-primary block mb-1">Veterinary License</label>
+<p class="font-body-default text-text-secondary text-[13px]">State or national veterinary board certification.</p>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-caption-metadata text-text-primary font-semibold">License Number</label>
+<input class="w-full h-touch-target-min bg-surface-container-lowest border-hairline border-outline-variant rounded-lg px-4 font-body-default text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. VET-1234567" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-caption-metadata text-text-primary font-semibold">Issuing State / Authority</label>
+<select class="w-full h-touch-target-min bg-surface-container-lowest border-hairline border-outline-variant rounded-lg px-4 font-body-default text-text-primary focus:outline-none focus:ring-2 focus:ring-primary appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23717a64%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:24px_24px] bg-no-repeat bg-[position:right_12px_center]">
+<option disabled="" selected="" value="">Select authority</option>
+<option value="state">State Board</option>
+<option value="national">National Registry</option>
+</select>
+</div>
+<button class="w-full h-[80px] mt-2 rounded-lg border-2 border-dashed border-outline-variant bg-surface-container-low hover:bg-surface-container flex flex-col items-center justify-center gap-1 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="material-symbols-outlined text-surface-tint text-[24px]">workspace_premium</span>
+<span class="font-button-label text-text-primary text-[12px]">Upload Certificate Photo</span>
+</button>
+</div>
+</div>
+<!-- Step 3: Clinic Verification -->
+<div class="absolute inset-0 transition-transform duration-300 transform translate-x-full flex flex-col gap-stack-gap invisible" id="step-3">
+<div class="bg-surface-card rounded-xl border-hairline border-outline-variant p-4 flex flex-col gap-4">
+<div>
+<label class="font-card-title text-[16px] text-text-primary block mb-1">Practice Details</label>
+<p class="font-body-default text-text-secondary text-[13px]">Verify your current clinical affiliation or primary practice area.</p>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-caption-metadata text-text-primary font-semibold">Clinic Name / Practice Name</label>
+<input class="w-full h-touch-target-min bg-surface-container-lowest border-hairline border-outline-variant rounded-lg px-4 font-body-default text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Oak Valley Large Animal Clinic" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-caption-metadata text-text-primary font-semibold">Practice Address</label>
+<textarea class="w-full bg-surface-container-lowest border-hairline border-outline-variant rounded-lg p-4 font-body-default text-text-primary placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-primary resize-none" placeholder="Full address" rows="3"></textarea>
+</div>
+<div class="flex items-start gap-3 mt-2 p-3 bg-surface-container-low rounded-lg border-hairline border-outline-variant">
+<input class="mt-1 w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" id="mobile-vet" type="checkbox"/>
+<label class="font-body-default text-[14px] text-text-primary" for="mobile-vet">I am a mobile or independent ambulatory veterinarian.</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Navigation Buttons -->
+<div class="flex gap-4 mt-auto pt-4">
+<button class="hidden flex-1 h-touch-target-min bg-transparent border-hairline border-outline-variant rounded-lg font-button-label text-text-primary flex items-center justify-center gap-2 transition-colors hover:bg-surface-container" id="btn-back">
+        Back
+      </button>
+<button class="flex-1 h-touch-target-min bg-primary rounded-lg font-button-label text-on-primary flex items-center justify-center gap-2 transition-transform active:scale-[0.98]" id="btn-next">
+        Continue
+      </button>
+<button class="hidden flex-1 h-touch-target-min bg-primary rounded-lg font-button-label text-on-primary flex items-center justify-center gap-2 transition-transform active:scale-[0.98]" id="btn-submit">
+        Submit Verification
+      </button>
+</div>
+</div>
+</div>
+<script>
+  let currentStep = 1;
+  const totalSteps = 3;
+
+  const btnNext = document.getElementById('btn-next');
+  const btnBack = document.getElementById('btn-back');
+  const btnSubmit = document.getElementById('btn-submit');
+  const progressBar = document.getElementById('progress-bar');
+  const statusBanner = document.getElementById('verification-status');
+  
+  function updateUI() {
+    // Update progress bar
+    progressBar.style.width = `${((currentStep - 1) / (totalSteps - 1)) * 100}%`;
+
+    // Update step indicators
+    document.querySelectorAll('.step-indicator').forEach(indicator => {
+      const step = parseInt(indicator.dataset.step);
+      const circle = indicator.querySelector('div');
+      
+      if (step < currentStep) {
+        circle.className = 'w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-[14px] shadow-sm ring-4 ring-background';
+        circle.innerHTML = '<span class="material-symbols-outlined text-[16px]">check</span>';
+      } else if (step === currentStep) {
+        circle.className = 'w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-[14px] shadow-sm ring-4 ring-background';
+        circle.innerHTML = step;
+      } else {
+        circle.className = 'w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-[14px] ring-4 ring-background';
+        circle.innerHTML = step;
+      }
+    });
+
+    // Update panels
+    for (let i = 1; i <= totalSteps; i++) {
+      const panel = document.getElementById(`step-${i}`);
+      if (i === currentStep) {
+        panel.className = 'absolute inset-0 transition-transform duration-300 transform translate-x-0 flex flex-col gap-stack-gap';
+      } else if (i < currentStep) {
+        panel.className = 'absolute inset-0 transition-transform duration-300 transform -translate-x-full flex flex-col gap-stack-gap invisible';
+      } else {
+        panel.className = 'absolute inset-0 transition-transform duration-300 transform translate-x-full flex flex-col gap-stack-gap invisible';
+      }
+    }
+
+    // Update buttons
+    if (currentStep === 1) {
+      btnBack.classList.add('hidden');
+    } else {
+      btnBack.classList.remove('hidden');
+    }
+
+    if (currentStep === totalSteps) {
+      btnNext.classList.add('hidden');
+      btnSubmit.classList.remove('hidden');
+    } else {
+      btnNext.classList.remove('hidden');
+      btnSubmit.classList.add('hidden');
+    }
+  }
+
+  btnNext.addEventListener('click', () => {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      updateUI();
+    }
+  });
+
+  btnBack.addEventListener('click', () => {
+    if (currentStep > 1) {
+      currentStep--;
+      updateUI();
+    }
+  });
+
+  btnSubmit.addEventListener('click', () => {
+    // Simulate submission
+    btnSubmit.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Submitting...';
+    btnSubmit.disabled = true;
+    
+    setTimeout(() => {
+      // Hide form steps
+      document.querySelector('.overflow-hidden').style.display = 'none';
+      document.querySelector('.relative.px-2').style.display = 'none'; // hide stepper
+      document.querySelector('.flex.gap-4.mt-auto').style.display = 'none'; // hide buttons
+      
+      // Show pending status
+      statusBanner.classList.remove('hidden');
+      statusBanner.classList.add('flex');
+      
+      // Update header
+      document.querySelector('h2.font-screen-title').textContent = 'Verification Status';
+      document.querySelector('h2.font-screen-title + p').textContent = 'Waiting for admin approval';
+    }, 1500);
+  });
+
+  // Check URL params for testing pending state directly
+  if (window.location.search.includes('status=pending')) {
+      document.querySelector('.overflow-hidden').style.display = 'none';
+      document.querySelector('.relative.px-2').style.display = 'none';
+      document.querySelector('.flex.gap-4.mt-auto').style.display = 'none';
+      statusBanner.classList.remove('hidden');
+      statusBanner.classList.add('flex');
+      document.querySelector('h2.font-screen-title').textContent = 'Verification Status';
+      document.querySelector('h2.font-screen-title + p').textContent = 'Waiting for admin approval';
+  }
+
+</script></main>
+
+</body></html>

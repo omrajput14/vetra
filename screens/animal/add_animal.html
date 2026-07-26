@@ -1,0 +1,77 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Lexend:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed-variant": "#2e4f00", "text-metadata": "#737373", "surface-bright": "#f7fce9", "inverse-on-surface": "#eef3e0", "surface-container-lowest": "#ffffff", "background": "#f7fce9", "on-surface": "#181d12", "inverse-primary": "#8fdb29", "on-error": "#ffffff", "primary-container": "#94e130", "outline": "#717a64", "text-primary": "#141414", "on-secondary-container": "#002760", "surface-background": "#f4eee5", "tertiary-fixed": "#ffd6fd", "alert-critical": "#C62828", "secondary": "#0159c7", "primary": "#3f6900", "on-tertiary-fixed-variant": "#692f70", "on-tertiary-fixed": "#36003f", "on-primary-container": "#396000", "text-secondary": "#4e4d4c", "on-surface-variant": "#414a36", "surface-container": "#ebf0dd", "surface": "#f7fce9", "surface-variant": "#e0e5d2", "on-error-container": "#93000a", "caution-amber": "#F2994A", "outline-variant": "#c1cab0", "inverse-surface": "#2d3226", "border-hairline": "#a1a1a1", "error-container": "#ffdad6", "surface-container-highest": "#e0e5d2", "on-background": "#181d12", "secondary-fixed-dim": "#afc6ff", "on-secondary-fixed": "#001944", "surface-card": "#ffffff", "surface-tint": "#3f6900", "primary-fixed": "#a9f847", "secondary-fixed": "#d9e2ff", "tertiary-fixed-dim": "#f6aef9", "tertiary-container": "#fcb4ff", "secondary-container": "#548dfe", "primary-fixed-dim": "#8fdb29", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#004299", "tertiary": "#84478a", "surface-container-low": "#f1f6e3", "on-tertiary-container": "#7b3f81", "error": "#ba1a1a", "surface-dim": "#d7dcca", "on-secondary": "#ffffff", "on-primary": "#ffffff", "surface-container-high": "#e5ead8", "on-primary-fixed": "#102000" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "touch-target-min": "52px", "edge-margin": "20px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "vet-data-row": ["Inter"], "button-label": ["Lexend"], "body-default": ["Lexend"], "card-title": ["Lexend"], "alert-text": ["Lexend"], "caption-metadata": ["Inter"], "section-heading": ["Lexend"], "screen-title": ["Lexend"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body-default text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-edge-margin flex items-center justify-between"><div class="flex items-center gap-element-gap"><span class="material-symbols-outlined text-primary text-[28px]">health_and_safety</span><span class="font-screen-title text-screen-title tracking-tight text-primary">VETRA</span></div><div class="flex items-center gap-4"><h1 class="hidden md:block font-section-heading text-section-heading">Livestock Registry</h1><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="pt-16 pb-6 bg-background min-h-screen"><div class="flex flex-col w-full px-edge-margin gap-stack-gap">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-[24px]">add_circle</span>
+<h2 class="font-section-heading text-section-heading text-on-surface">Add New Animal</h2>
+</div>
+<div class="bg-surface-card rounded-xl p-4 flex flex-col gap-stack-gap relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full pointer-events-none"></div>
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-on-surface">Animal Name</label>
+<input class="h-touch-target-min w-full bg-surface-container-lowest text-on-surface rounded-lg px-4 font-body-default text-body-default placeholder:text-text-secondary outline outline-1 outline-border-hairline focus:outline-primary focus:outline-2 transition-shadow" placeholder="e.g., Bessie" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-on-surface">Species</label>
+<div class="relative">
+<select class="h-touch-target-min w-full bg-surface-container-lowest text-on-surface rounded-lg px-4 appearance-none font-body-default text-body-default outline outline-1 outline-border-hairline focus:outline-primary focus:outline-2">
+<option disabled="" selected="" value="">Select Species</option>
+<option value="cattle">Cattle</option>
+<option value="poultry">Poultry</option>
+<option value="sheep">Sheep</option>
+<option value="swine">Swine</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-on-surface">Breed</label>
+<input class="h-touch-target-min w-full bg-surface-container-lowest text-on-surface rounded-lg px-4 font-body-default text-body-default placeholder:text-text-secondary outline outline-1 outline-border-hairline focus:outline-primary focus:outline-2" placeholder="e.g., Holstein" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-on-surface">Tag ID</label>
+<div class="relative">
+<input class="h-touch-target-min w-full bg-surface-container-lowest text-on-surface rounded-lg pl-4 pr-12 font-body-default text-body-default placeholder:text-text-secondary outline outline-1 outline-border-hairline focus:outline-primary focus:outline-2" placeholder="Scan or enter" type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-primary rounded-md hover:bg-surface-container-highest active:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined">qr_code_scanner</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-on-surface">Age (Months)</label>
+<input class="h-touch-target-min w-full bg-surface-container-lowest text-on-surface rounded-lg px-4 font-body-default text-body-default placeholder:text-text-secondary outline outline-1 outline-border-hairline focus:outline-primary focus:outline-2" placeholder="0" type="number"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-button-label text-button-label text-on-surface">Weight (kg)</label>
+<input class="h-touch-target-min w-full bg-surface-container-lowest text-on-surface rounded-lg px-4 font-body-default text-body-default placeholder:text-text-secondary outline outline-1 outline-border-hairline focus:outline-primary focus:outline-2" placeholder="0.0" step="0.1" type="number"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-card rounded-xl p-4 flex flex-col gap-3">
+<h3 class="font-card-title text-card-title text-on-surface">Animal Photo</h3>
+<p class="font-caption-metadata text-caption-metadata text-text-metadata">Upload a clear photo for identification.</p>
+<div class="w-full aspect-[4/3] rounded-lg bg-surface-container flex flex-col items-center justify-center gap-2 outline outline-1 outline-dashed outline-border-hairline hover:bg-surface-container-high transition-colors cursor-pointer" onclick="document.getElementById('photo-upload').click()">
+<span class="material-symbols-outlined text-[32px] text-text-secondary">add_a_photo</span>
+<span class="font-button-label text-button-label text-primary">Tap to upload</span>
+<input accept="image/*" class="hidden" id="photo-upload" type="file"/>
+</div>
+</div>
+<div class="flex flex-col gap-3 mt-4">
+<button class="h-touch-target-min w-full bg-primary text-on-primary font-button-label text-button-label rounded-lg flex items-center justify-center gap-2 shadow-sm active:bg-on-primary-fixed-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">check</span>
+      Add Animal
+    </button>
+<button class="h-touch-target-min w-full bg-transparent text-primary font-button-label text-button-label rounded-lg flex items-center justify-center outline outline-1 outline-border-hairline active:bg-surface-container-highest transition-colors">
+      Cancel
+    </button>
+</div>
+</div></main>
+
+</body></html>

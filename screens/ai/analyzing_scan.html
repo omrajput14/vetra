@@ -1,0 +1,117 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "text-primary": "#141414", "on-primary-fixed-variant": "#2e4f00", "on-error-container": "#93000a", "inverse-on-surface": "#eef3e0", "surface-container": "#ebf0dd", "secondary-container": "#548dfe", "on-surface-variant": "#414a36", "on-primary-container": "#396000", "on-tertiary-fixed": "#36003f", "on-secondary-fixed-variant": "#004299", "on-primary": "#ffffff", "inverse-surface": "#2d3226", "surface": "#f7fce9", "secondary-fixed": "#d9e2ff", "secondary-fixed-dim": "#afc6ff", "tertiary": "#84478a", "text-metadata": "#737373", "tertiary-container": "#fcb4ff", "on-primary-fixed": "#102000", "caution-amber": "#F2994A", "alert-critical": "#C62828", "surface-container-low": "#f1f6e3", "tertiary-fixed-dim": "#f6aef9", "text-secondary": "#4e4d4c", "surface-container-highest": "#e0e5d2", "on-secondary": "#ffffff", "background": "#f7fce9", "inverse-primary": "#8fdb29", "on-tertiary-container": "#7b3f81", "surface-container-high": "#e5ead8", "error": "#ba1a1a", "surface-card": "#ffffff", "surface-variant": "#e0e5d2", "on-tertiary-fixed-variant": "#692f70", "primary-fixed": "#a9f847", "secondary": "#0159c7", "primary-fixed-dim": "#8fdb29", "on-tertiary": "#ffffff", "error-container": "#ffdad6", "surface-container-lowest": "#ffffff", "on-secondary-container": "#002760", "on-secondary-fixed": "#001944", "surface-dim": "#d7dcca", "on-surface": "#181d12", "surface-bright": "#f7fce9", "primary-container": "#94e130", "border-hairline": "#a1a1a1", "on-error": "#ffffff", "outline-variant": "#c1cab0", "surface-background": "#f4eee5", "primary": "#3f6900", "tertiary-fixed": "#ffd6fd", "on-background": "#181d12", "surface-tint": "#3f6900", "outline": "#717a64" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "element-gap": "8px", "touch-target-min": "52px", "edge-margin": "20px", "stack-gap": "16px" }, "fontFamily": { "screen-title": ["Lexend"], "vet-data-row": ["Inter"], "caption-metadata": ["Inter"], "button-label": ["Lexend"], "alert-text": ["Lexend"], "section-heading": ["Lexend"], "body-default": ["Lexend"], "card-title": ["Lexend"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: contain; } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } } .no-scrollbar::-webkit-scrollbar { display: none; } </style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body-default text-text-primary"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 flex items-center justify-between px-edge-margin"><div class="flex items-center gap-element-gap"><img alt="Vetra logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLtglVzZupsVg6xn671df_vwJybEtkD7ZLgRH8dPnA2rKZ9U94Fmp_eH1frR5MHpwcFLGhOhxTFuL8gHQyb6BjkX3MPM_xnK9Z_h_iVuX4h5UbHRI2mHcpgjGXsbfePKvYlfjriW1i5UTemhUPsm1KpFA5lijgwsr8DBsoOZe3CYzqTNDthA-l3g4i2Sq4zjlOVFFnISoJFS5HiQafNXL8ysd66wK08jtWrX4vvlf_GEhuGzteJfHSrL5R4i"/><h1 class="font-screen-title text-screen-title text-on-surface">Alerts</h1></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 pb-6 bg-surface min-h-screen"><div class="flex flex-col w-full h-full relative overflow-hidden bg-background">
+<div class="absolute inset-0 opacity-10 pointer-events-none flex flex-col justify-between">
+<div class="h-px w-full bg-border-hairline transform translate-y-32"></div>
+<div class="h-px w-full bg-border-hairline transform translate-y-64"></div>
+<div class="h-px w-full bg-border-hairline transform translate-y-96"></div>
+<div class="h-full w-px bg-border-hairline absolute left-1/4"></div>
+<div class="h-full w-px bg-border-hairline absolute right-1/4"></div>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center p-edge-margin relative z-10">
+<div class="relative w-64 h-64 mb-12">
+<svg class="absolute inset-0 w-full h-full animate-[spin_8s_linear_infinite]" fill="none" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" r="98" stroke="#a1a1a1" stroke-dasharray="4 8" stroke-width="1"></circle>
+<circle cx="100" cy="100" r="86" stroke="#3f6900" stroke-dasharray="60 40 10 40" stroke-linecap="round" stroke-width="2"></circle>
+<circle cx="100" cy="100" r="74" stroke="#a1a1a1" stroke-dasharray="2 12" stroke-width="1"></circle>
+<path class="animate-[pulse_2s_ease-in-out_infinite]" d="M100 2 A 98 98 0 0 1 198 100" stroke="#3f6900" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+<div class="absolute inset-4 rounded-full overflow-hidden border border-border-hairline p-2 bg-surface-card shadow-sm">
+<div class="w-full h-full rounded-full overflow-hidden relative">
+<div class="absolute inset-0 bg-primary/20 mix-blend-overlay z-10 animate-[pulse_1.5s_ease-in-out_infinite]"></div>
+<div class="absolute w-full h-1 bg-primary z-20 shadow-[0_0_8px_rgba(63,105,0,0.8)] scanner-beam"></div>
+<img alt="Scanning subject" class="w-full h-full object-cover grayscale opacity-80" data-alt="Close up high resolution macro photography of a cow's eye showing early signs of pinkeye, natural lighting, highly detailed texture of the skin and hair around the eye. Rustic, farm environment context. Warm parchment tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtQy6b3qXMh4FkXu7b_FHCbjgChB5mPcxvZVxvaQf71mUwVW0B6tZ_kuqkaBVFYt2yvOXCAk4FlrpSB46jZNfaJH0on_5DEn6CeE11skIGftGRujiwGvjPz8l1EcWykXp7h8hGNVVgGhtQCdbNb2fEn6yUbpIIS3faYSjkGVfF21FKj7xgNLe7UIyb_uMbQ2dIt7OR--165J19pGfw6Cl4RhbpDjhEOO4ZOGbKcIwj-8BbWZVYHXhx6yKorylpfIJlq5a6JOjTFZha"/>
+</div>
+</div>
+<div class="absolute -right-4 top-1/2 -translate-y-1/2 bg-surface-card border border-border-hairline rounded-lg py-1 px-3 shadow-md flex items-center gap-2 animate-[bounce_3s_ease-in-out_infinite]">
+<span class="w-2 h-2 rounded-full bg-caution-amber animate-pulse"></span>
+<span class="font-caption-metadata text-caption-metadata text-text-primary">Live Scan</span>
+</div>
+</div>
+<div class="text-center w-full max-w-sm">
+<h2 class="font-section-heading text-section-heading text-text-primary mb-6">Analyzing Imagery</h2>
+<div class="space-y-4 text-left relative before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-px before:bg-border-hairline">
+<div class="flex items-start gap-4 status-item opacity-100 transition-opacity duration-500">
+<div class="w-5 h-5 rounded-full bg-surface-card border border-primary flex items-center justify-center shrink-0 mt-0.5 relative z-10">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<p class="font-body-default text-body-default text-text-primary">Isolating symptoms</p>
+<p class="font-caption-metadata text-caption-metadata text-text-metadata">Ocular cloudiness detected</p>
+</div>
+</div>
+<div class="flex items-start gap-4 status-item opacity-100 transition-opacity duration-500">
+<div class="w-5 h-5 rounded-full bg-surface border border-primary flex items-center justify-center shrink-0 mt-0.5 relative z-10">
+<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+</div>
+<div>
+<p class="font-body-default text-body-default text-text-primary font-semibold">Comparing patterns...</p>
+<p class="font-caption-metadata text-caption-metadata text-text-metadata">Checking against 500+ known variants</p>
+</div>
+</div>
+<div class="flex items-start gap-4 status-item opacity-50 transition-opacity duration-500">
+<div class="w-5 h-5 rounded-full bg-surface-card border border-border-hairline flex items-center justify-center shrink-0 mt-0.5 relative z-10">
+</div>
+<div>
+<p class="font-body-default text-body-default text-text-secondary">Cross-referencing region</p>
+<p class="font-caption-metadata text-caption-metadata text-text-metadata">Scanning local outbreak data</p>
+</div>
+</div>
+</div>
+</div>
+<button class="mt-12 h-touch-target-min w-full max-w-xs border border-border-hairline rounded flex items-center justify-center gap-2 text-text-primary font-button-label text-button-label hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">close</span>
+      Cancel Scan
+    </button>
+</div>
+</div>
+<style>
+  @keyframes scan-beam {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+  .scanner-beam {
+    animation: scan-beam 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+</style>
+<script>
+  // Simple script to cycle status opacity for a mock loading feel
+  document.addEventListener('DOMContentLoaded', () => {
+    const items = document.querySelectorAll('.status-item');
+    let currentActive = 1;
+
+    setInterval(() => {
+        if(currentActive === 1) {
+            items[1].classList.remove('opacity-100');
+            items[1].classList.add('opacity-50');
+            items[1].querySelector('.w-5').innerHTML = '<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: \'FILL\' 1;">check</span>';
+            items[1].querySelector('.w-5').classList.replace('bg-surface', 'bg-surface-card');
+            
+            items[2].classList.remove('opacity-50');
+            items[2].classList.add('opacity-100');
+            items[2].querySelector('.w-5').innerHTML = '<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>';
+            items[2].querySelector('.w-5').classList.replace('border-border-hairline', 'border-primary');
+            currentActive = 2;
+        } else if (currentActive === 2) {
+             // reset mock
+             items[1].classList.remove('opacity-50');
+             items[1].classList.add('opacity-100');
+             items[1].querySelector('.w-5').innerHTML = '<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>';
+             
+             items[2].classList.remove('opacity-100');
+             items[2].classList.add('opacity-50');
+             items[2].querySelector('.w-5').innerHTML = '';
+             items[2].querySelector('.w-5').classList.replace('border-primary', 'border-border-hairline');
+             currentActive = 1;
+        }
+    }, 3500);
+  });
+</script></main>
+
+</body></html>

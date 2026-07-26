@@ -1,0 +1,103 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#f7fce9;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"secondary-container":"#548dfe","tertiary-container":"#fcb4ff","on-tertiary-fixed-variant":"#692f70","error":"#ba1a1a","error-container":"#ffdad6","outline":"#717a64","text-metadata":"#737373","surface-dim":"#d7dcca","surface-tint":"#3f6900","on-tertiary":"#ffffff","background":"#f7fce9","on-tertiary-container":"#7b3f81","on-error":"#ffffff","inverse-primary":"#8fdb29","primary-fixed":"#a9f847","caution-amber":"#F2994A","on-primary-fixed-variant":"#2e4f00","on-surface":"#181d12","tertiary-fixed":"#ffd6fd","surface-variant":"#e0e5d2","surface-container-lowest":"#ffffff","alert-critical":"#C62828","surface":"#f7fce9","primary-fixed-dim":"#8fdb29","text-secondary":"#4e4d4c","tertiary":"#84478a","on-background":"#181d12","surface-container-low":"#f1f6e3","primary":"#3f6900","on-primary-fixed":"#102000","on-primary-container":"#396000","surface-container-highest":"#e0e5d2","on-secondary-fixed":"#001944","text-primary":"#141414","primary-container":"#94e130","secondary-fixed-dim":"#afc6ff","on-secondary-fixed-variant":"#004299","on-error-container":"#93000a","inverse-surface":"#2d3226","surface-card":"#ffffff","surface-background":"#f4eee5","surface-container":"#ebf0dd","secondary":"#0159c7","on-secondary-container":"#002760","tertiary-fixed-dim":"#f6aef9","surface-bright":"#f7fce9","on-primary":"#ffffff","surface-container-high":"#e5ead8","border-hairline":"#a1a1a1","outline-variant":"#c1cab0","on-tertiary-fixed":"#36003f","secondary-fixed":"#d9e2ff","inverse-on-surface":"#eef3e0","on-surface-variant":"#414a36","on-secondary":"#ffffff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"element-gap":"8px","touch-target-min":"52px","stack-gap":"16px","edge-margin":"20px"},"fontFamily":{"screen-title":["Lexend"],"caption-metadata":["Inter"],"body-default":["Lexend"],"alert-text":["Lexend"],"vet-data-row":["Inter"],"card-title":["Lexend"],"section-heading":["Lexend"],"button-label":["Lexend"]},"fontSize":{"screen-title":["24px",{"lineHeight":"32px","fontWeight":"600"}],"caption-metadata":["13px",{"lineHeight":"16px","fontWeight":"400"}],"body-default":["16px",{"lineHeight":"24px","fontWeight":"400"}],"alert-text":["16px",{"lineHeight":"20px","fontWeight":"600"}],"vet-data-row":["15px",{"lineHeight":"20px","fontWeight":"400"}],"card-title":["18px",{"lineHeight":"24px","fontWeight":"600"}],"section-heading":["20px",{"lineHeight":"28px","fontWeight":"600"}],"button-label":["16px",{"lineHeight":"20px","fontWeight":"600"}]}}}}</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface-background pt-safe pb-safe min-h-screen"><main class="w-full pb-6"><div class="flex flex-col w-full h-full relative font-body-default text-text-primary px-[20px] pb-[env(safe-area-inset-bottom,0px)]">
+<!-- Header -->
+<header class="flex items-center justify-between h-[56px] w-full pt-[8px] mb-[24px]">
+<button aria-label="Go back" class="h-[52px] w-[52px] flex items-center justify-start text-text-primary hover:text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<div class="w-[52px]"></div> <!-- Spacer for balance -->
+</header>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col justify-center max-w-[400px] mx-auto w-full">
+<!-- Illustration Area -->
+<div class="flex justify-center mb-[32px] relative">
+<div class="absolute inset-0 bg-primary-container/20 rounded-full blur-2xl transform scale-150"></div>
+<div class="w-[120px] h-[120px] bg-surface-card rounded-full border border-border-hairline flex items-center justify-center relative z-10 shadow-sm">
+<!-- Inline SVG Envelope Illustration -->
+<svg class="text-primary" fill="none" height="64" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewbox="0 0 24 24" width="64">
+<path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7"></path>
+<rect height="14" rx="2" width="18" x="3" y="5"></rect>
+</svg>
+</div>
+</div>
+<!-- Typography -->
+<div class="text-center mb-[40px]">
+<h1 class="font-screen-title text-screen-title text-text-primary mb-[16px]">Verify Email</h1>
+<p class="font-body-default text-body-default text-text-secondary px-[16px]">
+                We've sent a 6-digit verification code to your email address.
+            </p>
+</div>
+<!-- OTP Input Area -->
+<div class="flex flex-col items-center mb-[48px] w-full">
+<div class="flex justify-between w-full max-w-[320px] gap-[8px]" id="otp-container">
+<input aria-label="Digit 1" class="w-[48px] h-[52px] bg-surface-card border border-border-hairline rounded text-center font-card-title text-[24px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" maxlength="1" type="tel"/>
+<input aria-label="Digit 2" class="w-[48px] h-[52px] bg-surface-card border border-border-hairline rounded text-center font-card-title text-[24px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" maxlength="1" type="tel"/>
+<input aria-label="Digit 3" class="w-[48px] h-[52px] bg-surface-card border border-border-hairline rounded text-center font-card-title text-[24px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" maxlength="1" type="tel"/>
+<input aria-label="Digit 4" class="w-[48px] h-[52px] bg-surface-card border border-border-hairline rounded text-center font-card-title text-[24px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" maxlength="1" type="tel"/>
+<input aria-label="Digit 5" class="w-[48px] h-[52px] bg-surface-card border border-border-hairline rounded text-center font-card-title text-[24px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" maxlength="1" type="tel"/>
+<input aria-label="Digit 6" class="w-[48px] h-[52px] bg-surface-card border border-border-hairline rounded text-center font-card-title text-[24px] text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors shadow-sm" maxlength="1" type="tel"/>
+</div>
+<!-- Error message placeholder (hidden by default) -->
+<p class="font-caption-metadata text-caption-metadata text-error mt-[12px] opacity-0 transition-opacity h-[16px]" id="otp-error">Incorrect code. Please try again.</p>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-[16px] w-full mt-auto mb-[24px]">
+<button class="w-full min-h-[52px] bg-primary text-on-primary rounded font-button-label text-button-label flex items-center justify-center active:bg-primary-container active:text-on-primary-container transition-colors shadow-md">
+                Verify and Continue
+            </button>
+<button class="w-full min-h-[52px] bg-transparent text-primary rounded font-button-label text-button-label flex items-center justify-center border border-border-hairline active:bg-surface-container transition-colors">
+                Resend Code
+            </button>
+</div>
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const otpContainer = document.getElementById('otp-container');
+        const inputs = otpContainer.querySelectorAll('input');
+
+        inputs.forEach((input, index) => {
+            // Auto-focus next input
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            // Handle backspace
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+
+            // Handle paste
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = e.clipboardData.getData('text').slice(0, inputs.length).replace(/\D/g, '');
+                
+                if(pasteData) {
+                    pasteData.split('').forEach((char, i) => {
+                        if (inputs[i]) {
+                            inputs[i].value = char;
+                            if (i < inputs.length - 1) inputs[i + 1].focus();
+                            else inputs[i].blur();
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Focus first input on load
+        if(inputs.length > 0) {
+            inputs[0].focus();
+        }
+    });
+</script></main>
+
+</body></html>

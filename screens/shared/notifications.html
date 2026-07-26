@@ -1,0 +1,151 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Lexend:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed-variant": "#2e4f00", "text-metadata": "#737373", "surface-bright": "#f7fce9", "inverse-on-surface": "#eef3e0", "surface-container-lowest": "#ffffff", "background": "#f7fce9", "on-surface": "#181d12", "inverse-primary": "#8fdb29", "on-error": "#ffffff", "primary-container": "#94e130", "outline": "#717a64", "text-primary": "#141414", "on-secondary-container": "#002760", "surface-background": "#f4eee5", "tertiary-fixed": "#ffd6fd", "alert-critical": "#C62828", "secondary": "#0159c7", "primary": "#3f6900", "on-tertiary-fixed-variant": "#692f70", "on-tertiary-fixed": "#36003f", "on-primary-container": "#396000", "text-secondary": "#4e4d4c", "on-surface-variant": "#414a36", "surface-container": "#ebf0dd", "surface": "#f7fce9", "surface-variant": "#e0e5d2", "on-error-container": "#93000a", "caution-amber": "#F2994A", "outline-variant": "#c1cab0", "inverse-surface": "#2d3226", "border-hairline": "#a1a1a1", "error-container": "#ffdad6", "surface-container-highest": "#e0e5d2", "on-background": "#181d12", "secondary-fixed-dim": "#afc6ff", "on-secondary-fixed": "#001944", "surface-card": "#ffffff", "surface-tint": "#3f6900", "primary-fixed": "#a9f847", "secondary-fixed": "#d9e2ff", "tertiary-fixed-dim": "#f6aef9", "tertiary-container": "#fcb4ff", "secondary-container": "#548dfe", "primary-fixed-dim": "#8fdb29", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#004299", "tertiary": "#84478a", "surface-container-low": "#f1f6e3", "on-tertiary-container": "#7b3f81", "error": "#ba1a1a", "surface-dim": "#d7dcca", "on-secondary": "#ffffff", "on-primary": "#ffffff", "surface-container-high": "#e5ead8", "on-primary-fixed": "#102000" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "touch-target-min": "52px", "edge-margin": "20px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "vet-data-row": ["Inter"], "button-label": ["Lexend"], "body-default": ["Lexend"], "card-title": ["Lexend"], "alert-text": ["Lexend"], "caption-metadata": ["Inter"], "section-heading": ["Lexend"], "screen-title": ["Lexend"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } }</style></head><body class="bg-background font-body-default text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-edge-margin flex items-center justify-between"><div class="flex items-center gap-element-gap"><span class="material-symbols-outlined text-primary text-[28px]">health_and_safety</span><span class="font-screen-title text-screen-title tracking-tight text-primary">VETRA</span></div><div class="flex items-center gap-4"><h1 class="hidden md:block font-section-heading text-section-heading">Farmer Dashboard</h1><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="pt-16 pb-6 bg-background min-h-screen"><div class="flex flex-col w-full max-w-2xl mx-auto space-y-6">
+<div class="px-edge-margin pt-4 pb-2">
+<h2 class="font-section-heading text-section-heading text-on-surface">Today</h2>
+</div>
+<div class="px-edge-margin space-y-stack-gap">
+<!-- Critical Alert Card -->
+<div class="bg-alert-critical rounded-xl shadow-md p-4 relative overflow-hidden flex flex-col gap-3 group active:scale-[0.98] transition-transform duration-200">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-start gap-4 z-10">
+<div class="w-12 h-12 flex-shrink-0 bg-white rounded-full flex items-center justify-center shadow-sm">
+<img alt="Warning Icon" class="w-7 h-7 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLu9Lqm01L4BmPGhh12hov1mIjMUTmWLH9cHOmXrzSAc9LLt62gkxJpJrfUMfsG-FdY4cmtiGGhbxPMxCZ_sdP-vstNJ5GuEeAWf3O0Uy7E92UNzt5tvRaS8g1M0wOemF9dwDI4RHf1kxcHLlHHwmXDdrqcSAsU2gqqrMlX7CWPInDpdsyF7M-zmCkn2t67ermvrQKRA46Qags_ccKVhPplEEyJsUuPjcz30IzocSg-nJFyCew9SnNxCNgU0"/>
+</div>
+<div class="flex-1 flex flex-col pt-0.5">
+<div class="flex justify-between items-start mb-1">
+<span class="font-alert-text text-alert-text text-on-error uppercase tracking-wider">Active Outbreak Alert</span>
+<span class="font-caption-metadata text-caption-metadata text-white/80 whitespace-nowrap">2m ago</span>
+</div>
+<p class="font-body-default text-body-default text-on-error opacity-90">
+            Bovine Respiratory Syncytial Virus (BRSV) detected in your region. Immediate isolation protocols recommended.
+          </p>
+</div>
+</div>
+<div class="z-10 mt-1 flex justify-end">
+<button class="bg-white/20 hover:bg-white/30 text-on-error font-button-label text-button-label px-4 h-[52px] rounded-lg transition-colors flex items-center justify-center min-w-[120px]">
+          View Map
+        </button>
+</div>
+</div>
+<!-- Caution Alert Card -->
+<div class="bg-surface-card rounded-xl shadow-sm p-4 flex flex-col gap-3 active:scale-[0.98] transition-transform duration-200 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-caution-amber"></div>
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 flex-shrink-0 bg-caution-amber/10 rounded-full flex items-center justify-center text-caution-amber">
+<span class="material-symbols-outlined text-[24px]">vaccines</span>
+</div>
+<div class="flex-1 flex flex-col pt-0.5">
+<div class="flex justify-between items-start mb-1">
+<span class="font-card-title text-card-title text-on-surface">Vaccination Due</span>
+<span class="font-caption-metadata text-caption-metadata text-text-metadata whitespace-nowrap">2h ago</span>
+</div>
+<p class="font-body-default text-body-default text-text-secondary">
+                    Herd 14B requires Foot-and-Mouth Disease (FMD) booster by end of week.
+                </p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-edge-margin pt-6 pb-2">
+<h2 class="font-section-heading text-section-heading text-on-surface">Earlier</h2>
+</div>
+<div class="px-edge-margin space-y-stack-gap">
+<!-- Standard Info Alert -->
+<div class="bg-surface-card rounded-xl shadow-sm p-4 flex items-start gap-4 active:bg-surface-container-low transition-colors duration-200 relative overflow-hidden cursor-pointer">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<div class="w-12 h-12 flex-shrink-0 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex-1 flex flex-col pt-0.5">
+<div class="flex justify-between items-start mb-1">
+<span class="font-card-title text-card-title text-on-surface">Consultation Accepted</span>
+<span class="font-caption-metadata text-caption-metadata text-text-metadata whitespace-nowrap">Yesterday</span>
+</div>
+<p class="font-body-default text-body-default text-text-secondary">
+          Dr. Sarah Jenkins has accepted your request. Scheduled for Oct 14, 09:00 AM.
+        </p>
+</div>
+</div>
+<!-- Muted Info Alert -->
+<div class="bg-surface-card rounded-xl shadow-sm p-4 flex items-start gap-4 active:bg-surface-container-low transition-colors duration-200 cursor-pointer">
+<div class="w-12 h-12 flex-shrink-0 bg-surface-container-high rounded-full flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[24px]">description</span>
+</div>
+<div class="flex-1 flex flex-col pt-0.5">
+<div class="flex justify-between items-start mb-1">
+<span class="font-card-title text-card-title text-on-surface">Animal Record Updated</span>
+<span class="font-caption-metadata text-caption-metadata text-text-metadata whitespace-nowrap">Oct 11</span>
+</div>
+<p class="font-body-default text-body-default text-text-secondary line-clamp-2">
+          New weight data imported for Calf #402, #403, and #405 from smart scale sensor.
+        </p>
+</div>
+</div>
+<!-- Muted Info Alert 2 -->
+<div class="bg-surface-card rounded-xl shadow-sm p-4 flex items-start gap-4 active:bg-surface-container-low transition-colors duration-200 cursor-pointer">
+<div class="w-12 h-12 flex-shrink-0 bg-surface-container-high rounded-full flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[24px]">settings_input_antenna</span>
+</div>
+<div class="flex-1 flex flex-col pt-0.5">
+<div class="flex justify-between items-start mb-1">
+<span class="font-card-title text-card-title text-on-surface">Gateway Sync Complete</span>
+<span class="font-caption-metadata text-caption-metadata text-text-metadata whitespace-nowrap">Oct 10</span>
+</div>
+<p class="font-body-default text-body-default text-text-secondary">
+                North pasture gateway successfully synced 142 ear tag records.
+            </p>
+</div>
+</div>
+</div>
+<!-- Spacing for bottom nav -->
+<div class="h-8"></div>
+</div>
+<script>
+  // Simple interaction for swipe to dismiss on standard alerts (visual only)
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.bg-surface-card');
+    let startX = 0;
+    
+    cards.forEach(card => {
+      card.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+        card.style.transition = 'none';
+      }, {passive: true});
+      
+      card.addEventListener('touchmove', e => {
+        const x = e.touches[0].clientX;
+        const diff = x - startX;
+        // Only allow swipe left
+        if (diff < 0) {
+          card.style.transform = `translateX(${Math.max(diff, -100)}px)`;
+          card.style.opacity = Math.max(1 + (diff / 150), 0.5).toString();
+        }
+      }, {passive: true});
+      
+      card.addEventListener('touchend', e => {
+        const x = e.changedTouches[0].clientX;
+        const diff = x - startX;
+        
+        card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        
+        if (diff < -80) {
+          // Trigger dismiss animation
+          card.style.transform = 'translateX(-100%)';
+          card.style.opacity = '0';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 300);
+        } else {
+          // Snap back
+          card.style.transform = 'translateX(0)';
+          card.style.opacity = '1';
+        }
+      });
+    });
+  });
+</script></main>
+
+
+
+
+</body></html>

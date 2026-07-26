@@ -1,0 +1,49 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { theme: { extend: { "colors": { "primary": "#3f6900", "on-primary": "#ffffff", "surface": "#f7fce9", "background": "#f7fce9", "on-surface": "#181d12" }, "fontFamily": { "body": ["Lexend"] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background font-body text-on-surface"><main class="w-full min-h-screen pb-6"><div class="flex flex-col w-full px-[20px] py-[24px]">
+<div class="mb-[32px]">
+<h1 class="font-screen-title text-screen-title text-text-primary mb-[8px]">Veterinarian Registration</h1>
+<p class="font-body-default text-body-default text-text-secondary">Please provide your details to access the clinical system.</p>
+</div>
+<form class="flex flex-col gap-[24px]">
+<div class="flex flex-col gap-[8px]">
+<label class="font-section-heading text-section-heading text-text-primary" for="fullName">Full Name</label>
+<input class="h-[52px] px-[16px] bg-surface-card border border-border-hairline rounded-[8px] font-body-default text-body-default text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-text-secondary" id="fullName" placeholder="Dr. Jane Doe" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-[8px]">
+<label class="font-section-heading text-section-heading text-text-primary" for="clinicName">Clinic Name</label>
+<input class="h-[52px] px-[16px] bg-surface-card border border-border-hairline rounded-[8px] font-body-default text-body-default text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-text-secondary" id="clinicName" placeholder="Valley Animal Hospital" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-[8px]">
+<label class="font-section-heading text-section-heading text-text-primary" for="phoneNumber">Phone Number</label>
+<input class="h-[52px] px-[16px] bg-surface-card border border-border-hairline rounded-[8px] font-body-default text-body-default text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-text-secondary" id="phoneNumber" placeholder="(555) 123-4567" required="" type="tel"/>
+</div>
+<div class="flex flex-col gap-[8px]">
+<label class="font-section-heading text-section-heading text-text-primary" for="email">Email Address</label>
+<input class="h-[52px] px-[16px] bg-surface-card border border-border-hairline rounded-[8px] font-body-default text-body-default text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-text-secondary" id="email" placeholder="jane.doe@example.com" required="" type="email"/>
+</div>
+<div class="flex flex-col gap-[8px]">
+<label class="font-section-heading text-section-heading text-text-primary flex items-center gap-[8px]" for="licenseNumber">
+                Veterinary License Number
+                <span aria-hidden="true" class="material-symbols-outlined text-[16px] text-primary">verified</span>
+</label>
+<input class="h-[52px] px-[16px] bg-surface-card border border-border-hairline rounded-[8px] font-body-default text-body-default text-text-primary focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-text-secondary" id="licenseNumber" placeholder="VET-12345-XX" required="" type="text"/>
+<span class="font-caption-metadata text-caption-metadata text-text-metadata">Required for clinical verification.</span>
+</div>
+<div class="mt-[16px]">
+<button class="w-full h-[52px] bg-primary text-on-primary font-button-label text-button-label rounded-[8px] flex items-center justify-center gap-[8px] active:scale-[0.98] transition-transform" type="submit">
+                Create Account
+                <span aria-hidden="true" class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<p class="text-center font-caption-metadata text-caption-metadata text-text-secondary mt-[16px]">
+            By creating an account, you agree to our <a class="text-primary underline" href="#">Terms of Service</a>.
+        </p>
+</form>
+</div></main>
+
+</body></html>

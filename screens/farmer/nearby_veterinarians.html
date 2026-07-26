@@ -1,0 +1,149 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Lexend:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed-variant": "#2e4f00", "text-metadata": "#737373", "surface-bright": "#f7fce9", "inverse-on-surface": "#eef3e0", "surface-container-lowest": "#ffffff", "background": "#f7fce9", "on-surface": "#181d12", "inverse-primary": "#8fdb29", "on-error": "#ffffff", "primary-container": "#94e130", "outline": "#717a64", "text-primary": "#141414", "on-secondary-container": "#002760", "surface-background": "#f4eee5", "tertiary-fixed": "#ffd6fd", "alert-critical": "#C62828", "secondary": "#0159c7", "primary": "#3f6900", "on-tertiary-fixed-variant": "#692f70", "on-tertiary-fixed": "#36003f", "on-primary-container": "#396000", "text-secondary": "#4e4d4c", "on-surface-variant": "#414a36", "surface-container": "#ebf0dd", "surface": "#f7fce9", "surface-variant": "#e0e5d2", "on-error-container": "#93000a", "caution-amber": "#F2994A", "outline-variant": "#c1cab0", "inverse-surface": "#2d3226", "border-hairline": "#a1a1a1", "error-container": "#ffdad6", "surface-container-highest": "#e0e5d2", "on-background": "#181d12", "secondary-fixed-dim": "#afc6ff", "on-secondary-fixed": "#001944", "surface-card": "#ffffff", "surface-tint": "#3f6900", "primary-fixed": "#a9f847", "secondary-fixed": "#d9e2ff", "tertiary-fixed-dim": "#f6aef9", "tertiary-container": "#fcb4ff", "secondary-container": "#548dfe", "primary-fixed-dim": "#8fdb29", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#004299", "tertiary": "#84478a", "surface-container-low": "#f1f6e3", "on-tertiary-container": "#7b3f81", "error": "#ba1a1a", "surface-dim": "#d7dcca", "on-secondary": "#ffffff", "on-primary": "#ffffff", "surface-container-high": "#e5ead8", "on-primary-fixed": "#102000" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "touch-target-min": "52px", "edge-margin": "20px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "vet-data-row": ["Inter"], "button-label": ["Lexend"], "body-default": ["Lexend"], "card-title": ["Lexend"], "alert-text": ["Lexend"], "caption-metadata": ["Inter"], "section-heading": ["Lexend"], "screen-title": ["Lexend"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } }</style></head><body class="bg-background font-body-default text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-edge-margin flex items-center justify-between"><div class="flex items-center gap-element-gap"><span class="material-symbols-outlined text-primary text-[28px]">health_and_safety</span><span class="font-screen-title text-screen-title tracking-tight text-primary">VETRA</span></div><div class="flex items-center gap-4"><h1 class="hidden md:block font-section-heading text-section-heading">Nearby Veterinarians</h1><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="pt-16 pb-24 bg-background min-h-screen"><div class="flex flex-col w-full h-full pb-8">
+<div class="sticky top-0 z-40 bg-surface/95 backdrop-blur-md px-edge-margin py-4 flex justify-between items-center shadow-sm">
+<div>
+<h2 class="font-screen-title text-screen-title text-text-primary">Nearby Vets</h2>
+<p class="font-caption-metadata text-caption-metadata text-text-metadata">Sorted by distance</p>
+</div>
+<button aria-label="Toggle Map View" class="h-touch-target-min px-4 rounded-xl bg-surface-container flex items-center gap-2 text-primary font-button-label text-button-label active:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">map</span>
+            Map
+        </button>
+</div>
+<div class="px-edge-margin mt-2 flex flex-col gap-stack-gap">
+<div class="bg-surface-card rounded-xl p-4 shadow-sm flex flex-col gap-4">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 rounded-full bg-surface-container shrink-0 overflow-hidden relative shadow-sm">
+<img alt="Dr. S. Patel" class="w-full h-full object-cover absolute inset-0" data-alt="Professional headshot of Dr. S. Patel, a veterinarian. Warm, approachable expression. Bright, natural outdoor lighting with a blurred farm background. The color palette incorporates greens and earthy tones to match the Vetra brand identity." loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8_KYy5D--mJaZVcwO_nd7EJ1aDkO5_TwPTYkMXyQot426oKr_N4T2XBMU_IMEZNqMNaYl_WLxqO3tAQRgy2t9EZvetKI5-X05RqwwHMWQErSQcPsTD7yYh8iZPEnoMCxKkUEcyVUicJufvyXo9Khm161m0iarqqQQ0VplOVttpjewpiZJFBPqQKD8-2eISM9R0ZVnzbUQaauq2fO3fsbcyr3GVF8zNynZWB56u_wCstYI_0PHhINofj2U084rbI7QvYAchhuFkh-9"/>
+</div>
+<div class="flex-1 min-w-0 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-card-title text-card-title text-text-primary truncate pr-2">Dr. S. Patel</h3>
+<div class="flex items-center gap-1 shrink-0 bg-surface-container-high px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-caution-amber text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-caption-metadata text-caption-metadata text-text-primary">4.9</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-text-secondary mb-2">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="font-body-default text-[14px] truncate">2.5 km away</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 bg-primary/10 text-primary px-2.5 py-1 rounded-full font-caption-metadata text-caption-metadata">
+<span class="w-3 h-3 block opacity-80" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLsGeRBPzxEHqopowHe3O-SxtT_J5K0xNycnThMMCKyR3B4fJiZdhrvJrkJQdoSEwZuOT0CTtmz3HBqhrc1OYYGlZ6G0NkwNqxjGjGXt9SIYkdYhfLCBqOsxCwG-9Rl7xxjs2C4Uzd3D17ut2z093zTbyAebQAdTZ-KACMn0tsDnYAjwdjSmOK9H7bXgKOSiVhbfJbIJcuGqS4Ac284iAmVVeFc9JbohYHnWm-oygnE3gfySKWGebKv2MrE-'); background-size: contain; background-repeat: no-repeat;"></span>
+                            Large Animals
+                        </span>
+</div>
+</div>
+</div>
+<button class="w-full h-touch-target-min bg-primary text-on-primary rounded-lg font-button-label text-button-label flex items-center justify-center gap-2 active:bg-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                Request Consultation
+            </button>
+</div>
+<div class="bg-surface-card rounded-xl p-4 shadow-sm flex flex-col gap-4">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 rounded-full bg-surface-container shrink-0 overflow-hidden relative shadow-sm">
+<img alt="Dr. E. Carter" class="w-full h-full object-cover absolute inset-0" data-alt="Professional headshot of Dr. E. Carter, a veterinarian. Friendly smile, wearing practical outdoor gear. The setting is a bright, sunlit barn interior with soft focus. Earthy tones and warm sunlight." loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuUrUZ6nne1hNM5-Cn1K7s3VwNUMhPq_Q63ICCDcXdMEGW8Fhgvz0GsdVzs-9Ns0gGEL549ORWxshrBAfV4Sf7lpctKj4Tvewlx_6C0Tn4Oi4rfmCHZG-uitmReFqhQi1tXSdq3X4ph1X2QS4-DGJVRVboPXJWF_nUxbRtfeqiXOteJ_HUbgpX6wGcAvv-8OC7sr2AC0ssas7GgQ2Y8lCtysj2IIHX6Rhfl_h7DeGCMAGzJRwyxp6kJefgYn_oGN4aMsXYy930y0E4"/>
+</div>
+<div class="flex-1 min-w-0 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-card-title text-card-title text-text-primary truncate pr-2">Dr. E. Carter</h3>
+<div class="flex items-center gap-1 shrink-0 bg-surface-container-high px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-caution-amber text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-caption-metadata text-caption-metadata text-text-primary">4.7</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-text-secondary mb-2">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="font-body-default text-[14px] truncate">4.1 km away</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 bg-primary/10 text-primary px-2.5 py-1 rounded-full font-caption-metadata text-caption-metadata">
+<span class="w-3 h-3 block opacity-80" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLsGeRBPzxEHqopowHe3O-SxtT_J5K0xNycnThMMCKyR3B4fJiZdhrvJrkJQdoSEwZuOT0CTtmz3HBqhrc1OYYGlZ6G0NkwNqxjGjGXt9SIYkdYhfLCBqOsxCwG-9Rl7xxjs2C4Uzd3D17ut2z093zTbyAebQAdTZ-KACMn0tsDnYAjwdjSmOK9H7bXgKOSiVhbfJbIJcuGqS4Ac284iAmVVeFc9JbohYHnWm-oygnE3gfySKWGebKv2MrE-'); background-size: contain; background-repeat: no-repeat;"></span>
+                            Equine Specialist
+                        </span>
+</div>
+</div>
+</div>
+<button class="w-full h-touch-target-min bg-primary text-on-primary rounded-lg font-button-label text-button-label flex items-center justify-center gap-2 active:bg-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                Request Consultation
+            </button>
+</div>
+<div class="bg-surface-card rounded-xl p-4 shadow-sm flex flex-col gap-4">
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 rounded-full bg-surface-container shrink-0 overflow-hidden relative shadow-sm">
+<img alt="Dr. M. Nguyen" class="w-full h-full object-cover absolute inset-0" data-alt="Professional portrait of Dr. M. Nguyen, a veterinarian. Confident and calm expression. Background is an open pasture under clear daylight. Crisp, high-contrast modern aesthetic with subtle parchment tones." loading="lazy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwmayFq_p-FJu5m-Jcc4bwBOeRVzpRK6zaijfCza2WsDRcuuyJXQ6DFIkDW3Tf1_XKquMBbYEr4KMsMmEZczCJ6bG-yX1XqVePXDzNO7f1YxnRwSVZI7EDFVgEAutl78olfpAvPSKf1wewnq0Z5VYv-mOsTt5Wo9etSIOHIA-rsKOlIjvoPz8Pl_t-gralxFv6oO8TEDejfyl2xte-WyzpTUTxBaytwC4cZRD9FUAmIJYjKpuzrMz5jtXeV52Ca79yLCFMw5tBXU2X"/>
+</div>
+<div class="flex-1 min-w-0 flex flex-col">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-card-title text-card-title text-text-primary truncate pr-2">Dr. M. Nguyen</h3>
+<div class="flex items-center gap-1 shrink-0 bg-surface-container-high px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-caution-amber text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-caption-metadata text-caption-metadata text-text-primary">5.0</span>
+</div>
+</div>
+<div class="flex items-center gap-1.5 text-text-secondary mb-2">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="font-body-default text-[14px] truncate">6.8 km away</span>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="inline-flex items-center gap-1 bg-primary/10 text-primary px-2.5 py-1 rounded-full font-caption-metadata text-caption-metadata">
+<span class="w-3 h-3 block opacity-80" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLsGeRBPzxEHqopowHe3O-SxtT_J5K0xNycnThMMCKyR3B4fJiZdhrvJrkJQdoSEwZuOT0CTtmz3HBqhrc1OYYGlZ6G0NkwNqxjGjGXt9SIYkdYhfLCBqOsxCwG-9Rl7xxjs2C4Uzd3D17ut2z093zTbyAebQAdTZ-KACMn0tsDnYAjwdjSmOK9H7bXgKOSiVhbfJbIJcuGqS4Ac284iAmVVeFc9JbohYHnWm-oygnE3gfySKWGebKv2MrE-'); background-size: contain; background-repeat: no-repeat;"></span>
+                            Mixed Practice
+                        </span>
+<span class="inline-flex items-center gap-1 bg-surface-container-high text-text-secondary px-2.5 py-1 rounded-full font-caption-metadata text-caption-metadata">
+                            On-Call
+                        </span>
+</div>
+</div>
+</div>
+<button class="w-full h-touch-target-min bg-primary text-on-primary rounded-lg font-button-label text-button-label flex items-center justify-center gap-2 active:bg-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                Request Consultation
+            </button>
+</div>
+<div class="mt-4 p-4 bg-surface-container-low rounded-xl flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-[24px] mt-0.5">info</span>
+<div>
+<p class="font-body-default text-text-primary text-[14px]">Can't find a vet nearby?</p>
+<p class="font-caption-metadata text-text-metadata mt-1">Expand your search radius in settings or contact emergency telemedicine support.</p>
+<button class="mt-3 h-10 px-4 rounded-lg bg-surface-card shadow-sm text-primary font-button-label text-[14px] active:bg-surface-variant transition-colors">
+                    Telemedicine Options
+                </button>
+</div>
+</div>
+</div>
+</div></main>
+
+
+
+
+
+<!-- Farmer Bottom Navigation Bar (Primary Destination Only) -->
+<nav class="fixed bottom-0 inset-x-0 z-50 bg-[#f7fce9] border-t border-outline-variant/30 shadow-[0_-4px_16px_rgba(0,0,0,0.05)] rounded-t-2xl">
+  <div class="max-w-[480px] mx-auto h-16 px-2 flex items-center justify-around">
+    <a href="../../farmer/farmer_dashboard.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">home</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Home</span>
+    </a>
+    <a href="../../farmer/my_animals.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">pets</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Animals</span>
+    </a>
+    <a href="../../shared/alerts.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">notifications</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Alerts</span>
+    </a>
+    <a href="../../farmer/nearby_veterinarians.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#3f6900]">explore</span>
+      <span class="text-[12px] leading-tight text-[#3f6900] font-bold">Nearby</span>
+    </a>
+    <a href="../../profile/profile.html" class="flex flex-col items-center justify-center gap-0.5 w-16 py-1 transition-colors">
+      <span class="material-symbols-outlined text-[26px] text-[#4e4d4c]">account_circle</span>
+      <span class="text-[12px] leading-tight text-[#4e4d4c] font-medium">Profile</span>
+    </a>
+  </div>
+</nav>
+</body></html>

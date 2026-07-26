@@ -1,0 +1,79 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#8fdb29", "on-secondary-fixed-variant": "#004299", "tertiary-container": "#fcb4ff", "primary": "#3f6900", "on-error-container": "#93000a", "outline-variant": "#c1cab0", "surface-container-lowest": "#ffffff", "secondary-container": "#548dfe", "surface-bright": "#f7fce9", "error-container": "#ffdad6", "surface-container-highest": "#e0e5d2", "on-secondary": "#ffffff", "on-secondary-fixed": "#001944", "on-primary-container": "#396000", "surface-background": "#f4eee5", "on-surface-variant": "#414a36", "caution-amber": "#F2994A", "inverse-on-surface": "#eef3e0", "text-primary": "#141414", "on-background": "#181d12", "secondary-fixed-dim": "#afc6ff", "text-secondary": "#4e4d4c", "on-surface": "#181d12", "on-primary-fixed-variant": "#2e4f00", "border-hairline": "#a1a1a1", "tertiary-fixed": "#ffd6fd", "inverse-surface": "#2d3226", "secondary-fixed": "#d9e2ff", "primary-fixed-dim": "#8fdb29", "on-tertiary": "#ffffff", "surface-variant": "#e0e5d2", "on-primary": "#ffffff", "on-primary-fixed": "#102000", "surface-dim": "#d7dcca", "on-tertiary-container": "#7b3f81", "on-secondary-container": "#002760", "surface-tint": "#3f6900", "error": "#ba1a1a", "surface-container-high": "#e5ead8", "secondary": "#0159c7", "tertiary-fixed-dim": "#f6aef9", "primary-container": "#94e130", "on-tertiary-fixed": "#36003f", "alert-critical": "#C62828", "surface-container-low": "#f1f6e3", "surface-card": "#ffffff", "text-metadata": "#737373", "outline": "#717a64", "tertiary": "#84478a", "on-tertiary-fixed-variant": "#692f70", "on-error": "#ffffff", "surface-container": "#ebf0dd", "primary-fixed": "#a9f847", "background": "#f7fce9", "surface": "#f7fce9" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "element-gap": "8px", "touch-target-min": "52px", "stack-gap": "16px", "edge-margin": "20px" }, "fontFamily": { "vet-data-row": ["Inter"], "caption-metadata": ["Inter"], "button-label": ["Lexend"], "screen-title": ["Lexend"], "body-default": ["Lexend"], "section-heading": ["Lexend"], "card-title": ["Lexend"], "alert-text": ["Lexend"] } } } }</script><style>@layer base { .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } * { -webkit-tap-highlight-color: transparent; } body { overscroll-behavior-y: contain; } } </style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-background text-on-surface font-body-default text-body-default min-h-screen flex flex-col"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-14 flex items-center justify-between px-edge-margin"><h1 class="font-screen-title text-screen-title text-on-surface tracking-tight truncate mr-4">Vet Requests</h1><div class="flex items-center gap-4"><button class="flex items-center justify-center w-10 h-10"><span class="material-symbols-outlined text-on-surface-variant">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 pt-14 pb-32 bg-background pb-6"><div class="flex flex-col w-full h-full relative bg-inverse-surface">
+<div class="absolute inset-0 z-0 bg-inverse-surface overflow-hidden">
+<video autoplay="" class="w-full h-full object-cover opacity-80" id="camera-stream" muted="" playsinline=""></video>
+<div class="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
+</div>
+<div class="relative z-10 flex flex-col h-[calc(100vh-120px)] justify-between px-edge-margin pt-stack-gap pb-[80px]">
+<div class="flex justify-between items-center w-full">
+<h2 class="font-screen-title text-screen-title text-on-error px-4 py-2 rounded-full bg-on-background/50 backdrop-blur-sm border-hairline border-outline-variant/30 shadow-sm">Scan Animal QR</h2>
+<button class="w-touch-target-min h-touch-target-min rounded-full bg-on-background/50 backdrop-blur-sm border-hairline border-outline-variant/30 shadow-sm flex items-center justify-center transition-colors active:bg-primary/80" id="flash-toggle">
+<span class="material-symbols-outlined text-on-error text-[28px]" id="flash-icon">flash_off</span>
+</button>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center relative">
+<div class="relative w-64 h-64">
+<div class="absolute inset-0 border-[3px] border-surface-card/20 rounded-xl"></div>
+<div class="absolute top-0 left-0 w-8 h-8 border-t-[4px] border-l-[4px] border-primary rounded-tl-xl"></div>
+<div class="absolute top-0 right-0 w-8 h-8 border-t-[4px] border-r-[4px] border-primary rounded-tr-xl"></div>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-[4px] border-l-[4px] border-primary rounded-bl-xl"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-[4px] border-r-[4px] border-primary rounded-br-xl"></div>
+<div class="absolute top-0 left-0 w-full h-[2px] bg-primary shadow-[0_0_8px_2px_rgba(143,219,41,0.5)] animate-[scan_2s_ease-in-out_infinite]"></div>
+</div>
+</div>
+<div class="w-full bg-surface-card/90 backdrop-blur-md rounded-xl p-stack-gap border-hairline border-outline-variant shadow-lg flex items-center gap-element-gap">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container">qr_code_scanner</span>
+</div>
+<p class="font-body-default text-body-default text-text-primary">Align animal QR code within frame to view medical history</p>
+</div>
+</div>
+</div>
+<style>
+  @keyframes scan {
+    0% { transform: translateY(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(256px); opacity: 0; }
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const flashBtn = document.getElementById('flash-toggle');
+    const flashIcon = document.getElementById('flash-icon');
+    let flashOn = false;
+
+    flashBtn.addEventListener('click', () => {
+      flashOn = !flashOn;
+      if (flashOn) {
+        flashIcon.textContent = 'flash_on';
+        flashIcon.classList.remove('text-on-error');
+        flashIcon.classList.add('text-primary-fixed');
+      } else {
+        flashIcon.textContent = 'flash_off';
+        flashIcon.classList.remove('text-primary-fixed');
+        flashIcon.classList.add('text-on-error');
+      }
+    });
+    
+    // Simulate camera feed setup (visual only for mockup)
+    const video = document.getElementById('camera-stream');
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(function(stream) {
+                video.srcObject = stream;
+            })
+            .catch(function(err) {
+                console.log("Camera access denied or not available. Using simulated background.");
+                // Fallback handled by CSS
+            });
+    }
+  });
+</script></main>
+
+</body></html>

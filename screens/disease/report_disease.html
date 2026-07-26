@@ -1,0 +1,122 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error-container": "#93000a", "primary-fixed-dim": "#8fdb29", "primary-container": "#94e130", "secondary-fixed-dim": "#afc6ff", "on-primary-fixed": "#102000", "inverse-primary": "#8fdb29", "on-error": "#ffffff", "caution-amber": "#F2994A", "secondary": "#0159c7", "background": "#f7fce9", "on-tertiary-fixed-variant": "#692f70", "outline": "#717a64", "on-background": "#181d12", "primary-fixed": "#a9f847", "tertiary-fixed-dim": "#f6aef9", "on-tertiary": "#ffffff", "on-primary-fixed-variant": "#2e4f00", "surface-container-highest": "#e0e5d2", "text-metadata": "#737373", "surface-container-high": "#e5ead8", "surface-variant": "#e0e5d2", "on-secondary-fixed": "#001944", "on-tertiary-container": "#7b3f81", "on-secondary": "#ffffff", "text-secondary": "#4e4d4c", "error-container": "#ffdad6", "on-primary": "#ffffff", "on-secondary-container": "#002760", "surface-container-lowest": "#ffffff", "surface-card": "#ffffff", "primary": "#3f6900", "inverse-on-surface": "#eef3e0", "surface-dim": "#d7dcca", "surface-bright": "#f7fce9", "surface": "#f7fce9", "border-hairline": "#a1a1a1", "on-primary-container": "#396000", "on-tertiary-fixed": "#36003f", "error": "#ba1a1a", "tertiary-fixed": "#ffd6fd", "tertiary-container": "#fcb4ff", "secondary-container": "#548dfe", "text-primary": "#141414", "on-secondary-fixed-variant": "#004299", "on-surface-variant": "#414a36", "on-surface": "#181d12", "surface-container": "#ebf0dd", "alert-critical": "#C62828", "surface-tint": "#3f6900", "outline-variant": "#c1cab0", "surface-background": "#f4eee5", "inverse-surface": "#2d3226", "tertiary": "#84478a", "surface-container-low": "#f1f6e3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "edge-margin": "20px", "touch-target-min": "52px", "stack-gap": "16px", "element-gap": "8px" }, "fontFamily": { "body-default": ["Lexend"], "section-heading": ["Lexend"], "alert-text": ["Lexend"], "caption-metadata": ["Inter"], "card-title": ["Lexend"], "screen-title": ["Lexend"], "button-label": ["Lexend"], "vet-data-row": ["Inter"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } }</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface-background font-body-default text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-background/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-edge-margin flex items-center justify-between"><div class="flex items-center gap-element-gap"><img alt="Vetra App Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBed1iD3yCiLY23a8v-BZChBJIYpZhX3TyLD-xUZ30yBieFVpcVciNFgxoXT3WJ46jxgX8VvGDBcbDZg9ZccMryoIyv8snvidk7BK5m69d5ycCTgHC2vWlukX6C4lkBAMIrt30lKEZXz_-1Dy3DQ6kiASsf1y951FID37F6JHiPCD-9mVqiOjmDzHGnis4lOUbB65LgOwQlO-CZABy68n4CGjYrPyeKgt_zsx9qF-cU5GpdfPGqBL8vqKiJmCQvSfy35FnJcrVPN6DP"/><span class="font-screen-title text-lg">Vet Cases</span></div><div class="flex items-center gap-3"><div class="px-3 py-1 bg-secondary text-white rounded-full text-[10px] font-bold uppercase tracking-widest">VET ROLE</div><div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center"><span class="material-symbols-outlined text-white text-[18px]">stethoscope</span></div></div></div></header><main class="pt-16 pb-6 min-h-screen px-edge-margin"><div class="flex flex-col w-full pb-6">
+<!-- Header/Hero -->
+<div class="px-edge-margin pt-4 pb-6 flex flex-col gap-2">
+<h1 class="font-screen-title text-screen-title text-text-primary">Report Disease Sighting</h1>
+<p class="font-body-default text-body-default text-text-secondary">If you suspect an infectious disease in your livestock, report it immediately to alert nearby health officials.</p>
+</div>
+<!-- Main Form Container -->
+<form class="px-edge-margin flex flex-col gap-6" onsubmit="event.preventDefault(); window.location.href='#success';">
+<!-- Animal Selection -->
+<div class="flex flex-col gap-2">
+<label class="font-section-heading text-section-heading text-text-primary" for="animal-select">Select Animal</label>
+<p class="font-caption-metadata text-caption-metadata text-text-secondary">Which animal is showing symptoms?</p>
+<div class="relative w-full h-[52px] rounded-lg border-hairline overflow-hidden bg-surface-container-lowest">
+<select class="w-full h-full px-4 appearance-none bg-transparent font-body-default text-body-default text-text-primary focus:outline-none" id="animal-select">
+<option disabled="" selected="" value="">Select an animal ID...</option>
+<option value="BOV-8492">Bovine - Ear Tag: 8492 (Daisy)</option>
+<option value="BOV-8493">Bovine - Ear Tag: 8493 (Bessie)</option>
+<option value="OVI-1102">Ovine - Ear Tag: 1102</option>
+<option value="POR-5531">Porcine - Ear Tag: 5531</option>
+<option value="MULTIPLE">Multiple Animals (Select this if a herd is affected)</option>
+</select>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Symptom Checklist -->
+<div class="flex flex-col gap-4 bg-surface-container-low p-4 rounded-xl border-hairline">
+<div class="flex flex-col gap-1">
+<h2 class="font-section-heading text-section-heading text-text-primary">Observed Symptoms</h2>
+<p class="font-caption-metadata text-caption-metadata text-text-secondary">Select all that apply.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<label class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border-hairline touch-target-min cursor-pointer active:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline text-primary focus:ring-primary focus:ring-offset-surface-container-lowest accent-primary" type="checkbox"/>
+<span class="font-body-default text-body-default text-text-primary">High Fever</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border-hairline touch-target-min cursor-pointer active:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline text-primary focus:ring-primary focus:ring-offset-surface-container-lowest accent-primary" type="checkbox"/>
+<span class="font-body-default text-body-default text-text-primary">Blisters / Sores</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border-hairline touch-target-min cursor-pointer active:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline text-primary focus:ring-primary focus:ring-offset-surface-container-lowest accent-primary" type="checkbox"/>
+<span class="font-body-default text-body-default text-text-primary">Reduced Milk Yield</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border-hairline touch-target-min cursor-pointer active:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline text-primary focus:ring-primary focus:ring-offset-surface-container-lowest accent-primary" type="checkbox"/>
+<span class="font-body-default text-body-default text-text-primary">Lethargy / Weakness</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border-hairline touch-target-min cursor-pointer active:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline text-primary focus:ring-primary focus:ring-offset-surface-container-lowest accent-primary" type="checkbox"/>
+<span class="font-body-default text-body-default text-text-primary">Loss of Appetite</span>
+</label>
+<label class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-lg border-hairline touch-target-min cursor-pointer active:bg-surface-container transition-colors">
+<input class="w-6 h-6 rounded border-outline text-primary focus:ring-primary focus:ring-offset-surface-container-lowest accent-primary" type="checkbox"/>
+<span class="font-body-default text-body-default text-text-primary">Lameness</span>
+</label>
+</div>
+</div>
+<!-- Photo Upload -->
+<div class="flex flex-col gap-2">
+<h2 class="font-section-heading text-section-heading text-text-primary">Visual Evidence</h2>
+<p class="font-caption-metadata text-caption-metadata text-text-secondary">Upload photos of visible symptoms (e.g., sores, abnormal discharge).</p>
+<div class="w-full flex flex-col items-center justify-center p-8 bg-surface-container border-hairline border-dashed rounded-xl gap-4" id="photo-dropzone">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-3xl">add_a_photo</span>
+</div>
+<div class="text-center">
+<p class="font-button-label text-button-label text-text-primary">Tap to take a photo</p>
+<p class="font-caption-metadata text-caption-metadata text-text-secondary mt-1">or select from gallery</p>
+</div>
+<button class="h-10 px-4 rounded bg-surface-container-lowest border-hairline font-button-label text-sm text-text-primary shadow-sm active:bg-surface-container transition-colors" type="button">
+                    Browse Files
+                </button>
+</div>
+<!-- Mock uploaded photos -->
+<div class="flex gap-3 overflow-x-auto pb-2 pt-2 hidden" id="photo-preview-container">
+<div class="relative w-24 h-24 rounded-lg overflow-hidden border-hairline flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A close up shot of a cow's snout showing early signs of blistering in bright daylight. Farm background blurred." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdQ_fIiZJ-u5wOpxdrkDJgykr8NKpciVQLtd93xUCnQZJYWvKOGBRS5TFomHADJzkELikT4ziTHG0P1vkoWGUVgryTB2G0mPXWOYYjg9A-H2dz21FMn0c9_DPZE7vT3wnZujXZ7aXtPkVzjDN3QEeKtZLbMq7Sl3qLJiE9-FnbCSpSzC9IvS8nzhDeQJ1G8GXXgGmLy7-XzyM5whJXrmAQCJkN8_6pujLxIOVw0OAuE4WgP3NzXvL6_BE4RtNKnkN583jOlmH7uSrK"/>
+<button class="absolute top-1 right-1 w-6 h-6 bg-error text-on-error rounded-full flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Additional Notes -->
+<div class="flex flex-col gap-2">
+<label class="font-section-heading text-section-heading text-text-primary" for="notes">Additional Observations</label>
+<textarea class="w-full p-4 rounded-lg border-hairline bg-surface-container-lowest font-body-default text-body-default text-text-primary focus:outline-none resize-none placeholder:text-text-secondary" id="notes" placeholder="Describe any unusual behavior, when symptoms started, or recent movements..." rows="4"></textarea>
+</div>
+<!-- Critical Alert / Disclaimer -->
+<div class="bg-alert-critical p-4 rounded-xl flex items-start gap-4 shadow-md">
+<span class="material-symbols-outlined text-on-error text-3xl flex-shrink-0 mt-1">warning</span>
+<div class="flex flex-col gap-1">
+<p class="font-alert-text text-alert-text text-on-error uppercase tracking-wide">Important Notice</p>
+<p class="font-body-default text-[14px] leading-[20px] text-on-error/90">This report is treated as a priority alert. It will be immediately transmitted to regional veterinarians and agricultural health authorities.</p>
+</div>
+</div>
+<!-- Submit Action -->
+<div class="pt-4 pb-8 flex justify-center">
+<button class="w-full max-w-sm h-touch-target-min bg-primary-fixed rounded-lg flex items-center justify-center gap-2 shadow-sm active:bg-primary-fixed-dim transition-colors group" type="submit">
+<span class="material-symbols-outlined text-on-primary-fixed group-active:scale-95 transition-transform">send</span>
+<span class="font-button-label text-button-label text-on-primary-fixed uppercase tracking-wider">Submit Sighting Report</span>
+</button>
+</div>
+</form>
+</div>
+<script>
+    // Simple script to toggle photo preview for demo purposes
+    document.getElementById('photo-dropzone').addEventListener('click', function() {
+        this.classList.add('hidden');
+        document.getElementById('photo-preview-container').classList.remove('hidden');
+    });
+</script></main>
+
+</body></html>
