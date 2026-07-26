@@ -3,6 +3,14 @@
 .AppleDouble
 .LSOverride
 
+# Flutter / Dart
+.dart_tool/
+.pub/
+.packages
+build/
+*.dill
+*.dill.track.dill
+
 # Python
 __pycache__/
 *.py[cod]
