@@ -53,6 +53,16 @@ import '../../features/settings/presentation/pages/security_page.dart';
 import '../../features/settings/presentation/pages/privacy_page.dart';
 import '../../features/settings/presentation/pages/help_support_page.dart';
 import '../../features/settings/presentation/pages/about_legal_page.dart';
+import '../../features/shared/presentation/pages/alert_details_page.dart';
+import '../../features/shared/presentation/pages/alerts_page.dart';
+import '../../features/shared/presentation/pages/appointment_booking_page.dart';
+import '../../features/shared/presentation/pages/appointment_details_page.dart';
+import '../../features/shared/presentation/pages/filters_page.dart';
+import '../../features/shared/presentation/pages/global_search_page.dart';
+import '../../features/shared/presentation/pages/notification_details_page.dart';
+import '../../features/shared/presentation/pages/notifications_page.dart';
+import '../../features/shared/presentation/pages/qr_scanner_vet_page.dart';
+import '../../features/shared/presentation/pages/search_results_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -275,6 +285,46 @@ class AppRouter {
       GoRoute(
         path: '/about-legal',
         builder: (context, state) => const AboutLegalPage(),
+      ),
+      GoRoute(
+        path: '/alert-details',
+        builder: (context, state) => const AlertDetailsPage(),
+      ),
+      GoRoute(
+        path: '/alerts',
+        builder: (context, state) => const AlertsPage(),
+      ),
+      GoRoute(
+        path: '/appointment-booking',
+        builder: (context, state) => const AppointmentBookingPage(),
+      ),
+      GoRoute(
+        path: '/appointment-details',
+        builder: (context, state) => const AppointmentDetailsPage(),
+      ),
+      GoRoute(
+        path: '/filters',
+        builder: (context, state) => const FiltersPage(),
+      ),
+      GoRoute(
+        path: '/global-search',
+        builder: (context, state) => const GlobalSearchPage(),
+      ),
+      GoRoute(
+        path: '/notification-details',
+        builder: (context, state) => const NotificationDetailsPage(),
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (context, state) => const NotificationsPage(),
+      ),
+      GoRoute(
+        path: '/qr-scanner-vet',
+        builder: (context, state) => const QrScannerVetPage(),
+      ),
+      GoRoute(
+        path: '/search-results',
+        builder: (context, state) => const SearchResultsPage(),
       ),
     ],
   );
