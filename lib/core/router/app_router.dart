@@ -41,6 +41,8 @@ import '../../features/disease/presentation/pages/biosecurity_recommendations_pa
 import '../../features/disease/presentation/pages/disease_information_page.dart';
 import '../../features/disease/presentation/pages/nearby_outbreak_details_page.dart';
 import '../../features/disease/presentation/pages/report_disease_page.dart';
+import '../../features/maps/presentation/pages/outbreak_map_page.dart';
+import '../../features/maps/presentation/pages/risk_zone_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -215,6 +217,14 @@ class AppRouter {
       GoRoute(
         path: '/report-disease',
         builder: (context, state) => const ReportDiseasePage(),
+      ),
+      GoRoute(
+        path: '/outbreak-map',
+        builder: (context, state) => const OutbreakMapPage(),
+      ),
+      GoRoute(
+        path: '/risk-zone',
+        builder: (context, state) => const RiskZonePage(),
       ),
     ],
   );
