@@ -46,6 +46,13 @@ import '../../features/maps/presentation/pages/risk_zone_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/profile/presentation/pages/edit_profile_page.dart';
 import '../../features/profile/presentation/pages/vet_profile_page.dart';
+import '../../features/settings/presentation/pages/settings_overview_page.dart';
+import '../../features/settings/presentation/pages/notification_preferences_page.dart';
+import '../../features/settings/presentation/pages/language_settings_page.dart';
+import '../../features/settings/presentation/pages/security_page.dart';
+import '../../features/settings/presentation/pages/privacy_page.dart';
+import '../../features/settings/presentation/pages/help_support_page.dart';
+import '../../features/settings/presentation/pages/about_legal_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -240,6 +247,34 @@ class AppRouter {
       GoRoute(
         path: '/vet-profile',
         builder: (context, state) => const VetProfilePage(),
+      ),
+      GoRoute(
+        path: '/settings-overview',
+        builder: (context, state) => const SettingsOverviewPage(),
+      ),
+      GoRoute(
+        path: '/notification-preferences',
+        builder: (context, state) => const NotificationPreferencesPage(),
+      ),
+      GoRoute(
+        path: '/language-settings',
+        builder: (context, state) => const LanguageSettingsPage(),
+      ),
+      GoRoute(
+        path: '/security-settings',
+        builder: (context, state) => const SecurityPage(),
+      ),
+      GoRoute(
+        path: '/privacy-settings',
+        builder: (context, state) => const PrivacyPage(),
+      ),
+      GoRoute(
+        path: '/help-support',
+        builder: (context, state) => const HelpSupportPage(),
+      ),
+      GoRoute(
+        path: '/about-legal',
+        builder: (context, state) => const AboutLegalPage(),
       ),
     ],
   );
