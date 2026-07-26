@@ -8,6 +8,9 @@ import '../../features/auth/presentation/pages/email_verification_page.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/farmer/presentation/pages/farmer_dashboard_page.dart';
+import '../../features/farmer/presentation/pages/my_animals_page.dart';
+import '../../features/farmer/presentation/pages/my_animals_offline_state_page.dart';
+import '../../features/farmer/presentation/pages/nearby_vets_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -50,6 +53,18 @@ class AppRouter {
       GoRoute(
         path: '/farmer-dashboard',
         builder: (context, state) => const FarmerDashboardPage(),
+      ),
+      GoRoute(
+        path: '/my-animals',
+        builder: (context, state) => const MyAnimalsPage(),
+      ),
+      GoRoute(
+        path: '/my-animals-offline',
+        builder: (context, state) => const MyAnimalsOfflineStatePage(),
+      ),
+      GoRoute(
+        path: '/nearby-vets',
+        builder: (context, state) => const NearbyVetsPage(),
       ),
     ],
   );

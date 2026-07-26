@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/cards/alert_card.dart';
+import '../../../../core/design_system/navigation/farmer_bottom_navigation.dart';
 
 class FarmerDashboardPage extends StatelessWidget {
   const FarmerDashboardPage({super.key});
@@ -11,46 +13,130 @@ class FarmerDashboardPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
-        title: Text('Vetra Dashboard', style: AppTypography.screenTitle),
         backgroundColor: AppColors.surfaceCard,
         elevation: 0,
+        title: Row(
+          children: [
+            const Icon(Icons.health_and_safety, color: AppColors.primary, size: 28),
+            const SizedBox(width: 8),
+            Text('VETRA', style: AppTypography.screenTitle.copyWith(color: AppColors.primary)),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications_none, color: AppColors.textPrimary),
+            onPressed: () => context.push('/notifications'),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const AlertCard(
-            title: 'FMD Outbreak Alert',
-            description: 'Confirmed cases within 5 km. Keep herd quarantined.',
+          GestureDetector(
+            onTap: () => context.push('/alert-details'),
+            child: const AlertCard(
+              title: 'FMD Outbreak Alert',
+              description: 'Confirmed cases within 5 km. Keep herd quarantined.',
+            ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           Text('Overview', style: AppTypography.sectionHeading),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceCard,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.borderHairline),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text('12', style: AppTypography.screenTitle.copyWith(color: AppColors.primary)),
-                    Text('Animals', style: AppTypography.captionMetadata),
-                  ],
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceCard,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppColors.borderHairline),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('12', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 32)),
+                      Text('Registered Animals', style: AppTypography.captionMetadata),
+                    ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text('2', style: AppTypography.screenTitle.copyWith(color: AppColors.cautionAmber)),
-                    Text('Vaccine Due', style: AppTypography.captionMetadata),
-                  ],
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceCard,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppColors.borderHairline),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('2', style: AppTypography.screenTitle.copyWith(color: AppColors.cautionAmber, fontSize: 32)),
+                      Text('Checkups Due', style: AppTypography.captionMetadata),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Text('Quick Actions', style: AppTypography.sectionHeading),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _buildQuickActionCard(
+                  context,
+                  icon: Icons.camera_alt,
+                  label: 'AI Disease Scan',
+                  onTap: () => context.push('/disease-scanner'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildQuickActionCard(
+                  context,
+                  icon: Icons.add_circle_outline,
+                  label: 'Add Animal',
+                  onTap: () => context.push('/add-animal'),
+                ),
+              ),
+            ],
           ),
         ],
+      ),
+      bottomNavigationBar: FarmerBottomNavigation(
+        currentIndex: 0,
+        onTap: (index) {
+          if (index == 1) context.go('/my-animals');
+          if (index == 2) context.go('/alerts');
+          if (index == 3) context.go('/nearby-vets');
+          if (index == 4) context.go('/profile');
+        },
+      ),
+    );
+  }
+
+  Widget _buildQuickActionCard(BuildContext context, {required IconData icon, required String label, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceCard,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.borderHairline),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, size: 36, color: AppColors.primary),
+            const SizedBox(height: 8),
+            Text(label, style: AppTypography.buttonLabel.copyWith(fontSize: 14), textAlign: TextAlign.center),
+          ],
+        ),
       ),
     );
   }
