@@ -37,6 +37,10 @@ import '../../features/ai/presentation/pages/analyzing_scan_page.dart';
 import '../../features/ai/presentation/pages/disease_scanner_page.dart';
 import '../../features/ai/presentation/pages/scan_accuracy_comparison_page.dart';
 import '../../features/ai/presentation/pages/scan_history_page.dart';
+import '../../features/disease/presentation/pages/biosecurity_recommendations_page.dart';
+import '../../features/disease/presentation/pages/disease_information_page.dart';
+import '../../features/disease/presentation/pages/nearby_outbreak_details_page.dart';
+import '../../features/disease/presentation/pages/report_disease_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -195,6 +199,22 @@ class AppRouter {
       GoRoute(
         path: '/scan-history',
         builder: (context, state) => const ScanHistoryPage(),
+      ),
+      GoRoute(
+        path: '/biosecurity-recommendations',
+        builder: (context, state) => const BiosecurityRecommendationsPage(),
+      ),
+      GoRoute(
+        path: '/disease-information',
+        builder: (context, state) => const DiseaseInformationPage(),
+      ),
+      GoRoute(
+        path: '/nearby-outbreak-details',
+        builder: (context, state) => const NearbyOutbreakDetailsPage(),
+      ),
+      GoRoute(
+        path: '/report-disease',
+        builder: (context, state) => const ReportDiseasePage(),
       ),
     ],
   );
