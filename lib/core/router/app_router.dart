@@ -11,6 +11,10 @@ import '../../features/farmer/presentation/pages/farmer_dashboard_page.dart';
 import '../../features/farmer/presentation/pages/my_animals_page.dart';
 import '../../features/farmer/presentation/pages/my_animals_offline_state_page.dart';
 import '../../features/farmer/presentation/pages/nearby_vets_page.dart';
+import '../../features/veterinarian/presentation/pages/vet_dashboard_page.dart';
+import '../../features/veterinarian/presentation/pages/vet_requests_page.dart';
+import '../../features/veterinarian/presentation/pages/consultation_history_page.dart';
+import '../../features/veterinarian/presentation/pages/vet_verification_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -65,6 +69,22 @@ class AppRouter {
       GoRoute(
         path: '/nearby-vets',
         builder: (context, state) => const NearbyVetsPage(),
+      ),
+      GoRoute(
+        path: '/vet-dashboard',
+        builder: (context, state) => const VetDashboardPage(),
+      ),
+      GoRoute(
+        path: '/vet-requests',
+        builder: (context, state) => const VetRequestsPage(),
+      ),
+      GoRoute(
+        path: '/consultation-history',
+        builder: (context, state) => const ConsultationHistoryPage(),
+      ),
+      GoRoute(
+        path: '/vet-verification',
+        builder: (context, state) => const VetVerificationPage(),
       ),
     ],
   );
