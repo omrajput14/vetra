@@ -15,6 +15,17 @@ import '../../features/veterinarian/presentation/pages/vet_dashboard_page.dart';
 import '../../features/veterinarian/presentation/pages/vet_requests_page.dart';
 import '../../features/veterinarian/presentation/pages/consultation_history_page.dart';
 import '../../features/veterinarian/presentation/pages/vet_verification_page.dart';
+import '../../features/animal/presentation/pages/add_animal_page.dart';
+import '../../features/animal/presentation/pages/edit_animal_page.dart';
+import '../../features/animal/presentation/pages/animal_passport_page.dart';
+import '../../features/animal/presentation/pages/animal_passport_qr_updated_page.dart';
+import '../../features/animal/presentation/pages/animal_passport_offline_state_page.dart';
+import '../../features/animal/presentation/pages/animal_timeline_page.dart';
+import '../../features/animal/presentation/pages/animal_gallery_page.dart';
+import '../../features/animal/presentation/pages/animal_documents_page.dart';
+import '../../features/animal/presentation/pages/breeding_record_page.dart';
+import '../../features/animal/presentation/pages/delete_animal_confirmation_page.dart';
+import '../../features/animal/presentation/pages/transfer_animal_ownership_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -85,6 +96,50 @@ class AppRouter {
       GoRoute(
         path: '/vet-verification',
         builder: (context, state) => const VetVerificationPage(),
+      ),
+      GoRoute(
+        path: '/add-animal',
+        builder: (context, state) => const AddAnimalPage(),
+      ),
+      GoRoute(
+        path: '/edit-animal',
+        builder: (context, state) => const EditAnimalPage(),
+      ),
+      GoRoute(
+        path: '/animal-passport',
+        builder: (context, state) => const AnimalPassportPage(),
+      ),
+      GoRoute(
+        path: '/animal-passport-qr-updated',
+        builder: (context, state) => const AnimalPassportQrUpdatedPage(),
+      ),
+      GoRoute(
+        path: '/animal-passport-offline',
+        builder: (context, state) => const AnimalPassportOfflineStatePage(),
+      ),
+      GoRoute(
+        path: '/animal-timeline',
+        builder: (context, state) => const AnimalTimelinePage(),
+      ),
+      GoRoute(
+        path: '/animal-gallery',
+        builder: (context, state) => const AnimalGalleryPage(),
+      ),
+      GoRoute(
+        path: '/animal-documents',
+        builder: (context, state) => const AnimalDocumentsPage(),
+      ),
+      GoRoute(
+        path: '/breeding-record',
+        builder: (context, state) => const BreedingRecordPage(),
+      ),
+      GoRoute(
+        path: '/delete-animal-confirmation',
+        builder: (context, state) => const DeleteAnimalConfirmationPage(),
+      ),
+      GoRoute(
+        path: '/transfer-animal-ownership',
+        builder: (context, state) => const TransferAnimalOwnershipPage(),
       ),
     ],
   );
