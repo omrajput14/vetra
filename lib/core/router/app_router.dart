@@ -33,6 +33,10 @@ import '../../features/medical/presentation/pages/diagnosis_entry_page.dart';
 import '../../features/medical/presentation/pages/medical_history_details_page.dart';
 import '../../features/medical/presentation/pages/vaccination_details_page.dart';
 import '../../features/medical/presentation/pages/vaccination_schedule_page.dart';
+import '../../features/ai/presentation/pages/analyzing_scan_page.dart';
+import '../../features/ai/presentation/pages/disease_scanner_page.dart';
+import '../../features/ai/presentation/pages/scan_accuracy_comparison_page.dart';
+import '../../features/ai/presentation/pages/scan_history_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -175,6 +179,22 @@ class AppRouter {
       GoRoute(
         path: '/vaccination-schedule',
         builder: (context, state) => const VaccinationSchedulePage(),
+      ),
+      GoRoute(
+        path: '/analyzing-scan',
+        builder: (context, state) => const AnalyzingScanPage(),
+      ),
+      GoRoute(
+        path: '/disease-scanner',
+        builder: (context, state) => const DiseaseScannerPage(),
+      ),
+      GoRoute(
+        path: '/scan-accuracy-comparison',
+        builder: (context, state) => const ScanAccuracyComparisonPage(),
+      ),
+      GoRoute(
+        path: '/scan-history',
+        builder: (context, state) => const ScanHistoryPage(),
       ),
     ],
   );
