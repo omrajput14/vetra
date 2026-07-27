@@ -326,6 +326,27 @@ class AppRouter {
         path: '/search-results',
         builder: (context, state) => const SearchResultsPage(),
       ),
+      // Reserved Admin Routes (Disabled for V1, redirect to splash)
+      GoRoute(
+        path: '/admin-dashboard',
+        redirect: (context, state) => '/splash',
+      ),
+      GoRoute(
+        path: '/user-management',
+        redirect: (context, state) => '/splash',
+      ),
+      GoRoute(
+        path: '/admin-analytics',
+        redirect: (context, state) => '/splash',
+      ),
+      GoRoute(
+        path: '/broadcast-notifications',
+        redirect: (context, state) => '/splash',
+      ),
+      GoRoute(
+        path: '/ai-monitoring',
+        redirect: (context, state) => '/splash',
+      ),
     ],
   );
 }
