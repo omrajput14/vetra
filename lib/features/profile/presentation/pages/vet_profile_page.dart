@@ -4,6 +4,10 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/navigation/vet_bottom_navigation.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
+import '../widgets/profile_header_card.dart';
+import '../widgets/availability_card.dart';
+import '../widgets/info_tile.dart';
+import '../widgets/action_card.dart';
 
 class VetProfilePage extends StatefulWidget {
   const VetProfilePage({super.key});
@@ -27,82 +31,87 @@ class _VetProfilePageState extends State<VetProfilePage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceCard,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.borderHairline),
-            ),
-            child: Column(
-              children: [
-                const CircleAvatar(
-                  radius: 44,
-                  backgroundColor: AppColors.surfaceContainer,
-                  child: Icon(Icons.medical_services, size: 52, color: AppColors.primary),
-                ),
-                const SizedBox(height: 12),
-                Text('Dr. Sarah Jenkins', style: AppTypography.screenTitle.copyWith(fontSize: 22)),
-                const SizedBox(height: 4),
-                Text('BVSc & AH • Senior Livestock Veterinarian', style: AppTypography.bodyDefault.copyWith(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 4),
-                Text('License Reg #VET-9941-XX', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary)),
-              ],
-            ),
+          // 1. Profile Header
+          const ProfileHeaderCard(
+            name: 'Dr. Sarah Jenkins',
+            regNo: 'Reg #VET-9941-XX',
+            qualification: 'BVSc & AH, MVSc (Large Animal Medicine)',
+            specialization: 'Ruminant Epidemiology & Surgery',
+            hospital: 'Valley Veterinary Hospital',
           ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceCard,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.borderHairline),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      _isAvailable ? Icons.check_circle : Icons.do_not_disturb_on,
-                      color: _isAvailable ? AppColors.primary : AppColors.cautionAmber,
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Availability Status', style: AppTypography.cardTitle.copyWith(fontSize: 14)),
-                        Text(_isAvailable ? 'Available for On-Call & Emergencies' : 'Currently On Leave / Unavailable', style: AppTypography.captionMetadata),
-                      ],
-                    ),
-                  ],
-                ),
-                Switch(
-                  value: _isAvailable,
-                  activeThumbColor: AppColors.primary,
-                  onChanged: (val) => setState(() => _isAvailable = val),
-                ),
-              ],
-            ),
+          const SizedBox(height: 14),
+
+          // 2. Availability Status Card
+          AvailabilityCard(
+            isAvailable: _isAvailable,
+            onChanged: (val) => setState(() => _isAvailable = val),
           ),
           const SizedBox(height: 20),
-          Text('Practitioner Info', style: AppTypography.sectionHeading),
+
+          // 3. Practitioner Info Section
+          Text('Practitioner Information', style: AppTypography.sectionHeading),
+          const SizedBox(height: 10),
+          const InfoTile(
+            icon: Icons.school_outlined,
+            label: 'Qualification & Degrees',
+            value: 'BVSc & AH, MVSc (Large Animal Medicine)',
+          ),
           const SizedBox(height: 8),
-          _buildInfoTile(Icons.school, 'Qualification', 'BVSc & AH, MVSc (Large Animal Medicine)'),
+          const InfoTile(
+            icon: Icons.workspace_premium_outlined,
+            label: 'Clinical Specialization',
+            value: 'Ruminant Epidemiology & Surgical Triage',
+          ),
           const SizedBox(height: 8),
-          _buildInfoTile(Icons.local_hospital, 'Clinic / Hospital', 'Valley Veterinary Hospital'),
+          const InfoTile(
+            icon: Icons.history_outlined,
+            label: 'Years of Experience',
+            value: '12 Years Clinical Practice',
+          ),
           const SizedBox(height: 8),
-          _buildInfoTile(Icons.workspace_premium, 'Specialization', 'Ruminant Epidemiology & Surgery'),
-          const SizedBox(height: 8),
-          _buildInfoTile(Icons.history, 'Years of Experience', '12 Years Clinical Practice'),
-          const SizedBox(height: 8),
-          _buildInfoTile(Icons.phone, 'Contact Information', '+1 (555) 019-8833 • dr.sarah@valleyvet.org'),
+          const InfoTile(
+            icon: Icons.phone_outlined,
+            label: 'Direct Practitioner Contact',
+            value: '+1 (555) 019-8833 • dr.sarah@valleyvet.org',
+          ),
           const SizedBox(height: 24),
-          ListTile(
-            tileColor: AppColors.alertCritical.withValues(alpha: 0.1),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            leading: const Icon(Icons.logout, color: AppColors.alertCritical),
-            title: Text('Log Out', style: AppTypography.cardTitle.copyWith(fontSize: 16, color: AppColors.alertCritical)),
+
+          // 4. Professional Quick Actions Section
+          Text('Quick Actions', style: AppTypography.sectionHeading),
+          const SizedBox(height: 10),
+          ActionCard(
+            icon: Icons.edit_note_outlined,
+            title: 'Edit Profile & Qualifications',
+            subtitle: 'Update clinical details and contact info',
+            onTap: () => context.push('/edit-profile'),
+          ),
+          const SizedBox(height: 8),
+          ActionCard(
+            icon: Icons.calendar_today_outlined,
+            title: 'My Clinical Schedule',
+            subtitle: 'View upcoming consultations and visits',
+            onTap: () => context.go('/consultation-history'),
+          ),
+          const SizedBox(height: 8),
+          ActionCard(
+            icon: Icons.tune_outlined,
+            title: 'Availability & Shift Settings',
+            subtitle: 'Configure emergency response hours',
+            onTap: () => context.push('/notification-preferences'),
+          ),
+          const SizedBox(height: 8),
+          ActionCard(
+            icon: Icons.verified_outlined,
+            title: 'Documents & Licenses',
+            subtitle: 'Manage verified registration certificates',
+            onTap: () => context.push('/about-legal'),
+          ),
+          const SizedBox(height: 8),
+          ActionCard(
+            icon: Icons.logout_outlined,
+            title: 'Log Out Practitioner Account',
+            subtitle: 'Safely end active session',
+            isDanger: true,
             onTap: () {
               authNotifier.logout();
               context.go('/welcome');
@@ -120,32 +129,6 @@ class _VetProfilePageState extends State<VetProfilePage> {
           if (index == 3) context.go('/vet-outbreak-map');
           if (index == 4) context.go('/vet-profile');
         },
-      ),
-    );
-  }
-
-  Widget _buildInfoTile(IconData icon, String label, String value) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceCard,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.borderHairline),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: AppColors.primary, size: 22),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(label, style: AppTypography.captionMetadata),
-                Text(value, style: AppTypography.bodyDefault.copyWith(fontWeight: FontWeight.w500)),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
