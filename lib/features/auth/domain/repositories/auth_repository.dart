@@ -37,6 +37,19 @@ abstract class AuthRepository {
 
   Future<UserModel?> restoreSession();
 
+  Future<UserModel> updateProfile({
+    String? fullName,
+    String? phone,
+    String? farmName,
+    String? village,
+    String? district,
+    String? state,
+    String? clinicName,
+    String? specialization,
+    String? qualification,
+    int? yearsExperience,
+  });
+
   Future<void> logout();
 
   Future<void> changePassword({

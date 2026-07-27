@@ -90,6 +90,34 @@ class AuthNotifier extends ChangeNotifier {
     return success;
   }
 
+  Future<bool> updateProfile({
+    String? fullName,
+    String? phone,
+    String? farmName,
+    String? village,
+    String? district,
+    String? state,
+    String? clinicName,
+    String? specialization,
+    String? qualification,
+    int? yearsExperience,
+  }) async {
+    final success = await _service.updateProfile(
+      fullName: fullName,
+      phone: phone,
+      farmName: farmName,
+      village: village,
+      district: district,
+      state: state,
+      clinicName: clinicName,
+      specialization: specialization,
+      qualification: qualification,
+      yearsExperience: yearsExperience,
+    );
+    notifyListeners();
+    return success;
+  }
+
   Future<void> logout() async {
     await _service.logout();
     notifyListeners();

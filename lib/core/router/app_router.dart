@@ -214,11 +214,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/edit-animal',
-        builder: (context, state) => EditAnimalPage(animalId: state.extra as String? ?? ''),
+        builder: (context, state) => EditAnimalPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/animal-passport',
-        builder: (context, state) => AnimalPassportPage(animalId: state.extra as String?),
+        builder: (context, state) => AnimalPassportPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/animal-passport-qr-updated',
@@ -246,11 +246,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/delete-animal-confirmation',
-        builder: (context, state) => DeleteAnimalConfirmationPage(animalId: state.extra as String?),
+        builder: (context, state) => DeleteAnimalConfirmationPage(animalId: state.extra?.toString()),
       ),
       GoRoute(
         path: '/delete-animal',
-        builder: (context, state) => DeleteAnimalConfirmationPage(animalId: state.extra as String?),
+        builder: (context, state) => DeleteAnimalConfirmationPage(animalId: state.extra?.toString()),
       ),
       GoRoute(
         path: '/transfer-animal-ownership',
