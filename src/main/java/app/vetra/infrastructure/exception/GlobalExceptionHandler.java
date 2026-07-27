@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -18,23 +19,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
- * Global exception handler.
- *
- * <p>Intercepts all exceptions thrown from any {@code @RestController} in the application and
- * converts them to the standard {@link ApiResponse} envelope. This ensures the client always
- * receives a consistent error structure regardless of what went wrong internally.
+ * Global exception handler enforcing standard ApiResponse envelope without 500 error leaks.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
   private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-  // ─── Validation ──────────────────────────────────────────────────────
-
-  /**
-   * Handles {@link MethodArgumentNotValidException} raised by {@code @Valid} on request bodies.
-   * Returns 400 Bad Request with per-field error details.
-   */
+  /** Handles MethodArgumentNotValidException raised by @Valid. */
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ApiResponse<Void>> handleValidation(
       MethodArgumentNotValidException ex, HttpServletRequest request) {
@@ -52,12 +44,32 @@ public class GlobalExceptionHandler {
         .body(ApiResponse.error(HttpStatus.BAD_REQUEST, "Request validation failed", fieldErrors));
   }
 
-  // ─── Message Not Readable ────────────────────────────────────────────
+  /** Handles IllegalArgumentException for business rule violations. */
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ApiResponse<Void>> handleIllegalArgument(
+      IllegalArgumentException ex, HttpServletRequest request) {
 
-  /**
-   * Handles malformed or unparseable JSON request bodies.
-   * Returns 400 Bad Request.
-   */
+    log.warn("Business rule violation on {} {}: {}",
+        request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+    return ResponseEntity.badRequest()
+        .body(ApiResponse.error(HttpStatus.BAD_REQUEST, ex.getMessage()));
+  }
+
+  /** Handles DataIntegrityViolationException for database constraint failures. */
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  public ResponseEntity<ApiResponse<Void>> handleDataIntegrityViolation(
+      DataIntegrityViolationException ex, HttpServletRequest request) {
+
+    log.warn("Database constraint violation on {} {}: {}",
+        request.getMethod(), request.getRequestURI(), ex.getMessage());
+
+    return ResponseEntity.status(HttpStatus.CONFLICT)
+        .body(ApiResponse.error(HttpStatus.CONFLICT,
+            "A user or record with this phone number, email, or registration number already exists."));
+  }
+
+  /** Handles malformed JSON request bodies. */
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<ApiResponse<Void>> handleMessageNotReadable(
       HttpMessageNotReadableException ex, HttpServletRequest request) {
@@ -69,12 +81,7 @@ public class GlobalExceptionHandler {
         .body(ApiResponse.error(HttpStatus.BAD_REQUEST, "Request body is missing or malformed"));
   }
 
-  // ─── 404 Not Found ───────────────────────────────────────────────────
-
-  /**
-   * Handles requests to routes that do not exist.
-   * Returns 404 Not Found.
-   */
+  /** Handles requests to unmapped routes. */
   @ExceptionHandler(NoHandlerFoundException.class)
   public ResponseEntity<ApiResponse<Void>> handleNotFound(
       NoHandlerFoundException ex, HttpServletRequest request) {
@@ -86,12 +93,7 @@ public class GlobalExceptionHandler {
             "Route " + request.getMethod() + " " + request.getRequestURI() + " not found"));
   }
 
-  // ─── Security ────────────────────────────────────────────────────────
-
-  /**
-   * Handles Spring Security authentication failures (missing or invalid token).
-   * Returns 401 Unauthorized.
-   */
+  /** Handles Spring Security authentication failures. */
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<ApiResponse<Void>> handleAuthenticationException(
       AuthenticationException ex, HttpServletRequest request) {
@@ -103,27 +105,19 @@ public class GlobalExceptionHandler {
         .body(ApiResponse.error(HttpStatus.UNAUTHORIZED, "Authentication required"));
   }
 
-  /**
-   * Handles Spring Security authorization failures (authenticated but insufficient role).
-   * Returns 403 Forbidden.
-   */
+  /** Handles Spring Security authorization failures. */
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ApiResponse<Void>> handleAccessDenied(
       AccessDeniedException ex, HttpServletRequest request) {
 
-    log.warn("Access denied on {} {} for principal: {}", request.getMethod(),
+    log.warn("Access denied on {} {}: {}", request.getMethod(),
         request.getRequestURI(), ex.getMessage());
 
     return ResponseEntity.status(HttpStatus.FORBIDDEN)
         .body(ApiResponse.error(HttpStatus.FORBIDDEN, "Access denied"));
   }
 
-  // ─── Catch-All ───────────────────────────────────────────────────────
-
-  /**
-   * Final catch-all for any unhandled {@link RuntimeException}.
-   * Returns 500 Internal Server Error. The actual error is logged but NOT exposed to the client.
-   */
+  /** Final catch-all for unhandled RuntimeExceptions. */
   @ExceptionHandler(RuntimeException.class)
   public ResponseEntity<ApiResponse<Void>> handleRuntimeException(
       RuntimeException ex, HttpServletRequest request) {
@@ -136,10 +130,7 @@ public class GlobalExceptionHandler {
             "An unexpected error occurred. Please try again."));
   }
 
-  /**
-   * Final catch-all for any {@link Exception} not caught above.
-   * Returns 500 Internal Server Error.
-   */
+  /** Final catch-all for any Exception. */
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ApiResponse<Void>> handleException(
       Exception ex, HttpServletRequest request) {

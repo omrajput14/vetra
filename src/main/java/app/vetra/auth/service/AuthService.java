@@ -95,6 +95,9 @@ public class AuthService {
     if (userRepository.existsByEmail(request.email())) {
       throw new IllegalArgumentException("Email is already registered");
     }
+    if (request.phone() != null && !request.phone().isBlank() && userRepository.existsByPhone(request.phone())) {
+      throw new IllegalArgumentException("Phone number is already registered");
+    }
     if (vetProfileRepository.existsByRegistrationNumber(request.registrationNumber())) {
       throw new IllegalArgumentException("Registration number is already registered");
     }
