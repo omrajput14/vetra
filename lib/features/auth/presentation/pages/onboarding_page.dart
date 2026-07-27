@@ -55,12 +55,12 @@ class OnboardingPage extends StatelessWidget {
                 children: [
                   PrimaryButton(
                     label: 'Get Started',
-                    onPressed: () => context.go('/register-role'),
+                    onPressed: () => context.go('/welcome-role'),
                   ),
                   const SizedBox(height: 12),
                   SecondaryButton(
                     label: 'Sign In',
-                    onPressed: () => context.go('/login'),
+                    onPressed: () => context.go('/welcome-role'),
                   ),
                 ],
               ),
