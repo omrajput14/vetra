@@ -17,6 +17,7 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -25,11 +26,30 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
     super.dispose();
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     final identifier = _phoneController.text.trim();
     final password = _passwordController.text.trim();
-    authNotifier.loginFarmer(identifier.isEmpty ? '555-0199' : identifier, password);
-    context.go('/farmer-dashboard');
+
+    if (identifier.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter phone/email and password')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    final success = await authNotifier.loginFarmer(identifier, password);
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+
+    if (success) {
+      context.go('/farmer-dashboard');
+    } else {
+      final msg = authNotifier.errorMessage ?? 'Farmer login failed';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(msg), backgroundColor: Colors.red),
+      );
+    }
   }
 
   @override
@@ -61,8 +81,8 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
               AppTextField(
                 controller: _phoneController,
                 labelText: 'Phone / Email',
-                hintText: 'e.g. 555-0199 or farmer@vetra.app',
-                keyboardType: TextInputType.phone,
+                hintText: 'e.g. farmer@vetra.app',
+                keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 20),
               AppTextField(
@@ -84,8 +104,8 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Login',
-                onPressed: _handleLogin,
+                label: _isLoading ? 'Authenticating...' : 'Login',
+                onPressed: _isLoading ? null : () => _handleLogin(),
               ),
               const SizedBox(height: 16),
               Row(

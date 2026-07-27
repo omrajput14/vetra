@@ -16,6 +16,7 @@ class VetRegisterPage extends StatefulWidget {
 class _VetRegisterPageState extends State<VetRegisterPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _phoneController = TextEditingController();
   final _regNoController = TextEditingController();
   final _qualController = TextEditingController();
@@ -23,10 +24,14 @@ class _VetRegisterPageState extends State<VetRegisterPage> {
   final _clinicController = TextEditingController();
   final _expController = TextEditingController();
 
+  bool _isLoading = false;
+  bool _obscurePassword = true;
+
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _passwordController.dispose();
     _phoneController.dispose();
     _regNoController.dispose();
     _qualController.dispose();
@@ -36,18 +41,42 @@ class _VetRegisterPageState extends State<VetRegisterPage> {
     super.dispose();
   }
 
-  void _handleRegister() {
-    authNotifier.registerVet(
-      name: _nameController.text.isEmpty ? 'Dr. Sarah Jenkins' : _nameController.text,
-      email: _emailController.text.isEmpty ? 'dr.sarah@clinic.com' : _emailController.text,
-      phone: _phoneController.text.isEmpty ? '555-0188' : _phoneController.text,
-      regNo: _regNoController.text.isEmpty ? 'VET-12345-XX' : _regNoController.text,
-      qualification: _qualController.text.isEmpty ? 'BVSc & AH' : _qualController.text,
-      specialization: _specController.text.isEmpty ? 'Large Animals' : _specController.text,
-      clinicName: _clinicController.text,
-      experience: _expController.text.isEmpty ? '8' : _expController.text,
+  Future<void> _handleRegister() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final regNo = _regNoController.text.trim();
+
+    if (email.isEmpty || password.isEmpty || name.isEmpty || regNo.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter Email, Password, Name, and Registration Number')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    final success = await authNotifier.registerVet(
+      name: name,
+      email: email,
+      password: password,
+      phone: _phoneController.text.trim().isEmpty ? '+15550188' : _phoneController.text.trim(),
+      regNo: regNo,
+      qualification: _qualController.text.trim().isEmpty ? 'BVSc & AH' : _qualController.text.trim(),
+      specialization: _specController.text.trim().isEmpty ? 'General Medicine' : _specController.text.trim(),
+      clinicName: _clinicController.text.trim(),
+      experience: _expController.text.trim().isEmpty ? '5' : _expController.text.trim(),
     );
-    context.go('/vet-dashboard');
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+
+    if (success) {
+      context.go('/vet-dashboard');
+    } else {
+      final msg = authNotifier.errorMessage ?? 'Veterinarian registration failed';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(msg), backgroundColor: Colors.red),
+      );
+    }
   }
 
   @override
@@ -79,7 +108,18 @@ class _VetRegisterPageState extends State<VetRegisterPage> {
             const SizedBox(height: 16),
             AppTextField(controller: _emailController, labelText: 'Email', hintText: 'dr.sarah@clinic.com', keyboardType: TextInputType.emailAddress),
             const SizedBox(height: 16),
-            AppTextField(controller: _phoneController, labelText: 'Phone Number', hintText: '555-0188', keyboardType: TextInputType.phone),
+            AppTextField(
+              controller: _passwordController,
+              labelText: 'Password',
+              hintText: 'Minimum 6 characters',
+              obscureText: _obscurePassword,
+              suffixIcon: IconButton(
+                icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: AppColors.textMetadata),
+                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+              ),
+            ),
+            const SizedBox(height: 16),
+            AppTextField(controller: _phoneController, labelText: 'Phone Number', hintText: '+15550188', keyboardType: TextInputType.phone),
             const SizedBox(height: 16),
             AppTextField(controller: _regNoController, labelText: 'Veterinary Registration Number', hintText: 'VET-12345-XX'),
             const SizedBox(height: 16),
@@ -92,8 +132,8 @@ class _VetRegisterPageState extends State<VetRegisterPage> {
             AppTextField(controller: _expController, labelText: 'Years of Experience', hintText: '8', keyboardType: TextInputType.number),
             const SizedBox(height: 32),
             PrimaryButton(
-              label: 'Register Practice',
-              onPressed: _handleRegister,
+              label: _isLoading ? 'Registering...' : 'Register Practice',
+              onPressed: _isLoading ? null : _handleRegister,
             ),
             const SizedBox(height: 24),
           ],

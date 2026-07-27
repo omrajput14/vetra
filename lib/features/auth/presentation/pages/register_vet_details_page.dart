@@ -32,6 +32,7 @@ class _RegisterVetDetailsPageState extends State<RegisterVetDetailsPage> {
     authNotifier.registerVet(
       name: _nameController.text.isEmpty ? 'Dr. Sarah Jenkins' : _nameController.text,
       email: _emailController.text.isEmpty ? 'dr.sarah@clinic.com' : _emailController.text,
+      password: 'vetpassword123',
       phone: _phoneController.text.isEmpty ? '555-0188' : _phoneController.text,
       regNo: _licenseController.text.isEmpty ? 'VET-12345-XX' : _licenseController.text,
       qualification: 'BVSc & AH',
