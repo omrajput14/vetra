@@ -2,6 +2,7 @@ import '../../data/models/animal_dto.dart';
 
 abstract class AnimalRepository {
   Future<AnimalModel> createAnimal({
+    String? animalName,
     required String tagNumber,
     String? qrCodeId,
     required String species,
@@ -17,6 +18,7 @@ abstract class AnimalRepository {
 
   Future<AnimalModel> updateAnimal({
     required String id,
+    String? animalName,
     required String tagNumber,
     String? qrCodeId,
     required String species,
@@ -29,6 +31,7 @@ abstract class AnimalRepository {
   Future<void> deleteAnimal(String id);
 
   Future<List<AnimalModel>> searchAnimals({
+    String? animalName,
     String? tagNumber,
     String? qrCodeId,
     String? species,

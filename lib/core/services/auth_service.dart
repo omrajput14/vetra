@@ -148,6 +148,42 @@ class AuthService {
     }
   }
 
+  Future<bool> updateProfile({
+    String? fullName,
+    String? phone,
+    String? farmName,
+    String? village,
+    String? district,
+    String? state,
+    String? clinicName,
+    String? specialization,
+    String? qualification,
+    int? yearsExperience,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    try {
+      _currentUser = await _repository.updateProfile(
+        fullName: fullName,
+        phone: phone,
+        farmName: farmName,
+        village: village,
+        district: district,
+        state: state,
+        clinicName: clinicName,
+        specialization: specialization,
+        qualification: qualification,
+        yearsExperience: yearsExperience,
+      );
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
+    }
+  }
+
   Future<void> logout() async {
     _isLoading = true;
     try {

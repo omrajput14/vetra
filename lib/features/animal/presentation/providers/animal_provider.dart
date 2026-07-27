@@ -30,6 +30,7 @@ class AnimalNotifier extends ChangeNotifier {
   }
 
   Future<void> searchAnimals({
+    String? animalName,
     String? tagNumber,
     String? species,
     String? breed,
@@ -40,6 +41,7 @@ class AnimalNotifier extends ChangeNotifier {
 
     try {
       _animals = await _repository.searchAnimals(
+        animalName: animalName,
         tagNumber: tagNumber,
         species: species,
         breed: breed,
@@ -53,6 +55,7 @@ class AnimalNotifier extends ChangeNotifier {
   }
 
   Future<bool> createAnimal({
+    String? animalName,
     required String tagNumber,
     String? qrCodeId,
     required String species,
@@ -67,6 +70,7 @@ class AnimalNotifier extends ChangeNotifier {
 
     try {
       final animal = await _repository.createAnimal(
+        animalName: animalName,
         tagNumber: tagNumber,
         qrCodeId: qrCodeId,
         species: species,
@@ -88,6 +92,7 @@ class AnimalNotifier extends ChangeNotifier {
 
   Future<bool> updateAnimal({
     required String id,
+    String? animalName,
     required String tagNumber,
     String? qrCodeId,
     required String species,
@@ -103,6 +108,7 @@ class AnimalNotifier extends ChangeNotifier {
     try {
       final updated = await _repository.updateAnimal(
         id: id,
+        animalName: animalName,
         tagNumber: tagNumber,
         qrCodeId: qrCodeId,
         species: species,

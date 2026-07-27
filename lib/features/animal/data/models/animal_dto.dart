@@ -2,6 +2,7 @@ class AnimalModel {
   final String id;
   final String farmerId;
   final String farmerName;
+  final String? animalName;
   final String tagNumber;
   final String? qrCodeId;
   final String species;
@@ -16,6 +17,7 @@ class AnimalModel {
     required this.id,
     required this.farmerId,
     required this.farmerName,
+    this.animalName,
     required this.tagNumber,
     this.qrCodeId,
     required this.species,
@@ -27,11 +29,14 @@ class AnimalModel {
     required this.updatedAt,
   });
 
+  String get displayName => (animalName != null && animalName!.isNotEmpty) ? animalName! : tagNumber;
+
   factory AnimalModel.fromJson(Map<String, dynamic> json) {
     return AnimalModel(
       id: json['id'].toString(),
       farmerId: json['farmerId']?.toString() ?? '',
       farmerName: json['farmerName']?.toString() ?? 'Owner',
+      animalName: json['animalName']?.toString(),
       tagNumber: json['tagNumber']?.toString() ?? '',
       qrCodeId: json['qrCodeId']?.toString(),
       species: json['species']?.toString() ?? 'CATTLE',
@@ -49,6 +54,7 @@ class AnimalModel {
       'id': id,
       'farmerId': farmerId,
       'farmerName': farmerName,
+      'animalName': animalName,
       'tagNumber': tagNumber,
       'qrCodeId': qrCodeId,
       'species': species,

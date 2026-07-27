@@ -57,6 +57,15 @@ class AuthApiService {
     }
   }
 
+  Future<Map<String, dynamic>> updateProfile(Map<String, dynamic> body) async {
+    try {
+      final response = await _dio.put(ApiConfig.profileUpdate, data: body);
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
   Future<void> logout(String refreshToken) async {
     try {
       await _dio.post(ApiConfig.logout, data: {'refreshToken': refreshToken});

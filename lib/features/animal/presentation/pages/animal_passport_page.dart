@@ -2,119 +2,97 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
-import '../../data/models/animal_dto.dart';
 import '../providers/animal_provider.dart';
 
 class AnimalPassportPage extends StatelessWidget {
-  final String? animalId;
-  const AnimalPassportPage({super.key, this.animalId});
+  final String animalId;
+  const AnimalPassportPage({super.key, required this.animalId});
 
   @override
   Widget build(BuildContext context) {
-    final animal = animalId != null
-        ? animalNotifier.animals.firstWhere(
-            (a) => a.id == animalId,
-            orElse: () => animalNotifier.animals.isNotEmpty
-                ? animalNotifier.animals.first
-                : AnimalModel(
-                    id: '',
-                    farmerId: '',
-                    farmerName: 'Owner',
-                    tagNumber: 'NL-93842',
-                    species: 'CATTLE',
-                    breed: 'Holstein',
-                    gender: 'FEMALE',
-                    createdAt: '',
-                    updatedAt: '',
-                  ),
-          )
-        : (animalNotifier.animals.isNotEmpty ? animalNotifier.animals.first : null);
+    return AnimatedBuilder(
+      animation: animalNotifier,
+      builder: (context, _) {
+        final animal = animalNotifier.animals.firstWhere(
+          (a) => a.id == animalId,
+          orElse: () => animalNotifier.animals.first,
+        );
 
-    final tag = animal?.tagNumber ?? 'NL-93842';
-    final species = animal?.species ?? 'CATTLE';
-    final breed = animal?.breed ?? 'Holstein';
-    final gender = animal?.gender ?? 'FEMALE';
-    final qr = animal?.qrCodeId ?? 'N/A';
-
-    return Scaffold(
-      backgroundColor: AppColors.surfaceBackground,
-      appBar: AppBar(
-        backgroundColor: AppColors.surfaceCard,
-        elevation: 0,
-        title: Text('Digital Passport', style: AppTypography.screenTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => context.pop(),
-        ),
-        actions: [
-          if (animal != null && animal.id.isNotEmpty)
-            IconButton(
-              icon: const Icon(Icons.edit, color: AppColors.primary),
-              onPressed: () => context.push('/edit-animal', extra: animal.id),
-            ),
-          if (animal != null && animal.id.isNotEmpty)
-            IconButton(
-              icon: const Icon(Icons.delete_outline, color: AppColors.alertCritical),
-              onPressed: () => context.push('/delete-animal', extra: animal.id),
-            ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceCard,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.borderHairline),
-            ),
-            child: Column(
-              children: [
-                const CircleAvatar(
-                  radius: 40,
-                  backgroundColor: AppColors.surfaceContainer,
-                  child: Icon(Icons.pets, size: 48, color: AppColors.primary),
+        return Scaffold(
+          backgroundColor: AppColors.surfaceBackground,
+          appBar: AppBar(
+            backgroundColor: AppColors.surfaceCard,
+            elevation: 0,
+            title: Text('Animal Passport', style: AppTypography.screenTitle),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.edit, color: AppColors.primary),
+                onPressed: () => context.push('/edit-animal', extra: animal.id),
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete_outline, color: AppColors.alertCritical),
+                onPressed: () => context.push('/delete-animal', extra: animal.id),
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
+          body: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceCard,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.borderHairline),
                 ),
-                const SizedBox(height: 12),
-                Text(tag, style: AppTypography.screenTitle),
-                Text('Tag ID: $tag • $species ($breed)', style: AppTypography.captionMetadata),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Column(
                   children: [
-                    _buildMetaColumn('Species', species),
-                    _buildMetaColumn('Gender', gender),
-                    _buildMetaColumn('QR Code', qr),
+                    const Icon(Icons.pets, size: 64, color: AppColors.primary),
+                    const SizedBox(height: 12),
+                    Text(animal.displayName, style: AppTypography.screenTitle.copyWith(fontSize: 24)),
+                    if (animal.animalName != null && animal.animalName!.isNotEmpty)
+                      Text('Ear Tag: ${animal.tagNumber}', style: AppTypography.captionMetadata),
+                    const SizedBox(height: 8),
+                    Chip(
+                      label: Text(animal.species, style: AppTypography.captionMetadata.copyWith(color: Colors.white)),
+                      backgroundColor: AppColors.primary,
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+              Text('Animal Telemetry & Details', style: AppTypography.sectionHeading),
+              const SizedBox(height: 12),
+              _buildDetailTile('Official Tag', animal.tagNumber),
+              _buildDetailTile('QR Code ID', animal.qrCodeId ?? 'Not Assigned'),
+              _buildDetailTile('Species', animal.species),
+              _buildDetailTile('Breed', animal.breed ?? 'Unknown'),
+              _buildDetailTile('Gender', animal.gender),
+              _buildDetailTile('Owner', animal.farmerName),
+            ],
           ),
-          const SizedBox(height: 20),
-          Text('Health History', style: AppTypography.sectionHeading),
-          const SizedBox(height: 12),
-          ListTile(
-            tileColor: AppColors.surfaceCard,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            leading: const Icon(Icons.history, color: AppColors.primary),
-            title: Text('Vaccination Timeline', style: AppTypography.cardTitle.copyWith(fontSize: 16)),
-            subtitle: Text('View full medical history', style: AppTypography.captionMetadata),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push('/animal-timeline'),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildMetaColumn(String label, String value) {
-    return Column(
-      children: [
-        Text(label, style: AppTypography.captionMetadata),
-        const SizedBox(height: 4),
-        Text(value, style: AppTypography.cardTitle.copyWith(fontSize: 14)),
-      ],
+  Widget _buildDetailTile(String label, String value) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceCard,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.borderHairline),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: AppTypography.captionMetadata),
+          Text(value, style: AppTypography.cardTitle.copyWith(fontSize: 14)),
+        ],
+      ),
     );
   }
 }

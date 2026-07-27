@@ -21,9 +21,13 @@ class ApiConfig {
   static const String refresh = '/api/v1/auth/refresh';
   static const String logout = '/api/v1/auth/logout';
   static const String changePassword = '/api/v1/auth/change-password';
+  static const String profileUpdate = '/api/v1/auth/profile';
   static const String me = '/api/v1/auth/me';
 
   // Animal Endpoints
   static const String animals = '/api/v1/animals';
   static const String animalSearch = '/api/v1/animals/search';
+
+  // Dashboard Endpoint (Single unified call)
+  static const String dashboard = '/api/v1/dashboard';
 }
