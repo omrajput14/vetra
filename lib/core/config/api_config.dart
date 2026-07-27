@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 class ApiConfig {
   ApiConfig._();
 
-  // Android Emulator uses 10.0.2.2, iOS/Web/Mac use localhost
   static String get baseUrl {
     if (kIsWeb) return 'http://localhost:8080';
     return defaultTargetPlatform == TargetPlatform.android
@@ -23,4 +22,8 @@ class ApiConfig {
   static const String logout = '/api/v1/auth/logout';
   static const String changePassword = '/api/v1/auth/change-password';
   static const String me = '/api/v1/auth/me';
+
+  // Animal Endpoints
+  static const String animals = '/api/v1/animals';
+  static const String animalSearch = '/api/v1/animals/search';
 }
