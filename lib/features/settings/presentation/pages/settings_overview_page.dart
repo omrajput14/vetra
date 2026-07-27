@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
 
 class SettingsOverviewPage extends StatelessWidget {
   const SettingsOverviewPage({super.key});
@@ -23,11 +24,27 @@ class SettingsOverviewPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           _buildItem(context, 'Notifications', Icons.notifications, '/notification-preferences'),
+          const SizedBox(height: 8),
           _buildItem(context, 'Language Settings', Icons.language, '/language-settings'),
+          const SizedBox(height: 8),
           _buildItem(context, 'Security & Passwords', Icons.lock, '/security-settings'),
+          const SizedBox(height: 8),
           _buildItem(context, 'Privacy', Icons.privacy_tip, '/privacy-settings'),
+          const SizedBox(height: 8),
           _buildItem(context, 'Help & Support', Icons.help_outline, '/help-support'),
+          const SizedBox(height: 8),
           _buildItem(context, 'About & Legal', Icons.info_outline, '/about-legal'),
+          const SizedBox(height: 24),
+          ListTile(
+            tileColor: AppColors.alertCritical.withValues(alpha: 0.1),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            leading: const Icon(Icons.logout, color: AppColors.alertCritical),
+            title: Text('Log Out', style: AppTypography.cardTitle.copyWith(fontSize: 16, color: AppColors.alertCritical)),
+            onTap: () {
+              authNotifier.logout();
+              context.go('/welcome');
+            },
+          ),
         ],
       ),
     );
