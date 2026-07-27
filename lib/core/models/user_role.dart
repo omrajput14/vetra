@@ -3,3 +3,9 @@ enum UserRole {
   veterinarian,
   administrator,
 }
+
+enum VetAccountStatus {
+  pendingVerification,
+  active,
+  rejected,
+}

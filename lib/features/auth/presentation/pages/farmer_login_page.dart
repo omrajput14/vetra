@@ -4,6 +4,7 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../providers/auth_provider.dart';
 
 class FarmerLoginPage extends StatefulWidget {
   const FarmerLoginPage({super.key});
@@ -22,6 +23,13 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
     _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _handleLogin() {
+    final identifier = _phoneController.text.trim();
+    final password = _passwordController.text.trim();
+    authNotifier.loginFarmer(identifier.isEmpty ? '555-0199' : identifier, password);
+    context.go('/farmer-dashboard');
   }
 
   @override
@@ -46,13 +54,13 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
               Text('Farmer Sign In', style: AppTypography.screenTitle),
               const SizedBox(height: 8),
               Text(
-                'Access your herd surveillance and animal health records.',
+                'Access herd surveillance and animal health records.',
                 style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
               ),
               const SizedBox(height: 32),
               AppTextField(
                 controller: _phoneController,
-                labelText: 'Phone Number or Email',
+                labelText: 'Phone / Email',
                 hintText: 'e.g. 555-0199 or farmer@vetra.app',
                 keyboardType: TextInputType.phone,
               ),
@@ -76,8 +84,8 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Sign In as Farmer',
-                onPressed: () => context.go('/farmer-dashboard'),
+                label: 'Login',
+                onPressed: _handleLogin,
               ),
               const SizedBox(height: 16),
               Row(

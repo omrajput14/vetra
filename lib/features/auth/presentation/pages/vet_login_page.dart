@@ -4,6 +4,7 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../providers/auth_provider.dart';
 
 class VetLoginPage extends StatefulWidget {
   const VetLoginPage({super.key});
@@ -24,6 +25,17 @@ class _VetLoginPageState extends State<VetLoginPage> {
     _passwordController.dispose();
     _licenseController.dispose();
     super.dispose();
+  }
+
+  void _handleLogin() {
+    final email = _emailController.text.trim();
+    final regNo = _licenseController.text.trim();
+    authNotifier.loginVet(
+      email: email.isEmpty ? 'dr.smith@clinic.com' : email,
+      password: _passwordController.text.trim(),
+      regNo: regNo.isEmpty ? 'VET-9941-XX' : regNo,
+    );
+    context.go('/vet-dashboard');
   }
 
   @override
@@ -54,7 +66,7 @@ class _VetLoginPageState extends State<VetLoginPage> {
               const SizedBox(height: 32),
               AppTextField(
                 controller: _emailController,
-                labelText: 'Email Address',
+                labelText: 'Email',
                 hintText: 'dr.smith@clinic.com',
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -84,8 +96,8 @@ class _VetLoginPageState extends State<VetLoginPage> {
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Sign In as Veterinarian',
-                onPressed: () => context.go('/vet-dashboard'),
+                label: 'Login',
+                onPressed: _handleLogin,
               ),
               const SizedBox(height: 16),
               Row(
@@ -95,7 +107,7 @@ class _VetLoginPageState extends State<VetLoginPage> {
                   GestureDetector(
                     onTap: () => context.push('/vet-register'),
                     child: Text(
-                      'Register Clinical Account',
+                      'Register',
                       style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
                     ),
                   ),
