@@ -1,6 +1,11 @@
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/auth/presentation/pages/onboarding_page.dart';
+import '../../features/auth/presentation/pages/welcome_role_selection_page.dart';
+import '../../features/auth/presentation/pages/farmer_login_page.dart';
+import '../../features/auth/presentation/pages/farmer_registration_page.dart';
+import '../../features/auth/presentation/pages/vet_login_page.dart';
+import '../../features/auth/presentation/pages/vet_registration_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_role_selection_page.dart';
 import '../../features/auth/presentation/pages/register_vet_details_page.dart';
@@ -79,11 +84,33 @@ class AppRouter {
         builder: (context, state) => const OnboardingPage(),
       ),
       GoRoute(
+        path: '/welcome-role',
+        builder: (context, state) => const WelcomeRoleSelectionPage(),
+      ),
+      GoRoute(
+        path: '/farmer-login',
+        builder: (context, state) => const FarmerLoginPage(),
+      ),
+      GoRoute(
+        path: '/farmer-register',
+        builder: (context, state) => const FarmerRegistrationPage(),
+      ),
+      GoRoute(
+        path: '/vet-login',
+        builder: (context, state) => const VetLoginPage(),
+      ),
+      GoRoute(
+        path: '/vet-register',
+        builder: (context, state) => const VetRegistrationPage(),
+      ),
+      GoRoute(
         path: '/login',
+        redirect: (context, state) => '/welcome-role',
         builder: (context, state) => const LoginPage(),
       ),
       GoRoute(
         path: '/register-role',
+        redirect: (context, state) => '/welcome-role',
         builder: (context, state) => const RegisterRoleSelectionPage(),
       ),
       GoRoute(
