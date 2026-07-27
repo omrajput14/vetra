@@ -22,6 +22,8 @@ import '../../features/veterinarian/presentation/pages/vet_dashboard_page.dart';
 import '../../features/veterinarian/presentation/pages/vet_requests_page.dart';
 import '../../features/veterinarian/presentation/pages/consultation_history_page.dart';
 import '../../features/veterinarian/presentation/pages/vet_verification_page.dart';
+import '../../features/veterinarian/presentation/pages/vet_outbreak_map_page.dart';
+
 import '../../features/animal/presentation/pages/add_animal_page.dart';
 import '../../features/animal/presentation/pages/edit_animal_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_page.dart';
@@ -108,7 +110,7 @@ class AppRouter {
 
       // Role Guards
       if (role == UserRole.farmer) {
-        if (loc.startsWith('/vet-dashboard') || loc.startsWith('/vet-requests') || loc.startsWith('/consultation-history') || loc.startsWith('/diagnosis-entry')) {
+        if (loc.startsWith('/vet-dashboard') || loc.startsWith('/vet-requests') || loc.startsWith('/consultation-history') || loc.startsWith('/diagnosis-entry') || loc.startsWith('/vet-outbreak-map') || loc.startsWith('/vet-profile')) {
           return '/farmer-dashboard';
         }
       } else if (role == UserRole.veterinarian) {
@@ -309,6 +311,10 @@ class AppRouter {
       GoRoute(
         path: '/report-disease',
         builder: (context, state) => const ReportDiseasePage(),
+      ),
+            GoRoute(
+        path: '/vet-outbreak-map',
+        builder: (context, state) => const VetOutbreakMapPage(),
       ),
       GoRoute(
         path: '/outbreak-map',

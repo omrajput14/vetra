@@ -28,6 +28,7 @@ class VetBottomNavigation extends StatelessWidget {
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.textSecondary,
         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),
           BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Requests'),
           BottomNavigationBarItem(icon: Icon(Icons.medical_services), label: 'Cases'),
           BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),

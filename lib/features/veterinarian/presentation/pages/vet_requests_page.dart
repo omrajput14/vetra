@@ -42,8 +42,8 @@ class VetRequestsPage extends StatelessWidget {
         currentIndex: 0,
         onTap: (index) {
           if (index == 1) context.go('/consultation-history');
-          if (index == 2) context.go('/outbreak-map');
-          if (index == 3) context.go('/vet-profile');
+          if (index == 3) context.go('/vet-outbreak-map');
+          if (index == 4) context.go('/vet-profile');
         },
       ),
     );
