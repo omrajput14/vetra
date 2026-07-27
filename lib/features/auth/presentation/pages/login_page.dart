@@ -4,6 +4,8 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../../../../core/models/user_role.dart';
+import '../providers/auth_provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -49,15 +51,15 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 32),
               AppTextField(
                 controller: _phoneController,
-                labelText: 'Phone Number',
-                hintText: 'Enter mobile number',
+                labelText: 'Phone Number or Email',
+                hintText: 'Enter mobile number or email',
                 keyboardType: TextInputType.phone,
               ),
               const SizedBox(height: 20),
               AppTextField(
                 controller: _passwordController,
-                labelText: 'Password or OTP',
-                hintText: 'Enter secure code',
+                labelText: 'Password',
+                hintText: 'Enter account password',
                 obscureText: _obscurePassword,
                 suffixIcon: IconButton(
                   icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: AppColors.textMetadata),
@@ -74,7 +76,13 @@ class _LoginPageState extends State<LoginPage> {
               const Spacer(),
               PrimaryButton(
                 label: 'Sign In',
-                onPressed: () => context.go('/farmer-dashboard'),
+                onPressed: () {
+                  if (authNotifier.currentRole == UserRole.veterinarian) {
+                    context.go('/vet-dashboard');
+                  } else {
+                    context.go('/farmer-dashboard');
+                  }
+                },
               ),
               const SizedBox(height: 16),
               Row(
@@ -82,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text('New to Vetra? ', style: AppTypography.captionMetadata),
                   GestureDetector(
-                    onTap: () => context.go('/register-role'),
+                    onTap: () => context.go('/welcome'),
                     child: Text('Create Account', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
                   ),
                 ],
