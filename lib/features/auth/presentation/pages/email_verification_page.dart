@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
+import '../../../../core/models/user_role.dart';
+import '../providers/auth_provider.dart';
 
 class EmailVerificationPage extends StatelessWidget {
   const EmailVerificationPage({super.key});
@@ -65,7 +67,13 @@ class EmailVerificationPage extends StatelessWidget {
               const Spacer(),
               PrimaryButton(
                 label: 'Verify and Continue',
-                onPressed: () => context.go('/farmer-dashboard'),
+                onPressed: () {
+                  if (authNotifier.currentRole == UserRole.veterinarian) {
+                    context.go('/vet-dashboard');
+                  } else {
+                    context.go('/farmer-dashboard');
+                  }
+                },
               ),
               const SizedBox(height: 24),
             ],

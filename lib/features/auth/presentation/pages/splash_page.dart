@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
+import '../../../../core/models/user_role.dart';
+import '../providers/auth_provider.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -15,7 +17,17 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) context.go('/onboarding');
+      if (!mounted) return;
+      authNotifier.restoreSession();
+      if (authNotifier.isLoggedIn) {
+        if (authNotifier.currentRole == UserRole.veterinarian) {
+          context.go('/vet-dashboard');
+        } else {
+          context.go('/farmer-dashboard');
+        }
+      } else {
+        context.go('/welcome');
+      }
     });
   }
 
@@ -70,7 +82,7 @@ class _SplashPageState extends State<SplashPage> {
                   child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primary),
                 ),
                 const SizedBox(width: 8),
-                Text('Initializing local database...', style: AppTypography.captionMetadata),
+                Text('Initializing authentication session...', style: AppTypography.captionMetadata),
               ],
             ),
           ),

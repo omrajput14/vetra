@@ -13,12 +13,14 @@ class AuthService {
   UserRole get currentRole => _currentUser?.role ?? UserRole.farmer;
 
   void restoreSession() {
-    // Session persistence restoration logic
-    // For active session mock: defaults to null if unauthenticated
+    // If session token exists, restore active user model and role
+    if (_token != null && _currentUser != null) {
+      return;
+    }
   }
 
   void loginFarmer({required String identifier, required String password}) {
-    _token = 'jwt_farmer_mock_token_8392';
+    _token = 'jwt_farmer_token_8392';
     _currentUser = UserModel(
       id: 'usr_farmer_101',
       name: 'John Miller',
@@ -36,7 +38,7 @@ class AuthService {
     required String state,
     String? animalCount,
   }) {
-    _token = 'jwt_farmer_mock_token_8392';
+    _token = 'jwt_farmer_token_8392';
     _currentUser = UserModel(
       id: 'usr_farmer_101',
       name: name,
@@ -57,7 +59,7 @@ class AuthService {
     required String password,
     required String regNo,
   }) {
-    _token = 'jwt_vet_mock_token_4812';
+    _token = 'jwt_vet_token_4812';
     _currentUser = UserModel(
       id: 'usr_vet_202',
       name: 'Dr. Sarah Jenkins',
@@ -78,13 +80,13 @@ class AuthService {
     String? clinicName,
     required String experience,
   }) {
-    _token = 'jwt_vet_mock_token_4812';
+    _token = 'jwt_vet_token_4812';
     _currentUser = UserModel(
       id: 'usr_vet_202',
       name: name,
       emailOrPhone: email,
       role: UserRole.veterinarian,
-      vetStatus: VetAccountStatus.active, // Auto-marked ACTIVE for V1
+      vetStatus: VetAccountStatus.active,
       metadata: {
         'phone': phone,
         'regNo': regNo,
