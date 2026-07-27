@@ -39,7 +39,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<UserModel> registerVet({
     required String name,
     required String email,
-    required String phone,
+    String? phone,
     required String password,
     required String regNo,
     required String qualification,
@@ -48,10 +48,11 @@ class AuthRepositoryImpl implements AuthRepository {
     required String experience,
   }) async {
     final yearsExp = int.tryParse(experience.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
+    final cleanPhone = (phone != null && phone.trim().isNotEmpty) ? phone.trim() : null;
 
     final response = await _apiService.registerVet({
       'email': email.trim().replaceAll(' ', ''),
-      'phone': phone.trim(),
+      'phone': cleanPhone,
       'password': password,
       'fullName': name.trim(),
       'registrationNumber': regNo.trim(),
