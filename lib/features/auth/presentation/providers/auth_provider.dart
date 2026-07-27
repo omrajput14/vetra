@@ -67,7 +67,7 @@ class AuthNotifier extends ChangeNotifier {
   Future<bool> registerVet({
     required String name,
     required String email,
-    required String phone,
+    String? phone,
     required String password,
     required String regNo,
     required String qualification,
