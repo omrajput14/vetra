@@ -18,6 +18,7 @@ class _VetLoginPageState extends State<VetLoginPage> {
   final _passwordController = TextEditingController();
   final _licenseController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -27,15 +28,33 @@ class _VetLoginPageState extends State<VetLoginPage> {
     super.dispose();
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     final email = _emailController.text.trim();
-    final regNo = _licenseController.text.trim();
-    authNotifier.loginVet(
-      email: email.isEmpty ? 'dr.smith@clinic.com' : email,
-      password: _passwordController.text.trim(),
-      regNo: regNo.isEmpty ? 'VET-9941-XX' : regNo,
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter email and password')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    final success = await authNotifier.loginVet(
+      email: email,
+      password: password,
     );
-    context.go('/vet-dashboard');
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+
+    if (success) {
+      context.go('/vet-dashboard');
+    } else {
+      final msg = authNotifier.errorMessage ?? 'Veterinarian login failed';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(msg), backgroundColor: Colors.red),
+      );
+    }
   }
 
   @override
@@ -73,7 +92,7 @@ class _VetLoginPageState extends State<VetLoginPage> {
               const SizedBox(height: 16),
               AppTextField(
                 controller: _licenseController,
-                labelText: 'Veterinary Registration Number',
+                labelText: 'Veterinary Registration Number (Optional)',
                 hintText: 'VET-9941-XX',
               ),
               const SizedBox(height: 16),
@@ -96,8 +115,8 @@ class _VetLoginPageState extends State<VetLoginPage> {
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Login',
-                onPressed: _handleLogin,
+                label: _isLoading ? 'Authenticating...' : 'Login',
+                onPressed: _isLoading ? null : () => _handleLogin(),
               ),
               const SizedBox(height: 16),
               Row(

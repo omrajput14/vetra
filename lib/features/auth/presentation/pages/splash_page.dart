@@ -16,19 +16,23 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      if (!mounted) return;
-      authNotifier.restoreSession();
-      if (authNotifier.isLoggedIn) {
-        if (authNotifier.currentRole == UserRole.veterinarian) {
-          context.go('/vet-dashboard');
-        } else {
-          context.go('/farmer-dashboard');
-        }
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    await Future.delayed(const Duration(milliseconds: 800));
+    final hasSession = await authNotifier.restoreSession();
+    if (!mounted) return;
+
+    if (hasSession && authNotifier.isLoggedIn) {
+      if (authNotifier.currentRole == UserRole.veterinarian) {
+        context.go('/vet-dashboard');
       } else {
-        context.go('/welcome');
+        context.go('/farmer-dashboard');
       }
-    });
+    } else {
+      context.go('/welcome');
+    }
   }
 
   @override
