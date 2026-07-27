@@ -1,11 +1,13 @@
 import 'package:go_router/go_router.dart';
+import '../../core/models/user_role.dart';
+import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/auth/presentation/pages/onboarding_page.dart';
-import '../../features/auth/presentation/pages/welcome_role_selection_page.dart';
+import '../../features/auth/presentation/pages/welcome_page.dart';
 import '../../features/auth/presentation/pages/farmer_login_page.dart';
-import '../../features/auth/presentation/pages/farmer_registration_page.dart';
+import '../../features/auth/presentation/pages/farmer_register_page.dart';
 import '../../features/auth/presentation/pages/vet_login_page.dart';
-import '../../features/auth/presentation/pages/vet_registration_page.dart';
+import '../../features/auth/presentation/pages/vet_register_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_role_selection_page.dart';
 import '../../features/auth/presentation/pages/register_vet_details_page.dart';
@@ -74,6 +76,49 @@ class AppRouter {
 
   static final router = GoRouter(
     initialLocation: '/splash',
+    refreshListenable: authNotifier,
+    redirect: (context, state) {
+      final loc = state.matchedLocation;
+      final isLoggedIn = authNotifier.isLoggedIn;
+      final role = authNotifier.currentRole;
+
+      // Allow splash & onboarding
+      if (loc == '/splash' || loc == '/onboarding') return null;
+
+      final isAuthRoute = loc == '/welcome' ||
+          loc == '/farmer-login' ||
+          loc == '/farmer-register' ||
+          loc == '/vet-login' ||
+          loc == '/vet-register' ||
+          loc == '/login' ||
+          loc == '/register-role';
+
+      if (!isLoggedIn) {
+        if (!isAuthRoute && loc != '/forgot-password' && loc != '/reset-password') {
+          return '/welcome';
+        }
+        return null;
+      }
+
+      // If logged in and visiting auth page, redirect to active role dashboard
+      if (isAuthRoute) {
+        if (role == UserRole.veterinarian) return '/vet-dashboard';
+        return '/farmer-dashboard';
+      }
+
+      // Role Guards
+      if (role == UserRole.farmer) {
+        if (loc.startsWith('/vet-dashboard') || loc.startsWith('/vet-requests') || loc.startsWith('/consultation-history') || loc.startsWith('/diagnosis-entry')) {
+          return '/farmer-dashboard';
+        }
+      } else if (role == UserRole.veterinarian) {
+        if (loc.startsWith('/farmer-dashboard') || loc == '/my-animals' || loc == '/add-animal' || loc == '/edit-animal') {
+          return '/vet-dashboard';
+        }
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/splash',
@@ -84,8 +129,8 @@ class AppRouter {
         builder: (context, state) => const OnboardingPage(),
       ),
       GoRoute(
-        path: '/welcome-role',
-        builder: (context, state) => const WelcomeRoleSelectionPage(),
+        path: '/welcome',
+        builder: (context, state) => const WelcomePage(),
       ),
       GoRoute(
         path: '/farmer-login',
@@ -93,7 +138,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/farmer-register',
-        builder: (context, state) => const FarmerRegistrationPage(),
+        builder: (context, state) => const FarmerRegisterPage(),
       ),
       GoRoute(
         path: '/vet-login',
@@ -101,16 +146,16 @@ class AppRouter {
       ),
       GoRoute(
         path: '/vet-register',
-        builder: (context, state) => const VetRegistrationPage(),
+        builder: (context, state) => const VetRegisterPage(),
       ),
       GoRoute(
         path: '/login',
-        redirect: (context, state) => '/welcome-role',
+        redirect: (context, state) => '/welcome',
         builder: (context, state) => const LoginPage(),
       ),
       GoRoute(
         path: '/register-role',
-        redirect: (context, state) => '/welcome-role',
+        redirect: (context, state) => '/welcome',
         builder: (context, state) => const RegisterRoleSelectionPage(),
       ),
       GoRoute(
@@ -353,26 +398,25 @@ class AppRouter {
         path: '/search-results',
         builder: (context, state) => const SearchResultsPage(),
       ),
-      // Reserved Admin Routes (Disabled for V1, redirect to splash)
       GoRoute(
         path: '/admin-dashboard',
-        redirect: (context, state) => '/splash',
+        redirect: (context, state) => '/welcome',
       ),
       GoRoute(
         path: '/user-management',
-        redirect: (context, state) => '/splash',
+        redirect: (context, state) => '/welcome',
       ),
       GoRoute(
         path: '/admin-analytics',
-        redirect: (context, state) => '/splash',
+        redirect: (context, state) => '/welcome',
       ),
       GoRoute(
         path: '/broadcast-notifications',
-        redirect: (context, state) => '/splash',
+        redirect: (context, state) => '/welcome',
       ),
       GoRoute(
         path: '/ai-monitoring',
-        redirect: (context, state) => '/splash',
+        redirect: (context, state) => '/welcome',
       ),
     ],
   );
