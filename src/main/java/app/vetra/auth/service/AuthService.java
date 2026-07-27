@@ -142,10 +142,10 @@ public class AuthService {
     return createAuthResponse(user, mapVetProfileToDto(user, profile));
   }
 
-  /** Refreshes access token. */
+  /** Refreshes access token and rotates refresh token using raw token string. */
   @Transactional
   public AuthResponse refreshToken(RefreshTokenRequest request) {
-    RefreshToken refreshToken = refreshTokenService.findByToken(request.refreshToken())
+    RefreshToken refreshToken = refreshTokenService.findByRawToken(request.refreshToken())
         .map(refreshTokenService::verifyExpiration)
         .orElseThrow(() -> new IllegalArgumentException("Invalid refresh token"));
 
@@ -154,13 +154,13 @@ public class AuthService {
     return createAuthResponse(user, profileDto);
   }
 
-  /** Revokes session on logout. */
+  /** Revokes session on logout using raw token string. */
   @Transactional
   public void logout(String refreshToken) {
     refreshTokenService.revokeToken(refreshToken);
   }
 
-  /** Changes password for user. */
+  /** Changes password for user and revokes all active sessions across all devices. */
   @Transactional
   public void changePassword(String identifier, ChangePasswordRequest request) {
     User user = userRepository.findByIdentifier(identifier)
@@ -172,6 +172,8 @@ public class AuthService {
 
     user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
     userRepository.save(user);
+
+    refreshTokenService.revokeAllUserTokens(user);
   }
 
   /** Retrieves user profile DTO by User entity. */
@@ -216,12 +218,14 @@ public class AuthService {
   }
 
   private AuthResponse createAuthResponse(User user, UserProfileDto profileDto) {
-    String accessToken = jwtUtil.generateAccessToken(user.getEmail() != null ? user.getEmail() : user.getPhone(), user.getRole().name());
-    RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+    String accessToken = jwtUtil.generateAccessToken(
+        user.getEmail() != null ? user.getEmail() : user.getPhone(),
+        user.getRole().name());
+    String rawRefreshToken = refreshTokenService.createRefreshToken(user);
 
     return new AuthResponse(
         accessToken,
-        refreshToken.getToken(),
+        rawRefreshToken,
         "Bearer",
         jwtUtil.getExpirationMs() / 1000,
         profileDto

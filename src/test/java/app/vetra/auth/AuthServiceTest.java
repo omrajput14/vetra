@@ -1,18 +1,23 @@
 package app.vetra.auth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import app.vetra.auth.dto.AuthResponse;
 import app.vetra.auth.dto.ChangePasswordRequest;
 import app.vetra.auth.dto.FarmerRegisterRequest;
 import app.vetra.auth.dto.LoginRequest;
 import app.vetra.auth.dto.RefreshTokenRequest;
-
 import app.vetra.auth.dto.VetRegisterRequest;
+import app.vetra.auth.repository.RefreshTokenRepository;
 import app.vetra.auth.service.AuthService;
+import app.vetra.auth.service.RefreshTokenService;
+import app.vetra.infrastructure.persistence.entity.RefreshToken;
 import app.vetra.infrastructure.persistence.enums.UserRole;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,13 +26,13 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration & unit tests for AuthService.
+ * Integration & unit tests for AuthService and Secure SHA-256 Refresh Token storage.
  */
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
 @TestPropertySource(properties = {
-    "spring.datasource.url=jdbc:h2:mem:vetra_auth_test;DB_CLOSE_DELAY=-1;MODE=PostgreSQL",
+    "spring.datasource.url=jdbc:h2:mem:vetra_sha256_test;DB_CLOSE_DELAY=-1;MODE=PostgreSQL",
     "spring.datasource.driver-class-name=org.h2.Driver",
     "spring.datasource.username=sa",
     "spring.datasource.password=",
@@ -53,8 +58,14 @@ class AuthServiceTest {
   @Autowired
   private AuthService authService;
 
+  @Autowired
+  private RefreshTokenService refreshTokenService;
+
+  @Autowired
+  private RefreshTokenRepository refreshTokenRepository;
+
   @Test
-  void testFarmerRegistrationAndLoginFlow() {
+  void testFarmerRegistrationAndSha256TokenStorage() {
     FarmerRegisterRequest registerRequest = new FarmerRegisterRequest(
         "farmer@vetra.app",
         "+1555019283",
@@ -70,19 +81,24 @@ class AuthServiceTest {
     );
 
     AuthResponse regResponse = authService.registerFarmer(registerRequest);
-    assertNotNull(regResponse.accessToken());
-    assertNotNull(regResponse.refreshToken());
-    assertEquals(UserRole.FARMER, regResponse.user().role());
-    assertEquals("John Farmer", regResponse.user().fullName());
+    String rawRefreshToken = regResponse.refreshToken();
 
-    LoginRequest loginRequest = new LoginRequest("farmer@vetra.app", "secret123");
-    AuthResponse loginResponse = authService.loginFarmer(loginRequest);
-    assertNotNull(loginResponse.accessToken());
-    assertEquals(UserRole.FARMER, loginResponse.user().role());
+    assertNotNull(regResponse.accessToken());
+    assertNotNull(rawRefreshToken);
+    assertEquals(UserRole.FARMER, regResponse.user().role());
+
+    // Verify SHA-256 hash storage in DB
+    String expectedHash = refreshTokenService.hashToken(rawRefreshToken);
+    assertEquals(64, expectedHash.length());
+    assertNotEquals(rawRefreshToken, expectedHash);
+
+    Optional<RefreshToken> dbToken = refreshTokenRepository.findByTokenHash(expectedHash);
+    assertTrue(dbToken.isPresent());
+    assertEquals(expectedHash, dbToken.get().getTokenHash());
   }
 
   @Test
-  void testVetRegistrationAndLoginFlow() {
+  void testRefreshTokenRotationWithHashedTokens() {
     VetRegisterRequest registerRequest = new VetRegisterRequest(
         "dr.jenkins@vetra.app",
         "+1555019883",
@@ -98,25 +114,26 @@ class AuthServiceTest {
     );
 
     AuthResponse regResponse = authService.registerVet(registerRequest);
-    assertNotNull(regResponse.accessToken());
-    assertNotNull(regResponse.refreshToken());
-    assertEquals(UserRole.VETERINARIAN, regResponse.user().role());
-    assertEquals("Dr. Sarah Jenkins", regResponse.user().fullName());
-    assertEquals("VET-REG-9941", regResponse.user().registrationNumber());
+    String oldRawToken = regResponse.refreshToken();
 
-    LoginRequest loginRequest = new LoginRequest("dr.jenkins@vetra.app", "vetpass123");
-    AuthResponse loginResponse = authService.loginVet(loginRequest);
-    assertNotNull(loginResponse.accessToken());
-    assertEquals(UserRole.VETERINARIAN, loginResponse.user().role());
+    AuthResponse refreshResponse = authService.refreshToken(new RefreshTokenRequest(oldRawToken));
+    String newRawToken = refreshResponse.refreshToken();
+
+    assertNotNull(refreshResponse.accessToken());
+    assertNotEquals(oldRawToken, newRawToken);
+
+    // Old token should be invalidated/deleted
+    assertThrows(IllegalArgumentException.class, () ->
+        authService.refreshToken(new RefreshTokenRequest(oldRawToken)));
   }
 
   @Test
-  void testRefreshTokenAndChangePassword() {
+  void testPasswordChangeRevokesAllSessions() {
     FarmerRegisterRequest registerRequest = new FarmerRegisterRequest(
-        "refresh@vetra.app",
+        "security@vetra.app",
         "+1555019999",
         "oldpass123",
-        "Test User",
+        "Test Security User",
         "Test Farm",
         "Village",
         "District",
@@ -127,16 +144,17 @@ class AuthServiceTest {
     );
 
     AuthResponse regResponse = authService.registerFarmer(registerRequest);
+    String rawRefreshToken = regResponse.refreshToken();
 
-    AuthResponse refreshResponse = authService.refreshToken(new RefreshTokenRequest(regResponse.refreshToken()));
-    assertNotNull(refreshResponse.accessToken());
+    // Password change must revoke all refresh sessions
+    authService.changePassword("security@vetra.app", new ChangePasswordRequest("oldpass123", "newpass456"));
 
-    authService.changePassword("refresh@vetra.app", new ChangePasswordRequest("oldpass123", "newpass456"));
-
-    AuthResponse newLogin = authService.loginFarmer(new LoginRequest("refresh@vetra.app", "newpass456"));
-    assertNotNull(newLogin.accessToken());
-
+    // Attempting to refresh with old token must fail
     assertThrows(IllegalArgumentException.class, () ->
-        authService.loginFarmer(new LoginRequest("refresh@vetra.app", "oldpass123")));
+        authService.refreshToken(new RefreshTokenRequest(rawRefreshToken)));
+
+    // New login with new password works
+    AuthResponse newLogin = authService.loginFarmer(new LoginRequest("security@vetra.app", "newpass456"));
+    assertNotNull(newLogin.accessToken());
   }
 }

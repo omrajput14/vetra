@@ -12,10 +12,10 @@ import org.springframework.data.jpa.repository.Modifying;
  */
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID> {
 
-  /** Finds refresh token by token string. */
-  Optional<RefreshToken> findByToken(String token);
+  /** Finds refresh token entity by SHA-256 token hash. */
+  Optional<RefreshToken> findByTokenHash(String tokenHash);
 
-  /** Deletes refresh tokens for user. */
+  /** Deletes all refresh tokens belonging to a user. */
   @Modifying
   void deleteByUser(User user);
 }

@@ -22,7 +22,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
- * Refresh token persistence entity for stateless JWT token rotation.
+ * Refresh token persistence entity storing SHA-256 token hashes.
  */
 @Getter
 @Setter
@@ -45,8 +45,8 @@ public class RefreshToken {
   private User user;
 
   @NotNull
-  @Column(name = "token", nullable = false, unique = true, length = 512)
-  private String token;
+  @Column(name = "token_hash", nullable = false, unique = true, length = 64)
+  private String tokenHash;
 
   @NotNull
   @Column(name = "expiry_date", nullable = false)
