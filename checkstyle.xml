@@ -44,7 +44,10 @@
     <module name="MethodName"/>
     <module name="ParameterName"/>
     <module name="LocalVariableName"/>
-    <module name="ConstantName"/>
+    <module name="ConstantName">
+      <!-- Allow lowercase 'log' and 'logger' for SLF4J/JUL — standard Google Java Style exception -->
+      <property name="format" value="^(log|logger|[A-Z][A-Z0-9]*(_[A-Z0-9]+)*)$"/>
+    </module>
 
     <!-- ─── Code Quality ────────────────────────────────────────────── -->
     <module name="EqualsHashCode"/>
@@ -74,7 +77,13 @@
     </module>
 
     <!-- ─── Whitespace ──────────────────────────────────────────────── -->
-    <module name="WhitespaceAround"/>
+    <!-- allowEmptyTypes=true permits Java 21 compact record bodies e.g. record Foo(){} -->
+    <module name="WhitespaceAround">
+      <property name="allowEmptyTypes" value="true"/>
+      <property name="allowEmptyConstructors" value="true"/>
+      <property name="allowEmptyMethods" value="true"/>
+      <property name="allowEmptyLambdas" value="true"/>
+    </module>
     <module name="NoWhitespaceBefore"/>
     <module name="GenericWhitespace"/>
 
