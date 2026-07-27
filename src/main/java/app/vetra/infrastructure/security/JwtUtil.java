@@ -1,100 +1,95 @@
 package app.vetra.infrastructure.security;
 
 import app.vetra.infrastructure.config.JwtProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
 /**
- * JWT utility — configuration placeholder.
- *
- * <p>This class holds the JWT configuration binding and exposes stub methods for token operations.
- * All method bodies will be implemented in the {@code auth} feature stage.
- *
- * <p><strong>Do not implement token logic here.</strong>
+ * Utility for issuing, parsing, and validating JWT access tokens.
  */
 @Component
 public class JwtUtil {
 
-  private static final Logger log = LoggerFactory.getLogger(JwtUtil.class);
-
   private final JwtProperties jwtProperties;
+  private final SecretKey secretKey;
 
   /** Constructor injection. */
   public JwtUtil(JwtProperties jwtProperties) {
     this.jwtProperties = jwtProperties;
+    this.secretKey = Keys.hmacShaKeyFor(jwtProperties.secret().getBytes(StandardCharsets.UTF_8));
   }
 
   /**
-   * Generates an access token for the given subject.
+   * Generates a signed JWT access token.
    *
-   * @param subject user identifier (to be implemented in auth stage)
-   * @param role user role string
+   * @param email subject identifier
+   * @param role user role
    * @return signed JWT string
-   * @throws UnsupportedOperationException until auth stage is implemented
    */
-  public String generateAccessToken(String subject, String role) {
-    log.debug("generateAccessToken called for subject={}", subject);
-    throw new UnsupportedOperationException(
-        "JWT generation not implemented in infrastructure stage");
+  public String generateAccessToken(String email, String role) {
+    Date now = new Date();
+    Date expiry = new Date(now.getTime() + jwtProperties.expirationMs());
+
+    return Jwts.builder()
+        .subject(email)
+        .claim("role", role)
+        .issuedAt(now)
+        .expiration(expiry)
+        .signWith(secretKey)
+        .compact();
   }
 
   /**
-   * Generates a refresh token.
+   * Validates token signature and expiration against subject.
    *
-   * @param subject user identifier
-   * @return signed refresh JWT
-   * @throws UnsupportedOperationException until auth stage is implemented
+   * @param token JWT string
+   * @param userEmail expected subject email
+   * @return true if valid
    */
-  public String generateRefreshToken(String subject) {
-    log.debug("generateRefreshToken called for subject={}", subject);
-    throw new UnsupportedOperationException(
-        "JWT refresh generation not implemented in infrastructure stage");
+  public boolean isTokenValid(String token, String userEmail) {
+    String subject = extractSubject(token);
+    return subject.equalsIgnoreCase(userEmail) && !isTokenExpired(token);
   }
 
   /**
-   * Validates a JWT token.
-   *
-   * @param token the JWT string to validate
-   * @return {@code true} if valid, {@code false} otherwise
-   * @throws UnsupportedOperationException until auth stage is implemented
-   */
-  public boolean isTokenValid(String token) {
-    throw new UnsupportedOperationException(
-        "JWT validation not implemented in infrastructure stage");
-  }
-
-  /**
-   * Extracts the subject (user ID or email) from a token.
-   *
-   * @param token the JWT string
-   * @return subject claim value
-   * @throws UnsupportedOperationException until auth stage is implemented
+   * Extracts subject email from token.
    */
   public String extractSubject(String token) {
-    throw new UnsupportedOperationException(
-        "JWT subject extraction not implemented in infrastructure stage");
+    return extractAllClaims(token).getSubject();
   }
 
   /**
-   * Extracts the expiration date from a token.
-   *
-   * @param token the JWT string
-   * @return expiration {@link Date}
-   * @throws UnsupportedOperationException until auth stage is implemented
+   * Extracts role claim from token.
+   */
+  public String extractRole(String token) {
+    return extractAllClaims(token).get("role", String.class);
+  }
+
+  /**
+   * Extracts expiration date from token.
    */
   public Date extractExpiration(String token) {
-    throw new UnsupportedOperationException(
-        "JWT expiration extraction not implemented in infrastructure stage");
+    return extractAllClaims(token).getExpiration();
   }
 
-  /**
-   * Returns configured access token validity in milliseconds.
-   *
-   * @return expiration duration in ms
-   */
   public long getExpirationMs() {
     return jwtProperties.expirationMs();
+  }
+
+  private boolean isTokenExpired(String token) {
+    return extractExpiration(token).before(new Date());
+  }
+
+  private Claims extractAllClaims(String token) {
+    return Jwts.parser()
+        .verifyWith(secretKey)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload();
   }
 }

@@ -1,0 +1,262 @@
+package app.vetra.auth.service;
+
+import app.vetra.auth.dto.AuthResponse;
+import app.vetra.auth.dto.ChangePasswordRequest;
+import app.vetra.auth.dto.FarmerRegisterRequest;
+import app.vetra.auth.dto.LoginRequest;
+import app.vetra.auth.dto.RefreshTokenRequest;
+import app.vetra.auth.dto.UserProfileDto;
+import app.vetra.auth.dto.VetRegisterRequest;
+import app.vetra.auth.repository.FarmerProfileRepository;
+import app.vetra.auth.repository.UserRepository;
+import app.vetra.auth.repository.VetProfileRepository;
+import app.vetra.infrastructure.persistence.entity.FarmerProfile;
+import app.vetra.infrastructure.persistence.entity.RefreshToken;
+import app.vetra.infrastructure.persistence.entity.User;
+import app.vetra.infrastructure.persistence.entity.VetProfile;
+import app.vetra.infrastructure.persistence.enums.UserRole;
+import app.vetra.infrastructure.security.JwtUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Authentication service handling registration, login, refresh, logout, password change, and profile fetch.
+ */
+@Service
+public class AuthService {
+
+  private final UserRepository userRepository;
+  private final FarmerProfileRepository farmerProfileRepository;
+  private final VetProfileRepository vetProfileRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final JwtUtil jwtUtil;
+  private final RefreshTokenService refreshTokenService;
+
+  /** Constructor injection. */
+  public AuthService(
+      UserRepository userRepository,
+      FarmerProfileRepository farmerProfileRepository,
+      VetProfileRepository vetProfileRepository,
+      PasswordEncoder passwordEncoder,
+      JwtUtil jwtUtil,
+      RefreshTokenService refreshTokenService) {
+    this.userRepository = userRepository;
+    this.farmerProfileRepository = farmerProfileRepository;
+    this.vetProfileRepository = vetProfileRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.jwtUtil = jwtUtil;
+    this.refreshTokenService = refreshTokenService;
+  }
+
+  /** Registers a farmer user and profile. */
+  @Transactional
+  public AuthResponse registerFarmer(FarmerRegisterRequest request) {
+    if (userRepository.existsByEmail(request.email())) {
+      throw new IllegalArgumentException("Email is already registered");
+    }
+    if (request.phone() != null && userRepository.existsByPhone(request.phone())) {
+      throw new IllegalArgumentException("Phone number is already registered");
+    }
+
+    User user = User.builder()
+        .email(request.email())
+        .phone(request.phone())
+        .passwordHash(passwordEncoder.encode(request.password()))
+        .role(UserRole.FARMER)
+        .isActive(true)
+        .build();
+
+    user = userRepository.save(user);
+
+    FarmerProfile profile = FarmerProfile.builder()
+        .user(user)
+        .fullName(request.fullName())
+        .farmName(request.farmName())
+        .village(request.village())
+        .district(request.district())
+        .state(request.state())
+        .latitude(request.latitude())
+        .longitude(request.longitude())
+        .animalCount(request.animalCount())
+        .build();
+
+    farmerProfileRepository.save(profile);
+
+    return createAuthResponse(user, mapFarmerProfileToDto(user, profile));
+  }
+
+  /** Registers a veterinarian user and profile. */
+  @Transactional
+  public AuthResponse registerVet(VetRegisterRequest request) {
+    if (userRepository.existsByEmail(request.email())) {
+      throw new IllegalArgumentException("Email is already registered");
+    }
+    if (vetProfileRepository.existsByRegistrationNumber(request.registrationNumber())) {
+      throw new IllegalArgumentException("Registration number is already registered");
+    }
+
+    User user = User.builder()
+        .email(request.email())
+        .phone(request.phone())
+        .passwordHash(passwordEncoder.encode(request.password()))
+        .role(UserRole.VETERINARIAN)
+        .isActive(true)
+        .build();
+
+    user = userRepository.save(user);
+
+    VetProfile profile = VetProfile.builder()
+        .user(user)
+        .fullName(request.fullName())
+        .registrationNumber(request.registrationNumber())
+        .qualification(request.qualification())
+        .specialization(request.specialization())
+        .clinicName(request.clinicName())
+        .yearsExperience(request.yearsExperience())
+        .latitude(request.latitude())
+        .longitude(request.longitude())
+        .isAvailable(true)
+        .build();
+
+    vetProfileRepository.save(profile);
+
+    return createAuthResponse(user, mapVetProfileToDto(user, profile));
+  }
+
+  /** Authenticates farmer user login. */
+  @Transactional
+  public AuthResponse loginFarmer(LoginRequest request) {
+    User user = authenticateUser(request, UserRole.FARMER);
+    FarmerProfile profile = farmerProfileRepository.findByUser(user)
+        .orElseThrow(() -> new IllegalStateException("Farmer profile missing for user"));
+    return createAuthResponse(user, mapFarmerProfileToDto(user, profile));
+  }
+
+  /** Authenticates veterinarian user login. */
+  @Transactional
+  public AuthResponse loginVet(LoginRequest request) {
+    User user = authenticateUser(request, UserRole.VETERINARIAN);
+    VetProfile profile = vetProfileRepository.findByUser(user)
+        .orElseThrow(() -> new IllegalStateException("Veterinarian profile missing for user"));
+    return createAuthResponse(user, mapVetProfileToDto(user, profile));
+  }
+
+  /** Refreshes access token. */
+  @Transactional
+  public AuthResponse refreshToken(RefreshTokenRequest request) {
+    RefreshToken refreshToken = refreshTokenService.findByToken(request.refreshToken())
+        .map(refreshTokenService::verifyExpiration)
+        .orElseThrow(() -> new IllegalArgumentException("Invalid refresh token"));
+
+    User user = refreshToken.getUser();
+    UserProfileDto profileDto = getCurrentUserProfileDto(user);
+    return createAuthResponse(user, profileDto);
+  }
+
+  /** Revokes session on logout. */
+  @Transactional
+  public void logout(String refreshToken) {
+    refreshTokenService.revokeToken(refreshToken);
+  }
+
+  /** Changes password for user. */
+  @Transactional
+  public void changePassword(String identifier, ChangePasswordRequest request) {
+    User user = userRepository.findByIdentifier(identifier)
+        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+    if (!passwordEncoder.matches(request.currentPassword(), user.getPasswordHash())) {
+      throw new IllegalArgumentException("Current password does not match");
+    }
+
+    user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
+    userRepository.save(user);
+  }
+
+  /** Retrieves user profile DTO by User entity. */
+  @Transactional(readOnly = true)
+  public UserProfileDto getCurrentUserProfileDto(User user) {
+    if (user.getRole() == UserRole.FARMER) {
+      FarmerProfile profile = farmerProfileRepository.findByUser(user)
+          .orElse(null);
+      return mapFarmerProfileToDto(user, profile);
+    } else if (user.getRole() == UserRole.VETERINARIAN) {
+      VetProfile profile = vetProfileRepository.findByUser(user)
+          .orElse(null);
+      return mapVetProfileToDto(user, profile);
+    }
+    return new UserProfileDto(
+        user.getId(), user.getEmail(), user.getPhone(), user.getRole(), user.isActive(),
+        null, null, null, null, null, null, null, null, null, null, null, null, null, null
+    );
+  }
+
+  /** Retrieves user profile DTO by email/phone identifier. */
+  @Transactional(readOnly = true)
+  public UserProfileDto getCurrentUserByIdentifier(String identifier) {
+    User user = userRepository.findByIdentifier(identifier)
+        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    return getCurrentUserProfileDto(user);
+  }
+
+  private User authenticateUser(LoginRequest request, UserRole expectedRole) {
+    User user = userRepository.findByIdentifier(request.identifier())
+        .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+
+    if (user.getRole() != expectedRole) {
+      throw new IllegalArgumentException("Access denied for role: " + user.getRole());
+    }
+
+    if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
+      throw new IllegalArgumentException("Invalid credentials");
+    }
+
+    return user;
+  }
+
+  private AuthResponse createAuthResponse(User user, UserProfileDto profileDto) {
+    String accessToken = jwtUtil.generateAccessToken(user.getEmail() != null ? user.getEmail() : user.getPhone(), user.getRole().name());
+    RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
+
+    return new AuthResponse(
+        accessToken,
+        refreshToken.getToken(),
+        "Bearer",
+        jwtUtil.getExpirationMs() / 1000,
+        profileDto
+    );
+  }
+
+  private UserProfileDto mapFarmerProfileToDto(User user, FarmerProfile p) {
+    return new UserProfileDto(
+        user.getId(), user.getEmail(), user.getPhone(), user.getRole(), user.isActive(),
+        p != null ? p.getFullName() : null,
+        p != null ? p.getFarmName() : null,
+        p != null ? p.getVillage() : null,
+        p != null ? p.getDistrict() : null,
+        p != null ? p.getState() : null,
+        p != null ? p.getLatitude() : null,
+        p != null ? p.getLongitude() : null,
+        p != null ? p.getAnimalCount() : null,
+        null, null, null, null, null, null
+    );
+  }
+
+  private UserProfileDto mapVetProfileToDto(User user, VetProfile v) {
+    return new UserProfileDto(
+        user.getId(), user.getEmail(), user.getPhone(), user.getRole(), user.isActive(),
+        v != null ? v.getFullName() : null,
+        null, null, null, null,
+        v != null ? v.getLatitude() : null,
+        v != null ? v.getLongitude() : null,
+        null,
+        v != null ? v.getRegistrationNumber() : null,
+        v != null ? v.getQualification() : null,
+        v != null ? v.getSpecialization() : null,
+        v != null ? v.getClinicName() : null,
+        v != null ? v.getYearsExperience() : null,
+        v != null ? v.isAvailable() : null
+    );
+  }
+}

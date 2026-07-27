@@ -26,8 +26,13 @@ public class SecurityConfig {
 
   /** Public endpoints that do not require authentication. */
   private static final String[] PUBLIC_ENDPOINTS = {
-    // Auth (to be implemented in auth stage)
-    "/api/v1/auth/**",
+    // Auth public endpoints
+    "/api/v1/auth/farmer/register",
+    "/api/v1/auth/farmer/login",
+    "/api/v1/auth/vet/register",
+    "/api/v1/auth/vet/login",
+    "/api/v1/auth/refresh",
+    "/api/v1/auth/logout",
     // OpenAPI / Swagger UI
     "/swagger-ui/**",
     "/swagger-ui.html",
@@ -37,6 +42,8 @@ public class SecurityConfig {
     "/actuator/health",
     "/actuator/health/**",
     "/actuator/info",
+    "/readiness",
+    "/liveness",
   };
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
