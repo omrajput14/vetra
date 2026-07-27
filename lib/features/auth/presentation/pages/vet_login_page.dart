@@ -4,26 +4,38 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
-import '../../../../core/models/user_role.dart';
 import '../providers/auth_provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class VetLoginPage extends StatefulWidget {
+  const VetLoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<VetLoginPage> createState() => _VetLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final _phoneController = TextEditingController();
+class _VetLoginPageState extends State<VetLoginPage> {
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _licenseController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
   void dispose() {
-    _phoneController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
+    _licenseController.dispose();
     super.dispose();
+  }
+
+  void _handleLogin() {
+    final email = _emailController.text.trim();
+    final regNo = _licenseController.text.trim();
+    authNotifier.loginVet(
+      email: email.isEmpty ? 'dr.smith@clinic.com' : email,
+      password: _passwordController.text.trim(),
+      regNo: regNo.isEmpty ? 'VET-9941-XX' : regNo,
+    );
+    context.go('/vet-dashboard');
   }
 
   @override
@@ -45,21 +57,30 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 12),
-              Text('Welcome Back', style: AppTypography.screenTitle),
+              Text('Veterinarian Sign In', style: AppTypography.screenTitle),
               const SizedBox(height: 8),
-              Text('Sign in to access your records.', style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary)),
+              Text(
+                'Access clinical diagnostics and regional outbreak triage.',
+                style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
+              ),
               const SizedBox(height: 32),
               AppTextField(
-                controller: _phoneController,
-                labelText: 'Phone Number or Email',
-                hintText: 'Enter mobile number or email',
-                keyboardType: TextInputType.phone,
+                controller: _emailController,
+                labelText: 'Email',
+                hintText: 'dr.smith@clinic.com',
+                keyboardType: TextInputType.emailAddress,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
+              AppTextField(
+                controller: _licenseController,
+                labelText: 'Veterinary Registration Number',
+                hintText: 'VET-9941-XX',
+              ),
+              const SizedBox(height: 16),
               AppTextField(
                 controller: _passwordController,
                 labelText: 'Password',
-                hintText: 'Enter account password',
+                hintText: 'Enter clinical password',
                 obscureText: _obscurePassword,
                 suffixIcon: IconButton(
                   icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: AppColors.textMetadata),
@@ -70,28 +91,25 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () => context.push('/forgot-password'),
-                  child: Text('Forgot Password?', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary)),
+                  child: Text('Forgot Password?', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
                 ),
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Sign In',
-                onPressed: () {
-                  if (authNotifier.currentRole == UserRole.veterinarian) {
-                    context.go('/vet-dashboard');
-                  } else {
-                    context.go('/farmer-dashboard');
-                  }
-                },
+                label: 'Login',
+                onPressed: _handleLogin,
               ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('New to Vetra? ', style: AppTypography.captionMetadata),
+                  Text('New Practitioner? ', style: AppTypography.captionMetadata),
                   GestureDetector(
-                    onTap: () => context.go('/welcome'),
-                    child: Text('Create Account', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                    onTap: () => context.push('/vet-register'),
+                    child: Text(
+                      'Register',
+                      style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),

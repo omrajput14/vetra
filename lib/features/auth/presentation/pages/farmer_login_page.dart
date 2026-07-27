@@ -4,17 +4,16 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
-import '../../../../core/models/user_role.dart';
 import '../providers/auth_provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class FarmerLoginPage extends StatefulWidget {
+  const FarmerLoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<FarmerLoginPage> createState() => _FarmerLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _FarmerLoginPageState extends State<FarmerLoginPage> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
@@ -24,6 +23,13 @@ class _LoginPageState extends State<LoginPage> {
     _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _handleLogin() {
+    final identifier = _phoneController.text.trim();
+    final password = _passwordController.text.trim();
+    authNotifier.loginFarmer(identifier.isEmpty ? '555-0199' : identifier, password);
+    context.go('/farmer-dashboard');
   }
 
   @override
@@ -45,14 +51,17 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 12),
-              Text('Welcome Back', style: AppTypography.screenTitle),
+              Text('Farmer Sign In', style: AppTypography.screenTitle),
               const SizedBox(height: 8),
-              Text('Sign in to access your records.', style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary)),
+              Text(
+                'Access herd surveillance and animal health records.',
+                style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
+              ),
               const SizedBox(height: 32),
               AppTextField(
                 controller: _phoneController,
-                labelText: 'Phone Number or Email',
-                hintText: 'Enter mobile number or email',
+                labelText: 'Phone / Email',
+                hintText: 'e.g. 555-0199 or farmer@vetra.app',
                 keyboardType: TextInputType.phone,
               ),
               const SizedBox(height: 20),
@@ -70,28 +79,25 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () => context.push('/forgot-password'),
-                  child: Text('Forgot Password?', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary)),
+                  child: Text('Forgot Password?', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
                 ),
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Sign In',
-                onPressed: () {
-                  if (authNotifier.currentRole == UserRole.veterinarian) {
-                    context.go('/vet-dashboard');
-                  } else {
-                    context.go('/farmer-dashboard');
-                  }
-                },
+                label: 'Login',
+                onPressed: _handleLogin,
               ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('New to Vetra? ', style: AppTypography.captionMetadata),
+                  Text('New Farmer? ', style: AppTypography.captionMetadata),
                   GestureDetector(
-                    onTap: () => context.go('/welcome'),
-                    child: Text('Create Account', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                    onTap: () => context.push('/farmer-register'),
+                    child: Text(
+                      'Create Farmer Account',
+                      style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),

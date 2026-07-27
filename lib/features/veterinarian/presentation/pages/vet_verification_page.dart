@@ -14,7 +14,6 @@ class VetVerificationPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Vet Verification', style: AppTypography.screenTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => context.pop(),
@@ -22,37 +21,32 @@ class VetVerificationPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 40),
               Container(
-                padding: const EdgeInsets.all(16),
+                width: 100,
+                height: 100,
                 decoration: BoxDecoration(
-                  color: AppColors.cautionAmber.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.cautionAmber),
+                  color: AppColors.surfaceCard,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.borderHairline),
                 ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.hourglass_empty, color: AppColors.cautionAmber),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Verification Pending', style: AppTypography.cardTitle),
-                          Text('Your license credentials are currently under admin review.', style: AppTypography.captionMetadata),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                child: const Icon(Icons.verified_user, size: 48, color: AppColors.primary),
+              ),
+              const SizedBox(height: 24),
+              Text('License Verified', style: AppTypography.screenTitle),
+              const SizedBox(height: 8),
+              Text(
+                'Your veterinary license has been verified with active status.',
+                style: AppTypography.bodyDefault,
+                textAlign: TextAlign.center,
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Return to Dashboard',
-                onPressed: () => context.go('/vet-requests'),
+                label: 'Go to Vet Dashboard',
+                onPressed: () => context.go('/vet-dashboard'),
               ),
               const SizedBox(height: 24),
             ],

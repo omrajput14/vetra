@@ -1,6 +1,13 @@
 import 'package:go_router/go_router.dart';
+import '../../core/models/user_role.dart';
+import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/auth/presentation/pages/onboarding_page.dart';
+import '../../features/auth/presentation/pages/welcome_page.dart';
+import '../../features/auth/presentation/pages/farmer_login_page.dart';
+import '../../features/auth/presentation/pages/farmer_register_page.dart';
+import '../../features/auth/presentation/pages/vet_login_page.dart';
+import '../../features/auth/presentation/pages/vet_register_page.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_role_selection_page.dart';
 import '../../features/auth/presentation/pages/register_vet_details_page.dart';
@@ -15,6 +22,8 @@ import '../../features/veterinarian/presentation/pages/vet_dashboard_page.dart';
 import '../../features/veterinarian/presentation/pages/vet_requests_page.dart';
 import '../../features/veterinarian/presentation/pages/consultation_history_page.dart';
 import '../../features/veterinarian/presentation/pages/vet_verification_page.dart';
+import '../../features/veterinarian/presentation/pages/vet_outbreak_map_page.dart';
+
 import '../../features/animal/presentation/pages/add_animal_page.dart';
 import '../../features/animal/presentation/pages/edit_animal_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_page.dart';
@@ -69,6 +78,49 @@ class AppRouter {
 
   static final router = GoRouter(
     initialLocation: '/splash',
+    refreshListenable: authNotifier,
+    redirect: (context, state) {
+      final loc = state.matchedLocation;
+      final isLoggedIn = authNotifier.isLoggedIn;
+      final role = authNotifier.currentRole;
+
+      // Allow splash & onboarding
+      if (loc == '/splash' || loc == '/onboarding') return null;
+
+      final isAuthRoute = loc == '/welcome' ||
+          loc == '/farmer-login' ||
+          loc == '/farmer-register' ||
+          loc == '/vet-login' ||
+          loc == '/vet-register' ||
+          loc == '/login' ||
+          loc == '/register-role';
+
+      if (!isLoggedIn) {
+        if (!isAuthRoute && loc != '/forgot-password' && loc != '/reset-password') {
+          return '/welcome';
+        }
+        return null;
+      }
+
+      // If logged in and visiting auth page, redirect to active role dashboard
+      if (isAuthRoute) {
+        if (role == UserRole.veterinarian) return '/vet-dashboard';
+        return '/farmer-dashboard';
+      }
+
+      // Role Guards
+      if (role == UserRole.farmer) {
+        if (loc.startsWith('/vet-dashboard') || loc.startsWith('/vet-requests') || loc.startsWith('/consultation-history') || loc.startsWith('/diagnosis-entry') || loc.startsWith('/vet-outbreak-map') || loc.startsWith('/vet-profile')) {
+          return '/farmer-dashboard';
+        }
+      } else if (role == UserRole.veterinarian) {
+        if (loc.startsWith('/farmer-dashboard') || loc == '/my-animals' || loc == '/add-animal' || loc == '/edit-animal') {
+          return '/vet-dashboard';
+        }
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/splash',
@@ -79,11 +131,33 @@ class AppRouter {
         builder: (context, state) => const OnboardingPage(),
       ),
       GoRoute(
+        path: '/welcome',
+        builder: (context, state) => const WelcomePage(),
+      ),
+      GoRoute(
+        path: '/farmer-login',
+        builder: (context, state) => const FarmerLoginPage(),
+      ),
+      GoRoute(
+        path: '/farmer-register',
+        builder: (context, state) => const FarmerRegisterPage(),
+      ),
+      GoRoute(
+        path: '/vet-login',
+        builder: (context, state) => const VetLoginPage(),
+      ),
+      GoRoute(
+        path: '/vet-register',
+        builder: (context, state) => const VetRegisterPage(),
+      ),
+      GoRoute(
         path: '/login',
+        redirect: (context, state) => '/welcome',
         builder: (context, state) => const LoginPage(),
       ),
       GoRoute(
         path: '/register-role',
+        redirect: (context, state) => '/welcome',
         builder: (context, state) => const RegisterRoleSelectionPage(),
       ),
       GoRoute(
@@ -238,6 +312,10 @@ class AppRouter {
         path: '/report-disease',
         builder: (context, state) => const ReportDiseasePage(),
       ),
+            GoRoute(
+        path: '/vet-outbreak-map',
+        builder: (context, state) => const VetOutbreakMapPage(),
+      ),
       GoRoute(
         path: '/outbreak-map',
         builder: (context, state) => const OutbreakMapPage(),
@@ -325,6 +403,26 @@ class AppRouter {
       GoRoute(
         path: '/search-results',
         builder: (context, state) => const SearchResultsPage(),
+      ),
+      GoRoute(
+        path: '/admin-dashboard',
+        redirect: (context, state) => '/welcome',
+      ),
+      GoRoute(
+        path: '/user-management',
+        redirect: (context, state) => '/welcome',
+      ),
+      GoRoute(
+        path: '/admin-analytics',
+        redirect: (context, state) => '/welcome',
+      ),
+      GoRoute(
+        path: '/broadcast-notifications',
+        redirect: (context, state) => '/welcome',
+      ),
+      GoRoute(
+        path: '/ai-monitoring',
+        redirect: (context, state) => '/welcome',
       ),
     ],
   );
