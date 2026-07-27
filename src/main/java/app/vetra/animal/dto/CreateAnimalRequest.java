@@ -10,6 +10,7 @@ import java.time.LocalDate;
  * Request payload DTO for creating a new animal record.
  */
 public record CreateAnimalRequest(
+    String animalName,
     @NotBlank String tagNumber,
     String qrCodeId,
     @NotNull Species species,

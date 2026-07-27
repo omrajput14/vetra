@@ -10,7 +10,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,38 +18,37 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Livestock animal entity owned by a farmer.
+ * Livestock animal entity.
  */
+@Entity
+@Table(name = "animals")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "animals")
 public class Animal extends BaseEntity {
 
-  @NotNull
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "farmer_id", nullable = false)
   private FarmerProfile farmer;
 
-  @NotNull
-  @Column(name = "tag_number", nullable = false)
+  @Column(name = "animal_name", length = 100)
+  private String animalName;
+
+  @Column(name = "tag_number", nullable = false, unique = true, length = 50)
   private String tagNumber;
 
-  @Column(name = "qr_code_id", unique = true)
+  @Column(name = "qr_code_id", unique = true, length = 100)
   private String qrCodeId;
 
-  @NotNull
   @Enumerated(EnumType.STRING)
-  @Column(name = "species", nullable = false, length = 30)
+  @Column(name = "species", nullable = false, length = 50)
   private Species species;
 
-  @Column(name = "breed")
+  @Column(name = "breed", length = 100)
   private String breed;
 
-  @NotNull
   @Enumerated(EnumType.STRING)
   @Column(name = "gender", nullable = false, length = 20)
   private AnimalGender gender;

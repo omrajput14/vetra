@@ -59,6 +59,7 @@ public class AnimalService {
 
     Animal animal = Animal.builder()
         .farmer(farmer)
+        .animalName(request.animalName())
         .tagNumber(request.tagNumber())
         .qrCodeId(request.qrCodeId())
         .species(request.species())
@@ -104,6 +105,7 @@ public class AnimalService {
   @Transactional(readOnly = true)
   public List<AnimalResponse> searchAnimals(
       String currentUserIdentifier,
+      String animalName,
       String tagNumber,
       String qrCodeId,
       Species species,
@@ -119,7 +121,7 @@ public class AnimalService {
       farmerId = farmer.getId();
     }
 
-    return animalRepository.searchAnimals(farmerId, tagNumber, qrCodeId, species, breed, gender)
+    return animalRepository.searchAnimals(farmerId, animalName, tagNumber, qrCodeId, species, breed, gender)
         .stream()
         .map(this::mapToResponse)
         .toList();
@@ -146,6 +148,7 @@ public class AnimalService {
       throw new IllegalArgumentException("QR Code ID is already registered: " + request.qrCodeId());
     }
 
+    animal.setAnimalName(request.animalName());
     animal.setTagNumber(request.tagNumber());
     animal.setQrCodeId(request.qrCodeId());
     animal.setSpecies(request.species());
@@ -190,6 +193,7 @@ public class AnimalService {
         a.getId(),
         a.getFarmer().getId(),
         a.getFarmer().getFullName(),
+        a.getAnimalName(),
         a.getTagNumber(),
         a.getQrCodeId(),
         a.getSpecies(),

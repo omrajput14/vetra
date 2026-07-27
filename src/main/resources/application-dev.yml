@@ -10,10 +10,12 @@ spring:
       hibernate:
         format_sql: true
 
-  flyway:
-    enabled: true
-
 vetra:
+  jwt:
+    secret: "vetra-production-grade-jwt-secret-key-must-be-at-least-256-bits-long-dev-only"
+    expiration-ms: 86400000
+    refresh-expiration-ms: 604800000
+
   cors:
     allowed-origins: "http://localhost:3000,http://localhost:8080"
 

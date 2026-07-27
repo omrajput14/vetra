@@ -19,6 +19,9 @@ public interface AnimalRepository extends JpaRepository<Animal, UUID> {
   /** Finds all animals owned by farmer. */
   List<Animal> findByFarmer(FarmerProfile farmer);
 
+  /** Counts total animals owned by farmer. */
+  long countByFarmer(FarmerProfile farmer);
+
   /** Finds all animals owned by farmer id. */
   List<Animal> findByFarmerId(UUID farmerId);
 
@@ -34,9 +37,10 @@ public interface AnimalRepository extends JpaRepository<Animal, UUID> {
   /** Checks if QR code ID exists. */
   boolean existsByQrCodeId(String qrCodeId);
 
-  /** Search query filter for animals. */
+  /** Search query filter for animals including animalName. */
   @Query("SELECT a FROM Animal a WHERE "
       + "(:farmerId IS NULL OR a.farmer.id = :farmerId) AND "
+      + "(:animalName IS NULL OR LOWER(a.animalName) LIKE LOWER(CONCAT('%', :animalName, '%'))) AND "
       + "(:tagNumber IS NULL OR LOWER(a.tagNumber) LIKE LOWER(CONCAT('%', :tagNumber, '%'))) AND "
       + "(:qrCodeId IS NULL OR LOWER(a.qrCodeId) LIKE LOWER(CONCAT('%', :qrCodeId, '%'))) AND "
       + "(:species IS NULL OR a.species = :species) AND "
@@ -44,6 +48,7 @@ public interface AnimalRepository extends JpaRepository<Animal, UUID> {
       + "(:gender IS NULL OR a.gender = :gender)")
   List<Animal> searchAnimals(
       @Param("farmerId") UUID farmerId,
+      @Param("animalName") String animalName,
       @Param("tagNumber") String tagNumber,
       @Param("qrCodeId") String qrCodeId,
       @Param("species") Species species,

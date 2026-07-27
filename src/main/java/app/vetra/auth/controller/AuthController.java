@@ -16,6 +16,7 @@ import java.security.Principal;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -98,7 +99,16 @@ public class AuthController {
   @GetMapping("/me")
   @Operation(summary = "Get Current Authenticated User Profile", description = "Returns active user profile and role details")
   public ApiResponse<UserProfileDto> getCurrentUser(Principal principal) {
-    UserProfileDto profile = authService.getCurrentUserByIdentifier(principal.getName());
-    return ApiResponse.ok("User profile retrieved successfully", profile);
+    UserProfileDto response = authService.getCurrentUserProfileDtoByIdentifier(principal.getName());
+    return ApiResponse.ok("User profile retrieved successfully", response);
+  }
+
+  /** Updates active user profile details. */
+  @PutMapping("/profile")
+  @Operation(summary = "Update Profile", description = "Updates details of active user profile")
+  public ApiResponse<UserProfileDto> updateProfile(
+      Principal principal, @Valid @RequestBody app.vetra.auth.dto.UpdateProfileRequest request) {
+    UserProfileDto response = authService.updateUserProfile(principal.getName(), request);
+    return ApiResponse.ok("Profile updated successfully", response);
   }
 }

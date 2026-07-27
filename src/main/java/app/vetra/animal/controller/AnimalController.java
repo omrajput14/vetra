@@ -86,11 +86,12 @@ public class AnimalController {
     return ApiResponse.ok("Animal deleted successfully", null);
   }
 
-  /** Searches animals with optional tag number, species, breed, gender, or QR code filters. */
+  /** Searches animals with optional filters. */
   @GetMapping("/search")
-  @Operation(summary = "Search Animals", description = "Filters animals by tag number, QR code, species, breed, or gender")
+  @Operation(summary = "Search Animals", description = "Filters animals by name, tag number, QR code, species, breed, or gender")
   public ApiResponse<List<AnimalResponse>> searchAnimals(
       Principal principal,
+      @RequestParam(value = "animalName", required = false) String animalName,
       @RequestParam(value = "tagNumber", required = false) String tagNumber,
       @RequestParam(value = "qrCodeId", required = false) String qrCodeId,
       @RequestParam(value = "species", required = false) Species species,
@@ -98,7 +99,7 @@ public class AnimalController {
       @RequestParam(value = "gender", required = false) AnimalGender gender) {
 
     List<AnimalResponse> response = animalService.searchAnimals(
-        principal.getName(), tagNumber, qrCodeId, species, breed, gender);
+        principal.getName(), animalName, tagNumber, qrCodeId, species, breed, gender);
     return ApiResponse.ok("Search results retrieved successfully", response);
   }
 }

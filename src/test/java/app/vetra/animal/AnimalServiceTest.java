@@ -3,7 +3,6 @@ package app.vetra.animal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import app.vetra.animal.dto.AnimalResponse;
 import app.vetra.animal.dto.CreateAnimalRequest;
@@ -18,7 +17,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,11 +65,12 @@ class AnimalServiceTest {
     authService.registerFarmer(farmerReq);
 
     CreateAnimalRequest createReq = new CreateAnimalRequest(
-        "TAG-1001", "QR-1001", Species.CATTLE, "Holstein", AnimalGender.FEMALE,
+        "Bessie", "TAG-1001", "QR-1001", Species.CATTLE, "Holstein", AnimalGender.FEMALE,
         LocalDate.of(2022, 5, 10), "https://vetra.app/photos/cow1.png");
 
     AnimalResponse animal = animalService.createAnimal("animalfarmer@vetra.app", createReq);
     assertNotNull(animal.id());
+    assertEquals("Bessie", animal.animalName());
     assertEquals("TAG-1001", animal.tagNumber());
     assertEquals(Species.CATTLE, animal.species());
 
@@ -79,14 +78,15 @@ class AnimalServiceTest {
     assertEquals(1, list.size());
 
     UpdateAnimalRequest updateReq = new UpdateAnimalRequest(
-        "TAG-1001-UPDATED", "QR-1001", Species.CATTLE, "Holstein Friesian", AnimalGender.FEMALE,
+        "Bessie Supreme", "TAG-1001-UPDATED", "QR-1001", Species.CATTLE, "Holstein Friesian", AnimalGender.FEMALE,
         LocalDate.of(2022, 5, 10), "https://vetra.app/photos/cow1.png");
 
     AnimalResponse updated = animalService.updateAnimal("animalfarmer@vetra.app", animal.id(), updateReq);
+    assertEquals("Bessie Supreme", updated.animalName());
     assertEquals("TAG-1001-UPDATED", updated.tagNumber());
 
     List<AnimalResponse> searchResults = animalService.searchAnimals(
-        "animalfarmer@vetra.app", "TAG-1001", null, Species.CATTLE, null, null);
+        "animalfarmer@vetra.app", "Bessie", "TAG-1001", null, Species.CATTLE, null, null);
     assertFalse(searchResults.isEmpty());
 
     animalService.deleteAnimal("animalfarmer@vetra.app", animal.id());

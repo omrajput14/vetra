@@ -5,6 +5,7 @@ import app.vetra.auth.dto.ChangePasswordRequest;
 import app.vetra.auth.dto.FarmerRegisterRequest;
 import app.vetra.auth.dto.LoginRequest;
 import app.vetra.auth.dto.RefreshTokenRequest;
+import app.vetra.auth.dto.UpdateProfileRequest;
 import app.vetra.auth.dto.UserProfileDto;
 import app.vetra.auth.dto.VetRegisterRequest;
 import app.vetra.auth.repository.FarmerProfileRepository;
@@ -16,12 +17,14 @@ import app.vetra.infrastructure.persistence.entity.User;
 import app.vetra.infrastructure.persistence.entity.VetProfile;
 import app.vetra.infrastructure.persistence.enums.UserRole;
 import app.vetra.infrastructure.security.JwtUtil;
+import app.vetra.auth.service.RefreshTokenService;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Authentication service handling registration, login, refresh, logout, password change, and profile fetch.
+ * Core authentication service handling registration, login, token refresh, and profile updates.
  */
 @Service
 public class AuthService {
@@ -176,27 +179,71 @@ public class AuthService {
     refreshTokenService.revokeAllUserTokens(user);
   }
 
-  /** Retrieves user profile DTO by User entity. */
-  @Transactional(readOnly = true)
-  public UserProfileDto getCurrentUserProfileDto(User user) {
-    if (user.getRole() == UserRole.FARMER) {
-      FarmerProfile profile = farmerProfileRepository.findByUser(user)
-          .orElse(null);
-      return mapFarmerProfileToDto(user, profile);
-    } else if (user.getRole() == UserRole.VETERINARIAN) {
-      VetProfile profile = vetProfileRepository.findByUser(user)
-          .orElse(null);
-      return mapVetProfileToDto(user, profile);
+  /** Updates active user profile and returns refreshed UserProfileDto. */
+  @Transactional
+  public UserProfileDto updateUserProfile(String currentUserIdentifier, UpdateProfileRequest request) {
+    User user = userRepository.findByIdentifier(currentUserIdentifier)
+        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+    if (request.phone() != null && !request.phone().isBlank() && !request.phone().equals(user.getPhone())) {
+      user.setPhone(request.phone());
     }
-    return new UserProfileDto(
-        user.getId(), user.getEmail(), user.getPhone(), user.getRole(), user.isActive(),
-        null, null, null, null, null, null, null, null, null, null, null, null, null, null
-    );
+
+    if (user.getRole() == UserRole.FARMER) {
+      updateFarmerProfile(user, request);
+    } else if (user.getRole() == UserRole.VETERINARIAN) {
+      updateVetProfile(user, request);
+    }
+
+    user = userRepository.save(user);
+    return getCurrentUserProfileDto(user);
   }
 
-  /** Retrieves user profile DTO by email/phone identifier. */
+  private void updateFarmerProfile(User user, UpdateProfileRequest request) {
+    FarmerProfile profile = farmerProfileRepository.findByUser(user)
+        .orElseGet(() -> FarmerProfile.builder().user(user).build());
+    if (request.fullName() != null && !request.fullName().isBlank()) {
+      profile.setFullName(request.fullName());
+    }
+    if (request.farmName() != null) {
+      profile.setFarmName(request.farmName());
+    }
+    if (request.village() != null) {
+      profile.setVillage(request.village());
+    }
+    if (request.district() != null) {
+      profile.setDistrict(request.district());
+    }
+    if (request.state() != null) {
+      profile.setState(request.state());
+    }
+    farmerProfileRepository.save(profile);
+  }
+
+  private void updateVetProfile(User user, UpdateProfileRequest request) {
+    VetProfile profile = vetProfileRepository.findByUser(user)
+        .orElseGet(() -> VetProfile.builder().user(user).registrationNumber("VET-" + System.currentTimeMillis()).build());
+    if (request.fullName() != null && !request.fullName().isBlank()) {
+      profile.setFullName(request.fullName());
+    }
+    if (request.clinicName() != null) {
+      profile.setClinicName(request.clinicName());
+    }
+    if (request.specialization() != null) {
+      profile.setSpecialization(request.specialization());
+    }
+    if (request.qualification() != null) {
+      profile.setQualification(request.qualification());
+    }
+    if (request.yearsExperience() != null) {
+      profile.setYearsExperience(request.yearsExperience());
+    }
+    vetProfileRepository.save(profile);
+  }
+
+  /** Retrieves user profile DTO for authenticated user. */
   @Transactional(readOnly = true)
-  public UserProfileDto getCurrentUserByIdentifier(String identifier) {
+  public UserProfileDto getCurrentUserProfileDtoByIdentifier(String identifier) {
     User user = userRepository.findByIdentifier(identifier)
         .orElseThrow(() -> new IllegalArgumentException("User not found"));
     return getCurrentUserProfileDto(user);
@@ -207,7 +254,7 @@ public class AuthService {
         .orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
 
     if (user.getRole() != expectedRole) {
-      throw new IllegalArgumentException("Access denied for role: " + user.getRole());
+      throw new AccessDeniedException("Access denied for role: " + user.getRole());
     }
 
     if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
@@ -229,6 +276,23 @@ public class AuthService {
         "Bearer",
         jwtUtil.getExpirationMs() / 1000,
         profileDto
+    );
+  }
+
+  /** Retrieves user profile DTO from user entity based on role. */
+  public UserProfileDto getCurrentUserProfileDto(User user) {
+    if (user.getRole() == UserRole.FARMER) {
+      FarmerProfile profile = farmerProfileRepository.findByUser(user)
+          .orElse(null);
+      return mapFarmerProfileToDto(user, profile);
+    } else if (user.getRole() == UserRole.VETERINARIAN) {
+      VetProfile profile = vetProfileRepository.findByUser(user)
+          .orElse(null);
+      return mapVetProfileToDto(user, profile);
+    }
+    return new UserProfileDto(
+        user.getId(), user.getEmail(), user.getPhone(), user.getRole(), user.isActive(),
+        null, null, null, null, null, null, null, null, null, null, null, null, null, null
     );
   }
 

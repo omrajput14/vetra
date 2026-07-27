@@ -10,6 +10,7 @@ import java.time.LocalDate;
  * Request payload DTO for updating an existing animal record.
  */
 public record UpdateAnimalRequest(
+    String animalName,
     @NotBlank String tagNumber,
     String qrCodeId,
     @NotNull Species species,

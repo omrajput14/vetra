@@ -13,6 +13,7 @@ public record AnimalResponse(
     UUID id,
     UUID farmerId,
     String farmerName,
+    String animalName,
     String tagNumber,
     String qrCodeId,
     Species species,
