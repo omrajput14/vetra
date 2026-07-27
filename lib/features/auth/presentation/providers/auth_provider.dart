@@ -9,61 +9,77 @@ class AuthNotifier extends ChangeNotifier {
   bool get isLoggedIn => _service.isLoggedIn;
   UserModel? get currentUser => _service.currentUser;
   UserRole get currentRole => _service.currentRole;
+  bool get isLoading => _service.isLoading;
+  String? get errorMessage => _service.errorMessage;
 
-  void restoreSession() {
-    _service.restoreSession();
+  void clearError() {
+    _service.clearError();
     notifyListeners();
   }
 
-  void loginFarmer(String identifier, String password) {
-    _service.loginFarmer(identifier: identifier, password: password);
+  Future<bool> restoreSession() async {
+    final result = await _service.restoreSession();
     notifyListeners();
+    return result;
   }
 
-  void registerFarmer({
+  Future<bool> loginFarmer(String identifier, String password) async {
+    final success = await _service.loginFarmer(identifier: identifier, password: password);
+    notifyListeners();
+    return success;
+  }
+
+  Future<bool> registerFarmer({
+    required String email,
     required String name,
     required String farmName,
     required String phone,
+    required String password,
     required String village,
     required String district,
     required String state,
     String? animalCount,
-  }) {
-    _service.registerFarmer(
+  }) async {
+    final success = await _service.registerFarmer(
+      email: email,
       name: name,
       farmName: farmName,
       phone: phone,
+      password: password,
       village: village,
       district: district,
       state: state,
       animalCount: animalCount,
     );
     notifyListeners();
+    return success;
   }
 
-  void loginVet({
+  Future<bool> loginVet({
     required String email,
     required String password,
-    required String regNo,
-  }) {
-    _service.loginVet(email: email, password: password, regNo: regNo);
+  }) async {
+    final success = await _service.loginVet(email: email, password: password);
     notifyListeners();
+    return success;
   }
 
-  void registerVet({
+  Future<bool> registerVet({
     required String name,
     required String email,
     required String phone,
+    required String password,
     required String regNo,
     required String qualification,
     required String specialization,
     String? clinicName,
     required String experience,
-  }) {
-    _service.registerVet(
+  }) async {
+    final success = await _service.registerVet(
       name: name,
       email: email,
       phone: phone,
+      password: password,
       regNo: regNo,
       qualification: qualification,
       specialization: specialization,
@@ -71,10 +87,11 @@ class AuthNotifier extends ChangeNotifier {
       experience: experience,
     );
     notifyListeners();
+    return success;
   }
 
-  void logout() {
-    _service.logout();
+  Future<void> logout() async {
+    await _service.logout();
     notifyListeners();
   }
 }

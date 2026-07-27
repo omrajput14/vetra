@@ -14,6 +14,8 @@ class FarmerRegisterPage extends StatefulWidget {
 }
 
 class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _nameController = TextEditingController();
   final _farmNameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -22,8 +24,13 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
   final _stateController = TextEditingController();
   final _animalCountController = TextEditingController();
 
+  bool _isLoading = false;
+  bool _obscurePassword = true;
+
   @override
   void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
     _nameController.dispose();
     _farmNameController.dispose();
     _phoneController.dispose();
@@ -34,17 +41,42 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
     super.dispose();
   }
 
-  void _handleRegister() {
-    authNotifier.registerFarmer(
-      name: _nameController.text.isEmpty ? 'John Miller' : _nameController.text,
-      farmName: _farmNameController.text.isEmpty ? 'Oak Valley Herd' : _farmNameController.text,
-      phone: _phoneController.text.isEmpty ? '555-0199' : _phoneController.text,
-      village: _villageController.text.isEmpty ? 'Oakhaven' : _villageController.text,
-      district: _districtController.text.isEmpty ? 'Valley Region' : _districtController.text,
-      state: _stateController.text.isEmpty ? 'Central Province' : _stateController.text,
-      animalCount: _animalCountController.text,
+  Future<void> _handleRegister() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final name = _nameController.text.trim();
+    final phone = _phoneController.text.trim();
+
+    if (email.isEmpty || password.isEmpty || name.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter Email, Password, and Full Name')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    final success = await authNotifier.registerFarmer(
+      email: email,
+      password: password,
+      name: name,
+      farmName: _farmNameController.text.trim(),
+      phone: phone.isEmpty ? '+15550199' : phone,
+      village: _villageController.text.trim(),
+      district: _districtController.text.trim(),
+      state: _stateController.text.trim(),
+      animalCount: _animalCountController.text.trim(),
     );
-    context.go('/farmer-dashboard');
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+
+    if (success) {
+      context.go('/farmer-dashboard');
+    } else {
+      final msg = authNotifier.errorMessage ?? 'Farmer registration failed';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(msg), backgroundColor: Colors.red),
+      );
+    }
   }
 
   @override
@@ -72,11 +104,24 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
               style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
             ),
             const SizedBox(height: 24),
+            AppTextField(controller: _emailController, labelText: 'Email', hintText: 'john@farm.com', keyboardType: TextInputType.emailAddress),
+            const SizedBox(height: 16),
+            AppTextField(
+              controller: _passwordController,
+              labelText: 'Password',
+              hintText: 'Minimum 6 characters',
+              obscureText: _obscurePassword,
+              suffixIcon: IconButton(
+                icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: AppColors.textMetadata),
+                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+              ),
+            ),
+            const SizedBox(height: 16),
             AppTextField(controller: _nameController, labelText: 'Full Name', hintText: 'John Miller'),
             const SizedBox(height: 16),
             AppTextField(controller: _farmNameController, labelText: 'Farm Name', hintText: 'Oak Valley Herd'),
             const SizedBox(height: 16),
-            AppTextField(controller: _phoneController, labelText: 'Phone Number', hintText: '555-0199', keyboardType: TextInputType.phone),
+            AppTextField(controller: _phoneController, labelText: 'Phone Number', hintText: '+15550199', keyboardType: TextInputType.phone),
             const SizedBox(height: 16),
             AppTextField(controller: _villageController, labelText: 'Village', hintText: 'Oakhaven'),
             const SizedBox(height: 16),
@@ -87,8 +132,8 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
             AppTextField(controller: _animalCountController, labelText: 'Number of Animals (Optional)', hintText: '12', keyboardType: TextInputType.number),
             const SizedBox(height: 32),
             PrimaryButton(
-              label: 'Create Farmer Account',
-              onPressed: _handleRegister,
+              label: _isLoading ? 'Registering...' : 'Create Farmer Account',
+              onPressed: _isLoading ? null : _handleRegister,
             ),
             const SizedBox(height: 24),
           ],
