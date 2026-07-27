@@ -152,7 +152,7 @@ class VetDashboardPage extends StatelessWidget {
           if (index == 0) context.go('/vet-dashboard');
           if (index == 1) context.go('/vet-requests');
           if (index == 2) context.go('/consultation-history');
-          if (index == 3) context.go('/outbreak-map');
+          if (index == 3) context.go('/vet-outbreak-map');
           if (index == 4) context.go('/vet-profile');
         },
       ),
