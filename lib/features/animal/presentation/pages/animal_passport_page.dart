@@ -2,12 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
+import '../../data/models/animal_dto.dart';
+import '../providers/animal_provider.dart';
 
 class AnimalPassportPage extends StatelessWidget {
-  const AnimalPassportPage({super.key});
+  final String? animalId;
+  const AnimalPassportPage({super.key, this.animalId});
 
   @override
   Widget build(BuildContext context) {
+    final animal = animalId != null
+        ? animalNotifier.animals.firstWhere(
+            (a) => a.id == animalId,
+            orElse: () => animalNotifier.animals.isNotEmpty
+                ? animalNotifier.animals.first
+                : AnimalModel(
+                    id: '',
+                    farmerId: '',
+                    farmerName: 'Owner',
+                    tagNumber: 'NL-93842',
+                    species: 'CATTLE',
+                    breed: 'Holstein',
+                    gender: 'FEMALE',
+                    createdAt: '',
+                    updatedAt: '',
+                  ),
+          )
+        : (animalNotifier.animals.isNotEmpty ? animalNotifier.animals.first : null);
+
+    final tag = animal?.tagNumber ?? 'NL-93842';
+    final species = animal?.species ?? 'CATTLE';
+    final breed = animal?.breed ?? 'Holstein';
+    final gender = animal?.gender ?? 'FEMALE';
+    final qr = animal?.qrCodeId ?? 'N/A';
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
@@ -19,10 +47,16 @@ class AnimalPassportPage extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.qr_code_scanner, color: AppColors.primary),
-            onPressed: () => context.push('/animal-passport-qr-updated'),
-          ),
+          if (animal != null && animal.id.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.edit, color: AppColors.primary),
+              onPressed: () => context.push('/edit-animal', extra: animal.id),
+            ),
+          if (animal != null && animal.id.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.delete_outline, color: AppColors.alertCritical),
+              onPressed: () => context.push('/delete-animal', extra: animal.id),
+            ),
         ],
       ),
       body: ListView(
@@ -43,15 +77,15 @@ class AnimalPassportPage extends StatelessWidget {
                   child: Icon(Icons.pets, size: 48, color: AppColors.primary),
                 ),
                 const SizedBox(height: 12),
-                Text('Bessie', style: AppTypography.screenTitle),
-                Text('Tag ID: NL-93842 • Holstein', style: AppTypography.captionMetadata),
+                Text(tag, style: AppTypography.screenTitle),
+                Text('Tag ID: $tag • $species ($breed)', style: AppTypography.captionMetadata),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildMetaColumn('Age', '4 Yrs'),
-                    _buildMetaColumn('Weight', '580 kg'),
-                    _buildMetaColumn('Status', 'Healthy'),
+                    _buildMetaColumn('Species', species),
+                    _buildMetaColumn('Gender', gender),
+                    _buildMetaColumn('QR Code', qr),
                   ],
                 ),
               ],
@@ -79,7 +113,7 @@ class AnimalPassportPage extends StatelessWidget {
       children: [
         Text(label, style: AppTypography.captionMetadata),
         const SizedBox(height: 4),
-        Text(value, style: AppTypography.cardTitle.copyWith(fontSize: 16)),
+        Text(value, style: AppTypography.cardTitle.copyWith(fontSize: 14)),
       ],
     );
   }
