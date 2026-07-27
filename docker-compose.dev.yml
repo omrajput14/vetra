@@ -1,0 +1,28 @@
+services:
+
+  # ── Development-only Adminer UI ─────────────────────────────────────
+  adminer:
+    image: adminer:4-standalone
+    container_name: vetra-adminer
+    restart: unless-stopped
+    ports:
+      - "9090:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    depends_on:
+      - postgres
+    networks:
+      - vetra-network
+
+  # ── Override backend for dev: verbose logging + dev profile ─────────
+  vetra-backend:
+    environment:
+      SPRING_PROFILE: dev
+      JAVA_OPTS: >-
+        -XX:+UseContainerSupport
+        -XX:MaxRAMPercentage=75.0
+        -Djava.security.egd=file:/dev/./urandom
+        -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    ports:
+      - "8080:8080"
+      - "5005:5005"    # Remote debug port

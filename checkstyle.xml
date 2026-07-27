@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+  Vetra Checkstyle Configuration
+  Enforces Google Java Style Guide conventions (compatible with Spotless/google-java-format).
+-->
+<module name="Checker">
+
+  <property name="severity" value="error"/>
+  <property name="charset" value="UTF-8"/>
+  <property name="fileExtensions" value="java"/>
+
+  <!-- Require files to end with a newline -->
+  <module name="NewlineAtEndOfFile"/>
+
+  <!-- File length guard -->
+  <module name="FileLength">
+    <property name="max" value="500"/>
+  </module>
+
+  <!-- Disallow tab characters in source files -->
+  <module name="FileTabCharacter">
+    <property name="eachLine" value="true"/>
+  </module>
+
+  <module name="TreeWalker">
+
+    <!-- ─── Imports ─────────────────────────────────────────────────── -->
+    <module name="AvoidStarImport"/>
+    <module name="UnusedImports"/>
+    <module name="IllegalImport">
+      <!-- Prevent use of Sun internal APIs -->
+      <property name="illegalPkgs" value="sun, com.sun"/>
+    </module>
+
+    <!-- ─── Naming Conventions ──────────────────────────────────────── -->
+    <module name="PackageName">
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+    </module>
+    <module name="TypeName"/>
+    <module name="MethodName"/>
+    <module name="ParameterName"/>
+    <module name="LocalVariableName"/>
+    <module name="ConstantName"/>
+
+    <!-- ─── Code Quality ────────────────────────────────────────────── -->
+    <module name="EqualsHashCode"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="StringLiteralEquality"/>
+    <module name="NestedIfDepth">
+      <property name="max" value="3"/>
+    </module>
+    <module name="CyclomaticComplexity">
+      <property name="max" value="15"/>
+    </module>
+    <module name="MethodLength">
+      <property name="max" value="60"/>
+    </module>
+    <module name="ParameterNumber">
+      <property name="max" value="8"/>
+    </module>
+
+    <!-- ─── Modifiers ───────────────────────────────────────────────── -->
+    <module name="ModifierOrder"/>
+    <module name="RedundantModifier"/>
+
+    <!-- ─── Blocks ──────────────────────────────────────────────────── -->
+    <module name="NeedBraces"/>
+    <module name="EmptyCatchBlock">
+      <property name="exceptionVariableName" value="expected|ignored"/>
+    </module>
+
+    <!-- ─── Whitespace ──────────────────────────────────────────────── -->
+    <module name="WhitespaceAround"/>
+    <module name="NoWhitespaceBefore"/>
+    <module name="GenericWhitespace"/>
+
+    <!-- ─── Annotations ─────────────────────────────────────────────── -->
+    <module name="MissingOverride"/>
+
+    <!-- ─── Javadoc (public API only) ───────────────────────────────── -->
+    <module name="MissingJavadocMethod">
+      <property name="scope" value="public"/>
+      <property name="allowMissingPropertyJavadoc" value="true"/>
+      <property name="ignoreMethodNamesRegex" value="main|equals|hashCode|toString"/>
+    </module>
+
+  </module>
+
+</module>

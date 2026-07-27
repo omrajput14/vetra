@@ -1,0 +1,152 @@
+spring:
+  application:
+    name: vetra-backend
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+
+  # ─── Datasource (values overridden per profile) ────────────────────
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: VetraHikariPool
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 20000
+      max-lifetime: 1800000
+      connection-test-query: SELECT 1
+
+  # ─── JPA / Hibernate ───────────────────────────────────────────────
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+          lob:
+            non_contextual_creation: true
+
+  # ─── Flyway ────────────────────────────────────────────────────────
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+    table: flyway_schema_history
+    validate-on-migrate: true
+    out-of-order: false
+
+  # ─── Jackson ───────────────────────────────────────────────────────
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+    time-zone: UTC
+
+# ─── Server ──────────────────────────────────────────────────────────
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+
+# ─── Management / Actuator ───────────────────────────────────────────
+management:
+  server:
+    port: ${MANAGEMENT_PORT:8080}
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,flyway
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db, diskSpace
+        liveness:
+          include: ping
+  info:
+    env:
+      enabled: true
+
+# ─── OpenAPI / Swagger ───────────────────────────────────────────────
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+    try-it-out-enabled: true
+  show-actuator: false
+
+# ─── Application Custom Properties ───────────────────────────────────
+vetra:
+  # JWT (placeholder — implementation in auth stage)
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}       # 24 h default
+    refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:604800000}  # 7 days
+
+  # CORS
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+    allowed-methods: GET,POST,PUT,DELETE,PATCH,OPTIONS
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600
+
+  # AWS S3 (placeholder — implementation in media stage)
+  aws:
+    region: ${AWS_REGION:ap-south-1}
+    s3:
+      bucket-name: ${AWS_S3_BUCKET:vetra-media}
+      presigned-url-expiry-minutes: ${AWS_S3_URL_EXPIRY:15}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID:}
+      secret-key: ${AWS_SECRET_ACCESS_KEY:}
+
+# ─── Application Info (exposed via /actuator/info) ───────────────────
+info:
+  app:
+    name: Vetra Backend
+    version: "@project.version@"
+    description: Livestock and Veterinary Healthcare Platform
+    environment: ${SPRING_PROFILE:dev}
+
+# ─── Logging ─────────────────────────────────────────────────────────
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{requestId}] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{requestId}] [%X{userId}] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/vetra.log
+    max-size: 50MB
+    max-history: 30
+  level:
+    root: INFO
+    app.vetra: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+    org.flywaydb: INFO

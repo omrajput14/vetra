@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+
+  jpa:
+    show-sql: false
+
+  flyway:
+    enabled: true
+    out-of-order: false
+
+vetra:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS}
+
+server:
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+
+management:
+  endpoint:
+    health:
+      show-details: never
+
+logging:
+  level:
+    root: WARN
+    app.vetra: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+  file:
+    name: /var/log/vetra/vetra.log
+
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
