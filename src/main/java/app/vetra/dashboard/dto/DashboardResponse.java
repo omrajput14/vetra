@@ -7,6 +7,7 @@ public record DashboardResponse(
     long registeredAnimalCount,
     long pendingAppointmentsCount,
     long activeAlertsCount,
+    long medicalRecordsCreatedCount,
     String userName,
     String facilityName,
     String role) {}

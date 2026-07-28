@@ -2,67 +2,108 @@ package app.vetra.infrastructure.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import java.time.Instant;
+import jakarta.persistence.Version;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
- * Clinical diagnosis, treatment, and vaccination record for an animal.
+ * Entity representing an immutable Electronic Veterinary Medical Record (EVMR).
+ * Medical records represent permanent clinical history associated with a completed appointment.
  */
+@Entity
+@Table(name = "medical_records")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "medical_records")
 public class MedicalRecord {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(name = "id", updatable = false, nullable = false)
   private UUID id;
 
-  @NotNull
+  @OneToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "appointment_id", nullable = false, unique = true)
+  private Appointment appointment;
+
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "animal_id", nullable = false)
   private Animal animal;
 
-  @NotNull
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "vet_id", nullable = false)
+  @JoinColumn(name = "farmer_id", nullable = false)
+  private FarmerProfile farmer;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "veterinarian_id", nullable = false)
   private VetProfile veterinarian;
 
-  @NotNull
   @Column(name = "diagnosis", nullable = false, columnDefinition = "TEXT")
   private String diagnosis;
 
-  @Column(name = "treatment", columnDefinition = "TEXT")
+  @Column(name = "symptoms", columnDefinition = "TEXT")
+  private String symptoms;
+
+  @Column(name = "treatment", nullable = false, columnDefinition = "TEXT")
   private String treatment;
 
+  /**
+   * Plain-text prescription summary.
+   * Note: Intentionally designed as text for initial stage, ready for future normalization
+   * into structured prescription item entities (medicine name, dosage, frequency, duration).
+   */
   @Column(name = "prescription", columnDefinition = "TEXT")
   private String prescription;
 
-  @Column(name = "vaccination")
-  private String vaccination;
+  @Column(name = "weight", precision = 6, scale = 2)
+  private BigDecimal weight;
 
-  @CreatedDate
+  @Column(name = "temperature", precision = 4, scale = 1)
+  private BigDecimal temperature;
+
+  @Column(name = "follow_up_date")
+  private LocalDate followUpDate;
+
+  @Column(name = "notes", columnDefinition = "TEXT")
+  private String notes;
+
   @Column(name = "created_at", nullable = false, updatable = false)
-  private Instant createdAt;
+  private OffsetDateTime createdAt;
+
+  @Column(name = "updated_at", nullable = false)
+  private OffsetDateTime updatedAt;
+
+  @Version
+  @Column(name = "version", nullable = false)
+  private Long version;
+
+  @PrePersist
+  protected void onCreate() {
+    OffsetDateTime now = OffsetDateTime.now();
+    this.createdAt = now;
+    this.updatedAt = now;
+  }
+
+  @PreUpdate
+  protected void onUpdate() {
+    this.updatedAt = OffsetDateTime.now();
+  }
 }

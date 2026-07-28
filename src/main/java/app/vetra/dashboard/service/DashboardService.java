@@ -11,6 +11,7 @@ import app.vetra.infrastructure.persistence.entity.User;
 import app.vetra.infrastructure.persistence.entity.VetProfile;
 import app.vetra.infrastructure.persistence.enums.AppointmentStatus;
 import app.vetra.infrastructure.persistence.enums.UserRole;
+import app.vetra.medicalrecord.repository.MedicalRecordRepository;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class DashboardService {
   private final VetProfileRepository vetProfileRepository;
   private final AnimalRepository animalRepository;
   private final AppointmentRepository appointmentRepository;
+  private final MedicalRecordRepository medicalRecordRepository;
 
   /** Constructor injection. */
   public DashboardService(
@@ -33,12 +35,14 @@ public class DashboardService {
       FarmerProfileRepository farmerProfileRepository,
       VetProfileRepository vetProfileRepository,
       AnimalRepository animalRepository,
-      AppointmentRepository appointmentRepository) {
+      AppointmentRepository appointmentRepository,
+      MedicalRecordRepository medicalRecordRepository) {
     this.userRepository = userRepository;
     this.farmerProfileRepository = farmerProfileRepository;
     this.vetProfileRepository = vetProfileRepository;
     this.animalRepository = animalRepository;
     this.appointmentRepository = appointmentRepository;
+    this.medicalRecordRepository = medicalRecordRepository;
   }
 
   /** Aggregates dashboard stats in a single backend call. */
@@ -49,6 +53,7 @@ public class DashboardService {
 
     long animalCount = 0;
     long pendingAppointmentsCount = 0;
+    long medicalRecordsCreatedCount = 0;
     String userName = user.getEmail();
     String facilityName = "Vetra System";
 
@@ -68,6 +73,7 @@ public class DashboardService {
         userName = vet.getFullName() != null ? vet.getFullName() : user.getEmail();
         facilityName = vet.getClinicName() != null ? vet.getClinicName() : "Clinical Practice";
         pendingAppointmentsCount = appointmentRepository.countByVeterinarianAndStatus(vet, AppointmentStatus.PENDING);
+        medicalRecordsCreatedCount = medicalRecordRepository.countByVeterinarianId(vet.getId());
       }
       animalCount = animalRepository.count();
     }
@@ -76,6 +82,7 @@ public class DashboardService {
         animalCount,
         pendingAppointmentsCount,
         0L, // Active alerts placeholder
+        medicalRecordsCreatedCount,
         userName,
         facilityName,
         user.getRole().name()
