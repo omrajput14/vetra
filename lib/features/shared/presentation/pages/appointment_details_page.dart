@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
@@ -7,17 +8,20 @@ import 'package:vetra/features/appointment/data/models/appointment_dto.dart';
 import 'package:vetra/features/appointment/presentation/providers/appointment_provider.dart';
 import 'package:vetra/features/auth/presentation/providers/auth_provider.dart';
 import 'package:vetra/core/models/user_role.dart';
+import 'package:vetra/features/medical_record/presentation/providers/medical_record_provider.dart';
+import 'package:vetra/features/veterinarian/presentation/pages/create_medical_record_page.dart';
+import 'package:vetra/features/shared/presentation/pages/medical_record_details_page.dart';
 
-class AppointmentDetailsPage extends StatefulWidget {
+class AppointmentDetailsPage extends ConsumerStatefulWidget {
   final String? appointmentId;
 
   const AppointmentDetailsPage({super.key, this.appointmentId});
 
   @override
-  State<AppointmentDetailsPage> createState() => _AppointmentDetailsPageState();
+  ConsumerState<AppointmentDetailsPage> createState() => _AppointmentDetailsPageState();
 }
 
-class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
+class _AppointmentDetailsPageState extends ConsumerState<AppointmentDetailsPage> {
   final TextEditingController _notesController = TextEditingController();
   final TextEditingController _reasonController = TextEditingController();
 
@@ -26,7 +30,12 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.appointmentId != null && widget.appointmentId!.isNotEmpty) {
-        appointmentNotifier.getAppointmentById(widget.appointmentId!);
+        appointmentNotifier.getAppointmentById(widget.appointmentId!).then((_) {
+          final app = appointmentNotifier.selectedAppointment;
+          if (app != null) {
+            ref.read(medicalRecordProvider.notifier).fetchRecordForAppointment(app.id);
+          }
+        });
       }
     });
   }
@@ -40,6 +49,8 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final medicalState = ref.watch(medicalRecordProvider);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
@@ -66,6 +77,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
           }
 
           final isVet = authNotifier.currentRole == UserRole.veterinarian;
+          final existingRecord = medicalState.appointmentRecords[app.id];
 
           return ListView(
             padding: const EdgeInsets.all(20),
@@ -129,7 +141,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                 ),
               ],
               const SizedBox(height: 28),
-              _buildActionButtons(context, app, isVet),
+              _buildActionButtons(context, app, isVet, existingRecord),
             ],
           );
         },
@@ -185,10 +197,54 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context, AppointmentModel app, bool isVet) {
-    if (app.status == AppointmentStatus.completed ||
-        app.status == AppointmentStatus.cancelled ||
-        app.status == AppointmentStatus.rejected) {
+  Widget _buildActionButtons(BuildContext context, AppointmentModel app, bool isVet, dynamic existingRecord) {
+    if (app.status == AppointmentStatus.completed) {
+      if (existingRecord != null) {
+        return ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF1B4D3E),
+            foregroundColor: Colors.white,
+            minimumSize: const Size.fromHeight(50),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+          icon: const Icon(Icons.assignment_turned_in),
+          label: const Text('View Medical Record', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => MedicalRecordDetailsPage(record: existingRecord),
+              ),
+            );
+          },
+        );
+      } else if (isVet) {
+        return ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.amber[800],
+            foregroundColor: Colors.white,
+            minimumSize: const Size.fromHeight(50),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          ),
+          icon: const Icon(Icons.post_add),
+          label: const Text('Create Medical Record', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          onPressed: () async {
+            final created = await Navigator.push<bool>(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CreateMedicalRecordPage(appointment: app),
+              ),
+            );
+            if (created == true) {
+              ref.read(medicalRecordProvider.notifier).fetchRecordForAppointment(app.id);
+            }
+          },
+        );
+      }
+      return const SizedBox.shrink();
+    }
+
+    if (app.status == AppointmentStatus.cancelled || app.status == AppointmentStatus.rejected) {
       return const SizedBox.shrink();
     }
 

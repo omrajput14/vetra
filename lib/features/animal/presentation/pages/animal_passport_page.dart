@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../providers/animal_provider.dart';
+import '../widgets/animal_medical_history_widget.dart';
 
 class AnimalPassportPage extends StatelessWidget {
   final String animalId;
@@ -70,6 +71,17 @@ class AnimalPassportPage extends StatelessWidget {
               _buildDetailTile('Breed', animal.breed ?? 'Unknown'),
               _buildDetailTile('Gender', animal.gender),
               _buildDetailTile('Owner', animal.farmerName),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  const Icon(Icons.history_edu, color: AppColors.primary),
+                  const SizedBox(width: 8),
+                  Text('Medical History & Clinical Timeline', style: AppTypography.sectionHeading),
+                ],
+              ),
+              const SizedBox(height: 12),
+              AnimalMedicalHistoryWidget(animalId: animal.id),
+              const SizedBox(height: 24),
             ],
           ),
         );
