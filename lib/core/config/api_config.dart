@@ -30,4 +30,7 @@ class ApiConfig {
 
   // Dashboard Endpoint (Single unified call)
   static const String dashboard = '/api/v1/dashboard';
+
+  // Appointment Endpoints
+  static const String appointments = '/api/v1/appointments';
 }
