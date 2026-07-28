@@ -8,6 +8,7 @@ import 'package:vetra/features/animal/data/models/animal_dto.dart';
 import 'package:vetra/features/animal/presentation/providers/animal_provider.dart';
 import 'package:vetra/features/appointment/data/models/appointment_dto.dart';
 import 'package:vetra/features/appointment/presentation/providers/appointment_provider.dart';
+import 'package:vetra/features/auth/presentation/providers/auth_provider.dart';
 
 class AppointmentBookingPage extends StatefulWidget {
   final Object? extraData;
@@ -21,6 +22,7 @@ class AppointmentBookingPage extends StatefulWidget {
 class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
   final _formKey = GlobalKey<FormState>();
   AnimalModel? _selectedAnimal;
+  Map<String, dynamic>? _selectedVetMap;
   DateTime _selectedDate = DateTime.now().add(const Duration(days: 1));
   TimeOfDay _selectedTime = const TimeOfDay(hour: 10, minute: 0);
   VisitType _selectedVisitType = VisitType.generalCheckup;
@@ -43,9 +45,17 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await animalNotifier.loadAnimals();
+      await authNotifier.fetchNearbyVets();
       if (animalNotifier.animals.isNotEmpty) {
         setState(() {
           _selectedAnimal = animalNotifier.animals.first;
+        });
+      }
+      if (_vetIdController.text.isEmpty && authNotifier.vetsList.isNotEmpty) {
+        setState(() {
+          _selectedVetMap = authNotifier.vetsList.first;
+          _vetIdController.text = _selectedVetMap!['id'].toString();
+          _preselectedVetName = _selectedVetMap!['fullName'].toString();
         });
       }
     });
@@ -75,7 +85,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
         ),
       ),
       body: AnimatedBuilder(
-        animation: Listenable.merge([animalNotifier, appointmentNotifier]),
+        animation: Listenable.merge([animalNotifier, appointmentNotifier, authNotifier]),
         builder: (context, _) {
           return Form(
             key: _formKey,
@@ -98,13 +108,41 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Selected Veterinarian', style: AppTypography.captionMetadata),
+                              Text('Assigned Veterinarian', style: AppTypography.captionMetadata),
                               Text(_preselectedVetName!, style: AppTypography.cardTitle.copyWith(color: AppColors.primary)),
                             ],
                           ),
                         ),
                       ],
                     ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                if (authNotifier.vetsList.isNotEmpty && _vetIdController.text.isEmpty) ...[
+                  Text('Select Veterinarian', style: AppTypography.sectionHeading),
+                  const SizedBox(height: 8),
+                  DropdownButtonFormField<Map<String, dynamic>>(
+                    initialValue: _selectedVetMap,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColors.surfaceCard,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    items: authNotifier.vetsList.map((v) {
+                      return DropdownMenuItem(
+                        value: v,
+                        child: Text('${v['fullName']} (${v['clinicName'] ?? "Clinic"})'),
+                      );
+                    }).toList(),
+                    onChanged: (val) {
+                      if (val != null) {
+                        setState(() {
+                          _selectedVetMap = val;
+                          _vetIdController.text = val['id'].toString();
+                          _preselectedVetName = val['fullName'].toString();
+                        });
+                      }
+                    },
                   ),
                   const SizedBox(height: 16),
                 ],
@@ -250,11 +288,13 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
   void _submitForm(String formattedDate, String formattedTime) async {
     if (!_formKey.currentState!.validate() || _selectedAnimal == null) return;
 
+    final targetVetId = _vetIdController.text.trim().isNotEmpty
+        ? _vetIdController.text.trim()
+        : (authNotifier.vetsList.isNotEmpty ? authNotifier.vetsList.first['id'].toString() : '00000000-0000-0000-0000-000000000000');
+
     final success = await appointmentNotifier.createAppointment(
       animalId: _selectedAnimal!.id,
-      veterinarianId: _vetIdController.text.trim().isNotEmpty 
-          ? _vetIdController.text.trim() 
-          : '00000000-0000-0000-0000-000000000000',
+      veterinarianId: targetVetId,
       appointmentDate: formattedDate,
       appointmentTime: formattedTime,
       visitType: _selectedVisitType,

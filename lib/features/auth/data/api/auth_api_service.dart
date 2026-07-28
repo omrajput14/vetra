@@ -87,4 +87,14 @@ class AuthApiService {
       throw NetworkException.fromDioError(e);
     }
   }
+
+  Future<List<Map<String, dynamic>>> listVets() async {
+    try {
+      final response = await _dio.get(ApiConfig.vets);
+      final data = response.data['data'] as List;
+      return data.map((e) => e as Map<String, dynamic>).toList();
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
 }

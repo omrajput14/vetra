@@ -195,4 +195,9 @@ class AuthRepositoryImpl implements AuthRepository {
       metadata: userData,
     );
   }
+
+  @override
+  Future<List<Map<String, dynamic>>> listVets() async {
+    return await _apiService.listVets();
+  }
 }

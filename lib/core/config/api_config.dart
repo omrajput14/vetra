@@ -23,6 +23,7 @@ class ApiConfig {
   static const String changePassword = '/api/v1/auth/change-password';
   static const String profileUpdate = '/api/v1/auth/profile';
   static const String me = '/api/v1/auth/me';
+  static const String vets = '/api/v1/auth/vets';
 
   // Animal Endpoints
   static const String animals = '/api/v1/animals';

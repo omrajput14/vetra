@@ -118,6 +118,14 @@ class AuthNotifier extends ChangeNotifier {
     return success;
   }
 
+  List<Map<String, dynamic>> _vetsList = [];
+  List<Map<String, dynamic>> get vetsList => _vetsList;
+
+  Future<void> fetchNearbyVets() async {
+    _vetsList = await _service.listVets();
+    notifyListeners();
+  }
+
   Future<void> logout() async {
     await _service.logout();
     notifyListeners();
