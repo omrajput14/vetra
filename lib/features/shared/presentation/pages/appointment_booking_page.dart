@@ -10,7 +10,9 @@ import 'package:vetra/features/appointment/data/models/appointment_dto.dart';
 import 'package:vetra/features/appointment/presentation/providers/appointment_provider.dart';
 
 class AppointmentBookingPage extends StatefulWidget {
-  const AppointmentBookingPage({super.key});
+  final Object? extraData;
+
+  const AppointmentBookingPage({super.key, this.extraData});
 
   @override
   State<AppointmentBookingPage> createState() => _AppointmentBookingPageState();
@@ -24,10 +26,21 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
   VisitType _selectedVisitType = VisitType.generalCheckup;
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _vetIdController = TextEditingController();
+  String? _preselectedVetName;
 
   @override
   void initState() {
     super.initState();
+    if (widget.extraData is Map<String, dynamic>) {
+      final map = widget.extraData as Map<String, dynamic>;
+      _preselectedVetName = map['vetName'] as String?;
+      if (map['vetId'] != null) {
+        _vetIdController.text = map['vetId'].toString();
+      }
+    } else if (widget.extraData is String) {
+      _preselectedVetName = widget.extraData as String;
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await animalNotifier.loadAnimals();
       if (animalNotifier.animals.isNotEmpty) {
@@ -69,7 +82,33 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
             child: ListView(
               padding: const EdgeInsets.all(20),
               children: [
-                Text('1. Select Animal', style: AppTypography.sectionHeading),
+                if (_preselectedVetName != null) ...[
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: AppColors.primary),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.local_hospital, color: AppColors.primary),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Selected Veterinarian', style: AppTypography.captionMetadata),
+                              Text(_preselectedVetName!, style: AppTypography.cardTitle.copyWith(color: AppColors.primary)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+                Text('1. Select Livestock Animal', style: AppTypography.sectionHeading),
                 const SizedBox(height: 8),
                 animalNotifier.animals.isEmpty
                     ? Container(
@@ -211,12 +250,11 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
   void _submitForm(String formattedDate, String formattedTime) async {
     if (!_formKey.currentState!.validate() || _selectedAnimal == null) return;
 
-    // Use selected animal and active vet
     final success = await appointmentNotifier.createAppointment(
       animalId: _selectedAnimal!.id,
       veterinarianId: _vetIdController.text.trim().isNotEmpty 
           ? _vetIdController.text.trim() 
-          : '00000000-0000-0000-0000-000000000000', // Server resolves default vet if UUID placeholder
+          : '00000000-0000-0000-0000-000000000000',
       appointmentDate: formattedDate,
       appointmentTime: formattedTime,
       visitType: _selectedVisitType,
@@ -228,7 +266,7 @@ class _AppointmentBookingPageState extends State<AppointmentBookingPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Appointment requested successfully!'), backgroundColor: Colors.green),
         );
-        context.pop();
+        context.pushReplacement('/farmer-appointments');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(appointmentNotifier.errorMessage ?? 'Failed to request appointment'), backgroundColor: Colors.red),
