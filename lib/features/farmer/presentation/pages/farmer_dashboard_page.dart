@@ -82,19 +82,22 @@ class _FarmerDashboardPageState extends State<FarmerDashboardPage> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceCard,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.borderHairline),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${dash?.pendingAppointmentsCount ?? 0}', style: AppTypography.screenTitle.copyWith(color: AppColors.cautionAmber, fontSize: 32)),
-                            Text('Checkups Due', style: AppTypography.captionMetadata),
-                          ],
+                      child: GestureDetector(
+                        onTap: () => context.push('/farmer-appointments'),
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceCard,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: AppColors.borderHairline),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${dash?.pendingAppointmentsCount ?? 0}', style: AppTypography.screenTitle.copyWith(color: AppColors.cautionAmber, fontSize: 32)),
+                              Text('Checkups Due', style: AppTypography.captionMetadata),
+                            ],
+                          ),
                         ),
                       ),
                     ),
