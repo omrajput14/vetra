@@ -194,4 +194,12 @@ class AuthService {
       _isLoading = false;
     }
   }
+
+  Future<List<Map<String, dynamic>>> listVets() async {
+    try {
+      return await _repository.listVets();
+    } catch (e) {
+      return [];
+    }
+  }
 }
