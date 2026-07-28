@@ -112,17 +112,26 @@ class _FarmerDashboardPageState extends State<FarmerDashboardPage> {
                       child: _buildQuickActionCard(
                         context,
                         icon: Icons.camera_alt,
-                        label: 'AI Disease Scan',
+                        label: 'AI Scan',
                         onTap: () => context.push('/disease-scanner'),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: _buildQuickActionCard(
                         context,
                         icon: Icons.add_circle_outline,
                         label: 'Add Animal',
                         onTap: () => context.push('/add-animal'),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _buildQuickActionCard(
+                        context,
+                        icon: Icons.calendar_month,
+                        label: 'Book Checkup',
+                        onTap: () => context.push('/appointment-booking'),
                       ),
                     ),
                   ],

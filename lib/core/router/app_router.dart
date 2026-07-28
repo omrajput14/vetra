@@ -383,7 +383,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/appointment-booking',
-        builder: (context, state) => const AppointmentBookingPage(),
+        builder: (context, state) => AppointmentBookingPage(extraData: state.extra),
       ),
       GoRoute(
         path: '/appointment-details',
