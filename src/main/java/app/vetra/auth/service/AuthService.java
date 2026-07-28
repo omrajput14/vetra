@@ -299,6 +299,14 @@ public class AuthService {
     );
   }
 
+  /** Retrieves list of all registered veterinarians for directory and booking pickers. */
+  @Transactional(readOnly = true)
+  public java.util.List<app.vetra.auth.dto.VetSummaryDto> listVeterinarians() {
+    return vetProfileRepository.findAll().stream()
+        .map(app.vetra.auth.dto.VetSummaryDto::fromEntity)
+        .toList();
+  }
+
   private UserProfileDto mapFarmerProfileToDto(User user, FarmerProfile p) {
     return new UserProfileDto(
         user.getId(), user.getEmail(), user.getPhone(), user.getRole(), user.isActive(),

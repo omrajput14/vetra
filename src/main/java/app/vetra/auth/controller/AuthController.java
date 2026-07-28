@@ -111,4 +111,12 @@ public class AuthController {
     UserProfileDto response = authService.updateUserProfile(principal.getName(), request);
     return ApiResponse.ok("Profile updated successfully", response);
   }
+
+  /** Lists all registered veterinarians. */
+  @GetMapping("/vets")
+  @Operation(summary = "List Veterinarians", description = "Returns directory of all registered veterinarians")
+  public ApiResponse<java.util.List<app.vetra.auth.dto.VetSummaryDto>> listVets() {
+    java.util.List<app.vetra.auth.dto.VetSummaryDto> response = authService.listVeterinarians();
+    return ApiResponse.ok("Veterinarians retrieved successfully", response);
+  }
 }
