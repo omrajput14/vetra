@@ -21,14 +21,14 @@ class AuthRepositoryImpl implements AuthRepository {
     int? animalCount,
   }) async {
     final response = await _apiService.registerFarmer({
-      'email': email,
-      'phone': phone,
+      'email': email.trim().replaceAll(' ', ''),
+      'phone': phone.trim(),
       'password': password,
-      'fullName': fullName,
-      'farmName': farmName,
-      'village': village,
-      'district': district,
-      'state': state,
+      'fullName': fullName.trim(),
+      'farmName': farmName?.trim(),
+      'village': village?.trim(),
+      'district': district?.trim(),
+      'state': state?.trim(),
       'animalCount': animalCount,
     });
 
@@ -39,7 +39,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<UserModel> registerVet({
     required String name,
     required String email,
-    required String phone,
+    String? phone,
     required String password,
     required String regNo,
     required String qualification,
@@ -48,16 +48,17 @@ class AuthRepositoryImpl implements AuthRepository {
     required String experience,
   }) async {
     final yearsExp = int.tryParse(experience.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
+    final cleanPhone = (phone != null && phone.trim().isNotEmpty) ? phone.trim() : null;
 
     final response = await _apiService.registerVet({
-      'email': email,
-      'phone': phone,
+      'email': email.trim().replaceAll(' ', ''),
+      'phone': cleanPhone,
       'password': password,
-      'fullName': name,
-      'registrationNumber': regNo,
-      'qualification': qualification,
-      'specialization': specialization,
-      'clinicName': clinicName,
+      'fullName': name.trim(),
+      'registrationNumber': regNo.trim(),
+      'qualification': qualification.trim(),
+      'specialization': specialization.trim(),
+      'clinicName': clinicName?.trim(),
       'yearsExperience': yearsExp,
     });
 
@@ -69,7 +70,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String identifier,
     required String password,
   }) async {
-    final response = await _apiService.loginFarmer(identifier, password);
+    final response = await _apiService.loginFarmer(identifier.trim().replaceAll(' ', ''), password);
     return await _processAuthResponse(response);
   }
 
@@ -78,7 +79,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    final response = await _apiService.loginVet(email, password);
+    final response = await _apiService.loginVet(email.trim().replaceAll(' ', ''), password);
     return await _processAuthResponse(response);
   }
 
@@ -101,11 +102,52 @@ class AuthRepositoryImpl implements AuthRepository {
         emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
         role: role,
         vetStatus: VetAccountStatus.active,
+        metadata: userData,
       );
     } catch (e) {
       await _storage.clearAll();
       return null;
     }
+  }
+
+  @override
+  Future<UserModel> updateProfile({
+    String? fullName,
+    String? phone,
+    String? farmName,
+    String? village,
+    String? district,
+    String? state,
+    String? clinicName,
+    String? specialization,
+    String? qualification,
+    int? yearsExperience,
+  }) async {
+    final response = await _apiService.updateProfile({
+      'fullName': fullName,
+      'phone': phone,
+      'farmName': farmName,
+      'village': village,
+      'district': district,
+      'state': state,
+      'clinicName': clinicName,
+      'specialization': specialization,
+      'qualification': qualification,
+      'yearsExperience': yearsExperience,
+    });
+
+    final userData = response['data'] as Map<String, dynamic>;
+    final roleStr = (userData['role'] ?? 'FARMER').toString().toUpperCase();
+    final role = roleStr == 'VETERINARIAN' ? UserRole.veterinarian : UserRole.farmer;
+
+    return UserModel(
+      id: userData['id'].toString(),
+      name: userData['fullName']?.toString() ?? 'User',
+      emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
+      role: role,
+      vetStatus: VetAccountStatus.active,
+      metadata: userData,
+    );
   }
 
   @override
@@ -150,6 +192,12 @@ class AuthRepositoryImpl implements AuthRepository {
       emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
       role: role,
       vetStatus: VetAccountStatus.active,
+      metadata: userData,
     );
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> listVets() async {
+    return await _apiService.listVets();
   }
 }

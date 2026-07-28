@@ -16,7 +16,7 @@ abstract class AuthRepository {
   Future<UserModel> registerVet({
     required String name,
     required String email,
-    required String phone,
+    String? phone,
     required String password,
     required String regNo,
     required String qualification,
@@ -37,10 +37,25 @@ abstract class AuthRepository {
 
   Future<UserModel?> restoreSession();
 
+  Future<UserModel> updateProfile({
+    String? fullName,
+    String? phone,
+    String? farmName,
+    String? village,
+    String? district,
+    String? state,
+    String? clinicName,
+    String? specialization,
+    String? qualification,
+    int? yearsExperience,
+  });
+
   Future<void> logout();
 
   Future<void> changePassword({
     required String currentPassword,
     required String newPassword,
   });
+
+  Future<List<Map<String, dynamic>>> listVets();
 }

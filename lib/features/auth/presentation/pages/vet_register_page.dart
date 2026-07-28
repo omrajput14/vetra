@@ -59,7 +59,7 @@ class _VetRegisterPageState extends State<VetRegisterPage> {
       name: name,
       email: email,
       password: password,
-      phone: _phoneController.text.trim().isEmpty ? '+15550188' : _phoneController.text.trim(),
+      phone: _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
       regNo: regNo,
       qualification: _qualController.text.trim().isEmpty ? 'BVSc & AH' : _qualController.text.trim(),
       specialization: _specController.text.trim().isEmpty ? 'General Medicine' : _specController.text.trim(),

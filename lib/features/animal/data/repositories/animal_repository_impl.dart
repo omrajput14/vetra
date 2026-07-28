@@ -7,6 +7,7 @@ class AnimalRepositoryImpl implements AnimalRepository {
 
   @override
   Future<AnimalModel> createAnimal({
+    String? animalName,
     required String tagNumber,
     String? qrCodeId,
     required String species,
@@ -16,6 +17,7 @@ class AnimalRepositoryImpl implements AnimalRepository {
     String? photoUrl,
   }) async {
     final response = await _apiService.createAnimal({
+      'animalName': animalName,
       'tagNumber': tagNumber,
       'qrCodeId': qrCodeId,
       'species': species.toUpperCase(),
@@ -43,6 +45,7 @@ class AnimalRepositoryImpl implements AnimalRepository {
   @override
   Future<AnimalModel> updateAnimal({
     required String id,
+    String? animalName,
     required String tagNumber,
     String? qrCodeId,
     required String species,
@@ -52,6 +55,7 @@ class AnimalRepositoryImpl implements AnimalRepository {
     String? photoUrl,
   }) async {
     final response = await _apiService.updateAnimal(id, {
+      'animalName': animalName,
       'tagNumber': tagNumber,
       'qrCodeId': qrCodeId,
       'species': species.toUpperCase(),
@@ -70,6 +74,7 @@ class AnimalRepositoryImpl implements AnimalRepository {
 
   @override
   Future<List<AnimalModel>> searchAnimals({
+    String? animalName,
     String? tagNumber,
     String? qrCodeId,
     String? species,

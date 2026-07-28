@@ -175,7 +175,9 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(disease, style: AppTypography.cardTitle.copyWith(fontSize: 16)),
+              Expanded(
+                child: Text(disease, style: AppTypography.cardTitle.copyWith(fontSize: 16), overflow: TextOverflow.ellipsis),
+              ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(

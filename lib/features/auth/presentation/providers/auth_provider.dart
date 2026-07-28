@@ -67,7 +67,7 @@ class AuthNotifier extends ChangeNotifier {
   Future<bool> registerVet({
     required String name,
     required String email,
-    required String phone,
+    String? phone,
     required String password,
     required String regNo,
     required String qualification,
@@ -88,6 +88,42 @@ class AuthNotifier extends ChangeNotifier {
     );
     notifyListeners();
     return success;
+  }
+
+  Future<bool> updateProfile({
+    String? fullName,
+    String? phone,
+    String? farmName,
+    String? village,
+    String? district,
+    String? state,
+    String? clinicName,
+    String? specialization,
+    String? qualification,
+    int? yearsExperience,
+  }) async {
+    final success = await _service.updateProfile(
+      fullName: fullName,
+      phone: phone,
+      farmName: farmName,
+      village: village,
+      district: district,
+      state: state,
+      clinicName: clinicName,
+      specialization: specialization,
+      qualification: qualification,
+      yearsExperience: yearsExperience,
+    );
+    notifyListeners();
+    return success;
+  }
+
+  List<Map<String, dynamic>> _vetsList = [];
+  List<Map<String, dynamic>> get vetsList => _vetsList;
+
+  Future<void> fetchNearbyVets() async {
+    _vetsList = await _service.listVets();
+    notifyListeners();
   }
 
   Future<void> logout() async {

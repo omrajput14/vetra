@@ -15,6 +15,7 @@ import '../../features/auth/presentation/pages/email_verification_page.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/farmer/presentation/pages/farmer_dashboard_page.dart';
+import '../../features/farmer/presentation/pages/farmer_appointments_page.dart';
 import '../../features/farmer/presentation/pages/my_animals_page.dart';
 import '../../features/farmer/presentation/pages/my_animals_offline_state_page.dart';
 import '../../features/farmer/presentation/pages/nearby_vets_page.dart';
@@ -214,11 +215,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/edit-animal',
-        builder: (context, state) => EditAnimalPage(animalId: state.extra as String? ?? ''),
+        builder: (context, state) => EditAnimalPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/animal-passport',
-        builder: (context, state) => AnimalPassportPage(animalId: state.extra as String?),
+        builder: (context, state) => AnimalPassportPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/animal-passport-qr-updated',
@@ -246,11 +247,11 @@ class AppRouter {
       ),
       GoRoute(
         path: '/delete-animal-confirmation',
-        builder: (context, state) => DeleteAnimalConfirmationPage(animalId: state.extra as String?),
+        builder: (context, state) => DeleteAnimalConfirmationPage(animalId: state.extra?.toString()),
       ),
       GoRoute(
         path: '/delete-animal',
-        builder: (context, state) => DeleteAnimalConfirmationPage(animalId: state.extra as String?),
+        builder: (context, state) => DeleteAnimalConfirmationPage(animalId: state.extra?.toString()),
       ),
       GoRoute(
         path: '/transfer-animal-ownership',
@@ -377,12 +378,16 @@ class AppRouter {
         builder: (context, state) => const AlertsPage(),
       ),
       GoRoute(
+        path: '/farmer-appointments',
+        builder: (context, state) => const FarmerAppointmentsPage(),
+      ),
+      GoRoute(
         path: '/appointment-booking',
-        builder: (context, state) => const AppointmentBookingPage(),
+        builder: (context, state) => AppointmentBookingPage(extraData: state.extra),
       ),
       GoRoute(
         path: '/appointment-details',
-        builder: (context, state) => const AppointmentDetailsPage(),
+        builder: (context, state) => AppointmentDetailsPage(appointmentId: state.extra?.toString()),
       ),
       GoRoute(
         path: '/filters',

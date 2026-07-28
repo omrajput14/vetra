@@ -14,6 +14,7 @@ class AddAnimalPage extends StatefulWidget {
 }
 
 class _AddAnimalPageState extends State<AddAnimalPage> {
+  final _nameController = TextEditingController();
   final _tagController = TextEditingController();
   final _qrController = TextEditingController();
   final _breedController = TextEditingController();
@@ -28,6 +29,7 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _tagController.dispose();
     _qrController.dispose();
     _breedController.dispose();
@@ -39,13 +41,14 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
     final tag = _tagController.text.trim();
     if (tag.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter Tag Number')),
+        const SnackBar(content: Text('Please enter Ear Tag Number')),
       );
       return;
     }
 
     setState(() => _isSubmitting = true);
     final success = await animalNotifier.createAnimal(
+      animalName: _nameController.text.trim().isEmpty ? null : _nameController.text.trim(),
       tagNumber: tag,
       qrCodeId: _qrController.text.trim().isEmpty ? null : _qrController.text.trim(),
       species: _selectedSpecies,
@@ -88,8 +91,14 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
           children: [
             Text('Animal Details', style: AppTypography.screenTitle.copyWith(fontSize: 20)),
             const SizedBox(height: 8),
-            Text('Enter official tag and species information.', style: AppTypography.captionMetadata),
+            Text('Enter official tag and optional animal name.', style: AppTypography.captionMetadata),
             const SizedBox(height: 24),
+            AppTextField(
+              controller: _nameController,
+              labelText: 'Animal Name (Optional)',
+              hintText: 'e.g. Bessie / Daisy',
+            ),
+            const SizedBox(height: 16),
             AppTextField(
               controller: _tagController,
               labelText: 'Ear Tag Number *',

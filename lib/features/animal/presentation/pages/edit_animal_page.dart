@@ -15,6 +15,7 @@ class EditAnimalPage extends StatefulWidget {
 }
 
 class _EditAnimalPageState extends State<EditAnimalPage> {
+  final _nameController = TextEditingController();
   final _tagController = TextEditingController();
   final _qrController = TextEditingController();
   final _breedController = TextEditingController();
@@ -31,6 +32,7 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
   void initState() {
     super.initState();
     final animal = animalNotifier.animals.firstWhere((a) => a.id == widget.animalId, orElse: () => animalNotifier.animals.first);
+    _nameController.text = animal.animalName ?? '';
     _tagController.text = animal.tagNumber;
     _qrController.text = animal.qrCodeId ?? '';
     _breedController.text = animal.breed ?? '';
@@ -45,6 +47,7 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _tagController.dispose();
     _qrController.dispose();
     _breedController.dispose();
@@ -56,7 +59,7 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
     final tag = _tagController.text.trim();
     if (tag.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter Tag Number')),
+        const SnackBar(content: Text('Please enter Ear Tag Number')),
       );
       return;
     }
@@ -64,6 +67,7 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
     setState(() => _isSubmitting = true);
     final success = await animalNotifier.updateAnimal(
       id: widget.animalId,
+      animalName: _nameController.text.trim().isEmpty ? null : _nameController.text.trim(),
       tagNumber: tag,
       qrCodeId: _qrController.text.trim().isEmpty ? null : _qrController.text.trim(),
       species: _selectedSpecies,
@@ -106,6 +110,12 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
           children: [
             Text('Update Animal Details', style: AppTypography.screenTitle.copyWith(fontSize: 20)),
             const SizedBox(height: 24),
+            AppTextField(
+              controller: _nameController,
+              labelText: 'Animal Name (Optional)',
+              hintText: 'e.g. Bessie',
+            ),
+            const SizedBox(height: 16),
             AppTextField(
               controller: _tagController,
               labelText: 'Ear Tag Number *',
