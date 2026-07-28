@@ -43,9 +43,9 @@ class ConsultationHistoryPage extends StatelessWidget {
       bottomNavigationBar: VetBottomNavigation(
         currentIndex: 1,
         onTap: (index) {
-          if (index == 0) context.go('/vet-requests');
-          if (index == 2) context.go('/outbreak-map');
-          if (index == 3) context.go('/vet-profile');
+          if (index == 0) context.go('/vet-dashboard');
+          if (index == 3) context.go('/vet-outbreak-map');
+          if (index == 4) context.go('/vet-profile');
         },
       ),
     );
