@@ -102,6 +102,7 @@ class AuthRepositoryImpl implements AuthRepository {
         emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
         role: role,
         vetStatus: VetAccountStatus.active,
+        metadata: userData,
       );
     } catch (e) {
       await _storage.clearAll();
@@ -145,6 +146,7 @@ class AuthRepositoryImpl implements AuthRepository {
       emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
       role: role,
       vetStatus: VetAccountStatus.active,
+      metadata: userData,
     );
   }
 
@@ -190,6 +192,7 @@ class AuthRepositoryImpl implements AuthRepository {
       emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
       role: role,
       vetStatus: VetAccountStatus.active,
+      metadata: userData,
     );
   }
 }

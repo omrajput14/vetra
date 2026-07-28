@@ -4,7 +4,9 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../../../../core/models/user_role.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../dashboard/presentation/providers/dashboard_provider.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -16,6 +18,9 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final _nameController = TextEditingController();
   final _facilityController = TextEditingController();
+  final _qualificationController = TextEditingController();
+  final _specializationController = TextEditingController();
+  final _experienceController = TextEditingController();
   final _phoneController = TextEditingController();
   bool _isSubmitting = false;
 
@@ -23,9 +28,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void initState() {
     super.initState();
     final user = authNotifier.currentUser;
+    final dash = dashboardNotifier.dashboard;
     if (user != null) {
       _nameController.text = user.name;
       _phoneController.text = user.emailOrPhone;
+      _facilityController.text = dash?.facilityName ?? user.metadata['clinicName']?.toString() ?? user.metadata['farmName']?.toString() ?? '';
+      _qualificationController.text = user.metadata['qualification']?.toString() ?? '';
+      _specializationController.text = user.metadata['specialization']?.toString() ?? '';
+      _experienceController.text = user.metadata['yearsExperience']?.toString() ?? '';
     }
   }
 
@@ -33,6 +43,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void dispose() {
     _nameController.dispose();
     _facilityController.dispose();
+    _qualificationController.dispose();
+    _specializationController.dispose();
+    _experienceController.dispose();
     _phoneController.dispose();
     super.dispose();
   }
@@ -46,19 +59,31 @@ class _EditProfilePageState extends State<EditProfilePage> {
       return;
     }
 
+    final isVet = authNotifier.currentRole == UserRole.veterinarian;
+    final facility = _facilityController.text.trim();
+    final expYears = int.tryParse(_experienceController.text.trim());
+
     setState(() => _isSubmitting = true);
     final success = await authNotifier.updateProfile(
       fullName: name,
       phone: _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
-      farmName: _facilityController.text.trim().isEmpty ? null : _facilityController.text.trim(),
-      clinicName: _facilityController.text.trim().isEmpty ? null : _facilityController.text.trim(),
+      farmName: !isVet && facility.isNotEmpty ? facility : null,
+      clinicName: isVet && facility.isNotEmpty ? facility : null,
+      qualification: _qualificationController.text.trim().isEmpty ? null : _qualificationController.text.trim(),
+      specialization: _specializationController.text.trim().isEmpty ? null : _specializationController.text.trim(),
+      yearsExperience: expYears,
     );
+
+    if (success) {
+      await dashboardNotifier.loadDashboard();
+    }
+
     if (!mounted) return;
     setState(() => _isSubmitting = false);
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile updated successfully')),
+        const SnackBar(content: Text('Profile updated successfully'), backgroundColor: Colors.green),
       );
       context.pop();
     } else {
@@ -71,12 +96,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isVet = authNotifier.currentRole == UserRole.veterinarian;
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Edit Profile', style: AppTypography.screenTitle),
+        title: Text(isVet ? 'Edit Vet Profile' : 'Edit Profile', style: AppTypography.screenTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => context.pop(),
@@ -93,8 +120,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           const SizedBox(height: 16),
           AppTextField(
             controller: _facilityController,
-            labelText: 'Farm / Clinic Name',
-            hintText: 'e.g. Green Valley Farm',
+            labelText: isVet ? 'Clinic / Hospital Name' : 'Farm / Facility Name',
+            hintText: isVet ? 'e.g. City Vet Practice' : 'e.g. Green Valley Farm',
           ),
           const SizedBox(height: 16),
           AppTextField(
@@ -103,6 +130,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
             hintText: '+1 555-0199',
             keyboardType: TextInputType.phone,
           ),
+          if (isVet) ...[
+            const SizedBox(height: 16),
+            AppTextField(
+              controller: _qualificationController,
+              labelText: 'Qualification & Degrees',
+              hintText: 'e.g. BVSc & AH, MVSc',
+            ),
+            const SizedBox(height: 16),
+            AppTextField(
+              controller: _specializationController,
+              labelText: 'Clinical Specialization',
+              hintText: 'e.g. Ruminant Surgery & Epidemiology',
+            ),
+            const SizedBox(height: 16),
+            AppTextField(
+              controller: _experienceController,
+              labelText: 'Years of Experience',
+              hintText: 'e.g. 10',
+              keyboardType: TextInputType.number,
+            ),
+          ],
           const SizedBox(height: 32),
           PrimaryButton(
             label: _isSubmitting ? 'Saving...' : 'Save Changes',
