@@ -1,6 +1,7 @@
 package app.vetra.dashboard.service;
 
 import app.vetra.animal.repository.AnimalRepository;
+import app.vetra.appointment.repository.AppointmentRepository;
 import app.vetra.auth.repository.FarmerProfileRepository;
 import app.vetra.auth.repository.UserRepository;
 import app.vetra.auth.repository.VetProfileRepository;
@@ -8,13 +9,14 @@ import app.vetra.dashboard.dto.DashboardResponse;
 import app.vetra.infrastructure.persistence.entity.FarmerProfile;
 import app.vetra.infrastructure.persistence.entity.User;
 import app.vetra.infrastructure.persistence.entity.VetProfile;
+import app.vetra.infrastructure.persistence.enums.AppointmentStatus;
 import app.vetra.infrastructure.persistence.enums.UserRole;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Business service providing unified dashboard metrics.
+ * Business service providing unified dashboard metrics with real database counts.
  */
 @Service
 public class DashboardService {
@@ -23,17 +25,20 @@ public class DashboardService {
   private final FarmerProfileRepository farmerProfileRepository;
   private final VetProfileRepository vetProfileRepository;
   private final AnimalRepository animalRepository;
+  private final AppointmentRepository appointmentRepository;
 
   /** Constructor injection. */
   public DashboardService(
       UserRepository userRepository,
       FarmerProfileRepository farmerProfileRepository,
       VetProfileRepository vetProfileRepository,
-      AnimalRepository animalRepository) {
+      AnimalRepository animalRepository,
+      AppointmentRepository appointmentRepository) {
     this.userRepository = userRepository;
     this.farmerProfileRepository = farmerProfileRepository;
     this.vetProfileRepository = vetProfileRepository;
     this.animalRepository = animalRepository;
+    this.appointmentRepository = appointmentRepository;
   }
 
   /** Aggregates dashboard stats in a single backend call. */
@@ -43,6 +48,7 @@ public class DashboardService {
         .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
     long animalCount = 0;
+    long pendingAppointmentsCount = 0;
     String userName = user.getEmail();
     String facilityName = "Vetra System";
 
@@ -53,6 +59,7 @@ public class DashboardService {
         userName = farmer.getFullName() != null ? farmer.getFullName() : user.getEmail();
         facilityName = farmer.getFarmName() != null ? farmer.getFarmName() : "My Livestock Farm";
         animalCount = animalRepository.countByFarmer(farmer);
+        pendingAppointmentsCount = appointmentRepository.countByFarmerAndStatus(farmer, AppointmentStatus.PENDING);
       }
     } else if (user.getRole() == UserRole.VETERINARIAN) {
       Optional<VetProfile> vetOpt = vetProfileRepository.findByUser(user);
@@ -60,13 +67,14 @@ public class DashboardService {
         VetProfile vet = vetOpt.get();
         userName = vet.getFullName() != null ? vet.getFullName() : user.getEmail();
         facilityName = vet.getClinicName() != null ? vet.getClinicName() : "Clinical Practice";
+        pendingAppointmentsCount = appointmentRepository.countByVeterinarianAndStatus(vet, AppointmentStatus.PENDING);
       }
       animalCount = animalRepository.count();
     }
 
     return new DashboardResponse(
         animalCount,
-        0L, // Pending appointments placeholder
+        pendingAppointmentsCount,
         0L, // Active alerts placeholder
         userName,
         facilityName,
