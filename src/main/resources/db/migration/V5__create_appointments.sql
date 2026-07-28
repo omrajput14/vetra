@@ -34,6 +34,8 @@ BEGIN
         SET appointment_date = CAST(scheduled_at AS DATE),
             appointment_time = CAST(scheduled_at AS TIME)
         WHERE appointment_date IS NULL AND scheduled_at IS NOT NULL;
+
+        ALTER TABLE appointments ALTER COLUMN scheduled_at DROP NOT NULL;
     END IF;
 END $$;
 

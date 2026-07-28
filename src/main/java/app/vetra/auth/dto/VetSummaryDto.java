@@ -30,7 +30,7 @@ public record VetSummaryDto(
         vet.getSpecialization(),
         vet.getClinicName(),
         vet.getYearsExperience(),
-        vet.getIsAvailable(),
+        vet.isAvailable(),
         vet.getLatitude(),
         vet.getLongitude(),
         vet.getUser() != null ? vet.getUser().getPhone() : null,

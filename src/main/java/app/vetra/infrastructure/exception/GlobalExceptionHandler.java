@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
 
     return ResponseEntity.status(HttpStatus.CONFLICT)
         .body(ApiResponse.error(HttpStatus.CONFLICT,
-            "A user or record with this phone number, email, or registration number already exists."));
+            "A database constraint error occurred or a record with these details already exists."));
   }
 
   /** Handles malformed JSON request bodies. */
