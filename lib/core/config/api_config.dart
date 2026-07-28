@@ -34,4 +34,8 @@ class ApiConfig {
 
   // Appointment Endpoints
   static const String appointments = '/api/v1/appointments';
+
+  // Medical Record Endpoints
+  static const String medicalRecords = '/api/v1/medical-records';
+  static const String animalMedicalHistory = '/api/v1/animals';
 }
