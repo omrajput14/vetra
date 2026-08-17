@@ -1,94 +1,90 @@
 <div align="center">
 
-  <h1>🐄 VETRA</h1>
-  <h3>Enterprise Veterinary Operating System & Rural Livestock Health Platform</h3>
+  <h1>Vetra</h1>
+  <p><b>Enterprise Veterinary Operating System (VetOS) & Field Livestock Infrastructure</b></p>
 
   <p>
-    <b>Bridging field veterinarians and rural livestock farmers through digital animal identity, tele-veterinary consultations, AI diagnostic assistance, and resilient offline EVMR.</b>
+    <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B.svg?style=flat-square&logo=flutter&logoColor=white" alt="Flutter" /></a>
+    <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2.svg?style=flat-square&logo=dart&logoColor=white" alt="Dart" /></a>
+    <a href="https://riverpod.dev"><img src="https://img.shields.io/badge/Riverpod-2.x-42B883.svg?style=flat-square&logo=flutter&logoColor=white" alt="Riverpod" /></a>
+    <a href="https://pub.dev/packages/go_router"><img src="https://img.shields.io/badge/GoRouter-14.x-00B4D8.svg?style=flat-square&logo=flutter&logoColor=white" alt="GoRouter" /></a>
+    <a href="https://spring.io"><img src="https://img.shields.io/badge/Spring_Boot-3.x-6DB33F.svg?style=flat-square&logo=spring&logoColor=white" alt="Spring Boot" /></a>
+    <a href="https://www.postgresql.org"><img src="https://img.shields.io/badge/PostgreSQL-PostGIS-4169E1.svg?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-gray.svg?style=flat-square" alt="License" /></a>
   </p>
 
   <p>
-    <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B.svg?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
-    <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2.svg?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" /></a>
-    <a href="https://riverpod.dev"><img src="https://img.shields.io/badge/State-Riverpod%202.x-42B883.svg?style=for-the-badge&logo=flutter&logoColor=white" alt="Riverpod" /></a>
-    <a href="https://pub.dev/packages/go_router"><img src="https://img.shields.io/badge/Router-GoRouter%2014.x-00B4D8.svg?style=for-the-badge&logo=flutter&logoColor=white" alt="GoRouter" /></a>
-    <a href="https://spring.io"><img src="https://img.shields.io/badge/Backend-Spring%20Boot%203.x-6DB33F.svg?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot" /></a>
-    <a href="https://www.postgresql.org"><img src="https://img.shields.io/badge/Database-PostgreSQL%20%2B%20PostGIS-4169E1.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" /></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="License" /></a>
-  </p>
-
-  <p>
-    <a href="#-executive-overview">Overview</a> •
-    <a href="#-core-capabilities">Capabilities</a> •
-    <a href="#-system-architecture">Architecture</a> •
-    <a href="#-clean-architecture--project-structure">Project Structure</a> •
-    <a href="#-documentation-hub">Documentation Hub</a> •
-    <a href="#-getting-started">Quick Start</a> •
-    <a href="#-quality--testing">Testing</a>
+    <a href="#overview">Overview</a> •
+    <a href="#core-capabilities">Capabilities</a> •
+    <a href="#system-architecture">Architecture</a> •
+    <a href="#project-structure">Project Structure</a> •
+    <a href="#documentation-index">Documentation</a> •
+    <a href="#quick-start">Quick Start</a> •
+    <a href="#testing--verification">Testing</a>
   </p>
 
   ---
 </div>
 
-## 🌟 Executive Overview
+## Overview
 
-**Vetra** (Veterinary Operating System / VetOS) is a mission-critical, enterprise mobile client engineered for high-impact rural livestock management and field veterinary medicine. 
+Vetra (Veterinary Operating System / VetOS) is an enterprise mobile platform built for livestock health management and field veterinary medicine in rural environments.
 
-In emerging agricultural economies, livestock represents vital capital, food security, and rural livelihood. However, field veterinary access is hindered by zero-connectivity rural zones, fragmented paper records, delayed disease outbreak awareness, and lack of standardized medical history.
+Field veterinary operations in emerging agricultural markets face challenges around network connectivity, fragmented paper health records, delayed epidemic reporting, and unverified animal identities. Vetra addresses these operational gaps by pairing a **Flutter 3 Clean Architecture client** with **Spring Boot microservices** and **PostGIS spatial analytics**.
 
-Vetra resolves these systemic challenges by pairing **Flutter 3 Clean Architecture** with **Spring Boot Microservices** and **PostGIS Spatial Analytics**, delivering:
-- **Digital Animal Passports** with encrypted QR code verification.
-- **Electronic Veterinary Medical Records (EVMR)** for immutable lifetime health tracking.
-- **Dual-Persona RBAC Navigation** (Farmer vs. Veterinarian workflows).
-- **Tele-Veterinary Consultations & Queue Management**.
-- **AI-Driven Visual Diagnostics & Outbreak Heatmapping**.
-- **Zero-Connectivity Offline Caching & Synchronization**.
-
----
-
-## ⚡ Core Capabilities
-
-### 🌾 Farmer Experience
-* **Digital Herd Inventory:** Register cattle, buffalo, goats, sheep, and swine with comprehensive breed, age, tag, and photo metadata.
-* **QR Passport Scanner:** Generate and scan encrypted QR codes for instant digital identity verification by field officers and vets.
-* **Tele-Vet Scheduling:** Book clinical consultations, track appointment status (`PENDING` ➔ `CONFIRMED` ➔ `COMPLETED` / `CANCELLED`), and select visit types (On-Farm, Clinic Visit, Emergency).
-* **Immutable Health Ledger:** View chronological medical records, vaccination dates, active prescriptions, and follow-up schedules.
-
-### 🩺 Field Veterinarian Experience
-* **Clinical Triage Queue:** Receive real-time appointment requests, filter by urgency, review farmer details, and confirm visit slots.
-* **EVMR Creation Workbench:** Issue digital medical records directly in the field with vitals, diagnostic notes, subcutaneous/intramuscular treatments, and digital signatures.
-* **Prescription & Prophylaxis Tracking:** Authorize mineral mixture, antibiotic, and polyvalent vaccine regimens with precise follow-up triggers.
-* **Spatial Disease Surveillance:** Monitor regional disease vector alerts, report outbreak cases, and access PostGIS-powered spatial risk radii.
+Key architectural features include:
+- **Digital Animal Passport**: Cryptographic QR identity verification and immutable lifecycle health tracking.
+- **Role-Based Access Control (RBAC)**: Strict navigation stack separation between Farmer and Veterinarian roles.
+- **Electronic Veterinary Medical Records (EVMR)**: Field clinical diagnostic logs, treatment histories, and digital prescriptions.
+- **Tele-Veterinary Consultations**: Asynchronous and scheduled appointment triage workflows.
+- **Spatial Outbreak Surveillance**: PostGIS-backed epidemiological risk mapping and proximity alerts.
+- **Offline Resilience**: Local encrypted state storage and background HTTP queueing for zero-connectivity zones.
 
 ---
 
-## 🏛 System Architecture
+## Core Capabilities
 
-Vetra follows strict **Clean Architecture** principles, enforcing directional dependency rules (Presentation ➔ Domain  Data).
+### Farmer Workflow
+- **Herd Inventory**: Register livestock (cattle, buffalo, goats, sheep, swine) with species, breed, tag identifier, age, and photo attachments.
+- **QR Identity Verification**: Generate and present encrypted QR passports for on-site scanning by field veterinarians and livestock inspectors.
+- **Appointment Scheduling**: Request clinical visits, track booking state machine (`PENDING` -> `CONFIRMED` -> `COMPLETED` / `CANCELLED`), and specify visit context (On-Farm, Clinic, Emergency).
+- **Medical History Timeline**: Access permanent health records, vaccination schedules, active prescriptions, and follow-up notices.
 
-### 📐 End-to-End System Topology
+### Veterinarian Workflow
+- **Triage Queue**: Review appointment requests, filter by clinical urgency, view farmer profiles, and accept or reschedule visit slots.
+- **EVMR Workbench**: Record field diagnostics, vital signs, subcutaneous/intramuscular treatment procedures, and digital signatures.
+- **Prescriptions & Vaccines**: Issue formal pharmaceutical regimens and schedule automated booster reminders.
+- **Epidemiological Reporting**: Flag suspected infectious disease cases and visualize PostGIS disease vector radii.
+
+---
+
+## System Architecture
+
+Vetra enforces strict Clean Architecture conventions with unidirectional data flows (Presentation -> Domain <- Data).
+
+### End-to-End System Topology
 
 ```mermaid
 flowchart TD
-    subgraph Client ["📱 Vetra Mobile Client (Flutter 3.x)"]
+    subgraph Client ["Vetra Mobile Client (Flutter 3.x)"]
         UI["Presentation Layer\n(Widgets & Screens)"]
         Riverpod["State Management\n(Riverpod 2.x Notifiers)"]
         UseCase["Domain Layer\n(Use Cases & Business Entities)"]
         Repo["Data Layer\n(Repositories & Data Sources)"]
         Storage["Local Secure Storage\n(Encrypted Cache)"]
-        Network["Network Infrastructure\n(Dio HTTP + Auth/Retry Interceptors)"]
+        Network["Network Layer\n(Dio HTTP + Auth/Retry Interceptors)"]
     end
 
-    subgraph Gateway ["🌐 API Gateway & Live Backend"]
-        Staging["Staging Base URL\nhttps://api.vetra.dpdns.org/api/v1"]
-        AuthSvc["Auth & Security Guard\n(JWT Bearer Tokens)"]
+    subgraph Gateway ["API Gateway & Backend Services"]
+        Staging["Staging Endpoint\nhttps://api.vetra.dpdns.org/api/v1"]
+        AuthSvc["Security & Auth Guard\n(JWT Bearer Tokens)"]
         AnimalSvc["Animal Passport Service"]
-        ApptSvc["Appointment Manager"]
+        ApptSvc["Appointment Service"]
         EVMRSvc["EVMR Service Ledger"]
         AISvc["AI Diagnostic Service"]
     end
 
-    subgraph Persistence ["💾 Infrastructure & Spatial Storage"]
+    subgraph Persistence ["Infrastructure & Spatial Storage"]
         DB[(PostgreSQL + PostGIS Extension)]
         Redis[(Redis Cache)]
     end
@@ -98,7 +94,7 @@ flowchart TD
     UseCase --> Repo
     Repo --> Storage
     Repo --> Network
-    Network <-->|HTTPS / REST API| Gateway
+    Network <-->|HTTPS / REST| Gateway
     Gateway --> AuthSvc
     Gateway --> AnimalSvc
     Gateway --> ApptSvc
@@ -110,188 +106,178 @@ flowchart TD
     AISvc --> DB
 ```
 
-### 🔄 EVMR & Clinical Consultation Lifecycle
+### EVMR Consultation Sequence
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Farmer as 🌾 Farmer
-    actor Vet as 🩺 Field Veterinarian
-    participant Client as 📱 Vetra Client
-    participant API as 🌐 Vetra API Gateway
-    participant Ledger as 📜 EVMR Service
+    actor Farmer as Farmer
+    actor Vet as Veterinarian
+    participant Client as Vetra Mobile Client
+    participant Gateway as API Gateway
+    participant Ledger as EVMR Ledger Service
 
-    Farmer->>Client: Select Animal & Request Appointment
-    Client->>API: POST /api/v1/appointments (Status: PENDING)
-    API-->>Client: 201 Created (Appointment ID)
-    
-    Vet->>Client: View Triage Queue & Confirm Slot
-    Client->>API: PUT /api/v1/appointments/{id}/accept
-    API-->>Client: 200 OK (Status: CONFIRMED)
-    
-    Note over Vet, Client: Field Visit & Diagnostic Exam Performed
-    
-    Vet->>Client: Fill EVMR Workbench (Vitals, Rx, Vaccines)
-    Client->>API: POST /api/v1/appointments/{id}/medical-record
-    API->>Ledger: Commit Medical Record Entry
-    Ledger-->>API: Immutable Record Persisted
-    API-->>Client: 201 Created (EVMR ID)
-    
-    API-->>Farmer: Real-time Animal Passport Update & Notification
+    Farmer->>Client: Select Animal & Request Visit
+    Client->>Gateway: POST /api/v1/appointments (Status: PENDING)
+    Gateway-->>Client: 201 Created (Appointment ID)
+
+    Vet->>Client: Accept Appointment Request
+    Client->>Gateway: PUT /api/v1/appointments/{id}/accept
+    Gateway-->>Client: 200 OK (Status: CONFIRMED)
+
+    Note over Vet, Client: Field Visit & Clinical Diagnostic Exam
+
+    Vet->>Client: Complete EVMR (Vitals, Rx, Vaccines)
+    Client->>Gateway: POST /api/v1/appointments/{id}/medical-record
+    Gateway->>Ledger: Commit Medical Record Entry
+    Ledger-->>Gateway: Record Committed
+    Gateway-->>Client: 201 Created (EVMR ID)
+
+    Gateway-->>Farmer: Real-time Animal Passport Update Notification
 ```
 
 ---
 
-## 🗂 Clean Architecture & Project Structure
+## Project Structure
 
-The client codebase is structured strictly by feature, isolating domain logic from framework dependencies:
+The client application isolates business logic from UI and data source implementations:
 
 ```
 vetra/
-├── assets/                   ← SVG icons, brand assets & visual resources
-├── docs/                     ← Comprehensive architectural & engineering documentation
-│   ├── architecture/         ← Software Architecture Document (SAD) & ADRs (ADR 001-005)
-│   ├── engineering/          ← Engineering constitution, coding standards, git workflows
-│   ├── guides/               ← Developer onboarding & testing strategies
-│   ├── product/              ← Product Requirements Document (PRD v2.0.0)
-│   └── design/               ← Vetra Design System & Navigation Graph
+├── assets/                   # SVG vector icons and visual assets
+├── docs/                     # Engineering, architecture, and design specifications
+│   ├── architecture/         # Software Architecture Document (SAD) and ADRs
+│   ├── engineering/          # Coding standards, git workflow, principles
+│   ├── guides/               # Developer onboarding and testing guidelines
+│   ├── product/              # Product Requirements Document (PRD)
+│   └── design/               # Design system and navigation specifications
 ├── lib/
-│   ├── core/                 ← Cross-cutting framework infrastructure
-│   │   ├── config/           ← AppConfig, ApiConfig & environment variables
-│   │   ├── design_system/    ← Vetra Design System (colors, typography, components)
-│   │   ├── models/           ← Standardized API response containers (`ApiResponse<T>`)
-│   │   ├── network/          ← Dio client, AuthInterceptor, RetryInterceptor, SanitizedLogger
-│   │   ├── router/           ← GoRouter configuration & RBAC navigation guards
-│   │   └── storage/          ← Encrypted secure storage wrappers
-│   └── features/             ← Clean Architecture Feature Modules
-│       ├── ai/               ← Computer vision & diagnostic support
-│       ├── animal/           ← Digital Animal Passport, QR generation & scanning
-│       ├── appointment/      ← Tele-vet appointment booking & state machine
-│       ├── auth/             ← Dual-role login/register, JWT lifecycle
-│       ├── dashboard/        ← Metric aggregations for Farmer & Veterinarian
-│       ├── disease/          ← Spatial disease vector monitoring
-│       ├── farmer/           ← Farmer portal & herd dashboard
-│       ├── maps/             ← PostGIS heatmaps & outbreak radius visualization
-│       ├── medical_record/   ← EVMR creation & chronological timeline
-│       ├── profile/          ← User profile & clinic settings
-│       ├── settings/         ← App preferences, language & server config
-│       └── veterinarian/     ← Field vet queue, triage & consultation workbench
-└── test/                     ← Automated test suite (Unit, Widget, Contract, Integration)
+│   ├── core/                 # Shared infrastructure abstractions
+│   │   ├── config/           # AppConfig, ApiConfig, environment setup
+│   │   ├── design_system/    # Visual components, typography, layout tokens
+│   │   ├── models/           # Common DTO wrappers (ApiResponse<T>)
+│   │   ├── network/          # Dio client, AuthInterceptor, RetryInterceptor, SanitizedLogger
+│   │   ├── router/           # GoRouter declarative router and RBAC guards
+│   │   └── storage/          # Encrypted secure storage wrappers
+│   └── features/             # Domain Feature Modules
+│       ├── ai/               # Diagnostic assistance tools
+│       ├── animal/           # Digital passport, tag management, QR scanning
+│       ├── appointment/      # Consultation scheduling and status engine
+│       ├── auth/             # Authentication, session, and token management
+│       ├── dashboard/        # Role-based dashboard analytics
+│       ├── disease/          # Outbreak reporting and spatial alerts
+│       ├── farmer/           # Farmer portal and herd management
+│       ├── maps/             # PostGIS disease heatmaps and spatial radius view
+│       ├── medical_record/   # EVMR creation and medical timeline
+│       ├── profile/          # User profile and clinic settings
+│       ├── settings/         # Preferences, language selection, API endpoints
+│       └── veterinarian/     # Field vet queue, triage, and consultation tools
+└── test/                     # Automated unit, widget, contract, and integration tests
 ```
 
 ---
 
-## 📊 Feature Capability Matrix
+## Capability Matrix
 
-| Capability / Module | 🌾 Farmer Role | 🩺 Field Vet Role | 🔬 Epidemiologist / Admin |
-| :--- | :---: | :---: | :---: |
-| **Digital Animal Passport** | View & Create | Search & Verify | System-wide Audit |
-| **QR Code Verification** | Generate & Share | Instant Scan | Validate Integrity |
-| **Appointment Booking** | Create & Cancel | Accept & Complete | Overview & Analytics |
-| **EVMR Access** | View Timeline | Create & Sign Records | Historical Audit |
-| **Prescription Management** | Read Active Rx | Authorize Regimen | Monitor Compliance |
-| **Outbreak Risk Map** | View Risk Alerts | Report Outbreak Cases | Spatial PostGIS Analytics |
-| **Offline Synchronization** | Local Cache | Field Queue Sync | System State Sync |
-
----
-
-## 📚 Documentation Hub & Whitepapers
-
-Vetra is accompanied by an extensive index of enterprise-grade engineering specifications, architectural decision records, and whitepapers:
-
-### 🏛 PDF Architecture Whitepapers
-- 📄 **[VETRA Concept Architecture](VETRA_Concept_Architecture_Engineering_Om_Rajput.pdf)** — *Platform Vision & Strategic Engineering*
-- 📄 **[VETRA API & Backend Architecture](VETRA_Doc02_API_Backend_Architecture_Om_Rajput.pdf)** — *Spring Boot Microservices & Data Schema*
-- 📄 **[VETRA AI Architecture](VETRA_Doc03_AI_Architecture_Om_Rajput.pdf)** — *Computer Vision & Outbreak Prediction Models*
-- 📄 **[VETRA Cloud Infrastructure](VETRA_Doc04_Cloud_Infrastructure_Om_Rajput.pdf)** — *AWS Cloud Deployment, Kubernetes & Security*
-- 📄 **[VETRA Mobile Engineering](VETRA_Doc05_Mobile_Engineering_Om_Rajput.pdf)** — *Flutter Clean Architecture Deep Dive*
-- 📄 **[VETRA Quality & Reliability](VETRA_Doc06_Quality_Reliability_Om_Rajput.pdf)** — *Testing Strategy & Reliability Benchmarks*
-
-### 📘 Engineering Specifications
-- 📜 **[Engineering Principles](docs/engineering/00-principles.md)** — *The Vetra Engineering Constitution*
-- 📋 **[Product Requirements Document (PRD v2.0.0)](docs/product/01-PRD.md)** — *Functional & Non-Functional Requirements*
-- 🏗 **[Software Architecture Document (SAD)](docs/architecture/02-SAD.md)** — *System Topology & Blueprint*
-- 📑 **[Architecture Decision Records (ADRs)](docs/architecture/adr/INDEX.md)** — *ADR-001 through ADR-005*
-- 🎨 **[Vetra Design System](docs/design/VETRA_DESIGN.md)** — *Visual Tokens, Color Palettes & Accessibility*
-- 🧭 **[Navigation Graph](docs/design/NAVIGATION_GRAPH.md)** — *Declarative Routing & RBAC Guards*
-- 📊 **[Screen Status Tracker](docs/design/SCREEN_STATUS.md)** — *UI Implementation Index*
-- 🚀 **[Developer Onboarding Guide](docs/guides/20-developer-onboarding.md)** — *Getting Started Manual*
-- 🧪 **[Testing Strategy](docs/guides/14-testing-strategy.md)** — *Unit, Widget, Contract & E2E Testing*
-- 🔌 **[Backend Integration Guide](docs/api/backend-integration.md)** — *REST Endpoints & Contract Specs*
+| Feature Module | Farmer Role | Field Veterinarian Role | System Administrator |
+| :--- | :--- | :--- | :--- |
+| **Animal Registration** | Create & Update | View & Verify | Global System Audit |
+| **QR Code Verification** | Generate & Share | Scan & Validate | Audit Logs |
+| **Appointments** | Request & Cancel | Accept & Complete | Overview Analytics |
+| **EVMR Ledger** | View Timeline | Create & Sign Records | Compliance Audit |
+| **Prescriptions** | Read Active Rx | Authorize Regimen | Regulatory Monitoring |
+| **Disease Outbreak Map** | View Area Alerts | Report Outbreak Case | PostGIS Spatial Analysis |
+| **Offline Sync** | Local Cache | Field Queue Sync | System State Reconciliation |
 
 ---
 
-## 🚀 Getting Started
+## Documentation Index
 
-### 1. Prerequisites
-Ensure your local environment meets the following requirements:
-* **Flutter SDK:** `^3.22.0` (Stable channel)
-* **Dart SDK:** `^3.4.0`
-* **Android Development:** Android Studio, Android SDK API 34+
-* **iOS Development:** macOS, Xcode 15+, CocoaPods
-* **Backend Service (Optional):** Java 17+, Docker (for local `vetra-backend`)
+Detailed engineering documentation and architecture whitepapers are available in the repository:
 
-### 2. Installation & Setup
+### Architecture Whitepapers
+- [VETRA Concept Architecture](VETRA_Concept_Architecture_Engineering_Om_Rajput.pdf) — Strategic Vision & Engineering Overview
+- [VETRA API & Backend Architecture](VETRA_Doc02_API_Backend_Architecture_Om_Rajput.pdf) — Microservices Design & API Specifications
+- [VETRA AI Architecture](VETRA_Doc03_AI_Architecture_Om_Rajput.pdf) — Diagnostic Computer Vision & Predictive Models
+- [VETRA Cloud Infrastructure](VETRA_Doc04_Cloud_Infrastructure_Om_Rajput.pdf) — Deployment Topology, AWS & Kubernetes
+- [VETRA Mobile Engineering](VETRA_Doc05_Mobile_Engineering_Om_Rajput.pdf) — Flutter Clean Architecture Deep Dive
+- [VETRA Quality & Reliability](VETRA_Doc06_Quality_Reliability_Om_Rajput.pdf) — Reliability Benchmarks & Testing Strategy
 
-Clone the repository and install dependencies:
-
-```bash
-# Clone the repository
-git clone https://github.com/omrajput14/vetra.git
-cd vetra
-
-# Fetch Flutter packages
-flutter pub get
-
-# Generate code bindings (Freezed & JsonSerializable)
-dart run build_runner build --delete-conflicting-outputs
-```
-
-### 3. Execution & Verification
-
-Run static code analysis and test suites:
-
-```bash
-# Static analysis
-flutter analyze
-
-# Run unit and widget test suite
-flutter test
-
-# Launch on emulator or connected physical device
-flutter run
-```
-
-> **Note:** By default, the app targets the live AWS Staging API endpoint at `https://api.vetra.dpdns.org/api/v1`. To point to a local backend instance (`http://10.0.2.2:8080`), update `ApiConfig.baseUrl` in [`lib/core/config/api_config.dart`](file:///Users/0mrajput/vetra/lib/core/config/api_config.dart).
+### System Specifications
+- [Engineering Principles](docs/engineering/00-principles.md) — Architectural constitution and guidelines
+- [Product Requirements Document (PRD v2.0.0)](docs/product/01-PRD.md) — Functional and non-functional specifications
+- [Software Architecture Document (SAD)](docs/architecture/02-SAD.md) — System design and component layout
+- [Architecture Decision Records (ADRs)](docs/architecture/adr/INDEX.md) — ADR-001 through ADR-005
+- [Design System Specification](docs/design/VETRA_DESIGN.md) — Design tokens, typography, and contrast rules
+- [Navigation Graph](docs/design/NAVIGATION_GRAPH.md) — Routing hierarchy and RBAC guards
+- [Developer Onboarding Guide](docs/guides/20-developer-onboarding.md) — Environment setup and workflow guide
+- [Testing Strategy](docs/guides/14-testing-strategy.md) — Test pyramid and coverage rules
+- [Backend Integration Guide](docs/api/backend-integration.md) — API contract definitions and DTO schemas
 
 ---
 
-## 🧪 Quality Assurance & Testing Strategy
+## Quick Start
 
-Vetra maintains a multi-layered testing pyramid to guarantee platform reliability:
+### Prerequisites
+- **Flutter SDK**: `^3.22.0` (Stable)
+- **Dart SDK**: `^3.4.0`
+- **Android SDK**: API level 34+
+- **Xcode**: 15+ (for iOS builds)
+- **Java**: 17+ (for backend integration)
 
-1. **Unit Tests:** Business logic, entity validation, Riverpod state notifier transitions.
-2. **Widget Tests:** Clean Architecture UI rendering, form validation, dual-role dashboard widgets.
-3. **Contract Tests:** API DTO serialization and deserialization integrity.
-4. **Live Integration Tests:** End-to-end integration tests verifying live endpoints against AWS Staging (`https://api.vetra.dpdns.org`).
+### Setup Instructions
 
-Run all tests via:
+1. Clone the repository and install dependencies:
+   ```bash
+   git clone https://github.com/omrajput14/vetra.git
+   cd vetra
+   flutter pub get
+   ```
+
+2. Run code generation for serialization and state models:
+   ```bash
+   dart run build_runner build --delete-conflicting-outputs
+   ```
+
+3. Execute static analysis and tests:
+   ```bash
+   flutter analyze
+   flutter test
+   ```
+
+4. Launch the application:
+   ```bash
+   flutter run
+   ```
+
+By default, the client points to the live AWS staging endpoint (`https://api.vetra.dpdns.org/api/v1`). To use a local backend (`http://10.0.2.2:8080`), update `ApiConfig.baseUrl` in [`lib/core/config/api_config.dart`](file:///Users/0mrajput/vetra/lib/core/config/api_config.dart).
+
+---
+
+## Testing & Verification
+
+The repository includes test suites covering all layers of the Clean Architecture model:
+
+- **Unit Tests**: Domain logic, model serialization, entity validation, and state notifiers.
+- **Widget Tests**: Component rendering, input validation, and layout responsive bounds.
+- **Contract Tests**: End-to-end payload serialization against backend JSON schemas.
+- **Integration Tests**: Live end-to-end integration verification against staging environments.
+
+To execute the complete test suite:
 ```bash
 flutter test --reporter expanded
 ```
 
 ---
 
-## 🔒 Security & Best Practices
+## Security Infrastructure
 
-- **Token Lifecycle:** Secure storage of short-lived JWT access tokens and persistent refresh tokens with automatic token rotation.
-- **Log Sanitization:** All HTTP headers and payloads are sanitized before logging in non-production builds via `SanitizedLogInterceptor`.
-- **Role Isolation:** Declarative routing guards enforce RBAC so Farmers cannot view Vet-restricted screens and vice versa.
+- **Token Lifecycle Management**: Short-lived JWT access tokens with encrypted refresh token storage and automatic refresh flows via `AuthInterceptor`.
+- **Log Sanitization**: Request/response headers and sensitive payloads are redacted prior to logging using `SanitizedLogInterceptor`.
+- **RBAC Navigation Enforcement**: Declarative route guards prevent unauthorized access between Farmer and Veterinarian interface stacks.
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
-Developed with ❤️ by **[Om Rajput](https://github.com/omrajput14)**.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
