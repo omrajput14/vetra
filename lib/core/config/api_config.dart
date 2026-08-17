@@ -1,17 +1,13 @@
-import 'package:flutter/foundation.dart';
+import 'app_config.dart';
 
 class ApiConfig {
   ApiConfig._();
 
-  static String get baseUrl {
-    if (kIsWeb) return 'http://localhost:8080';
-    return defaultTargetPlatform == TargetPlatform.android
-        ? 'http://10.0.2.2:8080'
-        : 'http://localhost:8080';
-  }
+  static String get baseUrl => AppConfig.baseUrl;
 
-  static const Duration connectTimeout = Duration(seconds: 15);
-  static const Duration receiveTimeout = Duration(seconds: 15);
+  static Duration get connectTimeout => AppConfig.connectTimeout;
+  static Duration get receiveTimeout => AppConfig.receiveTimeout;
+  static Duration get sendTimeout => AppConfig.sendTimeout;
 
   // Auth Endpoints
   static const String farmerRegister = '/api/v1/auth/farmer/register';

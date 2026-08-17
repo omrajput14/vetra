@@ -1,121 +1,204 @@
-# Vetra Application — Completed Work & Backend Integration Specification
+# Stage 15 — Mobile Client Live Staging Backend Integration & Contract Verification Manual
 
-## 1. Executive Summary & Technology Stack
-
-Vetra is a dual-role agricultural & veterinary healthcare platform. Every screen of the HTML prototypes has been converted into native, production-grade Flutter Material 3 UI adhering to Clean Architecture principles.
-
-### Tech Stack Overview:
-- **Mobile Frontend**: Flutter 3.x (Material 3, Riverpod 2.x, GoRouter 13.x, Google Fonts, Null Safety)
-- **Target Backend Framework**: Spring Boot 3.x (Java 21) + PostgreSQL / PostGIS
-- **State Management & Routing**: `AuthNotifier` + `GoRouter` with Strict Role-Based Navigation Guards
-- **Active Branch**: `feature/flutter-native-ui`
+**Document ID:** API-15.01  
+**Target Environment:** Staging (`https://api.vetra.dpdns.org`)  
+**Client Framework:** Flutter 3.44.8 / Dart 3.12.2 (Dio HTTP Client)  
+**Backend Framework:** Spring Boot 3.2.0 (AWS ECS Fargate Multi-AZ)  
+**Status:** **VERIFIED** — Live Staging Integration & Contract Suite Passing  
+**Last Updated:** August 2026  
 
 ---
 
-## 2. Authentication & Dual-Role Session Architecture
+## 1. Architectural Overview & Environment Routing
 
-The application enforces complete separation between **Farmer** and **Veterinarian** user experiences post-login.
+The Vetra Flutter mobile client communicates with the live AWS Staging infrastructure over secure HTTPS (TLS 1.3/1.2) terminated by the Application Load Balancer in region `ap-south-1`.
 
-```
-                             Splash Screen (/splash)
-                                       │
-                         Session Restoration Check
-                                       │
-                  ┌────────────────────┴────────────────────┐
-                  ▼                                         ▼
-         No Session Active                           Session Active
-                  │                                         │
-                  ▼                                         ▼
-            Welcome Screen                           Check User Role
-              (/welcome)                                    │
-       ┌──────────┴──────────┐               ┌──────────────┴──────────────┐
-       ▼                     ▼               ▼                             ▼
-Continue as Farmer    Continue as Vet     FARMER                      VETERINARIAN
-       │                     │               │                             │
-       ▼                     ▼               ▼                             ▼
- Farmer Login           Vet Login     Farmer Dashboard               Vet Dashboard
-(/farmer-login)       (/vet-login)   (/farmer-dashboard)            (/vet-dashboard)
+```mermaid
+flowchart LR
+    Client["Flutter Mobile Client<br/>(Vetra App)"]
+    
+    subgraph NetworkTier ["Network & Security Layer"]
+        AppConfig["AppConfig.staging<br/>https://api.vetra.dpdns.org"]
+        AuthInterceptor["AuthInterceptor<br/>(JWT Injection & 401 Queuing)"]
+        RetryInterceptor["RetryInterceptor<br/>(Bounded Backoff 500ms-3s)"]
+        LogInterceptor["SanitizedLogInterceptor<br/>(Credential Redaction)"]
+    end
+
+    subgraph AWSCloud ["AWS Staging Infrastructure (ap-south-1)"]
+        ALB["Application Load Balancer<br/>Port 443 HTTPS (ACM Cert)"]
+        Fargate["ECS Fargate Backend<br/>Spring Boot 3.2.0 (JVM)"]
+        Postgres[("Amazon RDS PostgreSQL<br/>Port 5432")]
+        Redis[("ElastiCache Redis<br/>Port 6379 (TLS)")]
+    end
+
+    Client --> AppConfig --> AuthInterceptor --> RetryInterceptor --> LogInterceptor --> ALB
+    ALB --> Fargate
+    Fargate --> Postgres
+    Fargate --> Redis
 ```
 
 ---
 
-## 3. Backend API Contract Mapping (Spring Boot Integration)
+## 2. Environment Configuration Matrix
 
-Every completed Flutter screen is prepared to connect directly to REST endpoints.
+The client architecture provides strict separation of deployment environments via `AppConfig`:
 
-### A. Authentication & User Profile Management
+| Environment | Base URL | API Prefix | Timeout (Connect/Receive/Send) | Default |
+|---|---|---|---|---|
+| **Development** | `http://localhost:8080` (or `http://10.0.2.2:8080` Android) | `/api/v1` | 15s / 15s / 15s | No |
+| **Staging (Live AWS)** | `https://api.vetra.dpdns.org` | `/api/v1` | 15s / 15s / 15s | **Yes (Active)** |
+| **Production** | `https://api.vetra.app` | `/api/v1` | 15s / 15s / 15s | No |
 
-| Endpoint | HTTP Method | Auth Required | Request DTO | Response DTO | Mobile Screen |
-|---|---|---|---|---|---|
-| `/api/v1/auth/farmer/login` | `POST` | None | `FarmerLoginRequestDto` | `AuthTokenResponseDto` | `FarmerLoginPage` |
-| `/api/v1/auth/farmer/register` | `POST` | None | `FarmerRegisterRequestDto` | `AuthTokenResponseDto` | `FarmerRegisterPage` |
-| `/api/v1/auth/vet/login` | `POST` | None | `VetLoginRequestDto` | `AuthTokenResponseDto` | `VetLoginPage` |
-| `/api/v1/auth/vet/register` | `POST` | None | `VetRegisterRequestDto` | `AuthTokenResponseDto` | `VetRegisterPage` |
-| `/api/v1/auth/me` | `GET` | `Bearer JWT` | None | `UserProfileResponseDto` | `ProfilePage` / `VetProfilePage` |
-| `/api/v1/auth/verify-email` | `POST` | `Bearer JWT` | `EmailVerificationDto` | `ApiResponseDto` | `EmailVerificationPage` |
-| `/api/v1/vet/profile/availability` | `PUT` | `Bearer VET` | `UpdateAvailabilityDto` | `VetProfileDto` | `VetProfilePage` |
-
-### B. Herd & Animal Management (Farmer Role)
-
-| Endpoint | HTTP Method | Auth Required | Request DTO | Response DTO | Mobile Screen |
-|---|---|---|---|---|---|
-| `/api/v1/animals` | `GET` | `Bearer FARMER` | Query Params (page, filter) | `List<AnimalSummaryDto>` | `MyAnimalsPage` |
-| `/api/v1/animals` | `POST` | `Bearer FARMER` | `CreateAnimalRequestDto` | `AnimalDetailsDto` | `AddAnimalPage` |
-| `/api/v1/animals/{id}` | `GET` | `Bearer FARMER/VET` | None | `AnimalDetailsDto` | `AnimalPassportPage` |
-| `/api/v1/animals/{id}` | `PUT` | `Bearer FARMER` | `UpdateAnimalRequestDto` | `AnimalDetailsDto` | `EditAnimalPage` |
-| `/api/v1/animals/{id}/timeline` | `GET` | `Bearer FARMER/VET` | None | `List<TimelineEventDto>` | `AnimalTimelinePage` |
-| `/api/v1/animals/transfer` | `POST` | `Bearer FARMER` | `TransferOwnershipDto` | `ApiResponseDto` | `TransferAnimalOwnershipPage` |
-
-### C. AI Disease Detection & Outbreak Workflow
-
-> **Safety Rule Enforced**: AI predictions never trigger public outbreak alerts directly. AI scans require explicit Farmer submission, followed by official Veterinarian confirmation before spatial outbreak alerts are broadcast.
-
+```dart
+// Environment switching API
+AppConfig.useStaging();     // Points to https://api.vetra.dpdns.org
+AppConfig.useDevelopment(); // Points to localhost
+AppConfig.useProduction();  // Points to https://api.vetra.app
 ```
-Farmer AI Scan ──> AI Prediction Result ──> Farmer Submits Report ──> Vet Reviews Case ──> Vet Confirms ──> Spatial Outbreak Alert Broadcast
-```
-
-| Endpoint | HTTP Method | Auth Required | Request DTO | Response DTO | Mobile Screen |
-|---|---|---|---|---|---|
-| `/api/v1/ai/scan` | `POST` | `Bearer FARMER` | Multipart Image Upload | `AiScanPredictionDto` | `DiseaseScannerPage` / `AnalyzingScanPage` |
-| `/api/v1/disease/reports` | `POST` | `Bearer FARMER` | `SubmitDiseaseReportDto` | `DiseaseReportStatusDto` | `ReportDiseasePage` |
-| `/api/v1/vet/reports/pending` | `GET` | `Bearer VET` | Query Params (radiusKm) | `List<PendingReportDto>` | `VetDashboardPage` / `VetRequestsPage` |
-| `/api/v1/vet/reports/{id}/verify` | `POST` | `Bearer VET` | `VerifyDiseaseReportDto` | `OutbreakAlertStatusDto` | `DiagnosisEntryPage` |
-| `/api/v1/gis/outbreaks` | `GET` | `Bearer FARMER/VET` | `lat, lng, radiusKm` | `GeoJsonOutbreakCollection` | `OutbreakMapPage` / `VetOutbreakMapPage` |
-
-### D. Veterinarian Consultations & Clinical Operations
-
-| Endpoint | HTTP Method | Auth Required | Request DTO | Response DTO | Mobile Screen |
-|---|---|---|---|---|---|
-| `/api/v1/vet/dashboard` | `GET` | `Bearer VET` | None | `VetDashboardSummaryDto` | `VetDashboardPage` |
-| `/api/v1/vet/requests` | `GET` | `Bearer VET` | Query Params (status) | `List<ConsultationRequestDto>` | `VetRequestsPage` |
-| `/api/v1/vet/prescriptions` | `POST` | `Bearer VET` | `CreatePrescriptionDto` | `PrescriptionDetailsDto` | `AddPrescriptionPage` |
-| `/api/v1/vet/history` | `GET` | `Bearer VET` | Query Params (dateRange) | `List<ConsultationCaseDto>` | `ConsultationHistoryPage` |
 
 ---
 
-## 4. Required Database Entities (Spring Boot JPA Schema)
+## 3. Verified API Contract Matrix
 
-To implement the backend services, the database should include the following core entities:
+Every endpoint listed below has been verified against the **live staging backend (`https://api.vetra.dpdns.org`)** using automated end-to-end integration tests:
 
-1. **`users`**: `id`, `email_or_phone`, `password_hash`, `role` (`FARMER`, `VETERINARIAN`, `ADMINISTRATOR`), `created_at`.
-2. **`farmer_profiles`**: `id`, `user_id`, `full_name`, `farm_name`, `village`, `district`, `state`, `animal_count`.
-3. **`vet_profiles`**: `id`, `user_id`, `full_name`, `reg_no`, `qualification`, `specialization`, `clinic_name`, `experience_years`, `is_available`.
-4. **`animals`**: `id`, `farmer_id`, `tag_number`, `species`, `breed`, `dob`, `gender`, `photo_url`, `qr_code_id`.
-5. **`medical_records`**: `id`, `animal_id`, `vet_id`, `record_type`, `diagnosis`, `treatment`, `prescription_text`, `date`.
-6. **`ai_scans`**: `id`, `farmer_id`, `image_url`, `ai_prediction`, `confidence_score`, `status`, `created_at`.
-7. **`disease_reports`**: `id`, `scan_id`, `farmer_id`, `vet_id`, `status` (`PENDING_REVIEW`, `VERIFIED`, `REJECTED`), `location` (`Geometry Point`), `created_at`.
-8. **`outbreaks`**: `id`, `disease_name`, `center_location` (`Geometry Point`), `radius_km`, `status`, `declared_by_vet_id`, `created_at`.
+| Module / Operation | HTTP Route | Method | Auth Required | Request Payload DTO | Response Payload DTO | Live Status |
+|---|---|---|---|---|---|---|
+| **Actuator Health** | `/actuator/health` | `GET` | Public | None | `{"status": "UP"}` | **VERIFIED** |
+| **Liveness Probe** | `/actuator/health/liveness` | `GET` | Public | None | `{"status": "UP"}` | **VERIFIED** |
+| **Readiness Probe** | `/actuator/health/readiness` | `GET` | Public | None | `{"status": "UP"}` | **VERIFIED** |
+| **Farmer Registration** | `/api/v1/auth/farmer/register` | `POST` | Public | `FarmerRegisterRequest` | `ApiResponse<AuthResponse>` | **VERIFIED** |
+| **Vet Registration** | `/api/v1/auth/vet/register` | `POST` | Public | `VetRegisterRequest` | `ApiResponse<AuthResponse>` | **VERIFIED** |
+| **Farmer Login** | `/api/v1/auth/farmer/login` | `POST` | Public | `LoginRequest` (identifier + pwd) | `ApiResponse<AuthResponse>` | **VERIFIED** |
+| **Vet Login** | `/api/v1/auth/vet/login` | `POST` | Public | `LoginRequest` (identifier + pwd) | `ApiResponse<AuthResponse>` | **VERIFIED** |
+| **Token Refresh** | `/api/v1/auth/refresh` | `POST` | Public | `RefreshTokenRequest` | `ApiResponse<AuthResponse>` | **VERIFIED** |
+| **Logout** | `/api/v1/auth/logout` | `POST` | Bearer Token | `RefreshTokenRequest` | `ApiResponse<Void>` | **VERIFIED** |
+| **Get My Profile** | `/api/v1/auth/me` | `GET` | Bearer Token | None | `ApiResponse<UserProfileDto>` | **VERIFIED** |
+| **Update Profile** | `/api/v1/auth/profile` | `PUT` | Bearer Token | `UpdateProfileRequest` | `ApiResponse<UserProfileDto>` | **VERIFIED** |
+| **List Veterinarians** | `/api/v1/auth/vets` | `GET` | Bearer Token | None | `ApiResponse<List<VetSummaryDto>>` | **VERIFIED** |
+| **Create Animal** | `/api/v1/animals` | `POST` | Farmer Token | `CreateAnimalRequest` | `ApiResponse<AnimalResponse>` | **VERIFIED** |
+| **List Animals** | `/api/v1/animals` | `GET` | Bearer Token | None | `ApiResponse<List<AnimalResponse>>` | **VERIFIED** |
+| **Get Animal by ID** | `/api/v1/animals/{id}` | `GET` | Bearer Token | None | `ApiResponse<AnimalResponse>` | **VERIFIED** |
+| **Update Animal** | `/api/v1/animals/{id}` | `PUT` | Farmer Token | `UpdateAnimalRequest` | `ApiResponse<AnimalResponse>` | **VERIFIED** |
+| **Delete Animal** | `/api/v1/animals/{id}` | `DELETE` | Farmer Token | None | `ApiResponse<Void>` | **VERIFIED** |
+| **Book Appointment** | `/api/v1/appointments` | `POST` | Farmer Token | `CreateAppointmentRequest` | `ApiResponse<AppointmentResponse>` | **VERIFIED** |
+| **List Appointments** | `/api/v1/appointments` | `GET` | Bearer Token | None | `ApiResponse<List<AppointmentResponse>>` | **VERIFIED** |
+| **Get Appointment** | `/api/v1/appointments/{id}` | `GET` | Bearer Token | None | `ApiResponse<AppointmentResponse>` | **VERIFIED** |
+| **Confirm Appointment**| `/api/v1/appointments/{id}/confirm` | `PATCH` | Vet Token | None | `ApiResponse<AppointmentResponse>` | **VERIFIED** |
+| **Complete Appointment**|`/api/v1/appointments/{id}/complete`| `PATCH` | Vet Token | Query Param (`notes`) | `ApiResponse<AppointmentResponse>` | **VERIFIED** |
+| **Cancel Appointment** | `/api/v1/appointments/{id}/cancel` | `PATCH` | Farmer Token | Query Param (`reason`)| `ApiResponse<AppointmentResponse>` | **VERIFIED** |
+| **Create EVMR Record** | `/api/v1/medical-records` | `POST` | Vet Token | `CreateMedicalRecordRequest`| `ApiResponse<MedicalRecordResponse>` | **VERIFIED** |
+| **Get EVMR by ID** | `/api/v1/medical-records/{id}` | `GET` | Bearer Token | None | `ApiResponse<MedicalRecordResponse>` | **VERIFIED** |
+| **Animal Medical History**| `/api/v1/animals/{id}/medical-history` | `GET` | Bearer Token | None | `ApiResponse<List<MedicalRecordResponse>>` | **VERIFIED** |
+| **Appointment EVMR** | `/api/v1/appointments/{id}/medical-record` | `GET` | Bearer Token | None | `ApiResponse<MedicalRecordResponse>` | **VERIFIED** |
+| **Unified Dashboard** | `/api/v1/dashboard` | `GET` | Bearer Token | None | `ApiResponse<DashboardResponse>` | **VERIFIED** |
 
 ---
 
-## 5. Summary of Completed Native Flutter Work
+## 4. Authentication Lifecycle & Thread-Safe Token Refresh
 
-- **Total Screens Implemented**: **64 Native Screens**
-- **Authentication**: Fully separated Farmer & Vet sign-in/registration with session persistence and role guards.
-- **Farmer Module**: 100% complete (Dashboard, Herd, Animal Passport, AI Scan, Nearby Vets, Outbreak Alerts, Profiles, Settings).
-- **Veterinarian Module**: 100% complete (Vet Dashboard, Incoming Triage Requests, Case History, Dedicated Vet Outbreak Map with GIS Layer, Vet Profile with Duty Status Switch).
-- **Design System**: Standardized on Material 3 (`AppColors`, `AppTypography`, reusable cards, tiles, and navigation bars).
-- **Quality Verification**:
-  - `flutter analyze`: **0 issues found**
-  - `flutter test`: **All unit/widget tests passing**
-  - `git push`: Remote origin updated on `origin/feature/flutter-native-ui`.
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Mobile User
+    participant Dio as ApiClient / Interceptor
+    participant Storage as SecureStorageService
+    participant Backend as AWS ECS Staging API
+
+    User->>Dio: Authenticated Request (GET /api/v1/animals)
+    Dio->>Storage: Read accessToken
+    Storage-->>Dio: Access Token (JWT)
+    Dio->>Backend: GET /api/v1/animals [Authorization: Bearer JWT]
+    Backend-->>Dio: 401 Unauthorized (Expired JWT)
+
+    Note over Dio: AuthInterceptor queues pending requests (Completer)
+    Dio->>Storage: Read refreshToken
+    Storage-->>Dio: Active Refresh Token
+    Dio->>Backend: POST /api/v1/auth/refresh { refreshToken }
+    Backend-->>Dio: 200 OK { newAccessToken, newRefreshToken }
+    
+    Dio->>Storage: Save newAccessToken & newRefreshToken
+    Note over Dio: Release queued requests with newAccessToken
+    Dio->>Backend: Retry original GET /api/v1/animals [Bearer newAccessToken]
+    Backend-->>Dio: 200 OK { data: [...] }
+    Dio-->>User: Animals Data Received
+```
+
+### Safety Features Implemented:
+1. **Loop Prevention:** `/auth/login`, `/auth/register`, and `/auth/refresh` are marked as public endpoints and will **never** trigger refresh loops on 401.
+2. **Concurrent Refresh Queuing:** Multiple requests hitting 401 simultaneously do not trigger multiple refresh calls; subsequent requests are parked in a `Completer` queue until the in-flight refresh completes.
+3. **Session Invalidation:** If the refresh token is revoked or expired (`400/401/403`), `SecureStorageService.clearAll()` flushes stored tokens immediately.
+
+---
+
+## 5. Transient Fault Resiliency & Bounded Backoff Policy
+
+`RetryInterceptor` handles transient network drops and AWS gateway errors:
+
+* **Eligible Transient Faults:** `502 Bad Gateway`, `503 Service Unavailable`, `504 Gateway Timeout`, Socket Timeouts (`connectTimeout`, `sendTimeout`, `receiveTimeout`), Connection Reset.
+* **Idempotency Safeguard:** Retries are **only** executed on idempotent requests (`GET`, `HEAD`, `OPTIONS`) or requests with explicit `options.extra['retryable'] = true`. `POST`, `PUT`, `DELETE` mutations are never retried blindly to avoid duplicate records.
+* **Exponential Backoff Formula:**
+  $$\text{Delay} = \min\left(\text{baseDelay} \times 2^{\text{attempt}-1} + \text{jitter}, \text{maxDelay}\right)$$
+  - Base Delay: `500 ms`
+  - Max Delay: `3000 ms`
+  - Max Attempts: `3` (Attempts at 0ms, ~500ms, ~1000ms, ~2000ms).
+
+---
+
+## 6. Appointment Domain State Machine
+
+```mermaid
+stateDiagram-v2
+    [*] --> PENDING: Farmer Books Appointment (POST /appointments)
+    
+    PENDING --> CONFIRMED: Vet Accepts (PATCH /appointments/{id}/confirm)
+    PENDING --> REJECTED: Vet Declines (PATCH /appointments/{id}/reject)
+    PENDING --> CANCELLED: Farmer Cancels (PATCH /appointments/{id}/cancel)
+    
+    CONFIRMED --> COMPLETED: Vet Completes with Notes (PATCH /appointments/{id}/complete)
+    CONFIRMED --> CANCELLED: Farmer Cancels (PATCH /appointments/{id}/cancel)
+    
+    COMPLETED --> EVMR_CREATED: Vet Records EVMR (POST /medical-records)
+    
+    COMPLETED --> [*]: Terminal State (Immutable)
+    CANCELLED --> [*]: Terminal State (Immutable)
+    REJECTED --> [*]: Terminal State (Immutable)
+```
+
+| Transition | Permitted Actor | HTTP Status Success | Invalid Transition Error |
+|---|---|---|---|
+| `PENDING` $\rightarrow$ `CONFIRMED` | Veterinarian | `200 OK` | `403 Forbidden` if Farmer |
+| `PENDING` $\rightarrow$ `REJECTED` | Veterinarian | `200 OK` | `403 Forbidden` if Farmer |
+| `PENDING` $\rightarrow$ `CANCELLED` | Farmer (Owner) | `200 OK` | `403 Forbidden` if Vet |
+| `CONFIRMED` $\rightarrow$ `COMPLETED` | Veterinarian | `200 OK` | `403 Forbidden` if Farmer |
+| `CONFIRMED` $\rightarrow$ `CANCELLED` | Farmer (Owner) | `200 OK` | `403 Forbidden` if Vet |
+| Any Terminal State Mutation | Any | Blocked | `422 Unprocessable Entity` |
+
+---
+
+## 7. EVMR Medical Records Integration
+
+* **Strict Gating:** Only veterinarians can create EVMR medical records (`@PreAuthorize("hasRole('VETERINARIAN')")`).
+* **Precondition Check:** The referenced `appointmentId` must be in `COMPLETED` status. Attempting to create a record for a `PENDING` or `CONFIRMED` appointment returns `422 Unprocessable Entity`.
+* **Immutability:** Medical records are permanent and legal veterinary documents. No `PUT` or `DELETE` endpoints exist.
+* **Cross-Linking:** Records are automatically queryable by:
+  1. Record UUID: `GET /api/v1/medical-records/{id}`
+  2. Animal UUID: `GET /api/v1/animals/{animalId}/medical-history`
+  3. Appointment UUID: `GET /api/v1/appointments/{appointmentId}/medical-record`
+
+---
+
+## 8. Verification & Running Staging Integration Tests
+
+To run the automated suite against live staging:
+
+```bash
+# Run unit & contract serialization tests
+flutter test test/core/app_config_test.dart test/contract/api_contract_serialization_test.dart
+
+# Run live E2E staging integration suite
+flutter test test/integration/staging_live_e2e_test.dart
+
+# Run static analysis
+flutter analyze
+```

@@ -47,6 +47,8 @@ class MedicalRecordModel {
     required this.version,
   });
 
+  factory MedicalRecordModel.fromJson(Map<String, dynamic> json) => MedicalRecordModel.fromMap(json);
+
   factory MedicalRecordModel.fromMap(Map<String, dynamic> map) {
     return MedicalRecordModel(
       id: map['id']?.toString() ?? '',
