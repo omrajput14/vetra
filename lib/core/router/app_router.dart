@@ -47,6 +47,8 @@ import '../../features/ai/presentation/pages/analyzing_scan_page.dart';
 import '../../features/ai/presentation/pages/disease_scanner_page.dart';
 import '../../features/ai/presentation/pages/scan_accuracy_comparison_page.dart';
 import '../../features/ai/presentation/pages/scan_history_page.dart';
+import '../../features/ai/presentation/pages/scan_results_page.dart';
+import '../../features/ai/presentation/pages/ai_advisor_page.dart';
 import '../../features/disease/presentation/pages/biosecurity_recommendations_page.dart';
 import '../../features/disease/presentation/pages/disease_information_page.dart';
 import '../../features/disease/presentation/pages/nearby_outbreak_details_page.dart';
@@ -287,11 +289,30 @@ class AppRouter {
       ),
       GoRoute(
         path: '/analyzing-scan',
-        builder: (context, state) => const AnalyzingScanPage(),
+        builder: (context, state) => AnalyzingScanPage(extraArgs: state.extra as Map<String, dynamic>?),
+      ),
+      GoRoute(
+        path: '/scan-results',
+        builder: (context, state) => ScanResultsPage(extraData: state.extra as Map<String, dynamic>?),
       ),
       GoRoute(
         path: '/disease-scanner',
         builder: (context, state) => const DiseaseScannerPage(),
+      ),
+      GoRoute(
+        path: '/ai-advisor',
+        builder: (context, state) {
+          final extra = state.extra;
+          String animalId = '';
+          String? sessionId;
+          if (extra is String) {
+            animalId = extra;
+          } else if (extra is Map<String, dynamic>) {
+            animalId = extra['animalId'] as String? ?? '';
+            sessionId = extra['sessionId'] as String?;
+          }
+          return AIAdvisorPage(animalId: animalId, sessionId: sessionId);
+        },
       ),
       GoRoute(
         path: '/scan-accuracy-comparison',

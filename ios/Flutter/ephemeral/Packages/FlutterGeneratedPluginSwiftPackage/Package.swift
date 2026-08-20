@@ -15,14 +15,18 @@ let package = Package(
         .library(name: "FlutterGeneratedPluginSwiftPackage", type: .static, targets: ["FlutterGeneratedPluginSwiftPackage"])
     ],
     dependencies: [
+        .package(name: "camera_avfoundation", path: "../.packages/camera_avfoundation-0.9.23+2"),
         .package(name: "flutter_secure_storage_darwin", path: "../.packages/flutter_secure_storage_darwin-0.3.2"),
+        .package(name: "image_picker_ios", path: "../.packages/image_picker_ios-0.8.13+6"),
         .package(name: "FlutterFramework", path: "../.packages/FlutterFramework")
     ],
     targets: [
         .target(
             name: "FlutterGeneratedPluginSwiftPackage",
             dependencies: [
+                .product(name: "camera-avfoundation", package: "camera_avfoundation"),
                 .product(name: "flutter-secure-storage-darwin", package: "flutter_secure_storage_darwin"),
+                .product(name: "image-picker-ios", package: "image_picker_ios"),
                 .product(name: "FlutterFramework", package: "FlutterFramework")
             ]
         )

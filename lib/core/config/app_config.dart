@@ -33,6 +33,10 @@ class AppConfig {
 
   /// Canonical Base URL for API requests.
   static String get baseUrl {
+    const String overrideUrl = String.fromEnvironment('BACKEND_BASE_URL');
+    if (overrideUrl.isNotEmpty) {
+      return overrideUrl;
+    }
     switch (_environment) {
       case Environment.staging:
         return 'https://api.vetra.dpdns.org';
@@ -41,7 +45,7 @@ class AppConfig {
       case Environment.development:
         if (kIsWeb) return 'http://localhost:8080';
         return defaultTargetPlatform == TargetPlatform.android
-            ? 'http://10.0.2.2:8080'
+            ? 'http://127.0.0.1:8080'
             : 'http://localhost:8080';
     }
   }

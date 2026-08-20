@@ -24,6 +24,17 @@ class ApiClient {
       ),
     );
 
+    // Dynamic Environment Base URL Sync Interceptor
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        final currentConfigUrl = AppConfig.baseUrl;
+        if (options.baseUrl != currentConfigUrl) {
+          options.baseUrl = currentConfigUrl;
+        }
+        handler.next(options);
+      },
+    ));
+
     // 1. Auth Interceptor (Handles Bearer tokens & 401 refresh)
     dio.interceptors.add(AuthInterceptor(dio));
 

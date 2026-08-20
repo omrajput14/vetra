@@ -13,6 +13,7 @@ build/
 *.dill.track.dill
 .flutter-plugins
 .flutter-plugins-dependencies
+**/ephemeral/
 
 # ─── Coverage ──────────────────────────────────────────────────────────
 coverage/

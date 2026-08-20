@@ -3,6 +3,7 @@ import 'package:vetra/features/animal/data/models/animal_dto.dart';
 import 'package:vetra/features/appointment/data/models/appointment_dto.dart';
 import 'package:vetra/features/medical_record/data/models/medical_record_dto.dart';
 import 'package:vetra/features/dashboard/data/models/dashboard_dto.dart';
+import 'package:vetra/features/ai/data/models/ai_scan_model.dart';
 
 void main() {
   group('API Contract Serialization & Deserialization Tests', () {
@@ -156,6 +157,66 @@ void main() {
       expect(model.userName, 'Ramesh Kumar');
       expect(model.facilityName, 'Green Pastures Dairy Farm');
       expect(model.role, 'FARMER');
+    });
+
+    test('AIScanModel correctly deserializes backend structured AIScanResponse JSON', () {
+      final json = {
+        'id': 's1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d',
+        'animalId': 'a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d',
+        'animalName': 'Gauri',
+        'uploadedByUserId': 'u1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d',
+        'uploadedByUserName': 'ramesh@vetra.app',
+        'imageUrl': 'data:image/jpeg;base64,/9j/4AAQSkZJRg...',
+        'imageHash': 'HASH-TEST-001',
+        'aiProvider': 'GEMINI',
+        'aiModel': 'gemini-1.5-flash',
+        'diagnosis': 'Bovine Dermatophilosis (Suspected)',
+        'confidenceScore': 0.88,
+        'severity': 'MODERATE',
+        'observations': [
+          'Localized crusty scabs with matting of hair in paintbrush pattern',
+          'Mild superficial erythema along dorsal spine'
+        ],
+        'recommendedNextStep': 'Isolate animal in dry shelter and schedule on-site veterinary evaluation.',
+        'requiresVeterinarianReview': true,
+        'disclaimer': 'This is an AI-assisted preliminary assessment and is not a confirmed veterinary diagnosis.',
+        'status': 'COMPLETED',
+        'veterinarianVerified': false,
+        'createdAt': '2026-08-20T10:00:00Z',
+      };
+
+      final model = AIScanModel.fromJson(json);
+
+      expect(model.id, 's1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d');
+      expect(model.diagnosis, 'Bovine Dermatophilosis (Suspected)');
+      expect(model.confidenceScore, 0.88);
+      expect(model.severity, 'MODERATE');
+      expect(model.observations.length, 2);
+      expect(model.observations[0], contains('paintbrush pattern'));
+      expect(model.recommendedNextStep, contains('Isolate animal'));
+      expect(model.requiresVeterinarianReview, true);
+      expect(model.disclaimer, contains('AI-assisted preliminary assessment'));
+    });
+
+    test('AIScanModel handles notes JSON fallback deserialization for legacy responses', () {
+      final json = {
+        'id': 's2b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d',
+        'animalId': 'a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d',
+        'imageUrl': 'https://s3.amazonaws.com/vetra/scans/sample.jpg',
+        'diagnosis': 'Inconclusive / Insufficient Visual Evidence',
+        'confidenceScore': 0.20,
+        'status': 'COMPLETED',
+        'notes': '{"severity":"UNKNOWN","observations":["Image is out of focus"],"recommendedNextStep":"Recapture clear image and consult veterinarian.","requiresVeterinarianReview":true,"disclaimer":"Preliminary screening only."}',
+      };
+
+      final model = AIScanModel.fromJson(json);
+
+      expect(model.diagnosis, 'Inconclusive / Insufficient Visual Evidence');
+      expect(model.confidenceScore, 0.20);
+      expect(model.severity, 'UNKNOWN');
+      expect(model.observations, ['Image is out of focus']);
+      expect(model.recommendedNextStep, 'Recapture clear image and consult veterinarian.');
+      expect(model.requiresVeterinarianReview, true);
     });
   });
 }

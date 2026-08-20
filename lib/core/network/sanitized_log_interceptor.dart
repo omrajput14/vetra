@@ -31,7 +31,7 @@ class SanitizedLogInterceptor extends Interceptor {
     if (enableLogging) {
       final sanitizedHeaders = _sanitizeHeaders(options.headers);
       final sanitizedData = _sanitizeData(options.data);
-      debugPrint('[HTTP -->] ${options.method} ${options.uri}');
+      debugPrint('[HTTP -->] ${options.method} BaseUrl: "${options.baseUrl}" Path: "${options.path}" -> Full URI: "${options.uri}"');
       if (sanitizedHeaders.isNotEmpty) {
         debugPrint('[HTTP Headers] $sanitizedHeaders');
       }

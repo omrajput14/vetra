@@ -59,6 +59,21 @@ class AnimalPassportPage extends StatelessWidget {
                       label: Text(animal.species, style: AppTypography.captionMetadata.copyWith(color: Colors.white)),
                       backgroundColor: AppColors.primary,
                     ),
+                    const SizedBox(height: 14),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: () => context.push('/ai-advisor', extra: animal.id),
+                        icon: const Icon(Icons.auto_awesome, color: Colors.white, size: 18),
+                        label: const Text('Ask AI Veterinary Advisor',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
