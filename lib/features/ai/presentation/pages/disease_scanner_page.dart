@@ -62,12 +62,11 @@ class _DiseaseScannerPageState extends State<DiseaseScannerPage>
     if (aiScanNotifier.selectedAnimalId == null) {
       try {
         final newAnimal = await _animalApiService.createAnimal({
-          'name': 'Primary Cow',
+          'animalName': 'Gauri',
+          'tagNumber': 'IND-MH-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}',
           'species': 'CATTLE',
           'breed': 'Holstein',
-          'ageMonths': 24,
           'gender': 'FEMALE',
-          'weightKg': 450.0,
         });
         if (newAnimal['data'] != null && newAnimal['data']['id'] != null) {
           aiScanNotifier.setSelectedAnimalId(newAnimal['data']['id'].toString());
