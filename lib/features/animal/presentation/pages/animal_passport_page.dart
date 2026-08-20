@@ -91,7 +91,9 @@ class AnimalPassportPage extends StatelessWidget {
                 children: [
                   const Icon(Icons.history_edu, color: AppColors.primary),
                   const SizedBox(width: 8),
-                  Text('Medical History & Clinical Timeline', style: AppTypography.sectionHeading),
+                  Expanded(
+                    child: Text('Medical History & Clinical Timeline', style: AppTypography.sectionHeading),
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
