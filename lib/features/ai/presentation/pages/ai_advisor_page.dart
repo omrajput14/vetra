@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
+import '../../../../core/localization/locale_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../animal/presentation/providers/animal_provider.dart';
 import '../../data/models/ai_advisor_models.dart';
 import '../providers/ai_advisor_provider.dart';
 
-class AIAdvisorPage extends StatefulWidget {
+class AIAdvisorPage extends ConsumerStatefulWidget {
   final String animalId;
   final String? sessionId;
 
@@ -17,10 +20,10 @@ class AIAdvisorPage extends StatefulWidget {
   });
 
   @override
-  State<AIAdvisorPage> createState() => _AIAdvisorPageState();
+  ConsumerState<AIAdvisorPage> createState() => _AIAdvisorPageState();
 }
 
-class _AIAdvisorPageState extends State<AIAdvisorPage> {
+class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -28,10 +31,14 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentLocale = ref.read(localeProvider);
       if (widget.sessionId != null && widget.sessionId!.isNotEmpty) {
         aiAdvisorNotifier.loadSession(widget.sessionId!);
       } else {
-        aiAdvisorNotifier.startSession(widget.animalId);
+        aiAdvisorNotifier.startSession(
+          widget.animalId,
+          preferredLanguage: currentLocale.languageCode,
+        );
       }
     });
   }
@@ -63,7 +70,11 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
       _messageController.clear();
     }
 
-    final success = await aiAdvisorNotifier.sendMessage(text);
+    final currentLocale = ref.read(localeProvider);
+    final success = await aiAdvisorNotifier.sendMessage(
+      text,
+      preferredLanguage: currentLocale.languageCode,
+    );
     if (success) {
       _scrollToBottom();
     }
@@ -71,6 +82,9 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final activeLocale = ref.watch(localeProvider);
+
     return AnimatedBuilder(
       animation: Listenable.merge([aiAdvisorNotifier, animalNotifier]),
       builder: (context, _) {
@@ -100,11 +114,11 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'AI Veterinary Advisor',
+                  l10n?.aiVeterinaryAdvisor ?? 'AI Veterinary Advisor',
                   style: AppTypography.screenTitle.copyWith(fontSize: 18),
                 ),
                 Text(
-                  'Assistive Clinical Screening',
+                  l10n?.assistiveClinicalScreening ?? 'Assistive Clinical Screening',
                   style: AppTypography.captionMetadata.copyWith(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w600,
@@ -113,34 +127,45 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
               ],
             ),
             actions: [
+              TextButton.icon(
+                onPressed: () => context.push('/language-settings'),
+                icon: const Icon(Icons.language, size: 16, color: AppColors.primary),
+                label: Text(
+                  AppLocales.getLanguageNativeName(activeLocale.languageCode),
+                  style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                ),
+              ),
               IconButton(
                 icon: const Icon(Icons.refresh, color: AppColors.textSecondary),
-                onPressed: () => aiAdvisorNotifier.startSession(widget.animalId),
-                tooltip: 'Start New Session',
+                onPressed: () => aiAdvisorNotifier.startSession(
+                  widget.animalId,
+                  preferredLanguage: activeLocale.languageCode,
+                ),
+                tooltip: l10n?.startNewSession ?? 'Start New Session',
               ),
             ],
           ),
           body: Column(
             children: [
               // 1. Animal Context Banner
-              if (animal != null) _buildAnimalHeader(animal),
+              if (animal != null) _buildAnimalHeader(animal, l10n),
 
               // 2. Urgent Escalation Banner (if applicable)
               if (session != null &&
                   (session.status == AIAdvisorSessionStatus.urgentVeterinaryReview ||
                       session.riskLevel == AIAdvisorRiskLevel.critical))
-                _buildEmergencyBanner(context, animal?.id ?? widget.animalId),
+                _buildEmergencyBanner(context, animal?.id ?? widget.animalId, l10n),
 
               // 3. Conversation & Assessment Stream
               Expanded(
                 child: isLoading && session == null
-                    ? const Center(
+                    ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CircularProgressIndicator(color: AppColors.primary),
-                            SizedBox(height: 16),
-                            Text('Initializing Advisor Context...'),
+                            const CircularProgressIndicator(color: AppColors.primary),
+                            const SizedBox(height: 16),
+                            Text(l10n?.loading ?? 'Initializing Advisor Context...'),
                           ],
                         ),
                       )
@@ -159,26 +184,28 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
                                       style: AppTypography.bodyDefault.copyWith(fontSize: 14)),
                                   const SizedBox(height: 16),
                                   ElevatedButton(
-                                    onPressed: () => aiAdvisorNotifier
-                                        .startSession(widget.animalId),
+                                    onPressed: () => aiAdvisorNotifier.startSession(
+                                      widget.animalId,
+                                      preferredLanguage: activeLocale.languageCode,
+                                    ),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColors.primary),
-                                    child: const Text('Try Again',
-                                        style: TextStyle(color: Colors.white)),
+                                    child: Text(l10n?.retry ?? 'Try Again',
+                                        style: const TextStyle(color: Colors.white)),
                                   ),
                                 ],
                               ),
                             ),
                           )
-                        : _buildMessageList(session),
+                        : _buildMessageList(session, l10n),
               ),
 
               // 4. Booking Consultation Action (if assessment is available)
               if (session?.assessment != null)
-                _buildConsultationBar(context, animal?.id ?? widget.animalId),
+                _buildConsultationBar(context, animal?.id ?? widget.animalId, l10n),
 
               // 5. Input Field
-              _buildInputArea(isSending),
+              _buildInputArea(isSending, l10n),
             ],
           ),
         );
@@ -186,7 +213,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
     );
   }
 
-  Widget _buildAnimalHeader(dynamic animal) {
+  Widget _buildAnimalHeader(dynamic animal, AppLocalizations? l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: const BoxDecoration(
@@ -222,8 +249,8 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
               ],
             ),
           ),
-          const Chip(
-            label: Text('Live Context', style: TextStyle(fontSize: 11, color: Colors.white)),
+          Chip(
+            label: Text(l10n?.liveContext ?? 'Live Context', style: const TextStyle(fontSize: 11, color: Colors.white)),
             backgroundColor: AppColors.primary,
             padding: EdgeInsets.zero,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -233,7 +260,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
     );
   }
 
-  Widget _buildEmergencyBanner(BuildContext context, String animalId) {
+  Widget _buildEmergencyBanner(BuildContext context, String animalId, AppLocalizations? l10n) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -247,13 +274,13 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Urgent Clinical Concern',
+                  l10n?.urgentClinicalConcern ?? 'Urgent Clinical Concern',
                   style: AppTypography.cardTitle
                       .copyWith(color: AppColors.alertCritical, fontSize: 14),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Reported symptoms warrant immediate on-site veterinary evaluation.',
+                  l10n?.urgentConcernNotice ?? 'Reported symptoms warrant immediate on-site veterinary evaluation.',
                   style: AppTypography.captionMetadata
                       .copyWith(color: AppColors.textPrimary, fontSize: 12),
                 ),
@@ -268,14 +295,14 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            child: const Text('Book Vet', style: TextStyle(color: Colors.white, fontSize: 12)),
+            child: Text(l10n?.bookVet ?? 'Book Vet', style: const TextStyle(color: Colors.white, fontSize: 12)),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildMessageList(AIAdvisorSessionModel? session) {
+  Widget _buildMessageList(AIAdvisorSessionModel? session, AppLocalizations? l10n) {
     final messages = session?.messages ?? [];
 
     return ListView.builder(
@@ -287,7 +314,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
           final msg = messages[index];
           return _buildMessageItem(msg);
         } else {
-          return _buildAssessmentCard(session!.assessment!);
+          return _buildAssessmentCard(session!.assessment!, l10n);
         }
       },
     );
@@ -387,7 +414,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
     );
   }
 
-  Widget _buildAssessmentCard(AIAdvisorAssessmentModel assessment) {
+  Widget _buildAssessmentCard(AIAdvisorAssessmentModel assessment, AppLocalizations? l10n) {
     final riskColor = _getRiskColor(assessment.riskLevel);
 
     return Container(
@@ -416,13 +443,13 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
                 children: [
                   Icon(Icons.assignment_outlined, color: riskColor, size: 22),
                   const SizedBox(width: 8),
-                  Text('Preliminary Assessment',
+                  Text(l10n?.preliminaryAssessment ?? 'Preliminary Assessment',
                       style: AppTypography.cardTitle.copyWith(fontSize: 16)),
                 ],
               ),
               Chip(
                 label: Text(
-                  assessment.riskLevel.toDisplayString(),
+                  _getRiskLabel(assessment.riskLevel, l10n),
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 11,
@@ -436,7 +463,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
           const Divider(height: 24),
 
           // Suspected Conditions
-          Text('Suspected Conditions',
+          Text(l10n?.suspectedConditions ?? 'Suspected Conditions',
               style: AppTypography.captionMetadata
                   .copyWith(fontWeight: FontWeight.w600)),
           const SizedBox(height: 8),
@@ -470,7 +497,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
-                          'AI Confidence ${(cond.confidence * 100).toInt()}%',
+                          '${l10n?.confidence ?? "AI Confidence"} ${(cond.confidence * 100).toInt()}%',
                           style: const TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
@@ -500,7 +527,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
               children: [
                 const Icon(Icons.fact_check_outlined, size: 16, color: AppColors.primary),
                 const SizedBox(width: 6),
-                Text('Owner-Reported Symptoms & Vitals',
+                Text(l10n?.ownerReportedSymptoms ?? 'Owner-Reported Symptoms & Vitals',
                     style: AppTypography.captionMetadata
                         .copyWith(fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
               ],
@@ -532,7 +559,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
               children: [
                 const Icon(Icons.psychology_outlined, size: 16, color: AppColors.vetAccent),
                 const SizedBox(width: 6),
-                Text('AI Clinical Observations',
+                Text(l10n?.aiClinicalObservations ?? 'AI Clinical Observations',
                     style: AppTypography.captionMetadata
                         .copyWith(fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
               ],
@@ -576,7 +603,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
                         size: 16, color: AppColors.cautionAmber),
                     const SizedBox(width: 6),
                     Text(
-                      'Recommended Supportive Care',
+                      l10n?.recommendedSupportiveCare ?? 'Recommended Supportive Care',
                       style: AppTypography.captionMetadata.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.cautionAmber,
@@ -616,7 +643,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
     );
   }
 
-  Widget _buildConsultationBar(BuildContext context, String animalId) {
+  Widget _buildConsultationBar(BuildContext context, String animalId, AppLocalizations? l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: const BoxDecoration(
@@ -629,9 +656,9 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
         child: ElevatedButton.icon(
           onPressed: () => context.push('/appointment-booking', extra: animalId),
           icon: const Icon(Icons.calendar_month, color: Colors.white, size: 20),
-          label: const Text(
-            'Book Vet Consultation',
-            style: TextStyle(
+          label: Text(
+            l10n?.bookVetConsultation ?? 'Book Vet Consultation',
+            style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
           ),
           style: ElevatedButton.styleFrom(
@@ -643,7 +670,7 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
     );
   }
 
-  Widget _buildInputArea(bool isSending) {
+  Widget _buildInputArea(bool isSending, AppLocalizations? l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: const BoxDecoration(
@@ -665,11 +692,11 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
                   enabled: !isSending,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _handleSendMessage(),
-                  decoration: const InputDecoration(
-                    hintText: 'Describe symptoms or answer questions...',
-                    hintStyle: TextStyle(fontSize: 14, color: AppColors.textSecondary),
+                  decoration: InputDecoration(
+                    hintText: l10n?.describeSymptomsHint ?? 'Describe symptoms or answer questions...',
+                    hintStyle: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
                     contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     border: InputBorder.none,
                   ),
                 ),
@@ -699,6 +726,21 @@ class _AIAdvisorPageState extends State<AIAdvisorPage> {
         ),
       ),
     );
+  }
+
+  String _getRiskLabel(AIAdvisorRiskLevel level, AppLocalizations? l10n) {
+    switch (level) {
+      case AIAdvisorRiskLevel.critical:
+        return l10n?.criticalStatus ?? 'Critical';
+      case AIAdvisorRiskLevel.severe:
+        return 'Severe';
+      case AIAdvisorRiskLevel.moderate:
+        return 'Moderate';
+      case AIAdvisorRiskLevel.mild:
+        return 'Mild';
+      case AIAdvisorRiskLevel.unknown:
+        return 'Unknown';
+    }
   }
 
   Color _getRiskColor(AIAdvisorRiskLevel level) {

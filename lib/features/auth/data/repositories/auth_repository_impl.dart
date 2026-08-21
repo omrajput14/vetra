@@ -19,7 +19,9 @@ class AuthRepositoryImpl implements AuthRepository {
     String? district,
     String? state,
     int? animalCount,
+    String? preferredLanguage,
   }) async {
+    final lang = preferredLanguage ?? await _storage.getPreferredLanguage() ?? 'en';
     final response = await _apiService.registerFarmer({
       'email': email.trim().replaceAll(' ', ''),
       'phone': phone.trim(),
@@ -30,6 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
       'district': district?.trim(),
       'state': state?.trim(),
       'animalCount': animalCount,
+      'preferredLanguage': lang,
     });
 
     return await _processAuthResponse(response);
@@ -46,9 +49,11 @@ class AuthRepositoryImpl implements AuthRepository {
     required String specialization,
     String? clinicName,
     required String experience,
+    String? preferredLanguage,
   }) async {
     final yearsExp = int.tryParse(experience.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
     final cleanPhone = (phone != null && phone.trim().isNotEmpty) ? phone.trim() : null;
+    final lang = preferredLanguage ?? await _storage.getPreferredLanguage() ?? 'en';
 
     final response = await _apiService.registerVet({
       'email': email.trim().replaceAll(' ', ''),
@@ -60,6 +65,7 @@ class AuthRepositoryImpl implements AuthRepository {
       'specialization': specialization.trim(),
       'clinicName': clinicName?.trim(),
       'yearsExperience': yearsExp,
+      'preferredLanguage': lang,
     });
 
     return await _processAuthResponse(response);
@@ -185,6 +191,13 @@ class AuthRepositoryImpl implements AuthRepository {
       userRole: role.name,
       userId: userId,
     );
+
+    if (userData['preferredLanguage'] != null) {
+      final lang = userData['preferredLanguage'].toString();
+      if (lang.isNotEmpty) {
+        await _storage.savePreferredLanguage(lang);
+      }
+    }
 
     return UserModel(
       id: userId,

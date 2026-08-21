@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:vetra/features/ai/data/models/ai_advisor_models.dart';
 import 'package:vetra/features/ai/presentation/pages/ai_advisor_page.dart';
 import 'package:vetra/features/ai/presentation/providers/ai_advisor_provider.dart';
+import 'package:vetra/l10n/app_localizations.dart';
+
+Widget _createTestApp(Widget child) {
+  return ProviderScope(
+    child: MaterialApp(
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      home: child,
+    ),
+  );
+}
 
 void main() {
   group('AIAdvisorPage UI Tests', () {
@@ -51,11 +63,7 @@ void main() {
 
       aiAdvisorNotifier.setCurrentSession(session);
 
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: AIAdvisorPage(animalId: 'animal-1'),
-        ),
-      );
+      await tester.pumpWidget(_createTestApp(const AIAdvisorPage(animalId: 'animal-1')));
       await tester.pumpAndSettle();
 
       // Header verification
@@ -136,16 +144,12 @@ void main() {
 
       aiAdvisorNotifier.setCurrentSession(session);
 
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: AIAdvisorPage(animalId: 'animal-1'),
-        ),
-      );
+      await tester.pumpWidget(_createTestApp(const AIAdvisorPage(animalId: 'animal-1')));
       await tester.pumpAndSettle();
 
       // Assessment Header
       expect(find.text('Preliminary Assessment'), findsOneWidget);
-      expect(find.text('MODERATE'), findsOneWidget);
+      expect(find.text('Moderate'), findsOneWidget);
 
       // Suspected Condition & Confidence
       expect(
@@ -213,11 +217,7 @@ void main() {
 
       aiAdvisorNotifier.setCurrentSession(session);
 
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: AIAdvisorPage(animalId: 'animal-1'),
-        ),
-      );
+      await tester.pumpWidget(_createTestApp(const AIAdvisorPage(animalId: 'animal-1')));
       await tester.pumpAndSettle();
 
       expect(find.text('Urgent Clinical Concern'), findsOneWidget);

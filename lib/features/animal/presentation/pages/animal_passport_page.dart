@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/animal_provider.dart';
 import '../widgets/animal_medical_history_widget.dart';
 
@@ -9,8 +10,36 @@ class AnimalPassportPage extends StatelessWidget {
   final String animalId;
   const AnimalPassportPage({super.key, required this.animalId});
 
+  String _getSpeciesLabel(String species, AppLocalizations? l10n) {
+    switch (species.toUpperCase()) {
+      case 'CATTLE':
+        return l10n?.cattle ?? 'Cattle';
+      case 'BUFFALO':
+        return l10n?.buffalo ?? 'Buffalo';
+      case 'GOAT':
+        return l10n?.goat ?? 'Goat';
+      case 'SHEEP':
+        return l10n?.sheep ?? 'Sheep';
+      default:
+        return species;
+    }
+  }
+
+  String _getGenderLabel(String gender, AppLocalizations? l10n) {
+    switch (gender.toUpperCase()) {
+      case 'MALE':
+        return l10n?.male ?? 'Male';
+      case 'FEMALE':
+        return l10n?.female ?? 'Female';
+      default:
+        return gender;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return AnimatedBuilder(
       animation: animalNotifier,
       builder: (context, _) {
@@ -24,7 +53,7 @@ class AnimalPassportPage extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: AppColors.surfaceCard,
             elevation: 0,
-            title: Text('Animal Passport', style: AppTypography.screenTitle),
+            title: Text(l10n?.qrPassport ?? 'Animal Passport', style: AppTypography.screenTitle),
             actions: [
               IconButton(
                 icon: const Icon(Icons.edit, color: AppColors.primary),
@@ -53,10 +82,10 @@ class AnimalPassportPage extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(animal.displayName, style: AppTypography.screenTitle.copyWith(fontSize: 24)),
                     if (animal.animalName != null && animal.animalName!.isNotEmpty)
-                      Text('Ear Tag: ${animal.tagNumber}', style: AppTypography.captionMetadata),
+                      Text('${l10n?.tagNumber ?? "Tag"}: ${animal.tagNumber}', style: AppTypography.captionMetadata),
                     const SizedBox(height: 8),
                     Chip(
-                      label: Text(animal.species, style: AppTypography.captionMetadata.copyWith(color: Colors.white)),
+                      label: Text(_getSpeciesLabel(animal.species, l10n), style: AppTypography.captionMetadata.copyWith(color: Colors.white)),
                       backgroundColor: AppColors.primary,
                     ),
                     const SizedBox(height: 14),
@@ -65,8 +94,10 @@ class AnimalPassportPage extends StatelessWidget {
                       child: ElevatedButton.icon(
                         onPressed: () => context.push('/ai-advisor', extra: animal.id),
                         icon: const Icon(Icons.auto_awesome, color: Colors.white, size: 18),
-                        label: const Text('Ask AI Veterinary Advisor',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        label: Text(
+                          l10n?.askAdvisor ?? 'Ask AI Veterinary Advisor',
+                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -78,21 +109,21 @@ class AnimalPassportPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Text('Animal Telemetry & Details', style: AppTypography.sectionHeading),
+              Text(l10n?.myAnimals ?? 'Animal Details', style: AppTypography.sectionHeading),
               const SizedBox(height: 12),
-              _buildDetailTile('Official Tag', animal.tagNumber),
-              _buildDetailTile('QR Code ID', animal.qrCodeId ?? 'Not Assigned'),
-              _buildDetailTile('Species', animal.species),
-              _buildDetailTile('Breed', animal.breed ?? 'Unknown'),
-              _buildDetailTile('Gender', animal.gender),
-              _buildDetailTile('Owner', animal.farmerName),
+              _buildDetailTile(l10n?.tagNumber ?? 'Tag Number', animal.tagNumber),
+              _buildDetailTile(l10n?.qrPassport ?? 'QR Passport ID', animal.qrCodeId ?? 'Not Assigned'),
+              _buildDetailTile(l10n?.species ?? 'Species', _getSpeciesLabel(animal.species, l10n)),
+              _buildDetailTile(l10n?.breed ?? 'Breed', animal.breed ?? 'Unknown'),
+              _buildDetailTile(l10n?.gender ?? 'Gender', _getGenderLabel(animal.gender, l10n)),
+              _buildDetailTile(l10n?.fullName ?? 'Owner', animal.farmerName),
               const SizedBox(height: 20),
               Row(
                 children: [
                   const Icon(Icons.history_edu, color: AppColors.primary),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: Text('Medical History & Clinical Timeline', style: AppTypography.sectionHeading),
+                    child: Text(l10n?.medicalHistory ?? 'Medical History & Clinical Records', style: AppTypography.sectionHeading),
                   ),
                 ],
               ),

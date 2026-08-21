@@ -59,7 +59,7 @@ class SanitizedLogInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (enableLogging) {
       debugPrint(
-          '[HTTP ERROR] ${err.response?.statusCode ?? 'NO_STATUS'} ${err.requestOptions.method} ${err.requestOptions.uri} - ${err.message}');
+          '[HTTP ERROR] ${err.response?.statusCode ?? 'NO_STATUS'} ${err.requestOptions.method} ${err.requestOptions.uri} - ${err.message} [Type: ${err.type}, Error: ${err.error}]');
     }
     handler.next(err);
   }

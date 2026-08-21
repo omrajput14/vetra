@@ -11,6 +11,7 @@ abstract class AuthRepository {
     String? district,
     String? state,
     int? animalCount,
+    String? preferredLanguage,
   });
 
   Future<UserModel> registerVet({
@@ -23,6 +24,7 @@ abstract class AuthRepository {
     required String specialization,
     String? clinicName,
     required String experience,
+    String? preferredLanguage,
   });
 
   Future<UserModel> loginFarmer({

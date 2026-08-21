@@ -40,7 +40,7 @@ class AIAdvisorNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> startSession(String animalId, {String? initialMessage}) async {
+  Future<bool> startSession(String animalId, {String? initialMessage, String? preferredLanguage}) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -49,6 +49,7 @@ class AIAdvisorNotifier extends ChangeNotifier {
       _currentSession = await _repository.createSession(
         animalId: animalId,
         initialMessage: initialMessage,
+        preferredLanguage: preferredLanguage,
       );
       return true;
     } catch (e) {
@@ -77,7 +78,7 @@ class AIAdvisorNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> sendMessage(String text) async {
+  Future<bool> sendMessage(String text, {String? preferredLanguage}) async {
     if (_currentSession == null || text.trim().isEmpty) return false;
 
     _isSending = true;
@@ -88,6 +89,7 @@ class AIAdvisorNotifier extends ChangeNotifier {
       _currentSession = await _repository.sendMessage(
         sessionId: _currentSession!.id,
         message: text.trim(),
+        preferredLanguage: preferredLanguage,
       );
       return true;
     } catch (e) {

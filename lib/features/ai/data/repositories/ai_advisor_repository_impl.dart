@@ -12,10 +12,12 @@ class AIAdvisorRepositoryImpl implements AIAdvisorRepository {
   Future<AIAdvisorSessionModel> createSession({
     required String animalId,
     String? initialMessage,
+    String? preferredLanguage,
   }) {
     return _apiService.createSession(
       animalId: animalId,
       initialMessage: initialMessage,
+      preferredLanguage: preferredLanguage,
     );
   }
 
@@ -23,10 +25,12 @@ class AIAdvisorRepositoryImpl implements AIAdvisorRepository {
   Future<AIAdvisorSessionModel> sendMessage({
     required String sessionId,
     required String message,
+    String? preferredLanguage,
   }) {
     return _apiService.sendMessage(
       sessionId: sessionId,
       message: message,
+      preferredLanguage: preferredLanguage,
     );
   }
 

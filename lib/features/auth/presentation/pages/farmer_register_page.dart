@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../../../../core/localization/locale_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
-class FarmerRegisterPage extends StatefulWidget {
+class FarmerRegisterPage extends ConsumerStatefulWidget {
   const FarmerRegisterPage({super.key});
 
   @override
-  State<FarmerRegisterPage> createState() => _FarmerRegisterPageState();
+  ConsumerState<FarmerRegisterPage> createState() => _FarmerRegisterPageState();
 }
 
-class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
+class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _nameController = TextEditingController();
@@ -24,8 +27,21 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
   final _stateController = TextEditingController();
   final _animalCountController = TextEditingController();
 
+  String _selectedLanguage = 'en';
   bool _isLoading = false;
   bool _obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Default to the current app locale
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentLocale = ref.read(localeProvider);
+      setState(() {
+        _selectedLanguage = currentLocale.languageCode;
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -55,6 +71,10 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
     }
 
     setState(() => _isLoading = true);
+
+    // Sync selected language to localeProvider
+    await ref.read(localeProvider.notifier).setLanguageCode(_selectedLanguage);
+
     final success = await authNotifier.registerFarmer(
       email: email,
       password: password,
@@ -65,6 +85,7 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
       district: _districtController.text.trim(),
       state: _stateController.text.trim(),
       animalCount: _animalCountController.text.trim(),
+      preferredLanguage: _selectedLanguage,
     );
     if (!mounted) return;
     setState(() => _isLoading = false);
@@ -81,12 +102,14 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Farmer Registration', style: AppTypography.screenTitle),
+        title: Text(l10n?.registerFarmerTitle ?? 'Farmer Registration', style: AppTypography.screenTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => context.pop(),
@@ -103,12 +126,35 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
               'Enter farm details to enable herd surveillance and vet alerts.',
               style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
             ),
-            const SizedBox(height: 24),
-            AppTextField(controller: _emailController, labelText: 'Email', hintText: 'john@farm.com', keyboardType: TextInputType.emailAddress),
+            const SizedBox(height: 20),
+
+            // Language Selection Section
+            Text(
+              l10n?.preferredLanguage ?? 'Preferred Language',
+              style: AppTypography.cardTitle.copyWith(fontSize: 14),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _buildLanguageChip('en', '🇬🇧 English'),
+                const SizedBox(width: 8),
+                _buildLanguageChip('hi', '🇮🇳 हिंदी'),
+                const SizedBox(width: 8),
+                _buildLanguageChip('mr', '🇮🇳 मराठी'),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            AppTextField(
+              controller: _emailController,
+              labelText: l10n?.email ?? 'Email Address',
+              hintText: 'john@farm.com',
+              keyboardType: TextInputType.emailAddress,
+            ),
             const SizedBox(height: 16),
             AppTextField(
               controller: _passwordController,
-              labelText: 'Password',
+              labelText: l10n?.password ?? 'Password',
               hintText: 'Minimum 6 characters',
               obscureText: _obscurePassword,
               suffixIcon: IconButton(
@@ -117,26 +163,58 @@ class _FarmerRegisterPageState extends State<FarmerRegisterPage> {
               ),
             ),
             const SizedBox(height: 16),
-            AppTextField(controller: _nameController, labelText: 'Full Name', hintText: 'John Miller'),
+            AppTextField(controller: _nameController, labelText: l10n?.fullName ?? 'Full Name', hintText: 'John Miller'),
             const SizedBox(height: 16),
-            AppTextField(controller: _farmNameController, labelText: 'Farm Name', hintText: 'Oak Valley Herd'),
+            AppTextField(controller: _farmNameController, labelText: l10n?.farmName ?? 'Farm Name', hintText: 'Oak Valley Herd'),
             const SizedBox(height: 16),
-            AppTextField(controller: _phoneController, labelText: 'Phone Number', hintText: '+15550199', keyboardType: TextInputType.phone),
+            AppTextField(controller: _phoneController, labelText: l10n?.phone ?? 'Phone Number', hintText: '+15550199', keyboardType: TextInputType.phone),
             const SizedBox(height: 16),
-            AppTextField(controller: _villageController, labelText: 'Village', hintText: 'Oakhaven'),
+            AppTextField(controller: _villageController, labelText: l10n?.village ?? 'Village', hintText: 'Oakhaven'),
             const SizedBox(height: 16),
-            AppTextField(controller: _districtController, labelText: 'District', hintText: 'Valley Region'),
+            AppTextField(controller: _districtController, labelText: l10n?.district ?? 'District', hintText: 'Valley Region'),
             const SizedBox(height: 16),
-            AppTextField(controller: _stateController, labelText: 'State', hintText: 'Central Province'),
+            AppTextField(controller: _stateController, labelText: l10n?.state ?? 'State', hintText: 'Central Province'),
             const SizedBox(height: 16),
-            AppTextField(controller: _animalCountController, labelText: 'Number of Animals (Optional)', hintText: '12', keyboardType: TextInputType.number),
+            AppTextField(controller: _animalCountController, labelText: l10n?.animalCount ?? 'Number of Animals', hintText: '12', keyboardType: TextInputType.number),
             const SizedBox(height: 32),
             PrimaryButton(
-              label: _isLoading ? 'Registering...' : 'Create Farmer Account',
+              label: _isLoading ? (l10n?.loading ?? 'Registering...') : (l10n?.createAccount ?? 'Create Farmer Account'),
               onPressed: _isLoading ? null : _handleRegister,
             ),
             const SizedBox(height: 24),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLanguageChip(String code, String label) {
+    final isSelected = _selectedLanguage == code;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () async {
+          setState(() => _selectedLanguage = code);
+          await ref.read(localeProvider.notifier).setLanguageCode(code);
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.primary : AppColors.surfaceCard,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? AppColors.primary : AppColors.borderHairline,
+            ),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              color: isSelected ? Colors.white : AppColors.textPrimary,
+            ),
+          ),
         ),
       ),
     );

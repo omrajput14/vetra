@@ -39,6 +39,7 @@ class AuthNotifier extends ChangeNotifier {
     required String district,
     required String state,
     String? animalCount,
+    String? preferredLanguage,
   }) async {
     final success = await _service.registerFarmer(
       email: email,
@@ -50,6 +51,7 @@ class AuthNotifier extends ChangeNotifier {
       district: district,
       state: state,
       animalCount: animalCount,
+      preferredLanguage: preferredLanguage,
     );
     notifyListeners();
     return success;
@@ -74,6 +76,7 @@ class AuthNotifier extends ChangeNotifier {
     required String specialization,
     String? clinicName,
     required String experience,
+    String? preferredLanguage,
   }) async {
     final success = await _service.registerVet(
       name: name,
@@ -85,6 +88,7 @@ class AuthNotifier extends ChangeNotifier {
       specialization: specialization,
       clinicName: clinicName,
       experience: experience,
+      preferredLanguage: preferredLanguage,
     );
     notifyListeners();
     return success;

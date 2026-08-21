@@ -99,7 +99,7 @@ class AppRouter {
           loc == '/register-role';
 
       if (!isLoggedIn) {
-        if (!isAuthRoute && loc != '/forgot-password' && loc != '/reset-password') {
+        if (!isAuthRoute && loc != '/forgot-password' && loc != '/reset-password' && loc != '/language-settings') {
           return '/welcome';
         }
         return null;

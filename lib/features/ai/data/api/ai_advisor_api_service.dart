@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/network/network_exceptions.dart';
+import '../../../../core/storage/secure_storage_service.dart';
 import '../models/ai_advisor_models.dart';
 
 class AIAdvisorApiService {
@@ -10,13 +11,18 @@ class AIAdvisorApiService {
   Future<AIAdvisorSessionModel> createSession({
     required String animalId,
     String? initialMessage,
+    String? preferredLanguage,
   }) async {
     try {
+      final lang = preferredLanguage ?? await SecureStorageService.instance.getPreferredLanguage() ?? 'en';
+      final Map<String, dynamic> body = {'preferredLanguage': lang};
+      if (initialMessage != null && initialMessage.trim().isNotEmpty) {
+        body['initialMessage'] = initialMessage.trim();
+      }
+
       final response = await _dio.post(
         '/api/v1/animals/$animalId/ai/advisor/sessions',
-        data: initialMessage != null && initialMessage.trim().isNotEmpty
-            ? {'initialMessage': initialMessage.trim()}
-            : null,
+        data: body,
       );
 
       final responseData = response.data;
@@ -36,11 +42,16 @@ class AIAdvisorApiService {
   Future<AIAdvisorSessionModel> sendMessage({
     required String sessionId,
     required String message,
+    String? preferredLanguage,
   }) async {
     try {
+      final lang = preferredLanguage ?? await SecureStorageService.instance.getPreferredLanguage() ?? 'en';
       final response = await _dio.post(
         '/api/v1/ai/advisor/sessions/$sessionId/messages',
-        data: {'message': message.trim()},
+        data: {
+          'message': message.trim(),
+          'preferredLanguage': lang,
+        },
       );
 
       final responseData = response.data;

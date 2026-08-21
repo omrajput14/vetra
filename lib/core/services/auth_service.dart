@@ -66,6 +66,7 @@ class AuthService {
     required String district,
     required String state,
     String? animalCount,
+    String? preferredLanguage,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -81,6 +82,7 @@ class AuthService {
         district: district,
         state: state,
         animalCount: count,
+        preferredLanguage: preferredLanguage,
       );
       return true;
     } catch (e) {
@@ -123,6 +125,7 @@ class AuthService {
     required String specialization,
     String? clinicName,
     required String experience,
+    String? preferredLanguage,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -137,6 +140,7 @@ class AuthService {
         specialization: specialization,
         clinicName: clinicName,
         experience: experience,
+        preferredLanguage: preferredLanguage,
       );
       return true;
     } catch (e) {

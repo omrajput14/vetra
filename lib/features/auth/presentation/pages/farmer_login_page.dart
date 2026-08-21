@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../../../../core/localization/locale_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
-class FarmerLoginPage extends StatefulWidget {
+class FarmerLoginPage extends ConsumerStatefulWidget {
   const FarmerLoginPage({super.key});
 
   @override
-  State<FarmerLoginPage> createState() => _FarmerLoginPageState();
+  ConsumerState<FarmerLoginPage> createState() => _FarmerLoginPageState();
 }
 
-class _FarmerLoginPageState extends State<FarmerLoginPage> {
+class _FarmerLoginPageState extends ConsumerState<FarmerLoginPage> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
@@ -43,7 +46,9 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
     setState(() => _isLoading = false);
 
     if (success) {
-      context.go('/farmer-dashboard');
+      // Reload locale from user preference saved during login
+      await ref.read(localeProvider.notifier).loadSavedLocale();
+      if (mounted) context.go('/farmer-dashboard');
     } else {
       final msg = authNotifier.errorMessage ?? 'Farmer login failed';
       ScaffoldMessenger.of(context).showSnackBar(
@@ -54,6 +59,9 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final activeLocale = ref.watch(localeProvider);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
@@ -63,6 +71,17 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => context.pop(),
         ),
+        actions: [
+          TextButton.icon(
+            onPressed: () => context.push('/language-settings'),
+            icon: const Icon(Icons.language, size: 18, color: AppColors.primary),
+            label: Text(
+              AppLocales.getLanguageNativeName(activeLocale.languageCode),
+              style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -71,7 +90,7 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 12),
-              Text('Farmer Sign In', style: AppTypography.screenTitle),
+              Text(l10n?.signIn ?? 'Farmer Sign In', style: AppTypography.screenTitle),
               const SizedBox(height: 8),
               Text(
                 'Access herd surveillance and animal health records.',
@@ -80,14 +99,14 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
               const SizedBox(height: 32),
               AppTextField(
                 controller: _phoneController,
-                labelText: 'Phone / Email',
+                labelText: '${l10n?.phone ?? "Phone"} / ${l10n?.email ?? "Email"}',
                 hintText: 'e.g. farmer@vetra.app',
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 20),
               AppTextField(
                 controller: _passwordController,
-                labelText: 'Password',
+                labelText: l10n?.password ?? 'Password',
                 hintText: 'Enter account password',
                 obscureText: _obscurePassword,
                 suffixIcon: IconButton(
@@ -99,23 +118,23 @@ class _FarmerLoginPageState extends State<FarmerLoginPage> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () => context.push('/forgot-password'),
-                  child: Text('Forgot Password?', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                  child: Text(l10n?.forgotPassword ?? 'Forgot Password?', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
                 ),
               ),
               const Spacer(),
               PrimaryButton(
-                label: _isLoading ? 'Authenticating...' : 'Login',
+                label: _isLoading ? (l10n?.loading ?? 'Authenticating...') : (l10n?.login ?? 'Login'),
                 onPressed: _isLoading ? null : () => _handleLogin(),
               ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('New Farmer? ', style: AppTypography.captionMetadata),
+                  Text('${l10n?.dontHaveAccount ?? "Don't have an account?"} ', style: AppTypography.captionMetadata),
                   GestureDetector(
                     onTap: () => context.push('/farmer-register'),
                     child: Text(
-                      'Create Farmer Account',
+                      l10n?.createAccount ?? 'Create Farmer Account',
                       style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
                     ),
                   ),

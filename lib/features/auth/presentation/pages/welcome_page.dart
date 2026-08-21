@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
+import '../../../../core/localization/locale_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends ConsumerWidget {
   const WelcomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final activeLocale = ref.watch(localeProvider);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          TextButton.icon(
+            onPressed: () => context.push('/language-settings'),
+            icon: const Icon(Icons.language, size: 18, color: AppColors.primary),
+            label: Text(
+              AppLocales.getLanguageNativeName(activeLocale.languageCode),
+              style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -21,17 +38,20 @@ class WelcomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 12),
-              Text('Welcome to Vetra', style: AppTypography.screenTitle.copyWith(fontSize: 28)),
+              Text(
+                l10n?.welcomeToVetra ?? 'Welcome to Vetra',
+                style: AppTypography.screenTitle.copyWith(fontSize: 28),
+              ),
               const SizedBox(height: 8),
               Text(
-                'Choose how you want to continue',
+                l10n?.chooseHowToContinue ?? 'Choose how you want to continue',
                 style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 36),
               _buildRoleCard(
                 context,
-                title: 'Continue as Farmer',
-                description: 'Herd management, AI disease scanner, local vet booking & outbreak alerts.',
+                title: l10n?.continueAsFarmer ?? 'Continue as Farmer',
+                description: l10n?.farmerRoleDesc ?? 'Herd management, AI disease scanner, local vet booking & outbreak alerts.',
                 emoji: '🐄',
                 color: AppColors.primary,
                 onTap: () => context.push('/farmer-login'),
@@ -39,8 +59,8 @@ class WelcomePage extends StatelessWidget {
               const SizedBox(height: 20),
               _buildRoleCard(
                 context,
-                title: 'Continue as Veterinarian',
-                description: 'Clinical triage, case diagnostics, digital prescriptions & farm consultations.',
+                title: l10n?.continueAsVet ?? 'Continue as Veterinarian',
+                description: l10n?.vetRoleDesc ?? 'Clinical triage, case diagnostics, digital prescriptions & farm consultations.',
                 emoji: '🩺',
                 color: AppColors.primary,
                 onTap: () => context.push('/vet-login'),
