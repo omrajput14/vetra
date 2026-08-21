@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VETRA — Team Product &amp; Pitch Brief | Digital Livestock Healthcare Infrastructure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #EAE6DF;
+      color: #1C1B1A;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 8.2pt;
+      line-height: 1.42;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      background: #FAF9F5;
+      margin: 0 auto 10mm auto;
+      padding: 13mm 18mm 11mm 18mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    @media print {
+      body { background: none; }
+      .page { margin: 0; box-shadow: none; }
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.1pt;
+    }
+
+    /* Running Header & Footer */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(28, 27, 26, 0.12);
+      margin-bottom: 8px;
+    }
+    .page-header .doc-title {
+      font-size: 6.6pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6B6864;
+    }
+    .page-header .sec-badge {
+      font-size: 6.3pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #EFEBE4;
+      padding: 2px 7px;
+      border-radius: 6px;
+      color: #2D5A27;
+      border: 1px solid rgba(45, 90, 39, 0.2);
+    }
+
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 6px;
+      border-top: 1px solid rgba(28, 27, 26, 0.12);
+      margin-top: 8px;
+      font-size: 6.6pt;
+      color: #7A7671;
+    }
+    .page-footer .page-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #1C1B1A;
+    }
+
+    /* Typography & Headings */
+    .section-headline {
+      margin-bottom: 8px;
+    }
+    .section-number {
+      font-size: 7pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #8C523A;
+      margin-bottom: 1px;
+    }
+    .section-title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 15.5pt;
+      line-height: 1.15;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: #1C1B1A;
+    }
+    .section-subtitle {
+      font-size: 8pt;
+      color: #5C5854;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* Content Area */
+    .content-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+
+    /* Grid & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border: 1px solid rgba(28, 27, 26, 0.10);
+      border-radius: 7px;
+      padding: 9px 11px;
+    }
+    .card-dark {
+      background: #1C1B1A;
+      color: #FAF9F5;
+      border-radius: 7px;
+      padding: 11px 13px;
+    }
+    .card-accent {
+      background: #F4F8F3;
+      border: 1px solid rgba(45, 90, 39, 0.25);
+      border-radius: 7px;
+      padding: 9px 11px;
+    }
+    .card-amber {
+      background: #FEF9EE;
+      border: 1px solid rgba(194, 120, 3, 0.25);
+      border-radius: 7px;
+      padding: 9px 11px;
+    }
+    .card-terracotta {
+      background: #FDF6F3;
+      border: 1px solid rgba(140, 82, 58, 0.25);
+      border-radius: 7px;
+      padding: 9px 11px;
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 8.6pt;
+      color: #1C1B1A;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .card-accent .card-title { color: #2D5A27; }
+    .card-amber .card-title { color: #8F5902; }
+    .card-terracotta .card-title { color: #8C523A; }
+    .card-dark .card-title { color: #FFFFFF; }
+
+    p {
+      color: #383532;
+      margin-bottom: 5px;
+      font-size: 8pt;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      margin-left: 13px;
+      margin-bottom: 5px;
+      color: #383532;
+      font-size: 7.9pt;
+    }
+    ul li { margin-bottom: 2.5px; }
+    ul li:last-child { margin-bottom: 0; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 6.6pt;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .badge-green { background: #E2EFE0; color: #234A20; }
+    .badge-amber { background: #FDF2D8; color: #8F5902; }
+    .badge-terracotta { background: #FBEAE3; color: #8C523A; }
+    .badge-gray { background: #EFEBE4; color: #4A4744; }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 7.7pt;
+      margin: 3px 0;
+      background: #FFFFFF;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(28, 27, 26, 0.1);
+    }
+    th, td {
+      padding: 5.5px 8.5px;
+      text-align: left;
+      border-bottom: 1px solid rgba(28, 27, 26, 0.07);
+    }
+    th {
+      background: #F5F2EB;
+      font-weight: 700;
+      color: #1C1B1A;
+      font-size: 7.2pt;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* Visual Diagram Elements */
+    .flow-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      background: #FFFFFF;
+      padding: 8px 10px;
+      border-radius: 7px;
+      border: 1px solid rgba(28, 27, 26, 0.1);
+    }
+    .flow-node {
+      background: #FAF9F5;
+      border: 1px solid rgba(28, 27, 26, 0.15);
+      border-radius: 5px;
+      padding: 6px 8px;
+      text-align: center;
+      flex: 1;
+    }
+    .flow-node.active {
+      background: #F4F8F3;
+      border-color: #2D5A27;
+    }
+    .flow-node .node-title {
+      font-weight: 700;
+      font-size: 7.4pt;
+      color: #1C1B1A;
+    }
+    .flow-node .node-desc {
+      font-size: 6.4pt;
+      color: #6B6864;
+      margin-top: 1.5px;
+    }
+    .flow-arrow {
+      font-weight: 700;
+      color: #8C523A;
+      font-size: 10pt;
+    }
+
+    /* Callout & Quotes */
+    .callout {
+      border-left: 3px solid #2D5A27;
+      background: #F4F8F3;
+      padding: 7px 11px;
+      border-radius: 0 5px 5px 0;
+      font-size: 7.9pt;
+      color: #1E3D1A;
+    }
+    .callout-amber {
+      border-left: 3px solid #C27803;
+      background: #FEF9EE;
+      padding: 7px 11px;
+      border-radius: 0 5px 5px 0;
+      font-size: 7.9pt;
+      color: #613C01;
+    }
+    .callout-alert {
+      border-left: 3px solid #B93826;
+      background: #FDF4F3;
+      padding: 7px 11px;
+      border-radius: 0 5px 5px 0;
+      font-size: 7.9pt;
+      color: #681B10;
+    }
+
+    /* Cover Page Specific Styles */
+    .cover-page {
+      padding: 22mm 20mm 18mm 20mm;
+      background: #FAF9F5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .cover-header-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8.2pt;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #2D5A27;
+      margin-bottom: 8px;
+    }
+    .cover-main-title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 40pt;
+      line-height: 1.0;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      color: #1C1B1A;
+      margin-bottom: 10px;
+    }
+    .cover-subtitle {
+      font-size: 13.5pt;
+      line-height: 1.3;
+      font-weight: 600;
+      color: #8C523A;
+      margin-bottom: 18px;
+    }
+    .cover-divider {
+      width: 55px;
+      height: 3px;
+      background: #2D5A27;
+      margin-bottom: 20px;
+    }
+    .cover-desc {
+      font-size: 9.2pt;
+      line-height: 1.55;
+      color: #4A4744;
+      max-width: 145mm;
+      margin-bottom: 24px;
+    }
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      background: #FFFFFF;
+      border: 1px solid rgba(28, 27, 26, 0.12);
+      border-radius: 9px;
+      padding: 14px 18px;
+    }
+    .cover-meta-item .meta-label {
+      font-size: 6.6pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #7A7671;
+      margin-bottom: 2px;
+    }
+    .cover-meta-item .meta-val {
+      font-size: 8.5pt;
+      font-weight: 600;
+      color: #1C1B1A;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================= PAGE 1: COVER PAGE ================= -->
+<div class="page cover-page">
+  <div>
+    <div class="cover-header-tag">COMPETITION &amp; TEAM BRIEFING DOCUMENT // VERSION 2.4</div>
+    <h1 class="cover-main-title">VETRA</h1>
+    <div class="cover-subtitle">Digital Livestock Healthcare Infrastructure &amp; Operating System</div>
+    <div class="cover-divider"></div>
+    <div class="cover-desc">
+      A comprehensive, non-technical product briefing and presentation manual designed for team members to master Vetra's architecture, value propositions, clinical guardrails, user journeys, and competitive differentiation for pitch competitions, venture panels, and stakeholder evaluations.
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+      <span class="badge badge-green" style="padding: 4px 9px; font-size: 7.2pt;">ANIMAL PASSPORT</span>
+      <span class="badge badge-green" style="padding: 4px 9px; font-size: 7.2pt;">ELECTRONIC VET RECORDS (EVMR)</span>
+      <span class="badge badge-green" style="padding: 4px 9px; font-size: 7.2pt;">AI ADVISOR &amp; SCANNER</span>
+      <span class="badge badge-green" style="padding: 4px 9px; font-size: 7.2pt;">DISEASE INTELLIGENCE</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="cover-meta-grid">
+      <div class="cover-meta-item">
+        <div class="meta-label">Document Purpose</div>
+        <div class="meta-val">Team Product Master Brief &amp; Pitch Manual</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="meta-label">Target Audience</div>
+        <div class="meta-val">Founding Team, Presenters &amp; Competition Speakers</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="meta-label">Core Philosophy</div>
+        <div class="meta-val">Assistive, Non-Prescriptive &amp; Human-in-the-Loop</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="meta-label">System Status</div>
+        <div class="meta-val">Live Staging Deployed (AWS Cloud + Mobile)</div>
+      </div>
+    </div>
+    <div style="margin-top: 12px; font-size: 6.8pt; color: #8A8680; display: flex; justify-content: space-between;">
+      <span>VETRA ECOSYSTEM — FOUNDER &amp; PRODUCT SPECIFICATION</span>
+      <span>STRICTLY FOR COMPETITION PREPARATION</span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2: TABLE OF CONTENTS ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">ROADMAP &amp; STRUCTURE</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">INDEX &amp; GUIDELINES</div>
+    <h2 class="section-title">Table of Contents &amp; How to Use This Brief</h2>
+    <div class="section-subtitle">How team members should navigate and internalize this document prior to stage presentations.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent">
+      <div class="card-title">📖 Reader's Directive for Team Presenters</div>
+      <p>This document is structured so any team member can read it from start to finish and present Vetra with absolute authority, clarity, and precision. It avoids low-level engineering jargon and focuses entirely on <strong>problem understanding, user experience, product mechanics, AI safety, and business differentiation</strong>.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Part I: The Problem &amp; The Vetra Vision</div>
+        <ul>
+          <li><strong>Page 3:</strong> Executive Summary &amp; Core Vision</li>
+          <li><strong>Page 4:</strong> The 5 Fundamental Breakdowns in Livestock Care</li>
+          <li><strong>Page 5:</strong> The Vetra Solution &amp; Ecosystem Architecture</li>
+          <li><strong>Page 6:</strong> Stakeholder Personas &amp; User Needs</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Part II: Core Product Modules &amp; Workflows</div>
+        <ul>
+          <li><strong>Page 7:</strong> Animal Passport &amp; Persistent Identity</li>
+          <li><strong>Page 8:</strong> Electronic Veterinary Medical Records (EVMR)</li>
+          <li><strong>Page 9:</strong> Veterinary Booking &amp; Dispatch State Machine</li>
+          <li><strong>Page 10:</strong> AI Visual Disease Scanner (Assistive Vision)</li>
+          <li><strong>Page 11:</strong> AI Veterinary Advisor (Context-Aware Triage)</li>
+          <li><strong>Page 12:</strong> The Vetra AI Safety &amp; Non-Prescriptive Guardrails</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Part III: Product Synthesis &amp; User Story</div>
+        <ul>
+          <li><strong>Page 13:</strong> The Connected Healthcare Journey &amp; Data Flywheel</li>
+          <li><strong>Page 14:</strong> Real-World Walkthrough: "A Day in the Life of Gauri"</li>
+          <li><strong>Page 15:</strong> Vetra vs. Traditional Care &amp; Standalone Tools</li>
+          <li><strong>Page 16:</strong> Hard Boundaries &amp; What Vetra Does NOT Claim</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">Part IV: Strategy, Demo &amp; Competition Pitch</div>
+        <ul>
+          <li><strong>Page 17:</strong> Business Value &amp; Stakeholder ROI</li>
+          <li><strong>Page 18:</strong> High-Level Business Model &amp; Monetization</li>
+          <li><strong>Page 19:</strong> Competitive Landscape &amp; Defensibility</li>
+          <li><strong>Page 20:</strong> Product Maturity: Implemented vs. Planned</li>
+          <li><strong>Page 21:</strong> 3–5 Minute Live Stage Demonstration Script</li>
+          <li><strong>Page 22:</strong> 30-Second &amp; 2-Minute Competition Pitch Scripts</li>
+          <li><strong>Pages 23–24:</strong> Rapid-Fire Judge Q&amp;A (15 Core Questions)</li>
+          <li><strong>Page 25:</strong> Comprehensive Product Glossary &amp; Terms</li>
+          <li><strong>Page 26:</strong> Final Product Positioning &amp; Closing Manifesto</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-amber">
+      <strong>⚠️ Key Presentation Rule:</strong> Never describe Vetra as an "AI doctor" or "ChatGPT for cows." Vetra is an <strong>Operating System</strong> that surrounds livestock with persistent medical records, connects veterinarians, and uses AI strictly as an assistive screening bridge.
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">02</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 3: EXECUTIVE SUMMARY ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">EXECUTIVE SUMMARY</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 1</div>
+    <h2 class="section-title">Executive Summary &amp; The Vetra Vision</h2>
+    <div class="section-subtitle">What Vetra is, who it serves, and why it exists as a fundamental infrastructure layer.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-dark">
+      <div class="card-title">🌟 The Vetra One-Liner</div>
+      <p style="font-size: 8.8pt; color: #FAF9F5; line-height: 1.45;">
+        <strong>Vetra is a connected digital livestock healthcare platform</strong> that creates a persistent medical identity for every animal, unifies electronic veterinary records, coordinates professional veterinary care, and provides context-aware AI clinical screening.
+      </p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">The Fundamental Industry Reality</div>
+        <p>Across emerging and agricultural economies, livestock represents the primary economic lifeblood, food security, and capital asset for hundreds of millions of farming families. Yet, the healthcare infrastructure supporting these animals remains completely fragmented, unrecorded, and paper-based.</p>
+        <p>When an animal falls ill, farmers face extreme friction in finding available veterinarians, treatment histories are forgotten, and early disease signals go unnoticed until entire herds are infected.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">The Vetra Paradigm Shift</div>
+        <p>Vetra shifts livestock management from episodic crisis management to <strong>continuous, data-driven healthcare</strong>. Instead of isolated interactions, Vetra builds an ongoing digital health layer around each individual animal.</p>
+        <p>By connecting farmers, field veterinarians, medical records, and assistive AI into a single workflow, Vetra ensures that no animal's clinical history is lost and veterinary help is always structured and accessible.</p>
+      </div>
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-title">🏛️ Three Inviolable Tenets of the Vetra Product</div>
+      <div class="grid-3" style="margin-top: 4px;">
+        <div>
+          <div style="font-weight: 700; color: #2D5A27; font-size: 7.8pt;">1. Animal-Centricity</div>
+          <p style="font-size: 7.4pt; margin-top: 2px;">The animal is the permanent unit of healthcare. Every scan, symptom, consultation, and vaccine attaches to the animal's lifetime passport.</p>
+        </div>
+        <div>
+          <div style="font-weight: 700; color: #2D5A27; font-size: 7.8pt;">2. Human-in-the-Loop</div>
+          <p style="font-size: 7.4pt; margin-top: 2px;">Licensed veterinarians remain the ultimate clinical authority. AI never diagnoses or prescribes; it bridges the information gap.</p>
+        </div>
+        <div>
+          <div style="font-weight: 700; color: #2D5A27; font-size: 7.8pt;">3. Offline-Resilience</div>
+          <p style="font-size: 7.4pt; margin-top: 2px;">Designed specifically for rural agricultural realities with zero-connectivity caching and seamless cloud synchronization.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Core Pitch Anchor:</strong> "Vetra does not aim to replace the country's veterinarians. Vetra gives every livestock animal an immutable digital medical chart and equips veterinarians and farmers with the intelligence to act before preventable diseases cause catastrophic herd loss."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">03</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 4: THE CORE PROBLEM ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">THE PROBLEM SPACE</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 2</div>
+    <h2 class="section-title">The Core Problem: Why Livestock Care is Broken</h2>
+    <div class="section-subtitle">Five structural breakdowns that lead to massive economic loss and untreated animal disease.</div>
+  </div>
+  <div class="content-body">
+    <div class="grid-2">
+      <div class="card card-terracotta">
+        <div class="card-title">1. Veterinarian Accessibility &amp; Coordination Gap</div>
+        <p>When an animal shows signs of distress, a farmer relies on word-of-mouth phone numbers, manual phone calls, or traveling to distant government dispensaries. There is no real-time visibility into whether a veterinarian is available, on field duty, or specialized in the required livestock species.</p>
+        <p><strong>Result:</strong> Critical treatment delays of 24–72 hours, turning mild treatable infections into fatal systemic illnesses.</p>
+      </div>
+
+      <div class="card card-terracotta">
+        <div class="card-title">2. Fragmented &amp; Lost Animal Medical History</div>
+        <p>Livestock receive vaccinations, dewormers, antibiotics, and treatments over their lifetimes, but 95%+ of records exist on paper slips or verbal recollection. When a new veterinarian arrives, they have zero access to previous clinical episodes, drug allergies, or chronic conditions.</p>
+        <p><strong>Result:</strong> Repeated misdiagnoses, blind trial-and-error treatments, and unmonitored antibiotic overuse.</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-terracotta">
+        <div class="card-title">3. Total Lack of Persistent Animal Identity</div>
+        <p>Animals are bought, sold, and traded without verified health lineages. A yellow ear tag is merely a government registration number; it carries no accessible clinical data in the field. When livestock trade hands, their entire medical history is wiped clean.</p>
+        <p><strong>Result:</strong> Buyers cannot verify vaccination status, disease history, or productivity claims.</p>
+      </div>
+
+      <div class="card card-terracotta">
+        <div class="card-title">4. The Initial Health Assessment Vacuum</div>
+        <p>Farmers often notice subtle early symptoms—slight drop in milk yield, reduced feed intake, minor nasal discharge—but hesitate to call a vet due to cost or distance. Without an early triage mechanism, symptoms worsen until an emergency occurs.</p>
+        <p><strong>Result:</strong> Missed window for early non-invasive supportive care and early disease containment.</p>
+      </div>
+    </div>
+
+    <div class="card card-amber">
+      <div class="card-title">5. Blind Epidemic Spread &amp; Zero Disease Visibility</div>
+      <p>Because individual veterinary visits are recorded on isolated paper logs, contagious livestock outbreaks (e.g., Lumpy Skin Disease, Foot-and-Mouth Disease, Bovine Respiratory Disease) propagate across villages unnoticed until hundreds of animals are infected. Public health authorities only learn of outbreaks weeks after transmission begins.</p>
+    </div>
+
+    <div class="callout-alert">
+      <strong>The Presenter's Summary:</strong> "Livestock healthcare today is blind, disconnected, and reactive. Animals have no medical memory, veterinarians have no pre-visit data, and farmers have no triage tools. Vetra solves all three."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">04</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 5: THE VETRA SOLUTION ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">THE SOLUTION</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 3</div>
+    <h2 class="section-title">The Vetra Solution: Connected Ecosystem</h2>
+    <div class="section-subtitle">How Vetra unifies identity, records, clinical workflows, and AI intelligence into one cohesive platform.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent" style="text-align: center; padding: 12px;">
+      <div style="font-size: 7.5pt; font-weight: 800; letter-spacing: 0.12em; color: #2D5A27; text-transform: uppercase;">THE UNIFIED VETRA OPERATING SYSTEM</div>
+      <div style="display: flex; justify-content: center; gap: 16px; margin-top: 8px; margin-bottom: 8px;">
+        <div style="background: #FFFFFF; border: 1.5px solid #2D5A27; border-radius: 6px; padding: 8px 14px; width: 140px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8.5pt;">ANIMAL HEALTH</div>
+          <div style="font-size: 6.8pt; color: #5C5854;">Identity &amp; Medical History</div>
+        </div>
+        <div style="font-weight: 800; font-size: 14pt; color: #8C523A; align-self: center;">⟷</div>
+        <div style="background: #FFFFFF; border: 1.5px solid #2D5A27; border-radius: 6px; padding: 8px 14px; width: 140px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8.5pt;">VETERINARY CARE</div>
+          <div style="font-size: 6.8pt; color: #5C5854;">Practice &amp; Dispatch</div>
+        </div>
+        <div style="font-weight: 800; font-size: 14pt; color: #8C523A; align-self: center;">⟷</div>
+        <div style="background: #FFFFFF; border: 1.5px solid #2D5A27; border-radius: 6px; padding: 8px 14px; width: 140px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8.5pt;">ASSISTIVE AI</div>
+          <div style="font-size: 6.8pt; color: #5C5854;">Vision &amp; Triage Advisor</div>
+        </div>
+      </div>
+      <div style="font-size: 7.2pt; color: #2D5A27; font-weight: 600;">↓ Continuous Longitudinal Health Data Stream ↓</div>
+      <div style="background: #2D5A27; color: #FFFFFF; border-radius: 5px; padding: 4px 12px; display: inline-block; font-size: 7.4pt; font-weight: 700; margin-top: 4px;">
+        REGIONAL DISEASE INTELLIGENCE &amp; EPIDEMIOLOGICAL SURVEILLANCE
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Pillar 1: Persistent Animal Passport</div>
+        <p>Every livestock animal receives a tamper-proof digital profile tied to its official ear tag. All biometrics, ownership lineage, physical traits, and lifetime health events are organized around the animal rather than disconnected paper slips.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Pillar 2: Immutable Clinical Records (EVMR)</div>
+        <p>Veterinarians issue structured Electronic Veterinary Medical Records during or after appointments. Records are immutable once created, establishing a legal and verifiable medical timeline that travels with the animal forever.</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Pillar 3: Real-Time Veterinary Dispatch</div>
+        <p>Farmers can discover qualified, registered veterinarians based on location, availability, and specialty. Appointments follow a clear state transition machine (`PENDING` → `CONFIRMED` → `COMPLETED`), eliminating telephone ambiguity.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Pillar 4: Context-Aware Assistive AI</div>
+        <p>Vetra equips farmers with visual lesion screening and conversational symptom triage. Crucially, the AI is <strong>context-aware</strong>—it knows the animal's species, age, and past clinical records, enabling highly relevant preliminary guidance.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>The Competitive Insight:</strong> "Other apps build isolated features: just a marketplace, just a chatbot, or just a dairy ledger. Vetra is the <strong>operating backbone</strong> that ties animal identity, clinical practice, AI screening, and disease surveillance into one self-reinforcing flywheel."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">05</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 6: STAKEHOLDER PERSONAS ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">USER PROFILES</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 4</div>
+    <h2 class="section-title">Who Uses Vetra? Stakeholder Personas</h2>
+    <div class="section-subtitle">Detailed user profiles, daily pain points, and how Vetra transforms their workflows.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent">
+      <div class="card-title">👨‍🌾 Persona 1: The Livestock Farmer / Animal Owner (e.g., Ramesh Kumar)</div>
+      <div class="grid-2" style="margin-top: 4px;">
+        <div>
+          <div style="font-size: 7.2pt; font-weight: 700; color: #2D5A27; text-transform: uppercase;">Profile &amp; Context</div>
+          <p style="font-size: 7.5pt;">Owns 4–12 cattle or buffaloes in a rural district. Smartphone user with intermittent mobile data. Relies on daily milk yield for household livelihood.</p>
+          <div style="font-size: 7.2pt; font-weight: 700; color: #8C523A; text-transform: uppercase; margin-top: 4px;">Primary Frustrations</div>
+          <ul style="font-size: 7.3pt;">
+            <li>Cannot find a qualified vet during emergencies.</li>
+            <li>Forgets exact dates of previous vaccinations &amp; treatments.</li>
+            <li>Uncertain if early symptoms warrant an expensive vet call.</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size: 7.2pt; font-weight: 700; color: #2D5A27; text-transform: uppercase;">The Vetra Experience</div>
+          <ul style="font-size: 7.3pt;">
+            <li><strong>Instant Health Passport:</strong> Scans QR tag to see full animal history.</li>
+            <li><strong>AI Symptom Screening:</strong> Receives non-prescriptive first-line triage.</li>
+            <li><strong>1-Tap Vet Booking:</strong> Dispatches qualified veterinarians with one click.</li>
+            <li><strong>Asset Valuation:</strong> Proves health history during animal sale.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-terracotta">
+      <div class="card-title">🩺 Persona 2: The Field Veterinarian (e.g., Dr. Suresh Sharma / Dr. Sakshi)</div>
+      <div class="grid-2" style="margin-top: 4px;">
+        <div>
+          <div style="font-size: 7.2pt; font-weight: 700; color: #8C523A; text-transform: uppercase;">Profile &amp; Context</div>
+          <p style="font-size: 7.5pt;">Licensed BVSc &amp; AH practitioner covering 10–15 rural villages. Travels 40–80 km daily providing on-farm clinical care and surgical interventions.</p>
+          <div style="font-size: 7.2pt; font-weight: 700; color: #8C523A; text-transform: uppercase; margin-top: 4px;">Primary Frustrations</div>
+          <ul style="font-size: 7.3pt;">
+            <li>Zero medical history before arriving at a remote farm.</li>
+            <li>Spends 2+ hours daily writing messy paper prescriptions.</li>
+            <li>Overwhelmed by informal WhatsApp messages and unscheduled phone calls.</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size: 7.2pt; font-weight: 700; color: #2D5A27; text-transform: uppercase;">The Vetra Experience</div>
+          <ul style="font-size: 7.3pt;">
+            <li><strong>Pre-Visit Clinical Context:</strong> Reviews reported symptoms before travel.</li>
+            <li><strong>45-Second EVMR Creation:</strong> Generates structured digital clinical charts.</li>
+            <li><strong>Practice Management:</strong> Organizes appointments and availability.</li>
+            <li><strong>Clinical Autonomy:</strong> Retains 100% authority over prescriptions and care.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏛️ Persona 3: Dairy Cooperatives &amp; Veterinary Authorities</div>
+      <p style="font-size: 7.6pt;">
+        <strong>Dairy Cooperatives &amp; Livestock Insurers:</strong> Require verified animal lineage, proof of vaccination, and verifiable health records to approve insurance claims and maintain herd productivity standards.<br>
+        <strong>Government Epidemiologists:</strong> Benefit from aggregated, anonymized regional disease signals to detect outbreaks in real time and establish biosecurity containment zones.
+      </p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">06</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 7: ANIMAL PASSPORT ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">CORE FEATURE 1</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 5.1</div>
+    <h2 class="section-title">Animal Passport: Persistent Digital Identity</h2>
+    <div class="section-subtitle">Transforming livestock from unrecorded animals into persistent, traceable healthcare entities.</div>
+  </div>
+  <div class="content-body">
+    <div class="grid-2">
+      <div class="card card-accent">
+        <div class="card-title">What It Is</div>
+        <p>The <strong>Animal Passport</strong> is a persistent digital health identity created for every livestock animal on Vetra. It links physical identification (such as national ear tag numbers or QR identifiers) with a comprehensive, permanent clinical record.</p>
+        <p>Whenever a farmer or vet opens the passport, they see a complete overview of who the animal is, its species, breed, sex, age, owner, and chronological medical history.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">The Real-World Problem It Solves</div>
+        <p>Historically, an animal's medical memory was stored entirely in the farmer's head or on lost paper cards. When animals are sold or treated by different doctors, that lineage is lost.</p>
+        <p>The Animal Passport creates an <strong>unbreakable digital thread</strong> that stays with the animal regardless of who owns it or which clinic visits it.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What Is Inside an Animal Passport?</div>
+      <div class="grid-3" style="margin-top: 4px;">
+        <div style="background: #FAF9F5; padding: 7px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.08);">
+          <div style="font-weight: 700; color: #1C1B1A; font-size: 7.6pt;">Core Telemetry</div>
+          <ul style="font-size: 7.1pt; margin-top: 2px;">
+            <li>Official Ear Tag Number</li>
+            <li>Animal Name &amp; Photo</li>
+            <li>Species (CATTLE, BUFFALO, etc.)</li>
+            <li>Breed &amp; Biological Gender</li>
+          </ul>
+        </div>
+        <div style="background: #FAF9F5; padding: 7px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.08);">
+          <div style="font-weight: 700; color: #1C1B1A; font-size: 7.6pt;">Clinical Lineage</div>
+          <ul style="font-size: 7.1pt; margin-top: 2px;">
+            <li>Chronological EVMR Timeline</li>
+            <li>Confirmed Past Diagnoses</li>
+            <li>Historical Treatments &amp; Drugs</li>
+            <li>Recorded Vitals &amp; Temperatures</li>
+          </ul>
+        </div>
+        <div style="background: #FAF9F5; padding: 7px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.08);">
+          <div style="font-weight: 700; color: #1C1B1A; font-size: 7.6pt;">AI &amp; Action Hub</div>
+          <ul style="font-size: 7.1pt; margin-top: 2px;">
+            <li>1-Tap AI Advisor Triage</li>
+            <li>Visual Scan History</li>
+            <li>1-Tap Vet Consultation Booking</li>
+            <li>Active Clinical Alert Flags</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-container">
+      <div class="flow-node active">
+        <div class="node-title">1. Fast Registration</div>
+        <div class="node-desc">&lt; 60 seconds with Ear Tag</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node active">
+        <div class="node-title">2. Lifetime Passport</div>
+        <div class="node-desc">Unique ID &amp; QR Generated</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node active">
+        <div class="node-title">3. Clinical Continuity</div>
+        <div class="node-desc">Every visit appends to record</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node active">
+        <div class="node-title">4. High-Value Asset</div>
+        <div class="node-desc">Verifiable health &amp; trade proof</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Talking Point:</strong> "Think of the Animal Passport as an Aadhaar or Social Security Card combined with an electronic health chart for every single cow, buffalo, and goat in the herd."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">07</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 8: EVMR SYSTEM ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">CORE FEATURE 2</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 5.2</div>
+    <h2 class="section-title">Electronic Veterinary Medical Records (EVMR)</h2>
+    <div class="section-subtitle">Structured, immutable clinical documentation that elevates veterinary standards of care.</div>
+  </div>
+  <div class="content-body">
+    <div class="grid-2">
+      <div class="card card-accent">
+        <div class="card-title">What EVMR Is</div>
+        <p>An <strong>Electronic Veterinary Medical Record (EVMR)</strong> is a standardized, digital clinical chart generated exclusively by a licensed veterinarian following an in-person or telehealth clinical consultation.</p>
+        <p>It captures exact clinical observations, body temperature, weight, confirmed diagnoses, administered treatments, prescribed medications, and mandatory follow-up timelines.</p>
+      </div>
+
+      <div class="card card-dark">
+        <div class="card-title">The Immutability Guarantee</div>
+        <p style="color: #FAF9F5; font-size: 7.8pt;">
+          Once submitted by a veterinarian, <strong>an EVMR cannot be edited, overwritten, or deleted</strong> by anyone—neither farmer, vet, nor administrator.
+        </p>
+        <p style="color: #FAF9F5; font-size: 7.8pt;">
+          This immutability ensures legal integrity, prevents insurance fraud, and establishes complete clinical auditability across the animal's lifetime.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Before Vetra vs. With Vetra EVMR</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Traditional Paper Practice</th>
+            <th>With Vetra EVMR System</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Doctor's Question</strong></td>
+            <td>"Did this cow receive antibiotics 2 weeks ago?"</td>
+            <td>Doctor scans tag, sees exact antibiotic name, dosage, and date.</td>
+          </tr>
+          <tr>
+            <td><strong>Record Preservation</strong></td>
+            <td>Paper slip lost or ruined by water/mud in farm shed.</td>
+            <td>Permanently stored in cloud database; cached offline on phone.</td>
+          </tr>
+          <tr>
+            <td><strong>Prescription Clarity</strong></td>
+            <td>Illegible handwriting leads to wrong farmer dosing.</td>
+            <td>Structured digital prescription with clean instructions.</td>
+          </tr>
+          <tr>
+            <td><strong>Audit &amp; Compliance</strong></td>
+            <td>Zero tracking of antimicrobial drug usage.</td>
+            <td>Full epidemiological audit trail of veterinary interventions.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card card-terracotta">
+      <div class="card-title">Clinical Fields Captured in Every EVMR</div>
+      <div class="grid-4" style="margin-top: 3px; font-size: 7.3pt;">
+        <div>• Confirmed Diagnosis<br>• Primary Symptoms</div>
+        <div>• Clinical Treatment<br>• Prescriptions Issued</div>
+        <div>• Body Temp (°F/°C)<br>• Live Weight (kg)</div>
+        <div>• Follow-Up Date<br>• Clinical Notes</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Talking Point:</strong> "Human medicine went digital with Electronic Health Records (EHR) decades ago. Vetra brings that same gold standard to veterinary medicine with EVMR, built for the field."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">08</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 9: VETERINARY APPOINTMENTS ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">CORE FEATURE 3</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 5.3</div>
+    <h2 class="section-title">Veterinary Practice &amp; Appointment Workflow</h2>
+    <div class="section-subtitle">A deterministic digital bridge connecting farmers needing care with nearby available practitioners.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent">
+      <div class="card-title">The End-to-End Clinical Lifecycle</div>
+      <p>Vetra replaces informal WhatsApp chats and frantic phone calls with an organized, state-driven veterinary booking workflow. Farmers request checkups or urgent visits in fewer than 5 taps, and veterinarians manage their daily rounds from an organized practice dashboard.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">The Appointment State Machine</div>
+      <div class="flow-container" style="margin-top: 4px;">
+        <div class="flow-node active">
+          <div class="node-title">1. PENDING</div>
+          <div class="node-desc">Farmer requests visit, selects animal &amp; specifies reason</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node active">
+          <div class="node-title">2. CONFIRMED</div>
+          <div class="node-desc">Vet reviews pre-visit telemetry &amp; confirms schedule</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node active">
+          <div class="node-title">3. COMPLETED</div>
+          <div class="node-desc">Exam finished &amp; immutable EVMR generated</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Farmer Workflow &amp; Experience</div>
+        <ul>
+          <li><strong>Veterinarian Discovery:</strong> Browse registered vets by distance, clinic name, qualification, and specialty (e.g., Bovine Surgery).</li>
+          <li><strong>Animal Pre-Selection:</strong> Seamlessly attach the sick animal's passport so the doctor has full context before traveling.</li>
+          <li><strong>Visit Categorization:</strong> Select visit type (General Checkup, Routine Vaccination, Emergency Treatment).</li>
+          <li><strong>Status Tracking:</strong> Real-time confirmation status and booking history.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Veterinarian Workflow &amp; Experience</div>
+        <ul>
+          <li><strong>Daily Field Roster:</strong> View confirmed on-farm visits sorted by urgency and geographic route.</li>
+          <li><strong>Pre-Visit Intelligence:</strong> Review AI scan results and reported symptoms prior to farm arrival.</li>
+          <li><strong>On-Site Consultation:</strong> Perform physical examination and evaluate animal condition.</li>
+          <li><strong>One-Tap EVMR Closure:</strong> Issue digital prescription and close appointment in seconds.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Talking Point:</strong> "Vetra doesn't just book appointments—it delivers a doctor who already knows the animal's full history before stepping foot on the farm."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">09</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 10: AI DISEASE SCANNER ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">AI CAPABILITIES</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 6</div>
+    <h2 class="section-title">AI Disease Scanner: Assistive Visual Screening</h2>
+    <div class="section-subtitle">Camera-based computer vision for instant preliminary screening of visible livestock lesions and signs.</div>
+  </div>
+  <div class="content-body">
+    <div class="grid-2">
+      <div class="card card-accent">
+        <div class="card-title">How It Works</div>
+        <p>The <strong>AI Disease Scanner</strong> allows a farmer or field worker to point their smartphone camera at a visible symptom—such as skin nodules, eye discharge, hoof lesions, or mouth blisters—and receive an instant preliminary assessment.</p>
+        <p>The system evaluates morphological visual patterns and maps them against veterinary clinical benchmarks to return structured screening results.</p>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title">Crucial Product Language</div>
+        <p>We strictly call this an <strong>"AI-Assisted Preliminary Assessment"</strong>, NEVER an "AI Diagnosis".</p>
+        <p>The scanner acts as an intelligent visual screening tool that highlights observable clinical markers and indicates whether professional veterinary review is urgently needed.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What the AI Scan Results Screen Delivers to the User</div>
+      <div class="grid-3" style="margin-top: 4px;">
+        <div style="background: #FAF9F5; padding: 7px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.08);">
+          <div style="font-weight: 700; color: #1C1B1A; font-size: 7.5pt;">1. Condition &amp; AI Confidence</div>
+          <p style="font-size: 7.1pt; margin-top: 2px;">Displays suspected condition (e.g., <em>Lumpy Skin Disease Sign</em>) with explicit "AI Confidence" score (e.g., 84%), clearly framed as model confidence.</p>
+        </div>
+        <div style="background: #FAF9F5; padding: 7px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.08);">
+          <div style="font-weight: 700; color: #1C1B1A; font-size: 7.5pt;">2. Observed Clinical Indicators</div>
+          <p style="font-size: 7.1pt; margin-top: 2px;">Lists specific visual signs detected (e.g., <em>Circumscribed cutaneous nodules, localized epidermal swelling</em>) to ground the finding.</p>
+        </div>
+        <div style="background: #FAF9F5; padding: 7px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.08);">
+          <div style="font-weight: 700; color: #1C1B1A; font-size: 7.5pt;">3. Supportive Care &amp; Next Steps</div>
+          <p style="font-size: 7.1pt; margin-top: 2px;">Provides non-prescriptive biosecurity advice (e.g., <em>Isolate animal, maintain hydration, schedule on-site veterinary review</em>).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-dark">
+      <div class="card-title">Handling Inconclusive Images Gracefully</div>
+      <p style="color: #FAF9F5; font-size: 7.7pt;">
+        Unlike reckless consumer AI models that hallucinate a disease on every photo, Vetra's scanner incorporates an explicit <strong>INCONCLUSIVE / INSUFFICIENT EVIDENCE</strong> safety outcome. If the photo is blurry, poorly lit, or contains no identifiable pathology, the model transparently informs the user rather than guessing.
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Talking Point:</strong> "The AI scanner is a high-tech triage assistant. It catches visible warning signs early and provides farmers with safe supportive steps while directing them straight to a veterinarian."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">10</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 11: AI VETERINARY ADVISOR ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">AI CAPABILITIES</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 7</div>
+    <h2 class="section-title">AI Veterinary Advisor: Context-Aware Triage</h2>
+    <div class="section-subtitle">Conversational clinical screening anchored to the specific animal's historical health record.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent">
+      <div class="card-title">Why Generic Chatbots Fail in Livestock Healthcare</div>
+      <p>Generic conversational AI (like ChatGPT) operates in a total vacuum. It has no idea what animal you own, what species it is, what vaccines it received last month, or what past diseases it survived. If a farmer types "my cow is not eating," a generic chatbot gives broad, generic paragraphs that confuse farmers.</p>
+    </div>
+
+    <div class="card card-dark">
+      <div class="card-title">The Vetra AI Advisor Difference: Context Awareness</div>
+      <p style="color: #FAF9F5; font-size: 7.8pt;">
+        When a farmer opens the <strong>AI Veterinary Advisor</strong> from Gauri's Animal Passport, the session is pre-loaded with:
+      </p>
+      <div class="grid-3" style="margin-top: 4px; font-size: 7.3pt; color: #FAF9F5;">
+        <div>✓ Animal Species (CATTLE)<br>✓ Breed &amp; Biological Age</div>
+        <div>✓ Confirmed Past EVMRs<br>✓ Recent AI Scan Telemetry</div>
+        <div>✓ Owner &amp; Geographic Region<br>✓ Historical Symptom Episodes</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">How the Interactive Triage Workflow Operates</div>
+      <div class="flow-container" style="margin-top: 3px;">
+        <div class="flow-node active">
+          <div class="node-title">1. Describe Concern</div>
+          <div class="node-desc">Farmer reports symptoms in plain natural language</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node active">
+          <div class="node-title">2. Targeted Follow-ups</div>
+          <div class="node-desc">Advisor asks precise questions with 1-tap chips</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node active">
+          <div class="node-title">3. Fact Preservation</div>
+          <div class="node-desc">Distinguishes user-reported facts from AI inferences</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node active">
+          <div class="node-title">4. Structured Assessment</div>
+          <div class="node-desc">Risk Level + Care Plan + 1-Tap Vet Referral</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-terracotta">
+        <div class="card-title">Strict Fact Preservation Principle</div>
+        <p>The Advisor enforces rigorous separation between <em>Owner-Reported Facts</em> (e.g., "Drinking normally, no fever") and <em>AI Clinical Observations</em> (e.g., "Mild digestive sluggishness"). It never fabricates or contradicts symptoms denied by the user.</p>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title">Direct Consultation Handoff</div>
+        <p>If risk is moderate or higher, the Advisor instantly displays a prominent <strong>"Book Vet Consultation"</strong> button that pre-fills the veterinarian booking form with all reported symptoms for seamless clinical handoff.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Talking Point:</strong> "Vetra's AI Advisor isn't a random chatbot. It is a context-aware clinical assistant that reads the cow's health passport before asking its very first question."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">11</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 12: AI SAFETY MODEL ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">CLINICAL SAFETY</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 8</div>
+    <h2 class="section-title">The Vetra AI Safety Model &amp; Guardrails</h2>
+    <div class="section-subtitle">Our non-negotiable architectural boundaries ensuring clinical ethics, safety, and legal compliance.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-alert">
+      <div class="card-title" style="color: #B93826;">🚨 Core AI Safety Mandate</div>
+      <p style="color: #681B10; font-size: 8.1pt;">
+        <strong>Vetra's AI is ASSISTIVE, PRELIMINARY, and NON-PRESCRIPTIVE.</strong> It is strictly engineered to help farmers organize information, identify early concerns, provide supportive biosecurity care, and connect with licensed veterinarians. It never replaces professional veterinary clinical judgment.
+      </p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">1. Zero Autonomous Drug Prescribing</div>
+        <p>Vetra AI models are hard-coded to <strong>never generate pharmaceutical drug names, antibiotic dosages, or chemical injection regimens</strong>. Recommending prescription medications without physical examination is dangerous, illegal, and causes antimicrobial resistance.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">2. Supportive Care Only</div>
+        <p>AI recommendations are strictly confined to safe supportive care: isolating sick animals, ensuring clean hydration, providing dry bedding, monitoring rectal temperature, and calling a licensed veterinary practitioner.</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">3. Model Confidence vs. Clinical Accuracy</div>
+        <p>All scores are explicitly labeled in the UI as <strong>"AI Confidence"</strong> (representing statistical pattern correlation) rather than "Diagnostic Accuracy." This prevents farmers from mistaking AI probability for laboratory-validated clinical proof.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">4. Conservative Emergency Escalation</div>
+        <p>When symptoms indicate life-threatening distress (e.g., severe bloat, recumbency, heavy bleeding, open fractures), the AI bypasses standard questioning and immediately triggers an urgent red <strong>"EMERGENCY VETERINARY REVIEW"</strong> alert banner.</p>
+      </div>
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-title">5. Transparent Safety Disclaimers on Every Interaction</div>
+      <p style="font-size: 7.6pt; font-style: italic; color: #2D5A27;">
+        "This is an AI-assisted preliminary screening assessment and is not a confirmed veterinary diagnosis. Consult a licensed veterinarian for clinical examination, diagnosis, and treatment."
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>Judge Defense Anchor:</strong> "When competition judges ask about AI liability, explain: Vetra never acts as a rogue medical agent. We use AI exclusively as a triage funnel that routes farmers safely and quickly to human doctors."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">12</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 13: CONNECTED JOURNEY ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">ECOSYSTEM SYNTHESIS</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 9</div>
+    <h2 class="section-title">The Connected Healthcare Journey &amp; Flywheel</h2>
+    <div class="section-subtitle">How every feature feeds into a continuous, compounding data and healthcare ecosystem.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent">
+      <div class="card-title">The Vetra Healthcare Data Flywheel</div>
+      <p>The true power of Vetra is not in any single tool—it is in how every component connects to create a self-reinforcing, compounding healthcare ecosystem around each animal.</p>
+    </div>
+
+    <div class="card" style="padding: 10px;">
+      <div class="grid-3" style="gap: 8px;">
+        <div style="background: #F4F8F3; border: 1px solid #2D5A27; border-radius: 6px; padding: 7px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 7.8pt;">1. Identity Genesis</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">Farmer registers animal. Animal Passport &amp; QR Tag generated. Animal enters digital network.</p>
+        </div>
+        <div style="background: #FAF9F5; border: 1px solid rgba(28,27,26,0.15); border-radius: 6px; padding: 7px;">
+          <div style="font-weight: 800; color: #1C1B1A; font-size: 7.8pt;">2. Early Triage</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">Symptom noticed. Farmer scans or chats with AI Advisor. Context-aware screening generated.</p>
+        </div>
+        <div style="background: #FDF6F3; border: 1px solid #8C523A; border-radius: 6px; padding: 7px;">
+          <div style="font-weight: 800; color: #8C523A; font-size: 7.8pt;">3. Doctor Dispatch</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">1-Tap consultation booking. Vet receives pre-visit summary and confirms appointment.</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; font-size: 10pt; color: #8C523A; font-weight: 800; margin: 4px 0;">↓</div>
+
+      <div class="grid-3" style="gap: 8px;">
+        <div style="background: #FDF6F3; border: 1px solid #8C523A; border-radius: 6px; padding: 7px;">
+          <div style="font-weight: 800; color: #8C523A; font-size: 7.8pt;">4. Clinical Exam &amp; EVMR</div>
+          <div style="font-size: 7.2pt; color: #383532; margin-top: 2px;">Vet examines animal on-farm. Generates immutable EVMR with diagnosis &amp; prescription.</div>
+        </div>
+        <div style="background: #FAF9F5; border: 1px solid rgba(28,27,26,0.15); border-radius: 6px; padding: 7px;">
+          <div style="font-weight: 800; color: #1C1B1A; font-size: 7.8pt;">5. Passport Enrichment</div>
+          <div style="font-size: 7.2pt; color: #383532; margin-top: 2px;">EVMR attaches to Passport. Animal's clinical memory grows stronger for future interactions.</div>
+        </div>
+        <div style="background: #F4F8F3; border: 1px solid #2D5A27; border-radius: 6px; padding: 7px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 7.8pt;">6. Regional Intelligence</div>
+          <div style="font-size: 7.2pt; color: #383532; margin-top: 2px;">Anonymized clinical data feeds surveillance maps to alert neighboring farms of outbreaks.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Why Disconnected Apps Fail</div>
+        <p>A stand-alone scanner gives advice and vanishes. A stand-alone booking app has no records. A paper record gets destroyed in a barn. None of them create compounding value over time.</p>
+      </div>
+
+      <div class="card card-accent">
+        <div class="card-title">Why Vetra Compounds in Value</div>
+        <p>Every veterinary visit enriches the passport. Every passport makes the AI advisor smarter on the next turn. Every clinical record feeds disease surveillance. The system gets more valuable with every interaction.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Summary:</strong> "Vetra creates a lifetime circle of care. The animal's passport gets richer, the AI gets more context, the doctor gets more accuracy, and the region gets disease immunity."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">13</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 14: REAL-WORLD USER STORY ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">USER JOURNEY</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 10</div>
+    <h2 class="section-title">Real-World Walkthrough: "A Day in the Life of Gauri"</h2>
+    <div class="section-subtitle">A step-by-step narrative showing exactly how a farmer and veterinarian use Vetra in real life.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-dark">
+      <div class="card-title">🐄 The Scenario: Farmer Ramesh &amp; His Dairy Cow "Gauri"</div>
+      <p style="color: #FAF9F5; font-size: 7.8pt;">
+        Ramesh Kumar is a dairy farmer in Maharashtra who owns <strong>Gauri</strong>, a 2-year-old Gir dairy cow (Tag: <span class="mono">IND-MH-84920</span>). On Thursday morning, Ramesh notices Gauri has left half her fodder untouched and appears slightly lethargic.
+      </p>
+    </div>
+
+    <div class="card" style="padding: 9px 12px;">
+      <div style="display: flex; flex-direction: column; gap: 7px;">
+        <div style="display: flex; gap: 8px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8pt; min-width: 55px;">Step 1:</div>
+          <div style="font-size: 7.7pt;"><strong>Opens Animal Passport:</strong> Ramesh opens Vetra, selects Gauri's profile, and verifies her registration, past deworming dates, and health telemetry in under 5 seconds.</div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8pt; min-width: 55px;">Step 2:</div>
+          <div style="font-size: 7.7pt;"><strong>Consults AI Advisor:</strong> Ramesh taps <em>"✨ Ask AI Veterinary Advisor"</em> and types: <em>"Gauri has reduced feed intake and seems slightly lethargic."</em></div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8pt; min-width: 55px;">Step 3:</div>
+          <div style="font-size: 7.7pt;"><strong>Interactive Triage:</strong> Advisor recognizes Gauri as a bovine cattle, asks targeted follow-up chips: <em>"Is she drinking water normally? Any nasal discharge?"</em> Ramesh taps <em>"Yes, drinking normally."</em></div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8pt; min-width: 55px;">Step 4:</div>
+          <div style="font-size: 7.7pt;"><strong>Preliminary Assessment:</strong> Vetra generates a structured assessment indicating <em>Moderate Risk (Subacute Ruminal Acidosis sign)</em>, provides clean hydration care instructions, and recommends vet review.</div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8pt; min-width: 55px;">Step 5:</div>
+          <div style="font-size: 7.7pt;"><strong>1-Tap Booking:</strong> Ramesh taps <em>"Book Vet Consultation"</em>. The app selects nearby licensed vet <strong>Dr. Ananya Roy</strong> and pre-populates all symptom details.</div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <div style="font-weight: 800; color: #2D5A27; font-size: 8pt; min-width: 55px;">Step 6:</div>
+          <div style="font-size: 7.7pt;"><strong>On-Farm Care &amp; EVMR:</strong> Dr. Roy confirms the visit, arrives at the farm, reviews Gauri's full passport, performs a physical exam, and issues an immutable EVMR prescription.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Key Insight:</strong> "In under 3 minutes, Ramesh went from uncertainty in his barn to a structured preliminary assessment, an isolated animal, and a confirmed veterinary visit. That is the Vetra impact."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">14</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 15: VETRA VS TRADITIONAL ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">PRODUCT COMPARISON</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 11</div>
+    <h2 class="section-title">Vetra vs. Traditional Care &amp; Standalone Tools</h2>
+    <div class="section-subtitle">A clear, objective comparison demonstrating Vetra's systemic superiority over legacy and point solutions.</div>
+  </div>
+  <div class="content-body">
+    <div class="card">
+      <div class="card-title">Comprehensive Capability Matrix</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Traditional Practice</th>
+            <th>Generic AI Chatbot</th>
+            <th>Standalone Farm Ledger</th>
+            <th>Vetra Platform</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Animal Identity</strong></td>
+            <td>Physical tag only; no records attached</td>
+            <td>None (stateless text prompt)</td>
+            <td>Basic herd count &amp; milk yield ledger</td>
+            <td><strong>Persistent Digital Animal Passport</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Clinical History</strong></td>
+            <td>Paper slips, easily lost or destroyed</td>
+            <td>Zero historical context</td>
+            <td>Non-clinical bookkeeping</td>
+            <td><strong>Immutable, searchable EVMR Timeline</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Doctor Dispatch</strong></td>
+            <td>Informal phone calls, high friction</td>
+            <td>None</td>
+            <td>None</td>
+            <td><strong>Structured 1-Tap Booking Machine</strong></td>
+          </tr>
+          <tr>
+            <td><strong>AI Health Screening</strong></td>
+            <td>None (farmer guesses)</td>
+            <td>Hallucinatory, no animal context</td>
+            <td>None</td>
+            <td><strong>Context-Aware Assistive Vision &amp; Advisor</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Prescription Safety</strong></td>
+            <td>Illegible handwriting, lost dosage slips</td>
+            <td>Dangerous unvalidated drug suggestions</td>
+            <td>None</td>
+            <td><strong>Non-prescriptive AI + Vet-issued EVMR</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Disease Intelligence</strong></td>
+            <td>Zero regional visibility</td>
+            <td>None</td>
+            <td>Isolated on single farm</td>
+            <td><strong>Aggregated Regional Outbreak Telemetry</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Offline Resilience</strong></td>
+            <td>Paper only</td>
+            <td>Requires active cloud connection</td>
+            <td>Varies</td>
+            <td><strong>Offline-First Caching &amp; Deterministic Sync</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2">
+      <div class="card card-terracotta">
+        <div class="card-title">Why Point Solutions Fail</div>
+        <p>Point solutions address only one sliver of the problem. A dairy record app doesn't help when a cow has foot rot; a generic chatbot doesn't dispatch a doctor; a paper slip doesn't warn a neighbor about an impending epidemic.</p>
+      </div>
+
+      <div class="card card-accent">
+        <div class="card-title">Why Vetra Wins the Category</div>
+        <p>Vetra is the <strong>connective tissue</strong> that integrates identity, records, triage, dispatch, and surveillance into one cohesive platform that scales from single-cow farms to national commercial herds.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Talking Point:</strong> "We aren't competing with farm management spreadsheets or generic chatbots. Vetra is the operating infrastructure for veterinary healthcare."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">15</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 16: BOUNDARIES & NON-CLAIMS ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">BOUNDARIES &amp; INTEGRITY</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 12</div>
+    <h2 class="section-title">Boundaries, Non-Claims &amp; Safety Commitments</h2>
+    <div class="section-subtitle">What Vetra explicitly does NOT do—protecting the team from making exaggerated or unsafe claims.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-alert">
+      <div class="card-title" style="color: #B93826;">🛡️ The Golden Rule of Pitching Vetra</div>
+      <p style="color: #681B10; font-size: 8.2pt;">
+        <strong>Never over-claim. Never exaggerate. Never claim clinical replacement.</strong> Judges respect grounded, legally compliant, and safety-conscious products far more than reckless startup hyperbole.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">The 6 Explicit Non-Claims of the Vetra Platform</div>
+      <div class="grid-2" style="margin-top: 4px; gap: 8px;">
+        <div style="background: #FAF9F5; padding: 8px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.1);">
+          <div style="font-weight: 700; color: #B93826; font-size: 7.6pt;">❌ 1. We Do NOT Replace Veterinarians</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">Vetra is built to empower veterinarians, not eliminate them. Physical examination and clinical auscultation remain irreplaceable.</p>
+        </div>
+        <div style="background: #FAF9F5; padding: 8px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.1);">
+          <div style="font-weight: 700; color: #B93826; font-size: 7.6pt;">❌ 2. We Do NOT Claim 100% Diagnostic Accuracy</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">We treat AI outputs strictly as preliminary decision-support indicators. We never claim clinical perfection or laboratory validation.</p>
+        </div>
+        <div style="background: #FAF9F5; padding: 8px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.1);">
+          <div style="font-weight: 700; color: #B93826; font-size: 7.6pt;">❌ 3. We Do NOT Autonomously Prescribe Drugs</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">Vetra AI never suggests medication names, dosages, or chemical treatments. Only licensed veterinarians can issue prescriptions in an EVMR.</p>
+        </div>
+        <div style="background: #FAF9F5; padding: 8px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.1);">
+          <div style="font-weight: 700; color: #B93826; font-size: 7.6pt;">❌ 4. We Are NOT a Livestock E-Commerce Marketplace</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">Vetra is pure healthcare infrastructure. We do not broker cattle trades or take transaction cuts from livestock sales.</p>
+        </div>
+        <div style="background: #FAF9F5; padding: 8px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.1);">
+          <div style="font-weight: 700; color: #B93826; font-size: 7.6pt;">❌ 5. We Do NOT Claim Unestablished Partnerships</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">We never claim government approvals, ministry MoUs, or commercial contracts that have not been formally executed.</p>
+        </div>
+        <div style="background: #FAF9F5; padding: 8px; border-radius: 5px; border: 1px solid rgba(28,27,26,0.1);">
+          <div style="font-weight: 700; color: #B93826; font-size: 7.6pt;">❌ 6. We Do NOT Bypass Biosecurity Protocols</div>
+          <p style="font-size: 7.2pt; margin-top: 2px;">Vetra adheres strictly to national veterinary board guidelines, data privacy standards, and ethical veterinary frameworks.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Safety Shield:</strong> "If a judge asks: 'What if your AI gives the wrong drug?' — Your answer: 'Our AI is architecturally forbidden from prescribing drugs. Only a licensed vet can issue prescriptions after in-person clinical review.'"
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">16</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 17: BUSINESS VALUE ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">BUSINESS VALUE</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 13</div>
+    <h2 class="section-title">Business &amp; Ecosystem Value Creation</h2>
+    <div class="section-subtitle">How Vetra delivers measurable economic and operational return on investment across the livestock chain.</div>
+  </div>
+  <div class="content-body">
+    <div class="grid-3">
+      <div class="card card-accent">
+        <div class="card-title">Value for Farmers</div>
+        <ul>
+          <li><strong>Reduced Animal Mortality:</strong> Early triage and faster vet dispatch prevent treatable conditions from becoming fatal.</li>
+          <li><strong>Protected Milk Yields:</strong> Prompt intervention preserves lactation cycles and daily farm income.</li>
+          <li><strong>Higher Asset Valuation:</strong> Animals with verifiable EVMR histories command 15–25% higher resale value.</li>
+          <li><strong>Lower Emergency Costs:</strong> Catching illnesses early avoids expensive emergency surgeries.</li>
+        </ul>
+      </div>
+
+      <div class="card card-terracotta">
+        <div class="card-title">Value for Veterinarians</div>
+        <ul>
+          <li><strong>Practice Efficiency:</strong> Save 1.5–2 hours daily by eliminating messy paper prescription registers.</li>
+          <li><strong>Higher Clinical Accuracy:</strong> Pre-visit telemetry and historical EVMRs lead to superior diagnosis.</li>
+          <li><strong>Organized Field Rounds:</strong> Geographically organized appointments reduce travel dead-time.</li>
+          <li><strong>Professional Reputation:</strong> Deliver modern digital care that builds long-term client trust.</li>
+        </ul>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title">Value for Dairy Co-ops</div>
+        <ul>
+          <li><strong>Herd Health Security:</strong> Real-time visibility into disease risks across thousands of member farms.</li>
+          <li><strong>Milk Quality Assurance:</strong> Traceable records ensure withdrawal periods for antibiotics are respected.</li>
+          <li><strong>Rapid Outbreak Containment:</strong> Spatial intelligence stops epidemics before milk supply drops.</li>
+          <li><strong>Insurance Underwriting:</strong> Verifiable medical histories make livestock insurance viable.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-dark">
+      <div class="card-title">The Macroeconomic Livestock Imperative</div>
+      <p style="color: #FAF9F5; font-size: 7.8pt;">
+        Livestock contributes over <strong>4% of total GDP</strong> in major developing economies and represents the primary asset of 100M+ rural households. Preventing even a 5% reduction in preventable livestock mortality protects billions of dollars in rural household wealth and national food security.
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Talking Point:</strong> "Vetra isn't an expense for farmers—it is an insurance policy for their most valuable livelihood asset."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">17</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 18: BUSINESS MODEL ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">MONETIZATION STRATEGY</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 14</div>
+    <h2 class="section-title">High-Level Business Model &amp; Monetization</h2>
+    <div class="section-subtitle">Realistic, multi-tiered commercial pathways tailored for agricultural and veterinary markets.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent">
+      <div class="card-title">Commercial Philosophy</div>
+      <p>Vetra follows a <strong>B2B2C and enterprise ecosystem model</strong>. Basic animal health passports and core appointment booking remain highly accessible to smallholder farmers, while premium practice tools, enterprise herd analytics, and cooperative dashboards drive commercial revenue.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Tier 1: Veterinary Practice SaaS</div>
+        <p><strong>Target:</strong> Private veterinary clinics, multi-doctor hospitals, and mobile practitioners.</p>
+        <ul>
+          <li>Monthly/Annual software subscription for advanced practice management.</li>
+          <li>Multi-practitioner scheduling, automated follow-up dispatch, and EVMR analytics.</li>
+          <li>Digital billing, client communication tools, and inventory integration.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tier 2: Commercial Herd &amp; Co-op Enterprise</div>
+        <p><strong>Target:</strong> Dairy cooperatives (e.g., Amul, Nandini), commercial feedlots, and livestock breeding operations.</p>
+        <ul>
+          <li>Per-head annual enterprise license for bulk herd management.</li>
+          <li>Aggregate herd health telemetry, vaccination schedule enforcement, and bulk EVMR export.</li>
+          <li>Supply-chain traceability and milk quality compliance reporting.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Tier 3: Livestock Insurance &amp; Financial API</div>
+        <p><strong>Target:</strong> Agricultural insurance companies and rural microfinance institutions.</p>
+        <ul>
+          <li>API fees for health verification during livestock insurance underwriting and claim validation.</li>
+          <li>Eliminates fraudulent claims via immutable EVMR death &amp; disease verification records.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tier 4: Government &amp; Epidemiological Intelligence</div>
+        <p><strong>Target:</strong> State animal husbandry departments and public veterinary directorates.</p>
+        <ul>
+          <li>Regional disease surveillance dashboard subscriptions.</li>
+          <li>Early epidemic detection data feeds, vaccination coverage analytics, and biosecurity mapping.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout-amber">
+      <strong>Important Pitch Directive:</strong> Frame these as <em>"Potential monetization pathways grounded in veterinary market structure"</em> rather than claiming existing commercial contracts.
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">18</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 19: COMPETITION & DIFFERENTIATION ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">STRATEGIC POSITIONING</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 15</div>
+    <h2 class="section-title">Competitive Landscape &amp; Strategic Moats</h2>
+    <div class="section-subtitle">How Vetra defends its position and creates an unassailable ecosystem advantage.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-dark">
+      <div class="card-title">The Strategic Positioning Grid</div>
+      <p style="color: #FAF9F5; font-size: 7.8pt;">
+        Most market offerings fall into one of two extremes: <strong>Unstructured Point Tools</strong> (isolated diagnostic scanners or booking apps) or <strong>Back-Office ERPs</strong> (clunky legacy software inaccessible to field farmers).
+      </p>
+      <p style="color: #FAF9F5; font-size: 7.8pt;">
+        <strong>Vetra owns the intersection:</strong> A mobile-first, field-ready Operating System that unifies medical lineage, clinical workflows, and context-aware intelligence.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">Moat 1: Longitudinal Data Lock-In</div>
+        <p style="font-size: 7.3pt;">Once an animal's lifetime EVMR history is stored on Vetra, moving to a competitor means losing the animal's entire verified clinical lineage.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Moat 2: Contextual AI Superiority</div>
+        <p style="font-size: 7.3pt;">Generic AI models cannot compete because Vetra's advisor draws on the animal's real-time, verified medical passport to provide grounded triage.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Moat 3: Bilateral Network Effects</div>
+        <p style="font-size: 7.3pt;">More farmers attract more field veterinarians; more veterinarians generate more EVMRs; more EVMRs make the platform essential for cooperatives.</p>
+      </div>
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-title">Competitive Comparison Summary</div>
+      <div class="grid-3" style="font-size: 7.3pt; margin-top: 3px;">
+        <div>
+          <strong>Generic Telehealth Apps:</strong><br>
+          Lack animal-specific passports, no EVMR integration, no species-specific clinical records.
+        </div>
+        <div>
+          <strong>Standalone AI Vision Apps:</strong><br>
+          Zero clinical continuity, no doctor booking, no prescription compliance, high hallucination risk.
+        </div>
+        <div>
+          <strong>Legacy Farm Software:</strong><br>
+          Desktop-bound, complex accounting focus, completely unusable by smallholder farmers in rural sheds.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Talking Point:</strong> "Our moat is the longitudinal medical record. You can copy a chatbot in an afternoon, but you cannot copy 5 years of verified clinical health lineage for 50,000 cattle."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">19</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 20: PRODUCT MATURITY ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">PRODUCT MATURITY</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 16</div>
+    <h2 class="section-title">Product Maturity &amp; Capability Roadmap</h2>
+    <div class="section-subtitle">An honest, transparent breakdown of currently implemented capabilities vs. future roadmap.</div>
+  </div>
+  <div class="content-body">
+    <div class="grid-2">
+      <div class="card card-accent">
+        <div class="card-title">✅ Currently Implemented &amp; Live</div>
+        <div style="font-size: 7.4pt; margin-top: 3px;">
+          <p><strong>1. Dual-Role Authentication &amp; RBAC:</strong> JWT access &amp; refresh token rotation, strict farmer/vet isolation.</p>
+          <p><strong>2. Digital Animal Passport:</strong> Ear tag registration, species, breed, gender, age, telemetry, and lifetime timeline.</p>
+          <p><strong>3. Electronic Medical Records (EVMR):</strong> Immutable record creation, clinical observations, and prescriptions.</p>
+          <p><strong>4. Practice &amp; Appointment Dispatch:</strong> Deterministic state machine (`PENDING` → `CONFIRMED` → `COMPLETED`).</p>
+          <p><strong>5. AI Visual Disease Scanner:</strong> Camera/gallery visual inference with explicit confidence &amp; care advice.</p>
+          <p><strong>6. AI Veterinary Advisor:</strong> Context-aware triage, fact-preservation, follow-up chips, and emergency escalation.</p>
+          <p><strong>7. Cloud &amp; Mobile Infrastructure:</strong> AWS ECS Fargate, RDS PostgreSQL, Redis, and Flutter Android/iOS clients.</p>
+        </div>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title">🚀 Active Development &amp; Planned</div>
+        <div style="font-size: 7.4pt; margin-top: 3px;">
+          <p><strong>1. Spatial Outbreak GIS Mapping:</strong> PostGIS geospatial clustering for automated epidemic containment zones.</p>
+          <p><strong>2. Push Notifications (FCM):</strong> Automated appointment alerts, follow-up reminders, and biosecurity warnings.</p>
+          <p><strong>3. Multilingual Voice Interface:</strong> Regional language voice input (Hindi, Marathi, Punjabi, Gujarati) for low-literacy farmers.</p>
+          <p><strong>4. Bluetooth RFID Tag Scanner:</strong> Direct hardware integration with national RFID livestock ear tag wands.</p>
+          <p><strong>5. Cooperative Health Analytics:</strong> Enterprise bulk analytics portal for dairy unions and insurance auditors.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">The Engineering &amp; Architectural Standard</div>
+      <p style="font-size: 7.5pt;">
+        Unlike brittle student prototypes, Vetra is built to enterprise production standards: Clean Architecture, strict Domain-Driven Design (DDD), 100% test pass rates across 260+ backend test suites, zero lint warnings, and continuous deployment via automated GitHub Actions pipelines.
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Integrity Shield:</strong> "Always clearly distinguish what is live today (Passport, EVMR, Appointments, AI Scanner, AI Advisor) from what is on the roadmap (GIS Spatial Outbreak Maps, Multilingual Voice)."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">20</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 21: DEMO SCRIPT ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">DEMO SCRIPT</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 17</div>
+    <h2 class="section-title">3–5 Minute Stage Demonstration Script</h2>
+    <div class="section-subtitle">A bulletproof, step-by-step narrative script for demonstrating Vetra seamlessly during competitions.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-dark">
+      <div class="card-title">🎬 Demo Overview: Tell a Story, Don't Just Click Buttons</div>
+      <p style="color: #FAF9F5; font-size: 7.7pt;">
+        Judges remember emotional, real-world user stories, not feature check-lists. Always frame the live demo through the eyes of <strong>Farmer Ramesh and his dairy cow Gauri</strong>.
+      </p>
+    </div>
+
+    <div class="card" style="padding: 8px 11px;">
+      <div style="display: flex; flex-direction: column; gap: 6px; font-size: 7.4pt;">
+        <div>
+          <strong style="color: #2D5A27;">0:00 – 0:45 | Scene 1: The Animal Passport</strong><br>
+          <em>"Meet Ramesh, a dairy farmer. This is his cow Gauri (Tag: IND-MH-84920). Let's open her Animal Passport. Notice how in one tap, Ramesh sees her exact breed, age, and her complete lifetime medical history—no paper slips, no guesswork."</em>
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">0:45 – 1:45 | Scene 2: Context-Aware AI Advisor Triage</strong><br>
+          <em>"This morning, Gauri is eating less and seems tired. Ramesh taps 'Ask AI Veterinary Advisor' and describes the issue. Watch this: the AI doesn't give generic advice. It knows Gauri is a 2-year-old bovine. It asks targeted questions with interactive chips. Ramesh taps 'Drinking normally'."</em>
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">1:45 – 2:45 | Scene 3: Preliminary Assessment &amp; Safety Guardrails</strong><br>
+          <em>"Vetra instantly generates a preliminary assessment: Moderate Risk. It explains observable indicators, recommends supportive hydration care, and emphasizes that professional veterinary review is needed. Notice: zero drug prescriptions, 100% safe."</em>
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">2:45 – 3:30 | Scene 4: 1-Tap Veterinary Dispatch</strong><br>
+          <em>"Ramesh taps 'Book Vet Consultation'. In 2 seconds, the appointment is dispatched to Dr. Ananya Roy with Gauri's symptoms pre-filled. Dr. Roy confirms the visit on her doctor dashboard."</em>
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">3:30 – 4:15 | Scene 5: The Lifetime EVMR Record</strong><br>
+          <em>"After examining Gauri, Dr. Roy submits a structured EVMR. The record becomes permanent and immutable. Gauri's passport is updated, and the data is locked forever. That is the complete circle of care on Vetra."</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Pro Tip for Stage Demonstrators:</strong> Practice switching between screens smoothly. Point out the "Live Context" badge on the AI Advisor and the "Immutable EVMR" indicator on the Animal Passport.
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">21</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 22: PITCH SCRIPTS ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">PITCH SCRIPTS</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 18</div>
+    <h2 class="section-title">Competition Pitch Scripts (30s &amp; 2m)</h2>
+    <div class="section-subtitle">Verbatim pitch scripts crafted for natural spoken delivery, maximum impact, and clear memorization.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent">
+      <div class="card-title">⚡ The 30-Second Elevator Pitch (Word-for-Word Memorization)</div>
+      <p style="font-size: 8.3pt; line-height: 1.45; color: #1E3D1A; font-weight: 500;">
+        "Over 500 million livestock animals in agricultural economies have zero digital medical records. When animals fall sick, farmers can't find veterinarians, past treatments are forgotten, and preventable outbreaks wipe out entire herds. 
+        <br><br>
+        <strong>Vetra is the digital operating system for livestock healthcare.</strong> We give every animal an immutable digital health passport, connect farmers to licensed veterinarians, and provide context-aware AI clinical screening. 
+        <br><br>
+        We don't replace doctors—we give them the medical records and triage tools to save livestock before it's too late."
+      </p>
+    </div>
+
+    <div class="card card-dark">
+      <div class="card-title">🎙️ The 2-Minute Stage Pitch (Spoken Competition Delivery)</div>
+      <p style="font-size: 7.7pt; line-height: 1.45; color: #FAF9F5;">
+        <em>"Judges, imagine you are a smallholder farmer in rural India. Your entire family's livelihood depends on two dairy cows. One morning, your best cow stops eating. What do you do? You don't have a doctor's number, you don't remember what injections she got six months ago, and you can't afford a wasted visit. By the time a veterinarian arrives two days later, the infection has turned fatal.</em>
+        <br><br>
+        <em>This tragedy happens millions of times every year because livestock healthcare is completely disconnected, paper-based, and reactive.</em>
+        <br><br>
+        <em>That is why we built <strong>Vetra</strong>. Vetra is the digital operating system for livestock healthcare.</em>
+        <br><br>
+        <em>On Vetra, every animal receives a digital <strong>Animal Passport</strong> tied to its official ear tag. When an animal is unwell, our <strong>AI Veterinary Advisor</strong> reads the animal's past medical history and guides the farmer through structured triage—not to replace a doctor, but to identify risks early and recommend safe supportive care.</em>
+        <br><br>
+        <em>With a single tap, the farmer dispatches a nearby registered veterinarian. When the doctor arrives, they don't start from zero—they have the complete historical Electronic Medical Record on their phone. And once the visit is complete, an immutable clinical record is locked to the animal's passport forever.</em>
+        <br><br>
+        <em>Vetra creates a self-reinforcing circle of care: healthier herds for farmers, efficient practices for veterinarians, and real-time disease visibility for agricultural economies. Thank you."</em>
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>Delivery Advice:</strong> Speak with steady pace, warmth, and absolute confidence. Pause after introducing the problem and after naming Vetra.
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">22</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 23: JUDGE Q&A PART 1 ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">JUDGE DEFENSE (PART 1)</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 19.1</div>
+    <h2 class="section-title">Rapid-Fire Judge Q&amp;A: Core Product Mechanics</h2>
+    <div class="section-subtitle">How to answer the most common competition judge questions with authority and precision.</div>
+  </div>
+  <div class="content-body">
+    <div class="card">
+      <div class="card-title">Q1: "Why can't farmers just call a veterinarian on WhatsApp or phone?"</div>
+      <p style="font-size: 7.5pt;">
+        <strong>Answer:</strong> A phone call conveys only what an untrained farmer can verbally describe in the moment. The veterinarian has zero access to the animal's vaccination lineage, previous drug treatments, or temperature trends. Furthermore, phone calls do not generate permanent clinical records, leaving the next doctor completely blind. Vetra makes the interaction structured, pre-informed, and permanent.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q2: "How is Vetra's AI different from asking ChatGPT or Claude?"</div>
+      <p style="font-size: 7.5pt;">
+        <strong>Answer:</strong> Generic chatbots are stateless—they only know what the user types in that prompt. If you ask ChatGPT about a sick cow, it has no idea what species, breed, age, or past medical records exist. Vetra's AI Veterinary Advisor is <strong>context-aware</strong>: it injects the animal's verified health passport, past EVMRs, and regional disease context directly into the reasoning engine, and strictly adheres to non-prescriptive safety guardrails.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q3: "Can your AI diagnose animal diseases autonomously?"</div>
+      <p style="font-size: 7.5pt;">
+        <strong>Answer:</strong> Absolutely not, and by design. Vetra's AI provides an <strong>assistive preliminary screening assessment</strong>. It identifies observable clinical indicators, evaluates risk levels, suggests supportive biosecurity care, and directs the farmer to a licensed veterinarian. Definitive clinical diagnosis and pharmaceutical prescribing remain exclusively in human hands.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q4: "What happens if your AI makes a mistake or gives bad advice?"</div>
+      <p style="font-size: 7.5pt;">
+        <strong>Answer:</strong> We mitigate AI risk through three architectural layers: <strong>First</strong>, the model is strictly non-prescriptive—it is physically incapable of recommending drugs or dosages. <strong>Second</strong>, every output carries an explicit AI confidence score and prominent veterinary disclaimers. <strong>Third</strong>, in ambiguous or concerning situations, our system conservatively escalates to urgent veterinary review rather than offering false reassurance.
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Rule:</strong> Never be defensive with judges. Acknowledge the question, state our architectural principle clearly, and pivot back to how Vetra protects animal health.
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">23</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 24: JUDGE Q&A PART 2 ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">JUDGE DEFENSE (PART 2)</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 19.2</div>
+    <h2 class="section-title">Rapid-Fire Judge Q&amp;A: Scalability &amp; Business</h2>
+    <div class="section-subtitle">Answers for deep technical, commercial, rural deployment, and scalability questions.</div>
+  </div>
+  <div class="content-body">
+    <div class="card">
+      <div class="card-title">Q5: "How does Vetra work in rural areas with poor or zero internet connectivity?"</div>
+      <p style="font-size: 7.5pt;">
+        <strong>Answer:</strong> Vetra is engineered with an <strong>offline-first architecture</strong>. Critical passport data, QR profiles, and recent medical histories are cached locally on the device. Veterinarians can view records and draft EVMRs in offline sheds; as soon as the phone reconnects to 2G/3G or Wi-Fi, records synchronize deterministically with the cloud.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q6: "Why would busy field veterinarians adopt Vetra instead of paper?"</div>
+      <p style="font-size: 7.5pt;">
+        <strong>Answer:</strong> Field veterinarians spend 1.5–2 hours every evening transcribing messy paper registers. Vetra reduces EVMR creation to under 45 seconds on-farm. More importantly, it gives veterinarians pre-visit clinical context, organizes their daily travel routes, and establishes a professional digital practice reputation.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q7: "How does Vetra help control contagious disease outbreaks?"</div>
+      <p style="font-size: 7.5pt;">
+        <strong>Answer:</strong> Today, outbreak data takes weeks to reach public health authorities because records are trapped in physical paper ledgers. When veterinarians log confirmed diagnoses on Vetra, anonymized disease telemetry can be aggregated geographically. This provides real-time cluster visualization and early outbreak warning signals to contain epidemics before they spread across districts.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Q8: "Who is your primary customer and how do you make money?"</div>
+      <p style="font-size: 7.5pt;">
+        <strong>Answer:</strong> Our primary B2B customers are <strong>dairy cooperatives, commercial livestock enterprises, and veterinary practices</strong>. Cooperatives pay enterprise software fees to secure milk supply and track herd biosecurity; clinics pay SaaS subscriptions for practice management; and insurance providers pay API verification fees to eliminate claim fraud.
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>Presenter Anchor:</strong> "Vetra aligns the incentives of all three stakeholders: farmers save animals, veterinarians save time, and cooperatives protect their supply chain."
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">24</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 25: PRODUCT GLOSSARY ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">PRODUCT GLOSSARY</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 20</div>
+    <h2 class="section-title">Comprehensive Product Glossary &amp; Terminology</h2>
+    <div class="section-subtitle">Clear, accessible definitions of all industry, clinical, and platform concepts.</div>
+  </div>
+  <div class="content-body">
+    <div class="card">
+      <div class="grid-2" style="gap: 8px; font-size: 7.4pt;">
+        <div>
+          <strong style="color: #2D5A27;">Animal Passport:</strong><br>
+          The persistent digital identity profile of a livestock animal, containing ear tag numbers, breed, biological characteristics, ownership lineage, and lifetime clinical history.
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">EVMR (Electronic Vet Medical Record):</strong><br>
+          A standardized, immutable digital clinical chart generated exclusively by a licensed veterinarian following an examination, containing confirmed diagnosis and prescriptions.
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">AI Veterinary Advisor:</strong><br>
+          A conversational clinical triage assistant that evaluates owner-reported symptoms within the context of the animal's historical passport and provides non-prescriptive guidance.
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">AI Disease Scanner:</strong><br>
+          A computer-vision module that analyzes smartphone photos of visible lesions or symptoms to provide preliminary screening indicators and confidence levels.
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">AI Confidence:</strong><br>
+          A transparent mathematical representation of model pattern match probability. Distinct from clinical diagnostic certainty.
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">Preliminary Assessment:</strong><br>
+          An assistive, non-definitive summary of observable clinical indicators intended to guide first-aid and encourage timely veterinary consultation.
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">Supportive Care:</strong><br>
+          Safe, non-pharmaceutical first-aid actions (e.g., isolation, clean hydration, shelter, monitoring vitals) that stabilize an animal without administering drugs.
+        </div>
+        <div>
+          <strong style="color: #2D5A27;">Disease Surveillance:</strong><br>
+          The systematic aggregation and spatial analysis of clinical health data to detect contagious outbreak clusters and biosecurity threats in real time.
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-accent">
+      <div class="card-title">Key Terminology Guidelines for Presenters</div>
+      <table>
+        <thead>
+          <tr>
+            <th>✅ Always Use This Term</th>
+            <th>❌ Never Use This Term</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"AI-Assisted Preliminary Assessment"</td>
+            <td>"AI Diagnosis" / "AI Doctor"</td>
+          </tr>
+          <tr>
+            <td>"Assistive Triage Screening"</td>
+            <td>"Automated Medical Treatment"</td>
+          </tr>
+          <tr>
+            <td>"Non-Prescriptive Supportive Care"</td>
+            <td>"AI Prescribed Medication"</td>
+          </tr>
+          <tr>
+            <td>"Digital Operating System (VetOS)"</td>
+            <td>"Just an AI app" / "Chatbot"</td>
+          </tr>
+          <tr>
+            <td>"Licensed Veterinarian Review"</td>
+            <td>"Replacing the vet"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">25</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 26: FINAL POSITIONING ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // TEAM PRODUCT BRIEF</span>
+    <span class="sec-badge">CLOSING MANIFESTO</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">SECTION 21</div>
+    <h2 class="section-title">Final Product Positioning &amp; Closing Manifesto</h2>
+    <div class="section-subtitle">The definitive, competition-winning summary of why Vetra exists and what it stands for.</div>
+  </div>
+  <div class="content-body">
+    <div class="card card-accent" style="padding: 14px 16px;">
+      <div style="font-size: 11pt; font-family: 'Newsreader', Georgia, serif; font-style: italic; color: #2D5A27; line-height: 1.4; text-align: center;">
+        "Vetra is not simply an AI disease scanner.<br>
+        Vetra is not simply a doctor booking tool.<br>
+        Vetra is not simply a digital herd ledger.<br><br>
+        <strong>Vetra is the digital infrastructure for livestock healthcare.</strong>"
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">What Makes Vetra Transformational</div>
+        <p>Before Vetra, animal health data was ephemeral, disconnected, and easily lost. Vetra creates a permanent digital architecture where every animal has an identity, every veterinary visit leaves an immutable record, assistive AI bridges the rural triage gap, and regional disease patterns become visible before epidemics spread.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Our Commitment to Clinical Ethics</div>
+        <p>We believe that technology should augment human expertise, not recklessly attempt to replace it. By placing licensed veterinarians at the center of clinical authority and using AI strictly as an intelligent triage funnel, Vetra builds trust with farmers, doctors, cooperatives, and governments alike.</p>
+      </div>
+    </div>
+
+    <div class="card card-dark" style="text-align: center; padding: 14px;">
+      <div style="font-size: 7.2pt; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #8C523A; margin-bottom: 4px;">THE PRESENTATION CLOSING ANCHOR</div>
+      <p style="font-size: 8.8pt; color: #FAF9F5; font-weight: 600; line-height: 1.45; max-width: 140mm; margin: 0 auto;">
+        "By giving every animal an immutable medical passport and surrounding farmers with connected veterinary care, Vetra transforms livestock health from an unpredictable crisis into a predictable, protected, and thriving foundation for agricultural economies."
+      </p>
+    </div>
+
+    <div style="text-align: center; font-size: 7pt; color: #7A7671; margin-top: 6px;">
+      VETRA PLATFORM // DEVELOPED WITH CLINICAL INTEGRITY &amp; ENTERPRISE EXCELLENCE // 2026
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>CONFIDENTIAL // COMPETITION &amp; TEAM BRIEFING</span>
+    <span class="page-number">26</span>
+  </div>
+</div>
+
+</body>
+</html>
