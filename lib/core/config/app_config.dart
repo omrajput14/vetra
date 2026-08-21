@@ -12,7 +12,7 @@ enum Environment {
 class AppConfig {
   AppConfig._();
 
-  static Environment _environment = Environment.staging;
+  static Environment _environment = kDebugMode ? Environment.development : Environment.staging;
 
   /// Returns the active environment.
   static Environment get environment => _environment;
