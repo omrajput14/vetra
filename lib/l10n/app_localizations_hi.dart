@@ -661,4 +661,35 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get weightInKg => 'वजन (किग्रा)';
+
+  @override
+  String get voiceInputTapToSpeak => 'बोलने के लिए टैप करें';
+
+  @override
+  String get voiceListening => 'सुन रहे हैं...';
+
+  @override
+  String get voiceProcessing => 'आवाज़ प्रोसेस हो रही है...';
+
+  @override
+  String get voiceError => 'आवाज़ समझ नहीं आई। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get voicePermissionRequired =>
+      'वॉयस इनपुट के लिए माइक्रोफ़ोन की अनुमति आवश्यक है।';
+
+  @override
+  String get voiceNotAvailable => 'इस डिवाइस पर वॉयस इनपुट उपलब्ध नहीं है।';
+
+  @override
+  String get aiAdvisorTitle => 'एआई पशुचिकित्सा सलाहकार';
+
+  @override
+  String get describeAnimalProblem => 'पशु के लक्षण या समस्या बताएं...';
+
+  @override
+  String get typeMessageHint => 'संदेश लिखें या माइक दबाएं...';
+
+  @override
+  String get send => 'भेजें';
 }

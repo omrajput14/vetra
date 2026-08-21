@@ -660,4 +660,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get weightInKg => 'Weight (kg)';
+
+  @override
+  String get voiceInputTapToSpeak => 'Tap to speak';
+
+  @override
+  String get voiceListening => 'Listening...';
+
+  @override
+  String get voiceProcessing => 'Processing speech...';
+
+  @override
+  String get voiceError => 'Could not understand speech. Please try again.';
+
+  @override
+  String get voicePermissionRequired =>
+      'Microphone permission is required for voice input.';
+
+  @override
+  String get voiceNotAvailable => 'Voice input not available on this device.';
+
+  @override
+  String get aiAdvisorTitle => 'AI Veterinary Advisor';
+
+  @override
+  String get describeAnimalProblem => 'Describe your animal problem...';
+
+  @override
+  String get typeMessageHint => 'Type message or tap mic...';
+
+  @override
+  String get send => 'Send';
 }

@@ -212,5 +212,15 @@
   "qrScannerTitle": "पशुवैद्यकीय क्यूआर स्कॅनर",
   "scanAnimalQrPrompt": "कॅमेरा जनावराच्या इअर टॅग क्यूआर कोडवर धरा",
   "temperatureInCelsius": "तापमान (°C)",
-  "weightInKg": "वजन (किलो)"
+  "weightInKg": "वजन (किलो)",
+  "voiceInputTapToSpeak": "बोलण्यासाठी टॅप करा",
+  "voiceListening": "ऐकत आहे...",
+  "voiceProcessing": "आवाज प्रक्रिया करत आहे...",
+  "voiceError": "आवाज समजला नाही. कृपया पुन्हा प्रयत्न करा.",
+  "voicePermissionRequired": "व्हॉइस इनपुटसाठी मायक्रोफोन परवानगी आवश्यक आहे.",
+  "voiceNotAvailable": "या डिव्हाइसवर व्हॉइस इनपुट उपलब्ध नाही.",
+  "aiAdvisorTitle": "एआय पशुवैद्यकीय सल्लागार",
+  "describeAnimalProblem": "जनावराची लक्षणे किंवा समस्या सांगा...",
+  "typeMessageHint": "संदेश लिहा किंवा माइक दाबा...",
+  "send": "पाठवा"
 }

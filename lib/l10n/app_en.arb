@@ -212,5 +212,15 @@
   "qrScannerTitle": "Veterinary QR Scanner",
   "scanAnimalQrPrompt": "Point camera at animal ear tag QR code",
   "temperatureInCelsius": "Temperature (°C)",
-  "weightInKg": "Weight (kg)"
+  "weightInKg": "Weight (kg)",
+  "voiceInputTapToSpeak": "Tap to speak",
+  "voiceListening": "Listening...",
+  "voiceProcessing": "Processing speech...",
+  "voiceError": "Could not understand speech. Please try again.",
+  "voicePermissionRequired": "Microphone permission is required for voice input.",
+  "voiceNotAvailable": "Voice input not available on this device.",
+  "aiAdvisorTitle": "AI Veterinary Advisor",
+  "describeAnimalProblem": "Describe your animal problem...",
+  "typeMessageHint": "Type message or tap mic...",
+  "send": "Send"
 }

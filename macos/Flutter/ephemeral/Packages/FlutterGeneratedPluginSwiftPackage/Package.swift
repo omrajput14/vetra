@@ -17,6 +17,7 @@ let package = Package(
     dependencies: [
         .package(name: "file_selector_macos", path: "../.packages/file_selector_macos-0.9.5"),
         .package(name: "flutter_secure_storage_darwin", path: "../.packages/flutter_secure_storage_darwin-0.3.2"),
+        .package(name: "speech_to_text", path: "../.packages/speech_to_text-7.4.0"),
         .package(name: "FlutterFramework", path: "../.packages/FlutterFramework")
     ],
     targets: [
@@ -25,6 +26,7 @@ let package = Package(
             dependencies: [
                 .product(name: "file-selector-macos", package: "file_selector_macos"),
                 .product(name: "flutter-secure-storage-darwin", package: "flutter_secure_storage_darwin"),
+                .product(name: "speech-to-text", package: "speech_to_text"),
                 .product(name: "FlutterFramework", package: "FlutterFramework")
             ]
         )

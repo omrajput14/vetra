@@ -1377,6 +1377,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Weight (kg)'**
   String get weightInKg;
+
+  /// No description provided for @voiceInputTapToSpeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to speak'**
+  String get voiceInputTapToSpeak;
+
+  /// No description provided for @voiceListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening...'**
+  String get voiceListening;
+
+  /// No description provided for @voiceProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing speech...'**
+  String get voiceProcessing;
+
+  /// No description provided for @voiceError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not understand speech. Please try again.'**
+  String get voiceError;
+
+  /// No description provided for @voicePermissionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission is required for voice input.'**
+  String get voicePermissionRequired;
+
+  /// No description provided for @voiceNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice input not available on this device.'**
+  String get voiceNotAvailable;
+
+  /// No description provided for @aiAdvisorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Veterinary Advisor'**
+  String get aiAdvisorTitle;
+
+  /// No description provided for @describeAnimalProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your animal problem...'**
+  String get describeAnimalProblem;
+
+  /// No description provided for @typeMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type message or tap mic...'**
+  String get typeMessageHint;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
 }
 
 class _AppLocalizationsDelegate

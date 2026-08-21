@@ -5,6 +5,7 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/localization/locale_provider.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../core/services/speech_service.dart';
 import '../../../animal/presentation/providers/animal_provider.dart';
 import '../../data/models/ai_advisor_models.dart';
 import '../providers/ai_advisor_provider.dart';
@@ -23,13 +24,27 @@ class AIAdvisorPage extends ConsumerStatefulWidget {
   ConsumerState<AIAdvisorPage> createState() => _AIAdvisorPageState();
 }
 
-class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage> {
+class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  late final SpeechService _speechService;
+  late final AnimationController _pulseController;
+  late final Animation<double> _pulseAnimation;
+  VoiceState _voiceState = VoiceState.idle;
 
   @override
   void initState() {
     super.initState();
+    _speechService = SpeechService.instance;
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _pulseAnimation = Tween<double>(begin: 0.9, end: 1.15).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final currentLocale = ref.read(localeProvider);
       if (widget.sessionId != null && widget.sessionId!.isNotEmpty) {
@@ -45,6 +60,8 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage> {
 
   @override
   void dispose() {
+    _speechService.cancelListening();
+    _pulseController.dispose();
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -62,7 +79,95 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage> {
     });
   }
 
+  Future<void> _handleToggleVoiceInput() async {
+    final l10n = AppLocalizations.of(context);
+    final activeLocale = ref.read(localeProvider);
+
+    if (_voiceState == VoiceState.listening) {
+      await _speechService.stopListening();
+      _pulseController.stop();
+      if (mounted) {
+        setState(() {
+          _voiceState = VoiceState.idle;
+        });
+      }
+      return;
+    }
+
+    final initialized = await _speechService.initialize();
+    if (!initialized) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n?.voiceNotAvailable ?? 'Voice input not available on this device.',
+            ),
+            backgroundColor: AppColors.alertCritical,
+          ),
+        );
+      }
+      return;
+    }
+
+    if (mounted) {
+      setState(() {
+        _voiceState = VoiceState.listening;
+      });
+      _pulseController.repeat(reverse: true);
+    }
+
+    await _speechService.startListening(
+      languageCode: activeLocale.languageCode,
+      onResult: (recognizedText) {
+        if (mounted && recognizedText.isNotEmpty) {
+          setState(() {
+            _messageController.text = recognizedText;
+            _messageController.selection = TextSelection.fromPosition(
+              TextPosition(offset: _messageController.text.length),
+            );
+          });
+        }
+      },
+      onStateChanged: (state) {
+        if (mounted) {
+          setState(() {
+            _voiceState = state;
+          });
+          if (state != VoiceState.listening) {
+            _pulseController.stop();
+          }
+        }
+      },
+      onError: (error) {
+        if (mounted) {
+          _pulseController.stop();
+          setState(() {
+            _voiceState = VoiceState.idle;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                l10n?.voiceError ?? 'Could not understand speech. Please try again.',
+              ),
+              backgroundColor: AppColors.alertCritical,
+            ),
+          );
+        }
+      },
+    );
+  }
+
   Future<void> _handleSendMessage([String? prefilledText]) async {
+    if (_voiceState == VoiceState.listening) {
+      await _speechService.stopListening();
+      _pulseController.stop();
+      if (mounted) {
+        setState(() {
+          _voiceState = VoiceState.idle;
+        });
+      }
+    }
+
     final text = prefilledText ?? _messageController.text.trim();
     if (text.isEmpty) return;
 
@@ -71,8 +176,13 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage> {
     }
 
     final currentLocale = ref.read(localeProvider);
+    final animals = animalNotifier.animals;
+    final fallbackAnimalId = animals.isNotEmpty ? animals.first.id : widget.animalId;
+    final targetAnimalId = widget.animalId.isNotEmpty ? widget.animalId : fallbackAnimalId;
+
     final success = await aiAdvisorNotifier.sendMessage(
       text,
+      animalId: targetAnimalId,
       preferredLanguage: currentLocale.languageCode,
     );
     if (success) {
@@ -671,55 +781,177 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage> {
   }
 
   Widget _buildInputArea(bool isSending, AppLocalizations? l10n) {
+    final isListening = _voiceState == VoiceState.listening;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: const BoxDecoration(
         color: AppColors.surfaceCard,
         border: Border(top: BorderSide(color: AppColors.borderHairline)),
       ),
       child: SafeArea(
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceBackground,
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: AppColors.borderHairline),
-                ),
-                child: TextField(
-                  controller: _messageController,
-                  enabled: !isSending,
-                  textInputAction: TextInputAction.send,
-                  onSubmitted: (_) => _handleSendMessage(),
-                  decoration: InputDecoration(
-                    hintText: l10n?.describeSymptomsHint ?? 'Describe symptoms or answer questions...',
-                    hintStyle: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Container(
-              decoration: const BoxDecoration(
-                color: AppColors.primary,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                icon: isSending
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
+            if (isListening)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                color: AppColors.primary.withValues(alpha: 0.1),
+                child: Row(
+                  children: [
+                    ScaleTransition(
+                      scale: _pulseAnimation,
+                      child: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: const BoxDecoration(
+                          color: AppColors.alertCritical,
+                          shape: BoxShape.circle,
                         ),
-                      )
-                    : const Icon(Icons.send_rounded, color: Colors.white, size: 20),
-                onPressed: isSending ? null : () => _handleSendMessage(),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        l10n?.voiceListening ?? 'Listening...',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: _handleToggleVoiceInput,
+                      child: const Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(
+                          Icons.close_rounded,
+                          size: 18,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceBackground,
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: isListening
+                              ? AppColors.primary
+                              : AppColors.borderHairline,
+                          width: isListening ? 1.5 : 1.0,
+                        ),
+                      ),
+                      child: TextField(
+                        controller: _messageController,
+                        enabled: !isSending,
+                        textInputAction: TextInputAction.send,
+                        onSubmitted: (_) => _handleSendMessage(),
+                        decoration: InputDecoration(
+                          hintText: isListening
+                              ? (l10n?.voiceListening ?? 'Listening...')
+                              : (l10n?.typeMessageHint ??
+                                  l10n?.describeSymptomsHint ??
+                                  'Describe symptoms or answer questions...'),
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                            color: isListening
+                                ? AppColors.primary
+                                : AppColors.textSecondary,
+                            fontWeight: isListening
+                                ? FontWeight.w500
+                                : FontWeight.normal,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Tooltip(
+                    message: isListening
+                        ? (l10n?.voiceListening ?? 'Listening...')
+                        : (l10n?.voiceInputTapToSpeak ?? 'Tap to speak'),
+                    child: AnimatedBuilder(
+                      animation: _pulseAnimation,
+                      builder: (context, child) {
+                        return Transform.scale(
+                          scale: isListening ? _pulseAnimation.value : 1.0,
+                          child: child,
+                        );
+                      },
+                      child: Material(
+                        color: isListening
+                            ? AppColors.alertCritical
+                            : AppColors.surfaceBackground,
+                        shape: const CircleBorder(),
+                        elevation: isListening ? 2 : 0,
+                        child: InkWell(
+                          customBorder: const CircleBorder(),
+                          onTap: isSending ? null : _handleToggleVoiceInput,
+                          child: Container(
+                            width: 42,
+                            height: 42,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isListening
+                                    ? AppColors.alertCritical
+                                    : AppColors.borderHairline,
+                              ),
+                            ),
+                            child: Icon(
+                              isListening
+                                  ? Icons.mic_rounded
+                                  : Icons.mic_none_rounded,
+                              color: isListening
+                                  ? Colors.white
+                                  : AppColors.primary,
+                              size: 22,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: isSending
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : const Icon(
+                              Icons.send_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                      onPressed: isSending ? null : () => _handleSendMessage(),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

@@ -23,6 +23,13 @@ class _FarmerLoginPageState extends ConsumerState<FarmerLoginPage> {
   bool _isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+    _phoneController.text = 'voice.farmer.demo@vetra.app';
+    _passwordController.text = 'Password@123';
+  }
+
+  @override
   void dispose() {
     _phoneController.dispose();
     _passwordController.dispose();

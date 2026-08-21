@@ -227,5 +227,40 @@ void main() {
           findsOneWidget);
       expect(find.text('Book Vet'), findsOneWidget);
     });
+
+    testWidgets('renders voice input microphone button and input bar',
+        (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
+      final session = AIAdvisorSessionModel(
+        id: 'session-voice',
+        animalId: 'animal-1',
+        animalName: 'Gauri',
+        species: 'Cattle',
+        breed: 'Gir',
+        userId: 'user-1',
+        status: AIAdvisorSessionStatus.questioning,
+        riskLevel: AIAdvisorRiskLevel.mild,
+        requiresVetReview: true,
+        turnCount: 1,
+        messages: const [],
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      aiAdvisorNotifier.setCurrentSession(session);
+
+      await tester.pumpWidget(_createTestApp(const AIAdvisorPage(animalId: 'animal-1')));
+      await tester.pumpAndSettle();
+
+      // Find mic icon
+      expect(find.byIcon(Icons.mic_none_rounded), findsOneWidget);
+      // Find send icon
+      expect(find.byIcon(Icons.send_rounded), findsOneWidget);
+      // Find text field
+      expect(find.byType(TextField), findsOneWidget);
+    });
   });
 }

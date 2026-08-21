@@ -78,14 +78,28 @@ class AIAdvisorNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> sendMessage(String text, {String? preferredLanguage}) async {
-    if (_currentSession == null || text.trim().isEmpty) return false;
+  Future<bool> sendMessage(String text, {String? animalId, String? preferredLanguage}) async {
+    if (text.trim().isEmpty) return false;
 
     _isSending = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
+      if (_currentSession == null) {
+        if (animalId != null && animalId.isNotEmpty) {
+          _currentSession = await _repository.createSession(
+            animalId: animalId,
+            initialMessage: text.trim(),
+            preferredLanguage: preferredLanguage,
+          );
+          return true;
+        } else {
+          _errorMessage = 'No active animal context';
+          return false;
+        }
+      }
+
       _currentSession = await _repository.sendMessage(
         sessionId: _currentSession!.id,
         message: text.trim(),

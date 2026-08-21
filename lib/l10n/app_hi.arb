@@ -212,5 +212,15 @@
   "qrScannerTitle": "पशु चिकित्सा क्यूआर स्कैनर",
   "scanAnimalQrPrompt": "कैमरे को पशु के ईयर टैग क्यूआर कोड पर लाएं",
   "temperatureInCelsius": "तापमान (°C)",
-  "weightInKg": "वजन (किग्रा)"
+  "weightInKg": "वजन (किग्रा)",
+  "voiceInputTapToSpeak": "बोलने के लिए टैप करें",
+  "voiceListening": "सुन रहे हैं...",
+  "voiceProcessing": "आवाज़ प्रोसेस हो रही है...",
+  "voiceError": "आवाज़ समझ नहीं आई। कृपया पुनः प्रयास करें।",
+  "voicePermissionRequired": "वॉयस इनपुट के लिए माइक्रोफ़ोन की अनुमति आवश्यक है।",
+  "voiceNotAvailable": "इस डिवाइस पर वॉयस इनपुट उपलब्ध नहीं है।",
+  "aiAdvisorTitle": "एआई पशुचिकित्सा सलाहकार",
+  "describeAnimalProblem": "पशु के लक्षण या समस्या बताएं...",
+  "typeMessageHint": "संदेश लिखें या माइक दबाएं...",
+  "send": "भेजें"
 }
