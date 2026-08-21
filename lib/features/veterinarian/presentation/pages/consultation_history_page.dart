@@ -3,47 +3,52 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/navigation/vet_bottom_navigation.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class ConsultationHistoryPage extends StatelessWidget {
   const ConsultationHistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
         backgroundColor: AppColors.surfaceCard,
         elevation: 0,
-        title: Text('Consultation Cases', style: AppTypography.screenTitle),
+        title: Text(l10n?.recentCases ?? 'Consultation Cases', style: AppTypography.screenTitle),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text('Recent Cases', style: AppTypography.sectionHeading),
+          Text(l10n?.recentCases ?? 'Recent Cases', style: AppTypography.sectionHeading),
           const SizedBox(height: 12),
           _buildCaseItem(
             context,
             tagId: 'TAG-8924',
-            name: 'Bessie (Holstein)',
-            diagnosis: 'Subclinical Mastitis (Left Rear)',
+            name: 'Bessie (${l10n?.cattle ?? "Cattle"})',
+            diagnosis: 'Subclinical Mastitis',
             treatment: 'Administered intramammary antibiotics.',
-            status: 'Recovered',
+            status: l10n?.recovered ?? 'Recovered',
           ),
           const SizedBox(height: 12),
           _buildCaseItem(
             context,
             tagId: 'TAG-1102',
-            name: 'Flock Alpha - Ram',
+            name: 'Flock Alpha (${l10n?.sheep ?? "Sheep"})',
             diagnosis: 'Routine Checkup & Booster',
             treatment: 'Clostridial 8-in-1 booster administered.',
-            status: 'Healthy',
+            status: l10n?.healthy ?? 'Healthy',
           ),
         ],
       ),
       bottomNavigationBar: VetBottomNavigation(
-        currentIndex: 1,
+        currentIndex: 2,
         onTap: (index) {
           if (index == 0) context.go('/vet-dashboard');
+          if (index == 1) context.go('/vet-requests');
+          if (index == 2) context.go('/consultation-history');
           if (index == 3) context.go('/vet-outbreak-map');
           if (index == 4) context.go('/vet-profile');
         },
@@ -52,6 +57,8 @@ class ConsultationHistoryPage extends StatelessWidget {
   }
 
   Widget _buildCaseItem(BuildContext context, {required String tagId, required String name, required String diagnosis, required String treatment, required String status}) {
+    final l10n = AppLocalizations.of(context);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -78,8 +85,8 @@ class ConsultationHistoryPage extends StatelessWidget {
           ),
           Text(tagId, style: AppTypography.captionMetadata),
           const SizedBox(height: 8),
-          Text('Diagnosis: $diagnosis', style: AppTypography.bodyDefault),
-          Text('Action: $treatment', style: AppTypography.captionMetadata),
+          Text('${l10n?.clinicalDiagnosis ?? "Diagnosis"}: $diagnosis', style: AppTypography.bodyDefault),
+          Text('${l10n?.treatment ?? "Action"}: $treatment', style: AppTypography.captionMetadata),
         ],
       ),
     );

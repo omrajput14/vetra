@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/design_system/app_colors.dart';
+import '../../../../core/design_system/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../appointment/data/models/appointment_dto.dart';
 import '../../../medical_record/presentation/providers/medical_record_provider.dart';
 
@@ -51,6 +54,7 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
   }
 
   Future<void> _submitRecord() async {
+    final l10n = AppLocalizations.of(context);
     if (!_formKey.currentState!.validate()) return;
 
     final body = <String, dynamic>{
@@ -77,14 +81,14 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Medical Record saved successfully!'),
+        SnackBar(
+          content: Text(l10n?.recordSavedSuccess ?? 'Medical Record saved successfully!'),
           backgroundColor: Colors.green,
         ),
       );
       Navigator.pop(context, true);
     } else {
-      final error = ref.read(medicalRecordProvider).errorMessage ?? 'Failed to save record';
+      final error = ref.read(medicalRecordProvider).errorMessage ?? (l10n?.error ?? 'Failed to save record');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(error),
@@ -96,13 +100,16 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final state = ref.watch(medicalRecordProvider);
 
     return Scaffold(
+      backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
-        title: const Text('Create Medical Record'),
-        backgroundColor: const Color(0xFF1B4D3E),
+        title: Text(l10n?.createMedicalRecord ?? 'Create Medical Record', style: AppTypography.screenTitle.copyWith(color: Colors.white)),
+        backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -113,8 +120,8 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
             children: [
               // Summary Banner
               Card(
-                color: const Color(0xFFE8F5E9),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                color: AppColors.surfaceCard,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: const BorderSide(color: AppColors.borderHairline)),
                 child: Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: Column(
@@ -122,17 +129,17 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
                     children: [
                       Row(
                         children: [
-                          const Icon(Icons.pets, color: Color(0xFF1B4D3E)),
+                          const Icon(Icons.pets, color: AppColors.primary),
                           const SizedBox(width: 8),
                           Text(
-                            widget.appointment.animalName ?? 'Animal',
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                            widget.appointment.animalName ?? (l10n?.animalName ?? 'Animal'),
+                            style: AppTypography.cardTitle,
                           ),
                           const Spacer(),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF1B4D3E),
+                              color: AppColors.primary,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -143,29 +150,32 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
                         ],
                       ),
                       const SizedBox(height: 6),
-                      Text('Farmer: ${widget.appointment.farmerName ?? 'Owner'}', style: TextStyle(color: Colors.grey[700])),
+                      Text(
+                        '${l10n?.continueAsFarmer ?? "Farmer"}: ${widget.appointment.farmerName ?? "Owner"}',
+                        style: AppTypography.captionMetadata,
+                      ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 20),
 
-              const Text(
-                'Clinical Details',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1B4D3E)),
+              Text(
+                l10n?.evmrTitle ?? 'Clinical Details',
+                style: AppTypography.sectionHeading,
               ),
               const SizedBox(height: 12),
 
               // Diagnosis
               TextFormField(
                 controller: _diagnosisController,
-                decoration: const InputDecoration(
-                  labelText: 'Diagnosis *',
+                decoration: InputDecoration(
+                  labelText: '${l10n?.clinicalDiagnosis ?? "Diagnosis"} *',
                   hintText: 'e.g. Bovine Mastitis, Acute Fever',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.medical_services_outlined),
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.medical_services_outlined),
                 ),
-                validator: (val) => val == null || val.trim().isEmpty ? 'Diagnosis is required' : null,
+                validator: (val) => val == null || val.trim().isEmpty ? (l10n?.enterDiagnosisValidation ?? 'Diagnosis is required') : null,
               ),
               const SizedBox(height: 14),
 
@@ -173,11 +183,11 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
               TextFormField(
                 controller: _symptomsController,
                 maxLines: 2,
-                decoration: const InputDecoration(
-                  labelText: 'Observed Symptoms',
-                  hintText: 'e.g. Udder swelling, decreased appetite, high body temp',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.sick_outlined),
+                decoration: InputDecoration(
+                  labelText: l10n?.symptoms ?? 'Observed Symptoms',
+                  hintText: 'e.g. Udder swelling, decreased appetite',
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.sick_outlined),
                 ),
               ),
               const SizedBox(height: 14),
@@ -186,13 +196,13 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
               TextFormField(
                 controller: _treatmentController,
                 maxLines: 2,
-                decoration: const InputDecoration(
-                  labelText: 'Treatment Administered *',
-                  hintText: 'e.g. Intramammary antibiotic infusion, anti-inflammatory IV',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.healing_outlined),
+                decoration: InputDecoration(
+                  labelText: '${l10n?.treatment ?? "Treatment Administered"} *',
+                  hintText: 'e.g. Intramammary antibiotic infusion',
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.healing_outlined),
                 ),
-                validator: (val) => val == null || val.trim().isEmpty ? 'Treatment details are required' : null,
+                validator: (val) => val == null || val.trim().isEmpty ? (l10n?.enterTreatmentValidation ?? 'Treatment details are required') : null,
               ),
               const SizedBox(height: 14),
 
@@ -200,11 +210,11 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
               TextFormField(
                 controller: _prescriptionController,
                 maxLines: 2,
-                decoration: const InputDecoration(
-                  labelText: 'Prescription',
+                decoration: InputDecoration(
+                  labelText: l10n?.prescriptions ?? 'Prescription (Rx)',
                   hintText: 'e.g. Penicillin 500mg (2x daily for 5 days)',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.medication_outlined),
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.medication_outlined),
                 ),
               ),
               const SizedBox(height: 14),
@@ -216,11 +226,11 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
                     child: TextFormField(
                       controller: _weightController,
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(
-                        labelText: 'Weight (kg)',
+                      decoration: InputDecoration(
+                        labelText: l10n?.weightInKg ?? 'Weight (kg)',
                         hintText: '450.0',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.monitor_weight_outlined),
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.monitor_weight_outlined),
                       ),
                     ),
                   ),
@@ -229,11 +239,11 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
                     child: TextFormField(
                       controller: _temperatureController,
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(
-                        labelText: 'Temp (°C)',
+                      decoration: InputDecoration(
+                        labelText: l10n?.temperatureInCelsius ?? 'Temp (°C)',
                         hintText: '38.5',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.thermostat_outlined),
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.thermostat_outlined),
                       ),
                     ),
                   ),
@@ -245,17 +255,17 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
               InkWell(
                 onTap: _pickFollowUpDate,
                 child: InputDecorator(
-                  decoration: const InputDecoration(
-                    labelText: 'Follow-up Date',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.event_outlined),
+                  decoration: InputDecoration(
+                    labelText: l10n?.followUpDate ?? 'Follow-up Date',
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.event_outlined),
                   ),
                   child: Text(
                     _selectedFollowUpDate != null
                         ? '${_selectedFollowUpDate!.day}/${_selectedFollowUpDate!.month}/${_selectedFollowUpDate!.year}'
-                        : 'Select follow-up date (optional)',
+                        : (l10n?.followUpDate ?? 'Select follow-up date'),
                     style: TextStyle(
-                      color: _selectedFollowUpDate != null ? Colors.black : Colors.grey[600],
+                      color: _selectedFollowUpDate != null ? AppColors.textPrimary : AppColors.textSecondary,
                     ),
                   ),
                 ),
@@ -266,11 +276,11 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
               TextFormField(
                 controller: _notesController,
                 maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: 'Clinical Notes & Recommendations',
+                decoration: InputDecoration(
+                  labelText: l10n?.clinicalNotes ?? 'Clinical Notes & Recommendations',
                   hintText: 'e.g. Keep animal in dry shed, isolate for 3 days',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.note_alt_outlined),
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.note_alt_outlined),
                 ),
               ),
               const SizedBox(height: 24),
@@ -282,7 +292,7 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
                 child: ElevatedButton.icon(
                   onPressed: state.isLoading ? null : _submitRecord,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1B4D3E),
+                    backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
@@ -294,7 +304,7 @@ class _CreateMedicalRecordPageState extends ConsumerState<CreateMedicalRecordPag
                         )
                       : const Icon(Icons.save_outlined),
                   label: Text(
-                    state.isLoading ? 'Saving Record...' : 'Save Medical Record',
+                    state.isLoading ? (l10n?.loading ?? 'Saving Record...') : (l10n?.save ?? 'Save Medical Record'),
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),

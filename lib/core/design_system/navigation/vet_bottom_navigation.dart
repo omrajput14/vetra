@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../app_colors.dart';
 
 class VetBottomNavigation extends StatelessWidget {
@@ -13,6 +14,8 @@ class VetBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.surfaceBackground,
@@ -27,12 +30,27 @@ class VetBottomNavigation extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.textSecondary,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),
-          BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Requests'),
-          BottomNavigationBarItem(icon: Icon(Icons.medical_services), label: 'Cases'),
-          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Profile'),
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.dashboard),
+            label: l10n?.vetDashboard ?? 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.assignment),
+            label: l10n?.pendingRequests ?? 'Requests',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.medical_services),
+            label: l10n?.recentCases ?? 'Cases',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.map),
+            label: l10n?.vetOutbreakMap ?? 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.account_circle),
+            label: l10n?.profile ?? 'Profile',
+          ),
         ],
       ),
     );

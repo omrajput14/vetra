@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/navigation/vet_bottom_navigation.dart';
+import '../../../../core/localization/locale_provider.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:vetra/features/dashboard/presentation/providers/dashboard_provider.dart';
 
-class VetDashboardPage extends StatefulWidget {
+class VetDashboardPage extends ConsumerStatefulWidget {
   const VetDashboardPage({super.key});
 
   @override
-  State<VetDashboardPage> createState() => _VetDashboardPageState();
+  ConsumerState<VetDashboardPage> createState() => _VetDashboardPageState();
 }
 
-class _VetDashboardPageState extends State<VetDashboardPage> {
+class _VetDashboardPageState extends ConsumerState<VetDashboardPage> {
   @override
   void initState() {
     super.initState();
@@ -23,12 +26,18 @@ class _VetDashboardPageState extends State<VetDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    Locale activeLocale = const Locale('en');
+    try {
+      activeLocale = ref.watch(localeProvider);
+    } catch (_) {}
+
     return AnimatedBuilder(
       animation: dashboardNotifier,
       builder: (context, _) {
         final dash = dashboardNotifier.dashboard;
         final vetName = dash?.userName ?? 'Practitioner';
-        final clinicName = dash?.facilityName ?? 'Veterinary Clinic';
+        final clinicName = dash?.facilityName ?? (l10n?.clinicName ?? 'Veterinary Clinic');
         final animalCount = dash?.registeredAnimalCount ?? 0;
 
         return Scaffold(
@@ -38,17 +47,28 @@ class _VetDashboardPageState extends State<VetDashboardPage> {
             elevation: 0,
             title: Row(
               children: [
-                const Icon(Icons.medical_services, color: AppColors.primary, size: 28),
+                const Icon(Icons.medical_services, color: AppColors.primary, size: 26),
                 const SizedBox(width: 8),
-                Text('VET DASHBOARD', style: AppTypography.screenTitle.copyWith(color: AppColors.primary)),
+                Text(
+                  l10n?.vetDashboard ?? 'VET DASHBOARD',
+                  style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 18),
+                ),
               ],
             ),
             actions: [
+              TextButton.icon(
+                onPressed: () => context.push('/language-settings'),
+                icon: const Icon(Icons.language, size: 16, color: AppColors.primary),
+                label: Text(
+                  AppLocales.getLanguageNativeName(activeLocale.languageCode),
+                  style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                ),
+              ),
               IconButton(
                 icon: const Icon(Icons.notifications_none, color: AppColors.textPrimary),
                 onPressed: () => context.push('/notifications'),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
             ],
           ),
           body: RefreshIndicator(
@@ -59,12 +79,18 @@ class _VetDashboardPageState extends State<VetDashboardPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Welcome, $vetName', style: AppTypography.sectionHeading),
-                        Text(clinicName, style: AppTypography.captionMetadata),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${l10n?.welcomeVet ?? "Welcome, Doctor"}, $vetName',
+                            style: AppTypography.sectionHeading,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(clinicName, style: AppTypography.captionMetadata),
+                        ],
+                      ),
                     ),
                     const CircleAvatar(
                       radius: 24,
@@ -88,7 +114,8 @@ class _VetDashboardPageState extends State<VetDashboardPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('$animalCount', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 32)),
-                            Text('Surveillance Animals', style: AppTypography.captionMetadata),
+                            const SizedBox(height: 4),
+                            Text(l10n?.surveillanceAnimals ?? 'Surveillance Animals', style: AppTypography.captionMetadata),
                           ],
                         ),
                       ),
@@ -108,7 +135,8 @@ class _VetDashboardPageState extends State<VetDashboardPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('${dash?.pendingAppointmentsCount ?? 0}', style: AppTypography.screenTitle.copyWith(color: AppColors.cautionAmber, fontSize: 32)),
-                              Text('Pending Requests', style: AppTypography.captionMetadata),
+                              const SizedBox(height: 4),
+                              Text(l10n?.pendingRequests ?? 'Pending Requests', style: AppTypography.captionMetadata),
                             ],
                           ),
                         ),
@@ -117,7 +145,7 @@ class _VetDashboardPageState extends State<VetDashboardPage> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                Text('Quick Clinical Actions', style: AppTypography.sectionHeading),
+                Text(l10n?.quickClinicalActions ?? 'Quick Clinical Actions', style: AppTypography.sectionHeading),
                 const SizedBox(height: 12),
                 Row(
                   children: [
@@ -125,7 +153,7 @@ class _VetDashboardPageState extends State<VetDashboardPage> {
                       child: _buildActionCard(
                         context,
                         icon: Icons.qr_code_scanner,
-                        label: 'Scan Animal QR',
+                        label: l10n?.scanAnimalQr ?? 'Scan Animal QR',
                         onTap: () => context.push('/qr-scanner-vet'),
                       ),
                     ),
@@ -134,7 +162,7 @@ class _VetDashboardPageState extends State<VetDashboardPage> {
                       child: _buildActionCard(
                         context,
                         icon: Icons.add_task,
-                        label: 'Diagnosis Entry',
+                        label: l10n?.diagnosisEntry ?? 'Diagnosis Entry',
                         onTap: () => context.push('/diagnosis-entry'),
                       ),
                     ),

@@ -40,10 +40,12 @@ class AppLocales {
 class LocaleNotifier extends StateNotifier<Locale> {
   final SecureStorageService _storageService;
 
-  LocaleNotifier({SecureStorageService? storageService})
+  LocaleNotifier({Locale? initialLocale, SecureStorageService? storageService})
       : _storageService = storageService ?? SecureStorageService.instance,
-        super(AppLocales.english) {
-    loadSavedLocale();
+        super(initialLocale ?? AppLocales.english) {
+    if (initialLocale == null) {
+      loadSavedLocale();
+    }
   }
 
   /// Loads persisted locale code from secure local storage on app initialization.

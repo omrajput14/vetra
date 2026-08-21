@@ -7,6 +7,7 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: VetraApp()));
     expect(find.byType(VetraApp), findsOneWidget);
     // Advance timer for SplashPage navigation
-    await tester.pump(const Duration(seconds: 3));
+    await tester.pump(const Duration(seconds: 4));
+    await tester.pumpAndSettle();
   });
 }

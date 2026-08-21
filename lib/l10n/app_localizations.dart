@@ -975,6 +975,408 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to log out?'**
   String get logoutConfirmation;
+
+  /// No description provided for @vetDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Vet Dashboard'**
+  String get vetDashboard;
+
+  /// No description provided for @surveillanceAnimals.
+  ///
+  /// In en, this message translates to:
+  /// **'Surveillance Animals'**
+  String get surveillanceAnimals;
+
+  /// No description provided for @pendingRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Requests'**
+  String get pendingRequests;
+
+  /// No description provided for @quickClinicalActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Clinical Actions'**
+  String get quickClinicalActions;
+
+  /// No description provided for @scanAnimalQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Animal QR'**
+  String get scanAnimalQr;
+
+  /// No description provided for @diagnosisEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnosis Entry'**
+  String get diagnosisEntry;
+
+  /// No description provided for @incomingClinicalRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Incoming Clinical Requests'**
+  String get incomingClinicalRequests;
+
+  /// No description provided for @tabPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get tabPending;
+
+  /// No description provided for @tabUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get tabUpcoming;
+
+  /// No description provided for @tabCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get tabCompleted;
+
+  /// No description provided for @noRequestsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests in this section'**
+  String get noRequestsSection;
+
+  /// No description provided for @accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get accept;
+
+  /// No description provided for @decline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get decline;
+
+  /// No description provided for @startConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Consultation'**
+  String get startConsultation;
+
+  /// No description provided for @viewAnimalPassport.
+  ///
+  /// In en, this message translates to:
+  /// **'View Animal Passport'**
+  String get viewAnimalPassport;
+
+  /// No description provided for @createMedicalRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Medical Record'**
+  String get createMedicalRecord;
+
+  /// No description provided for @clinicalNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinical Notes'**
+  String get clinicalNotes;
+
+  /// No description provided for @enterDiagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Diagnosis'**
+  String get enterDiagnosis;
+
+  /// No description provided for @enterTreatment.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Treatment & Procedures'**
+  String get enterTreatment;
+
+  /// No description provided for @prescribeMedications.
+  ///
+  /// In en, this message translates to:
+  /// **'Prescribe Medications (Rx)'**
+  String get prescribeMedications;
+
+  /// No description provided for @recordSavedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical record saved successfully!'**
+  String get recordSavedSuccess;
+
+  /// No description provided for @recentCases.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Consultation Cases'**
+  String get recentCases;
+
+  /// No description provided for @caseDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Case Details'**
+  String get caseDetails;
+
+  /// No description provided for @recovered.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovered'**
+  String get recovered;
+
+  /// No description provided for @vetProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Veterinarian Profile'**
+  String get vetProfile;
+
+  /// No description provided for @practitionerInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Practitioner Information'**
+  String get practitionerInfo;
+
+  /// No description provided for @availabilityStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability Status'**
+  String get availabilityStatus;
+
+  /// No description provided for @availableForVisits.
+  ///
+  /// In en, this message translates to:
+  /// **'Available for Consultations & Visits'**
+  String get availableForVisits;
+
+  /// No description provided for @qualificationsAndDegrees.
+  ///
+  /// In en, this message translates to:
+  /// **'Qualifications & Degrees'**
+  String get qualificationsAndDegrees;
+
+  /// No description provided for @clinicalSpecialization.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinical Specialization'**
+  String get clinicalSpecialization;
+
+  /// No description provided for @yearsClinicalPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Years Clinical Practice'**
+  String get yearsClinicalPractice;
+
+  /// No description provided for @directContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Practitioner Contact'**
+  String get directContact;
+
+  /// No description provided for @editProfileQualifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile & Qualifications'**
+  String get editProfileQualifications;
+
+  /// No description provided for @editProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update clinical details and contact info'**
+  String get editProfileSubtitle;
+
+  /// No description provided for @clinicalSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'My Clinical Schedule'**
+  String get clinicalSchedule;
+
+  /// No description provided for @clinicalScheduleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View upcoming consultations and visits'**
+  String get clinicalScheduleSubtitle;
+
+  /// No description provided for @availabilityShiftSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability & Shift Settings'**
+  String get availabilityShiftSettings;
+
+  /// No description provided for @availabilityShiftSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure emergency response hours'**
+  String get availabilityShiftSubtitle;
+
+  /// No description provided for @documentsLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents & Licenses'**
+  String get documentsLicenses;
+
+  /// No description provided for @documentsLicensesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage verified registration certificates'**
+  String get documentsLicensesSubtitle;
+
+  /// No description provided for @logoutVetAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out Practitioner Account'**
+  String get logoutVetAccount;
+
+  /// No description provided for @logoutVetAccountSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Safely end active session'**
+  String get logoutVetAccountSubtitle;
+
+  /// No description provided for @licenseVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'License Verified'**
+  String get licenseVerified;
+
+  /// No description provided for @licenseVerifiedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your veterinary license has been verified with active status.'**
+  String get licenseVerifiedDesc;
+
+  /// No description provided for @goToVetDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Vet Dashboard'**
+  String get goToVetDashboard;
+
+  /// No description provided for @vetOutbreakMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Veterinary Outbreak Map'**
+  String get vetOutbreakMap;
+
+  /// No description provided for @gisMapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive Clinical GIS Map'**
+  String get gisMapTitle;
+
+  /// No description provided for @gisMapSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'GPS Radius Overlay around practice area'**
+  String get gisMapSubtitle;
+
+  /// No description provided for @filterDisease.
+  ///
+  /// In en, this message translates to:
+  /// **'Disease'**
+  String get filterDisease;
+
+  /// No description provided for @filterRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'Radius'**
+  String get filterRadius;
+
+  /// No description provided for @filterStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get filterStatus;
+
+  /// No description provided for @allDiseases.
+  ///
+  /// In en, this message translates to:
+  /// **'All Diseases'**
+  String get allDiseases;
+
+  /// No description provided for @allStatuses.
+  ///
+  /// In en, this message translates to:
+  /// **'All Statuses'**
+  String get allStatuses;
+
+  /// No description provided for @vetSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Veterinarian Sign In'**
+  String get vetSignIn;
+
+  /// No description provided for @vetSignInSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Access clinical diagnostics and regional outbreak triage.'**
+  String get vetSignInSubtitle;
+
+  /// No description provided for @vetRegNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Veterinary Registration Number'**
+  String get vetRegNo;
+
+  /// No description provided for @registerPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Practice'**
+  String get registerPractice;
+
+  /// No description provided for @registerPracticeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Provide professional licensing details for active verification.'**
+  String get registerPracticeSubtitle;
+
+  /// No description provided for @newPractitioner.
+  ///
+  /// In en, this message translates to:
+  /// **'New Practitioner?'**
+  String get newPractitioner;
+
+  /// No description provided for @enterDiagnosisValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter clinical diagnosis'**
+  String get enterDiagnosisValidation;
+
+  /// No description provided for @enterTreatmentValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter clinical treatment'**
+  String get enterTreatmentValidation;
+
+  /// No description provided for @enterEmailAndPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter email and password'**
+  String get enterEmailAndPassword;
+
+  /// No description provided for @enterRequiredRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter Email, Password, Name, and Registration Number'**
+  String get enterRequiredRegistration;
+
+  /// No description provided for @qrScannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Veterinary QR Scanner'**
+  String get qrScannerTitle;
+
+  /// No description provided for @scanAnimalQrPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Point camera at animal ear tag QR code'**
+  String get scanAnimalQrPrompt;
+
+  /// No description provided for @temperatureInCelsius.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature (°C)'**
+  String get temperatureInCelsius;
+
+  /// No description provided for @weightInKg.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get weightInKg;
 }
 
 class _AppLocalizationsDelegate

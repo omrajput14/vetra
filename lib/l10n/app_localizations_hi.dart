@@ -9,19 +9,19 @@ class AppLocalizationsHi extends AppLocalizations {
   AppLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
-  String get appName => 'वेत्रा';
+  String get appName => 'वेट्रा';
 
   @override
   String get chooseLanguage => 'अपनी पसंदीदा भाषा चुनें';
 
   @override
-  String get english => 'English';
+  String get english => 'English (अंग्रेज़ी)';
 
   @override
-  String get hindi => 'हिंदी (Hindi)';
+  String get hindi => 'हिंदी';
 
   @override
-  String get marathi => 'मराठी (Marathi)';
+  String get marathi => 'मराठी';
 
   @override
   String get cancel => 'रद्द करें';
@@ -33,7 +33,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get confirm => 'पुष्टि करें';
 
   @override
-  String get back => 'वापस';
+  String get back => 'वापस जाएं';
 
   @override
   String get retry => 'पुनः प्रयास करें';
@@ -52,7 +52,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get onboardingSubtitle =>
-      'एआई आधारित रोग पहचान और सीधे पशुचिकित्सक से तत्काल संपर्क।';
+      'एआई-संचालित रोग जांच और निकटतम पशु चिकित्सक की सुविधा आपकी जेब में।';
 
   @override
   String get getStarted => 'शुरू करें';
@@ -61,36 +61,36 @@ class AppLocalizationsHi extends AppLocalizations {
   String get signIn => 'साइन इन करें';
 
   @override
-  String get welcomeToVetra => 'वेत्रा में आपका स्वागत है';
+  String get welcomeToVetra => 'वेट्रा में आपका स्वागत है';
 
   @override
-  String get chooseHowToContinue => 'चुनें कि आप कैसे जारी रखना चाहते हैं';
+  String get chooseHowToContinue => 'आगे बढ़ने के लिए विकल्प चुनें';
 
   @override
   String get continueAsFarmer => 'पशुपालक / किसान के रूप में जारी रखें';
 
   @override
   String get farmerRoleDesc =>
-      'पशुधन प्रबंधन, एआई रोग स्कैनर, स्थानीय पशुचिकित्सक बुकिंग और प्रकोप चेतावनी।';
+      'पशुधन प्रबंधन, एआई रोग स्कैनर, स्थानीय पशु चिकित्सक बुकिंग एवं प्रकोप अलर्ट।';
 
   @override
-  String get continueAsVet => 'पशुचिकित्सक के रूप में जारी रखें';
+  String get continueAsVet => 'पशु चिकित्सक के रूप में जारी रखें';
 
   @override
   String get vetRoleDesc =>
-      'क्लिनिकल ट्राइएज, केस डायग्नोस्टिक्स, डिजिटल पर्चे और खेत परामर्श।';
+      'नैदानिक ट्राइएज, केस डायग्नोस्टिक्स, डिजिटल प्रिस्क्रिप्शन और फार्म परामर्श।';
 
   @override
   String get login => 'लॉग इन करें';
 
   @override
-  String get createAccount => 'खाता बनाएं';
+  String get createAccount => 'नया खाता बनाएं';
 
   @override
   String get email => 'ईमेल पता';
 
   @override
-  String get phone => 'फ़ोन नंबर';
+  String get phone => 'फ़ोन नंबर';
 
   @override
   String get password => 'पासवर्ड';
@@ -105,7 +105,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get village => 'गाँव';
 
   @override
-  String get district => 'ज़िला';
+  String get district => 'जिला';
 
   @override
   String get state => 'राज्य';
@@ -117,7 +117,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get registrationNumber => 'पशु चिकित्सा परिषद पंजीकरण संख्या';
 
   @override
-  String get qualification => 'योग्यता';
+  String get qualification => 'शैक्षणिक योग्यता';
 
   @override
   String get specialization => 'विशेषज्ञता';
@@ -144,16 +144,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get registerFarmerTitle => 'किसान पंजीकरण';
 
   @override
-  String get registerVetTitle => 'पशुचिकित्सक पंजीकरण';
+  String get registerVetTitle => 'पशु चिकित्सक पंजीकरण';
 
   @override
   String get preferredLanguage => 'पसंदीदा भाषा';
 
   @override
-  String get welcomeFarmer => 'नमस्ते, किसान साथी';
+  String get welcomeFarmer => 'स्वागत है, किसान साथी';
 
   @override
-  String get welcomeVet => 'नमस्ते, डॉक्टर साहब';
+  String get welcomeVet => 'स्वागत है, डॉक्टर';
 
   @override
   String get myAnimals => 'मेरे पशु';
@@ -162,10 +162,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get healthRecords => 'स्वास्थ्य रिकॉर्ड';
 
   @override
-  String get appointments => 'परामर्श अपॉइंटमेंट';
+  String get appointments => 'परामर्श व नियुक्तियाँ';
 
   @override
-  String get aiHealthCheck => 'एआई स्वास्थ्य जाँच';
+  String get aiHealthCheck => 'एआई स्वास्थ्य जांच';
 
   @override
   String get notifications => 'सूचनाएं';
@@ -180,19 +180,19 @@ class AppLocalizationsHi extends AppLocalizations {
   String get scanDisease => 'रोग स्कैन करें';
 
   @override
-  String get bookConsultation => 'डॉक्टर से परामर्श लें';
+  String get bookConsultation => 'परामर्श बुक करें';
 
   @override
   String get viewRecords => 'रिकॉर्ड देखें';
 
   @override
-  String get outbreakAlerts => 'रोग प्रकोप चेतावनी';
+  String get outbreakAlerts => 'प्रकोप चेतावनी अलर्ट';
 
   @override
-  String get statsAnimals => 'कुल पशु';
+  String get statsAnimals => 'कुल पंजीकृत पशु';
 
   @override
-  String get statsAppointments => 'सक्रिय मुलाकातें';
+  String get statsAppointments => 'सक्रिय परामर्श';
 
   @override
   String get statsScans => 'एआई स्कैन';
@@ -219,7 +219,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get medicalHistory => 'चिकित्सा इतिहास';
 
   @override
-  String get vaccinationSchedule => 'टीकाकरण समय सारणी';
+  String get vaccinationSchedule => 'टीकाकरण समय-सारणी';
 
   @override
   String get tagNumber => 'ईयर टैग नंबर';
@@ -237,13 +237,13 @@ class AppLocalizationsHi extends AppLocalizations {
   String get healthy => 'स्वस्थ';
 
   @override
-  String get sick => 'बीमार / जाँच आवश्यक';
+  String get sick => 'अस्वस्थ / जांच आवश्यक';
 
   @override
   String get underTreatment => 'उपचाराधीन';
 
   @override
-  String get criticalStatus => 'गंभीर स्थिति';
+  String get criticalStatus => 'गंभीर ध्यान आवश्यक';
 
   @override
   String get male => 'नर';
@@ -252,7 +252,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get female => 'मादा';
 
   @override
-  String get cattle => 'गाय';
+  String get cattle => 'गाय / गोवंश';
 
   @override
   String get buffalo => 'भैंस';
@@ -276,47 +276,47 @@ class AppLocalizationsHi extends AppLocalizations {
   String get evmrTitle => 'इलेक्ट्रॉनिक पशु चिकित्सा रिकॉर्ड (EVMR)';
 
   @override
-  String get clinicalDiagnosis => 'क्लिनिकल निदान';
+  String get clinicalDiagnosis => 'नैदानिक निदान';
 
   @override
   String get symptoms => 'लक्षण';
 
   @override
-  String get treatment => 'क्लिनिकल उपचार';
+  String get treatment => 'नैदानिक उपचार';
 
   @override
-  String get prescriptions => 'दवाइयां और पर्चे';
+  String get prescriptions => 'दवाइयाँ (Rx)';
 
   @override
   String get bodyTemperature => 'शरीर का तापमान';
 
   @override
-  String get weight => 'वज़न';
+  String get weight => 'वजन';
 
   @override
-  String get followUpDate => 'फॉलो-अप तारीख';
+  String get followUpDate => 'फॉलो-अप तिथि';
 
   @override
-  String get confirmedByVet => 'पशुचिकित्सक द्वारा सत्यापित';
+  String get confirmedByVet => 'पशु चिकित्सक द्वारा प्रमाणित';
 
   @override
   String get immutableRecordNotice =>
-      'यह एक आधिकारिक और अपरिवर्तनीय पशु चिकित्सा रिकॉर्ड है।';
+      'यह एक अपरिवर्तनीय आधिकारिक पशु चिकित्सा रिकॉर्ड है।';
 
   @override
   String get noMedicalRecords => 'कोई चिकित्सा रिकॉर्ड उपलब्ध नहीं है';
 
   @override
-  String get bookVetConsultation => 'पशुचिकित्सक से परामर्श बुक करें';
+  String get bookVetConsultation => 'पशु चिकित्सक परामर्श बुक करें';
 
   @override
-  String get selectVeterinarian => 'पशुचिकित्सक का चयन करें';
+  String get selectVeterinarian => 'पशु चिकित्सक चुनें';
 
   @override
   String get consultationType => 'परामर्श का प्रकार';
 
   @override
-  String get scheduledDate => 'निर्धारित तारीख';
+  String get scheduledDate => 'निर्धारित तिथि';
 
   @override
   String get scheduledTime => 'निर्धारित समय';
@@ -325,16 +325,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get urgency => 'आपातकालीन स्तर';
 
   @override
-  String get notes => 'अतिरिक्त विवरण';
+  String get notes => 'अतिरिक्त विवरण / नोट्स';
 
   @override
-  String get bookingConfirmed => 'अपॉइंटमेंट की पुष्टि हो गई';
+  String get bookingConfirmed => 'परामर्श सफलतापूर्वक बुक हुआ';
 
   @override
-  String get statusPending => 'प्रतीक्षारत';
+  String get statusPending => 'पुष्टि लंबित';
 
   @override
-  String get statusConfirmed => 'पुष्टीकृत';
+  String get statusConfirmed => 'पुष्टि हो चुकी है';
 
   @override
   String get statusCompleted => 'पूर्ण';
@@ -343,16 +343,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get statusCancelled => 'रद्द';
 
   @override
-  String get upcomingAppointments => 'आगामी अपॉइंटमेंट्स';
+  String get upcomingAppointments => 'आगामी परामर्श';
 
   @override
-  String get pastAppointments => 'पिछली मुलाक़ातें';
+  String get pastAppointments => 'पिछले परामर्श';
 
   @override
   String get aiDiseaseScanner => 'एआई रोग स्कैनर';
 
   @override
-  String get scanNow => 'अभी स्कैन करें';
+  String get scanNow => 'अब स्कैन करें';
 
   @override
   String get takePhoto => 'फोटो खींचें';
@@ -362,26 +362,27 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get analyzingScan =>
-      'वेत्रा विज़न एआई द्वारा दृश्य विश्लेषण किया जा रहा है...';
+      'वेट्रा विज़न एआई द्वारा दृश्य लक्षणों का विश्लेषण किया जा रहा है...';
 
   @override
-  String get suspectedCondition => 'संभावित बीमारी';
+  String get suspectedCondition => 'संभावित रोग / स्थिति';
 
   @override
-  String get confidence => 'एआई सटीकता';
+  String get confidence => 'एआई विश्वसनीयता';
 
   @override
   String get scanDisclaimer =>
-      'यह एक एआई-सहायक प्रारंभिक मूल्यांकन है और यह कोई पुष्ट पशु चिकित्सा निदान नहीं है। लाइसेंस प्राप्त पशुचिकित्सक से परामर्श लें।';
+      'एआई-सहायता प्राप्त प्रारंभिक मूल्यांकन। यह अंतिम पशु चिकित्सा निदान नहीं है। अधिकृत पशु चिकित्सक से परामर्श लें।';
 
   @override
-  String get bookDoctorReview => 'डॉक्टर से जाँच बुक करें';
+  String get bookDoctorReview => 'डॉक्टर से परामर्श लें';
 
   @override
   String get aiVeterinaryAdvisor => 'एआई पशु चिकित्सा सलाहकार';
 
   @override
-  String get assistiveClinicalScreening => 'सहायक क्लिनिकल स्क्रीनिंग';
+  String get assistiveClinicalScreening =>
+      'सहायक नैदानिक स्क्रीनिंग एवं देखभाल';
 
   @override
   String get liveContext => 'लाइव संदर्भ';
@@ -390,39 +391,39 @@ class AppLocalizationsHi extends AppLocalizations {
   String get startNewSession => 'नया सत्र शुरू करें';
 
   @override
-  String get urgentClinicalConcern => 'अति आवश्यक चिकित्सीय ध्यान';
+  String get urgentClinicalConcern => 'अति आवश्यक नैदानिक स्थिति';
 
   @override
   String get urgentConcernNotice =>
-      'बताए गए लक्षणों के आधार पर तुरंत पशुचिकित्सक से व्यक्तिगत जाँच आवश्यक है।';
+      'दर्ज किए गए लक्षणों के लिए तत्काल प्रत्यक्ष पशु चिकित्सा जांच आवश्यक है।';
 
   @override
-  String get bookVet => 'डॉक्टर बुलाएं';
+  String get bookVet => 'पशु चिकित्सक बुक करें';
 
   @override
   String get describeSymptomsHint => 'लक्षण बताएं या प्रश्नों के उत्तर दें...';
 
   @override
-  String get preliminaryAssessment => 'प्रारंभिक मूल्यांकन';
+  String get preliminaryAssessment => 'प्रारंभिक नैदानिक मूल्यांकन';
 
   @override
-  String get suspectedConditions => 'संभावित स्थितियाँ';
+  String get suspectedConditions => 'संभावित रोग';
 
   @override
   String get aiConfidence => 'एआई विश्वसनीयता';
 
   @override
-  String get ownerReportedSymptoms => 'पशुपालक द्वारा बताए गए लक्षण';
+  String get ownerReportedSymptoms => 'पशुपालक द्वारा बताए गए लक्षण व स्थिति';
 
   @override
-  String get aiClinicalObservations => 'एआई क्लिनिकल अवलोकन';
+  String get aiClinicalObservations => 'एआई नैदानिक टिप्पणियाँ';
 
   @override
-  String get recommendedSupportiveCare => 'अनुशंसित सहायक देखभाल';
+  String get recommendedSupportiveCare => 'अनुशंसित प्राथमिक देखभाल';
 
   @override
   String get safetyDisclaimerText =>
-      'यह एक एआई-सहायक प्रारंभिक मूल्यांकन है और यह कोई पुष्ट पशु चिकित्सा निदान नहीं है। क्लिनिकल निदान और उपचार के लिए किसी लाइसेंस प्राप्त पशुचिकित्सक से परामर्श लें।';
+      'यह एआई-सहायता प्राप्त प्रारंभिक मूल्यांकन है और यह अंतिम पशु चिकित्सा निदान नहीं है। उचित निदान और उपचार के लिए अधिकृत पशु चिकित्सक से परामर्श करें।';
 
   @override
   String get askAdvisor => 'एआई सलाहकार से पूछें';
@@ -431,7 +432,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get settings => 'सेटिंग्स';
 
   @override
-  String get profile => 'प्रोफ़ाइल';
+  String get profile => 'प्रोफाइल';
 
   @override
   String get languageSettings => 'भाषा सेटिंग्स';
@@ -446,11 +447,218 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpSupport => 'सहायता एवं समर्थन';
 
   @override
-  String get aboutLegal => 'वेत्रा के बारे में व कानूनी जानकारी';
+  String get aboutLegal => 'वेट्रा के बारे में और कानूनी जानकारी';
 
   @override
   String get logout => 'लॉग आउट';
 
   @override
-  String get logoutConfirmation => 'क्या आप वास्तव में लॉग आउट करना चाहते हैं?';
+  String get logoutConfirmation => 'क्या आप लॉग आउट करना चाहते हैं?';
+
+  @override
+  String get vetDashboard => 'पशुचिकित्सक डैशबोर्ड';
+
+  @override
+  String get surveillanceAnimals => 'निगरानी वाले पशु';
+
+  @override
+  String get pendingRequests => 'लंबित अनुरोध';
+
+  @override
+  String get quickClinicalActions => 'त्वरित नैदानिक क्रियाएँ';
+
+  @override
+  String get scanAnimalQr => 'पशु QR स्कैन करें';
+
+  @override
+  String get diagnosisEntry => 'निदान प्रविष्टि';
+
+  @override
+  String get incomingClinicalRequests => 'आने वाले नैदानिक अनुरोध';
+
+  @override
+  String get tabPending => 'लंबित';
+
+  @override
+  String get tabUpcoming => 'आगामी';
+
+  @override
+  String get tabCompleted => 'पूर्ण';
+
+  @override
+  String get noRequestsSection => 'इस अनुभाग में कोई अनुरोध नहीं है';
+
+  @override
+  String get accept => 'स्वीकार करें';
+
+  @override
+  String get decline => 'अस्वीकार करें';
+
+  @override
+  String get startConsultation => 'परामर्श शुरू करें';
+
+  @override
+  String get viewAnimalPassport => 'पशु पासपोर्ट देखें';
+
+  @override
+  String get createMedicalRecord => 'मेडिकल रिकॉर्ड बनाएं';
+
+  @override
+  String get clinicalNotes => 'नैदानिक नोट्स';
+
+  @override
+  String get enterDiagnosis => 'निदान दर्ज करें';
+
+  @override
+  String get enterTreatment => 'उपचार और प्रक्रिया दर्ज करें';
+
+  @override
+  String get prescribeMedications => 'दवाइयाँ लिखें (Rx)';
+
+  @override
+  String get recordSavedSuccess => 'मेडिकल रिकॉर्ड सफलतापूर्वक सहेजा गया!';
+
+  @override
+  String get recentCases => 'हाल के परामर्श मामले';
+
+  @override
+  String get caseDetails => 'मामले का विवरण';
+
+  @override
+  String get recovered => 'स्वस्थ हुआ';
+
+  @override
+  String get vetProfile => 'पशुचिकित्सक प्रोफाइल';
+
+  @override
+  String get practitionerInfo => 'चिकित्सक जानकारी';
+
+  @override
+  String get availabilityStatus => 'उपलब्धता स्थिति';
+
+  @override
+  String get availableForVisits => 'परामर्श एवं फार्म विजिट के लिए उपलब्ध';
+
+  @override
+  String get qualificationsAndDegrees => 'शैक्षणिक योग्यता और डिग्रियां';
+
+  @override
+  String get clinicalSpecialization => 'नैदानिक विशेषज्ञता';
+
+  @override
+  String get yearsClinicalPractice => 'वर्षों का नैदानिक अनुभव';
+
+  @override
+  String get directContact => 'सीधा संपर्क';
+
+  @override
+  String get editProfileQualifications => 'प्रोफाइल और योग्यता संपादित करें';
+
+  @override
+  String get editProfileSubtitle =>
+      'नैदानिक विवरण और संपर्क जानकारी अपडेट करें';
+
+  @override
+  String get clinicalSchedule => 'मेरी नैदानिक समय-सारणी';
+
+  @override
+  String get clinicalScheduleSubtitle => 'आगामी परामर्श और विज़िट देखें';
+
+  @override
+  String get availabilityShiftSettings => 'उपलब्धता और शिफ्ट सेटिंग्स';
+
+  @override
+  String get availabilityShiftSubtitle => 'आपातकालीन समय सीमा कॉन्फ़िगर करें';
+
+  @override
+  String get documentsLicenses => 'दस्तावेज़ और लाइसेंस';
+
+  @override
+  String get documentsLicensesSubtitle =>
+      'सत्यापित पंजीकरण प्रमाणपत्र प्रबंधित करें';
+
+  @override
+  String get logoutVetAccount => 'चिकित्सक खाता लॉग आउट करें';
+
+  @override
+  String get logoutVetAccountSubtitle => 'सत्र सुरक्षित रूप से समाप्त करें';
+
+  @override
+  String get licenseVerified => 'लाइसेंस सत्यापित';
+
+  @override
+  String get licenseVerifiedDesc =>
+      'आपका पशु चिकित्सा लाइसेंस सक्रिय स्थिति के साथ सत्यापित है।';
+
+  @override
+  String get goToVetDashboard => 'पशुचिकित्सक डैशबोर्ड पर जाएं';
+
+  @override
+  String get vetOutbreakMap => 'पशु रोग प्रकोप मानचित्र';
+
+  @override
+  String get gisMapTitle => 'इंटरैक्टिव नैदानिक जीआईएस मानचित्र';
+
+  @override
+  String get gisMapSubtitle => 'अभ्यास क्षेत्र के चारों ओर जीपीएस दायरा';
+
+  @override
+  String get filterDisease => 'रोग';
+
+  @override
+  String get filterRadius => 'दायरा';
+
+  @override
+  String get filterStatus => 'स्थिति';
+
+  @override
+  String get allDiseases => 'सभी रोग';
+
+  @override
+  String get allStatuses => 'सभी स्थितियां';
+
+  @override
+  String get vetSignIn => 'पशुचिकित्सक साइन इन';
+
+  @override
+  String get vetSignInSubtitle =>
+      'नैदानिक निदान और क्षेत्रीय प्रकोप ट्राइएज तक पहुंचें।';
+
+  @override
+  String get vetRegNo => 'पशु चिकित्सा परिषद पंजीकरण संख्या';
+
+  @override
+  String get registerPractice => 'चिकित्सा अभ्यास पंजीकृत करें';
+
+  @override
+  String get registerPracticeSubtitle =>
+      'सक्रिय सत्यापन के लिए पेशेवर लाइसेंस विवरण प्रदान करें।';
+
+  @override
+  String get newPractitioner => 'नए पशुचिकित्सक हैं?';
+
+  @override
+  String get enterDiagnosisValidation => 'कृपया नैदानिक निदान दर्ज करें';
+
+  @override
+  String get enterTreatmentValidation => 'कृपया नैदानिक उपचार दर्ज करें';
+
+  @override
+  String get enterEmailAndPassword => 'कृपया ईमेल और पासवर्ड दर्ज करें';
+
+  @override
+  String get enterRequiredRegistration =>
+      'कृपया ईमेल, पासवर्ड, नाम और पंजीकरण संख्या दर्ज करें';
+
+  @override
+  String get qrScannerTitle => 'पशु चिकित्सा क्यूआर स्कैनर';
+
+  @override
+  String get scanAnimalQrPrompt => 'कैमरे को पशु के ईयर टैग क्यूआर कोड पर लाएं';
+
+  @override
+  String get temperatureInCelsius => 'तापमान (°C)';
+
+  @override
+  String get weightInKg => 'वजन (किग्रा)';
 }

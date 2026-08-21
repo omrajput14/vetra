@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/navigation/vet_bottom_navigation.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:vetra/features/appointment/data/models/appointment_dto.dart';
 import 'package:vetra/features/appointment/presentation/providers/appointment_provider.dart';
 
@@ -24,6 +25,8 @@ class _VetRequestsPageState extends State<VetRequestsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return AnimatedBuilder(
       animation: appointmentNotifier,
       builder: (context, _) {
@@ -38,15 +41,15 @@ class _VetRequestsPageState extends State<VetRequestsPage> {
             appBar: AppBar(
               backgroundColor: AppColors.surfaceCard,
               elevation: 0,
-              title: Text('Incoming Clinical Requests', style: AppTypography.screenTitle),
-              bottom: const TabBar(
+              title: Text(l10n?.incomingClinicalRequests ?? 'Incoming Clinical Requests', style: AppTypography.screenTitle),
+              bottom: TabBar(
                 labelColor: AppColors.primary,
                 unselectedLabelColor: AppColors.textSecondary,
                 indicatorColor: AppColors.primary,
                 tabs: [
-                  Tab(text: 'Pending'),
-                  Tab(text: 'Upcoming'),
-                  Tab(text: 'Completed'),
+                  Tab(text: l10n?.tabPending ?? 'Pending'),
+                  Tab(text: l10n?.tabUpcoming ?? 'Upcoming'),
+                  Tab(text: l10n?.tabCompleted ?? 'Completed'),
                 ],
               ),
             ),
@@ -76,6 +79,8 @@ class _VetRequestsPageState extends State<VetRequestsPage> {
   }
 
   Widget _buildRequestList(BuildContext context, List<AppointmentModel> list, {bool isPending = false, bool isUpcoming = false, bool isCompleted = false}) {
+    final l10n = AppLocalizations.of(context);
+
     if (list.isEmpty) {
       return RefreshIndicator(
         onRefresh: () async => await appointmentNotifier.loadAppointments(),
@@ -85,7 +90,10 @@ class _VetRequestsPageState extends State<VetRequestsPage> {
             const Icon(Icons.inbox, size: 64, color: AppColors.textSecondary),
             const SizedBox(height: 16),
             Center(
-              child: Text('No requests in this section', style: AppTypography.sectionHeading.copyWith(color: AppColors.textSecondary)),
+              child: Text(
+                l10n?.noRequestsSection ?? 'No requests in this section',
+                style: AppTypography.sectionHeading.copyWith(color: AppColors.textSecondary),
+              ),
             ),
           ],
         ),
@@ -106,6 +114,7 @@ class _VetRequestsPageState extends State<VetRequestsPage> {
   }
 
   Widget _buildRequestCard(BuildContext context, AppointmentModel app, {bool isPending = false, bool isUpcoming = false, bool isCompleted = false}) {
+    final l10n = AppLocalizations.of(context);
     final isCritical = app.visitType == VisitType.emergency;
 
     return Container(
@@ -122,28 +131,28 @@ class _VetRequestsPageState extends State<VetRequestsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('${app.animalName ?? "Animal"} (${app.species ?? "Livestock"})', style: AppTypography.cardTitle),
+              Text('${app.animalName ?? (l10n?.animalName ?? "Animal")} (${app.species ?? (l10n?.species ?? "Livestock")})', style: AppTypography.cardTitle),
               if (isCritical)
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(color: AppColors.alertCritical, borderRadius: BorderRadius.circular(12)),
-                  child: Text('EMERGENCY', style: AppTypography.captionMetadata.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+                  child: Text(l10n?.urgentClinicalConcern ?? 'EMERGENCY', style: AppTypography.captionMetadata.copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
             ],
           ),
           const SizedBox(height: 4),
-          Text('Farmer: ${app.farmerName ?? "Unknown"} ${app.farmerPhone != null ? "(${app.farmerPhone})" : ""}', style: AppTypography.captionMetadata),
+          Text('${l10n?.continueAsFarmer ?? "Farmer"}: ${app.farmerName ?? "Unknown"} ${app.farmerPhone != null ? "(${app.farmerPhone})" : ""}', style: AppTypography.captionMetadata),
           const SizedBox(height: 4),
-          Text('Scheduled: ${app.appointmentDate} at ${app.appointmentTime}', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary)),
+          Text('${l10n?.scheduledDate ?? "Scheduled"}: ${app.appointmentDate} at ${app.appointmentTime}', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary)),
           const SizedBox(height: 8),
-          Text('Reason: ${app.reason}', style: AppTypography.bodyDefault),
+          Text('${l10n?.clinicalDiagnosis ?? "Reason"}: ${app.reason}', style: AppTypography.bodyDefault),
           const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
                 child: OutlinedButton(
                   onPressed: () => context.push('/appointment-details', extra: app.id),
-                  child: const Text('View Details'),
+                  child: Text(l10n?.viewRecords ?? 'View Details'),
                 ),
               ),
               if (isPending) ...[
@@ -154,10 +163,12 @@ class _VetRequestsPageState extends State<VetRequestsPage> {
                     onPressed: () async {
                       final ok = await appointmentNotifier.confirmAppointment(app.id);
                       if (ok && context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Appointment Accepted!')));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n?.bookingConfirmed ?? 'Appointment Accepted!')),
+                        );
                       }
                     },
-                    child: const Text('Accept'),
+                    child: Text(l10n?.accept ?? 'Accept'),
                   ),
                 ),
               ],

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/navigation/vet_bottom_navigation.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class VetOutbreakMapPage extends StatefulWidget {
   const VetOutbreakMapPage({super.key});
@@ -18,12 +19,14 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
         backgroundColor: AppColors.surfaceCard,
         elevation: 0,
-        title: Text('Vet Outbreak Map', style: AppTypography.screenTitle),
+        title: Text(l10n?.vetOutbreakMap ?? 'Vet Outbreak Map', style: AppTypography.screenTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: AppColors.textPrimary),
@@ -38,11 +41,11 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                _buildFilterChip('Disease: $_selectedDisease', () => _showFilterDialog('Disease')),
+                _buildFilterChip('${l10n?.filterDisease ?? "Disease"}: $_selectedDisease', () => _showFilterDialog(l10n?.filterDisease ?? 'Disease')),
                 const SizedBox(width: 8),
-                _buildFilterChip('Radius: $_selectedRadius', () => _showFilterDialog('Radius')),
+                _buildFilterChip('${l10n?.filterRadius ?? "Radius"}: $_selectedRadius', () => _showFilterDialog(l10n?.filterRadius ?? 'Radius')),
                 const SizedBox(width: 8),
-                _buildFilterChip('Status: $_selectedStatus', () => _showFilterDialog('Status')),
+                _buildFilterChip('${l10n?.filterStatus ?? "Status"}: $_selectedStatus', () => _showFilterDialog(l10n?.filterStatus ?? 'Status')),
               ],
             ),
           ),
@@ -62,8 +65,8 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
                     children: [
                       const Icon(Icons.map, size: 64, color: AppColors.primary),
                       const SizedBox(height: 8),
-                      Text('Interactive Clinical GIS Map', style: AppTypography.cardTitle),
-                      Text('GPS Radius Overlay: 15 km around Dr. Jenkins Practice', style: AppTypography.captionMetadata),
+                      Text(l10n?.gisMapTitle ?? 'Interactive Clinical GIS Map', style: AppTypography.cardTitle),
+                      Text(l10n?.gisMapSubtitle ?? 'GPS Radius Overlay around practice area', style: AppTypography.captionMetadata),
                     ],
                   ),
                 ),
@@ -80,8 +83,8 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildLegendItem(AppColors.alertCritical, 'Confirmed (2)'),
-                        _buildLegendItem(AppColors.cautionAmber, 'Pending AI (4)'),
+                        _buildLegendItem(AppColors.alertCritical, '${l10n?.statusConfirmed ?? "Confirmed"} (2)'),
+                        _buildLegendItem(AppColors.cautionAmber, '${l10n?.statusPending ?? "Pending"} (4)'),
                         _buildLegendItem(AppColors.primary, 'Clear Zone'),
                       ],
                     ),
@@ -91,7 +94,7 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Confirmed Outbreaks (Vet Verified)', style: AppTypography.sectionHeading),
+          Text(l10n?.outbreakAlerts ?? 'Confirmed Outbreaks (Vet Verified)', style: AppTypography.sectionHeading),
           const SizedBox(height: 8),
           _buildOutbreakCard(
             disease: 'Foot and Mouth Disease (FMD)',
@@ -99,11 +102,11 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
             confirmedBy: 'Dr. Sarah Jenkins',
             date: 'Yesterday, 04:15 PM',
             statusColor: AppColors.alertCritical,
-            statusLabel: 'CONFIRMED OUTBREAK',
+            statusLabel: l10n?.criticalStatus ?? 'CONFIRMED OUTBREAK',
             radiusText: '5 km Quarantine Active',
           ),
           const SizedBox(height: 12),
-          Text('Pending AI Verification Reports', style: AppTypography.sectionHeading),
+          Text(l10n?.assistiveClinicalScreening ?? 'Pending AI Verification Reports', style: AppTypography.sectionHeading),
           const SizedBox(height: 8),
           _buildOutbreakCard(
             disease: 'Lumpy Skin Disease (LSD)',
@@ -111,15 +114,15 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
             confirmedBy: 'Farmer AI Report (92% Confidence)',
             date: 'Today, 08:30 AM',
             statusColor: AppColors.cautionAmber,
-            statusLabel: 'NEEDS VET CONFIRMATION',
+            statusLabel: l10n?.statusPending ?? 'NEEDS VET CONFIRMATION',
             radiusText: 'Pending Clinical Review',
           ),
           const SizedBox(height: 12),
-          Text('Nearby Registered Cases', style: AppTypography.sectionHeading),
+          Text(l10n?.recentCases ?? 'Nearby Registered Cases', style: AppTypography.sectionHeading),
           const SizedBox(height: 8),
-          _buildCaseItem('Cow #481', 'Bovine Respiratory', 'Green Pastures Dairy (4.1 km)', 'Under Antibiotic Treatment'),
+          _buildCaseItem('Cow #481', 'Bovine Respiratory', 'Green Pastures Dairy (4.1 km)', l10n?.underTreatment ?? 'Under Treatment'),
           const SizedBox(height: 8),
-          _buildCaseItem('Bull #109', 'Mastitis Flare-up', 'Sunnyvale Ranch (6.5 km)', 'Follow-up Scheduled'),
+          _buildCaseItem('Bull #109', 'Mastitis Flare-up', 'Sunnyvale Ranch (6.5 km)', l10n?.followUpDate ?? 'Follow-up Scheduled'),
         ],
       ),
       bottomNavigationBar: VetBottomNavigation(
@@ -250,9 +253,9 @@ class _VetOutbreakMapPageState extends State<VetOutbreakMapPage> {
                 title: const Text('All Options'),
                 onTap: () {
                   setState(() {
-                    if (type == 'Disease') _selectedDisease = 'All Diseases';
-                    if (type == 'Radius') _selectedRadius = '50 km';
-                    if (type == 'Status') _selectedStatus = 'All Statuses';
+                    if (type == 'Disease' || type == 'रोग') _selectedDisease = 'All Diseases';
+                    if (type == 'Radius' || type == 'दायरा' || type == 'त्रिज्या') _selectedRadius = '50 km';
+                    if (type == 'Status' || type == 'स्थिति' || type == 'स्थिती') _selectedStatus = 'All Statuses';
                   });
                   Navigator.pop(context);
                 },

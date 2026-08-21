@@ -3,12 +3,15 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class VetVerificationPage extends StatelessWidget {
   const VetVerificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
@@ -36,16 +39,16 @@ class VetVerificationPage extends StatelessWidget {
                 child: const Icon(Icons.verified_user, size: 48, color: AppColors.primary),
               ),
               const SizedBox(height: 24),
-              Text('License Verified', style: AppTypography.screenTitle),
+              Text(l10n?.licenseVerified ?? 'License Verified', style: AppTypography.screenTitle),
               const SizedBox(height: 8),
               Text(
-                'Your veterinary license has been verified with active status.',
+                l10n?.licenseVerifiedDesc ?? 'Your veterinary license has been verified with active status.',
                 style: AppTypography.bodyDefault,
                 textAlign: TextAlign.center,
               ),
               const Spacer(),
               PrimaryButton(
-                label: 'Go to Vet Dashboard',
+                label: l10n?.goToVetDashboard ?? 'Go to Vet Dashboard',
                 onPressed: () => context.go('/vet-dashboard'),
               ),
               const SizedBox(height: 24),

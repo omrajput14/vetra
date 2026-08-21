@@ -453,4 +453,211 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logoutConfirmation => 'Are you sure you want to log out?';
+
+  @override
+  String get vetDashboard => 'Vet Dashboard';
+
+  @override
+  String get surveillanceAnimals => 'Surveillance Animals';
+
+  @override
+  String get pendingRequests => 'Pending Requests';
+
+  @override
+  String get quickClinicalActions => 'Quick Clinical Actions';
+
+  @override
+  String get scanAnimalQr => 'Scan Animal QR';
+
+  @override
+  String get diagnosisEntry => 'Diagnosis Entry';
+
+  @override
+  String get incomingClinicalRequests => 'Incoming Clinical Requests';
+
+  @override
+  String get tabPending => 'Pending';
+
+  @override
+  String get tabUpcoming => 'Upcoming';
+
+  @override
+  String get tabCompleted => 'Completed';
+
+  @override
+  String get noRequestsSection => 'No requests in this section';
+
+  @override
+  String get accept => 'Accept';
+
+  @override
+  String get decline => 'Decline';
+
+  @override
+  String get startConsultation => 'Start Consultation';
+
+  @override
+  String get viewAnimalPassport => 'View Animal Passport';
+
+  @override
+  String get createMedicalRecord => 'Create Medical Record';
+
+  @override
+  String get clinicalNotes => 'Clinical Notes';
+
+  @override
+  String get enterDiagnosis => 'Enter Diagnosis';
+
+  @override
+  String get enterTreatment => 'Enter Treatment & Procedures';
+
+  @override
+  String get prescribeMedications => 'Prescribe Medications (Rx)';
+
+  @override
+  String get recordSavedSuccess => 'Medical record saved successfully!';
+
+  @override
+  String get recentCases => 'Recent Consultation Cases';
+
+  @override
+  String get caseDetails => 'Case Details';
+
+  @override
+  String get recovered => 'Recovered';
+
+  @override
+  String get vetProfile => 'Veterinarian Profile';
+
+  @override
+  String get practitionerInfo => 'Practitioner Information';
+
+  @override
+  String get availabilityStatus => 'Availability Status';
+
+  @override
+  String get availableForVisits => 'Available for Consultations & Visits';
+
+  @override
+  String get qualificationsAndDegrees => 'Qualifications & Degrees';
+
+  @override
+  String get clinicalSpecialization => 'Clinical Specialization';
+
+  @override
+  String get yearsClinicalPractice => 'Years Clinical Practice';
+
+  @override
+  String get directContact => 'Direct Practitioner Contact';
+
+  @override
+  String get editProfileQualifications => 'Edit Profile & Qualifications';
+
+  @override
+  String get editProfileSubtitle => 'Update clinical details and contact info';
+
+  @override
+  String get clinicalSchedule => 'My Clinical Schedule';
+
+  @override
+  String get clinicalScheduleSubtitle =>
+      'View upcoming consultations and visits';
+
+  @override
+  String get availabilityShiftSettings => 'Availability & Shift Settings';
+
+  @override
+  String get availabilityShiftSubtitle => 'Configure emergency response hours';
+
+  @override
+  String get documentsLicenses => 'Documents & Licenses';
+
+  @override
+  String get documentsLicensesSubtitle =>
+      'Manage verified registration certificates';
+
+  @override
+  String get logoutVetAccount => 'Log Out Practitioner Account';
+
+  @override
+  String get logoutVetAccountSubtitle => 'Safely end active session';
+
+  @override
+  String get licenseVerified => 'License Verified';
+
+  @override
+  String get licenseVerifiedDesc =>
+      'Your veterinary license has been verified with active status.';
+
+  @override
+  String get goToVetDashboard => 'Go to Vet Dashboard';
+
+  @override
+  String get vetOutbreakMap => 'Veterinary Outbreak Map';
+
+  @override
+  String get gisMapTitle => 'Interactive Clinical GIS Map';
+
+  @override
+  String get gisMapSubtitle => 'GPS Radius Overlay around practice area';
+
+  @override
+  String get filterDisease => 'Disease';
+
+  @override
+  String get filterRadius => 'Radius';
+
+  @override
+  String get filterStatus => 'Status';
+
+  @override
+  String get allDiseases => 'All Diseases';
+
+  @override
+  String get allStatuses => 'All Statuses';
+
+  @override
+  String get vetSignIn => 'Veterinarian Sign In';
+
+  @override
+  String get vetSignInSubtitle =>
+      'Access clinical diagnostics and regional outbreak triage.';
+
+  @override
+  String get vetRegNo => 'Veterinary Registration Number';
+
+  @override
+  String get registerPractice => 'Register Practice';
+
+  @override
+  String get registerPracticeSubtitle =>
+      'Provide professional licensing details for active verification.';
+
+  @override
+  String get newPractitioner => 'New Practitioner?';
+
+  @override
+  String get enterDiagnosisValidation => 'Please enter clinical diagnosis';
+
+  @override
+  String get enterTreatmentValidation => 'Please enter clinical treatment';
+
+  @override
+  String get enterEmailAndPassword => 'Please enter email and password';
+
+  @override
+  String get enterRequiredRegistration =>
+      'Please enter Email, Password, Name, and Registration Number';
+
+  @override
+  String get qrScannerTitle => 'Veterinary QR Scanner';
+
+  @override
+  String get scanAnimalQrPrompt => 'Point camera at animal ear tag QR code';
+
+  @override
+  String get temperatureInCelsius => 'Temperature (°C)';
+
+  @override
+  String get weightInKg => 'Weight (kg)';
 }
