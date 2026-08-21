@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VETRA — Team Pitch Cheat Sheet | 20-Minute Competition Quick Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #EAE6DF;
+      color: #1C1B1A;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 8.6pt;
+      line-height: 1.44;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      background: #FAF9F5;
+      margin: 0 auto 10mm auto;
+      padding: 13mm 17mm 11mm 17mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    @media print {
+      body { background: none; }
+      .page { margin: 0; box-shadow: none; }
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.4pt;
+    }
+
+    /* Running Header & Footer */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid rgba(28, 27, 26, 0.12);
+      margin-bottom: 9px;
+    }
+    .page-header .doc-title {
+      font-size: 7pt;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6B6864;
+    }
+    .page-header .sec-badge {
+      font-size: 6.6pt;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #E8F0E6;
+      padding: 2.5px 8px;
+      border-radius: 5px;
+      color: #2D5A27;
+      border: 1px solid rgba(45, 90, 39, 0.25);
+    }
+
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 6px;
+      border-top: 1.5px solid rgba(28, 27, 26, 0.12);
+      margin-top: 9px;
+      font-size: 6.8pt;
+      color: #7A7671;
+    }
+    .page-footer .page-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      color: #1C1B1A;
+    }
+
+    /* Headings */
+    .section-headline {
+      margin-bottom: 8px;
+    }
+    .section-number {
+      font-size: 7.2pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #8C523A;
+      margin-bottom: 1px;
+    }
+    .section-title {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 17pt;
+      line-height: 1.15;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #1C1B1A;
+    }
+    .section-subtitle {
+      font-size: 8.4pt;
+      color: #5C5854;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* Content Body */
+    .content-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 8.5px;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* Card System */
+    .card {
+      background: #FFFFFF;
+      border: 1px solid rgba(28, 27, 26, 0.10);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .card-dark {
+      background: #1C1B1A;
+      color: #FAF9F5;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .card-accent {
+      background: #F4F8F3;
+      border: 1.5px solid rgba(45, 90, 39, 0.3);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .card-amber {
+      background: #FEF9EE;
+      border: 1.5px solid rgba(194, 120, 3, 0.3);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .card-terracotta {
+      background: #FDF6F3;
+      border: 1.5px solid rgba(140, 82, 58, 0.3);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .card-title {
+      font-weight: 800;
+      font-size: 8.9pt;
+      color: #1C1B1A;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .card-accent .card-title { color: #2D5A27; }
+    .card-amber .card-title { color: #8F5902; }
+    .card-terracotta .card-title { color: #8C523A; }
+    .card-dark .card-title { color: #FFFFFF; }
+
+    p {
+      color: #383532;
+      margin-bottom: 5px;
+      font-size: 8.3pt;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      margin-left: 13px;
+      margin-bottom: 5px;
+      color: #383532;
+      font-size: 8.2pt;
+    }
+    ul li { margin-bottom: 3px; }
+    ul li:last-child { margin-bottom: 0; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 6.8pt;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .badge-green { background: #E2EFE0; color: #234A20; }
+    .badge-amber { background: #FDF2D8; color: #8F5902; }
+    .badge-terracotta { background: #FBEAE3; color: #8C523A; }
+    .badge-red { background: #FDE8E8; color: #9C1C1C; }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 7.9pt;
+      margin: 3px 0;
+      background: #FFFFFF;
+      border-radius: 7px;
+      overflow: hidden;
+      border: 1px solid rgba(28, 27, 26, 0.1);
+    }
+    th, td {
+      padding: 6px 9px;
+      text-align: left;
+      border-bottom: 1px solid rgba(28, 27, 26, 0.08);
+    }
+    th {
+      background: #F5F2EB;
+      font-weight: 800;
+      color: #1C1B1A;
+      font-size: 7.3pt;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* Speech & Box Callouts */
+    .say-box {
+      background: #F4F8F3;
+      border-left: 4px solid #2D5A27;
+      padding: 8px 11px;
+      border-radius: 0 7px 7px 0;
+      font-size: 8.2pt;
+      color: #1E3D1A;
+    }
+    .do-box {
+      background: #FEF9EE;
+      border-left: 4px solid #C27803;
+      padding: 8px 11px;
+      border-radius: 0 7px 7px 0;
+      font-size: 8.2pt;
+      color: #613C01;
+    }
+    .alert-box {
+      background: #FDF4F3;
+      border-left: 4px solid #B93826;
+      padding: 8px 11px;
+      border-radius: 0 7px 7px 0;
+      font-size: 8.2pt;
+      color: #681B10;
+    }
+
+    /* Flow Diagrams */
+    .flow-step {
+      background: #FFFFFF;
+      border: 1.5px solid rgba(28, 27, 26, 0.12);
+      border-radius: 6px;
+      padding: 6px 9px;
+      text-align: center;
+      flex: 1;
+    }
+    .flow-step.active {
+      background: #F4F8F3;
+      border-color: #2D5A27;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================= PAGE 1: VETRA IN ONE PAGE ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // PITCH CHEAT SHEET</span>
+    <span class="sec-badge">PAGE 1 // THE ESSENTIALS</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">COMPETITION SURVIVAL GUIDE</div>
+    <h1 class="section-title">Vetra in One Page: The 5 Things to Memorize</h1>
+    <div class="section-subtitle">Everything you need to know before stepping on stage or talking to judges.</div>
+  </div>
+  <div class="content-body">
+    
+    <!-- Giant Memorize Box -->
+    <div class="card card-dark" style="padding: 11px 13px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
+        <span style="font-weight: 800; font-size: 9.5pt; color: #FAF9F5; letter-spacing: 0.05em; text-transform: uppercase;">
+          🧠 MEMORIZE THESE 5 THINGS
+        </span>
+        <span class="badge badge-amber">MUST KNOW</span>
+      </div>
+      
+      <div style="display: flex; flex-direction: column; gap: 6.5px; font-size: 7.9pt;">
+        <div>
+          <strong style="color: #68BB59;">1. WHAT IS VETRA?</strong><br>
+          "Vetra is a connected digital livestock healthcare platform that gives every animal a persistent health identity, connects farmers with veterinarians, maintains medical history, and provides assistive AI screening."
+        </div>
+        <div>
+          <strong style="color: #68BB59;">2. WHAT PROBLEM DO WE SOLVE?</strong><br>
+          "Livestock healthcare is fragmented. Animal medical history is often lost, veterinary access is difficult, and farmers lack structured tools for early health screening."
+        </div>
+        <div>
+          <strong style="color: #68BB59;">3. WHAT IS OUR CORE DIFFERENTIATOR?</strong><br>
+          "Vetra connects the entire healthcare journey around the individual animal — identity, medical records, veterinary care, AI assistance, and disease intelligence."
+        </div>
+        <div>
+          <strong style="color: #68BB59;">4. DOES AI REPLACE THE VET?</strong><br>
+          "No. AI is assistive and preliminary. Licensed veterinarians remain the clinical authority."
+        </div>
+        <div>
+          <strong style="color: #68BB59;">5. WHAT IS THE SIMPLEST WAY TO EXPLAIN VETRA?</strong><br>
+          "Think of Vetra as a digital healthcare system built around every livestock animal."
+        </div>
+      </div>
+    </div>
+
+    <!-- Red vs Green Pitch Vocabulary Grid -->
+    <div class="grid-2">
+      <div class="card alert-box" style="border-left: 4px solid #B93826;">
+        <div style="font-weight: 800; color: #B93826; font-size: 8.8pt; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
+          ❌ NEVER SAY THIS TO JUDGES
+        </div>
+        <ul style="color: #781E12; font-size: 7.7pt; margin-left: 14px;">
+          <li>❌ <strong>"AI doctor"</strong> (Sounds reckless &amp; illegal)</li>
+          <li>❌ <strong>"AI replaces veterinarians"</strong> (Destroys clinical credibility)</li>
+          <li>❌ <strong>"AI diagnoses diseases with certainty"</strong> (False medical claim)</li>
+          <li>❌ <strong>"100% accurate AI"</strong> (Impossible claim in healthcare)</li>
+          <li>❌ <strong>"AI prescribes treatment"</strong> (Illegal prescription claim)</li>
+        </ul>
+      </div>
+
+      <div class="card say-box" style="border-left: 4px solid #2D5A27;">
+        <div style="font-weight: 800; color: #2D5A27; font-size: 8.8pt; margin-bottom: 5px; display: flex; align-items: center; gap: 5px;">
+          ✅ ALWAYS USE THIS PHRASING
+        </div>
+        <ul style="color: #1E3D1A; font-size: 7.7pt; margin-left: 14px;">
+          <li>✓ <strong>"AI-assisted preliminary assessment"</strong></li>
+          <li>✓ <strong>"Context-aware AI screening"</strong></li>
+          <li>✓ <strong>"Mandatory veterinary review"</strong></li>
+          <li>✓ <strong>"Digital animal health passport (EVMR)"</strong></li>
+          <li>✓ <strong>"Connected livestock healthcare infrastructure"</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Quick Pivot Box -->
+    <div class="card card-accent" style="padding: 8px 11px;">
+      <div class="card-title" style="font-size: 8.2pt;">🎯 Presenter's 10-Second Golden Anchor</div>
+      <p style="font-size: 7.8pt; color: #1E3D1A; font-weight: 600;">
+        "We are not an AI app trying to play doctor. We are the digital infrastructure that gives cows medical charts, gives doctors clinical history, and gets farmers help before disease destroys their herd."
+      </p>
+    </div>
+
+  </div>
+  <div class="page-footer">
+    <span>VETRA TEAM PITCH CHEAT SHEET // CONFIDENTIAL</span>
+    <span class="page-number">PAGE 1 OF 7</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 2: THE STORY WE TELL ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // PITCH CHEAT SHEET</span>
+    <span class="sec-badge">PAGE 2 // THE STORY</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">STAGE NARRATIVE</div>
+    <h2 class="section-title">The Story We Tell: "Just Tell the Story of Gauri"</h2>
+    <div class="section-subtitle">Do not list 20 disconnected features. Walk judges through this exact narrative journey.</div>
+  </div>
+  <div class="content-body">
+    
+    <!-- Visual Journey Timeline -->
+    <div class="card card-accent" style="padding: 8px 10px;">
+      <div style="font-weight: 800; font-size: 7.6pt; color: #2D5A27; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; text-align: center;">
+        THE 7-STEP HEALTHCARE JOURNEY
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 3px;">
+        <div class="flow-step active" style="padding: 4px 6px;">
+          <div style="font-weight: 800; font-size: 7pt; color: #2D5A27;">1. Farmer</div>
+          <div style="font-size: 6.2pt; color: #555;">Notices illness</div>
+        </div>
+        <div style="color: #8C523A; font-weight: 800; font-size: 8pt;">→</div>
+        <div class="flow-step active" style="padding: 4px 6px;">
+          <div style="font-weight: 800; font-size: 7pt; color: #2D5A27;">2. Passport</div>
+          <div style="font-size: 6.2pt; color: #555;">Opens Gauri</div>
+        </div>
+        <div style="color: #8C523A; font-weight: 800; font-size: 8pt;">→</div>
+        <div class="flow-step active" style="padding: 4px 6px;">
+          <div style="font-weight: 800; font-size: 7pt; color: #2D5A27;">3. AI Advisor</div>
+          <div style="font-size: 6.2pt; color: #555;">Context triage</div>
+        </div>
+        <div style="color: #8C523A; font-weight: 800; font-size: 8pt;">→</div>
+        <div class="flow-step active" style="padding: 4px 6px;">
+          <div style="font-weight: 800; font-size: 7pt; color: #2D5A27;">4. Assessment</div>
+          <div style="font-size: 6.2pt; color: #555;">Risk + care</div>
+        </div>
+        <div style="color: #8C523A; font-weight: 800; font-size: 8pt;">→</div>
+        <div class="flow-step active" style="padding: 4px 6px;">
+          <div style="font-weight: 800; font-size: 7pt; color: #2D5A27;">5. Book Vet</div>
+          <div style="font-size: 6.2pt; color: #555;">1-Tap dispatch</div>
+        </div>
+        <div style="color: #8C523A; font-weight: 800; font-size: 8pt;">→</div>
+        <div class="flow-step active" style="padding: 4px 6px;">
+          <div style="font-weight: 800; font-size: 7pt; color: #2D5A27;">6. EVMR</div>
+          <div style="font-size: 6.2pt; color: #555;">Doctor chart</div>
+        </div>
+        <div style="color: #8C523A; font-weight: 800; font-size: 8pt;">→</div>
+        <div class="flow-step active" style="padding: 4px 6px;">
+          <div style="font-weight: 800; font-size: 7pt; color: #2D5A27;">7. Lineage</div>
+          <div style="font-size: 6.2pt; color: #555;">Locked forever</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verbatim Spoken Narrative -->
+    <div class="card card-dark" style="padding: 12px 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-weight: 800; font-size: 8.8pt; color: #68BB59; text-transform: uppercase; letter-spacing: 0.06em;">
+          🎙️ READ THIS SCRIPT ALOUD (WORD-FOR-WORD)
+        </span>
+        <span class="badge badge-amber">60 SECONDS</span>
+      </div>
+
+      <div style="font-size: 8.1pt; line-height: 1.46; color: #FAF9F5; display: flex; flex-direction: column; gap: 5.5px;">
+        <p style="color: #FAF9F5;">
+          "Imagine a farmer named <strong>Ramesh</strong> whose dairy cow <strong>Gauri</strong> suddenly stops eating and becomes lethargic.
+        </p>
+        <p style="color: #FAF9F5;">
+          Instead of searching through lost paper slips or frantically guessing over phone calls, Ramesh opens Gauri's <strong>Animal Passport</strong>. He can immediately see her identity, age, and full medical history.
+        </p>
+        <p style="color: #FAF9F5;">
+          He then opens Vetra's <strong>AI Veterinary Advisor</strong>. The Advisor doesn't behave like a generic chatbot—it knows this is Gauri, asks targeted questions, and uses her available medical context.
+        </p>
+        <p style="color: #FAF9F5;">
+          It produces a <strong>preliminary risk assessment</strong> and safe supportive guidance, while clearly advising veterinary review.
+        </p>
+        <p style="color: #FAF9F5;">
+          Ramesh taps <strong>Book Vet Consultation</strong>. The veterinarian receives the pre-visit context, examines Gauri, and issues the official <strong>Electronic Veterinary Medical Record (EVMR)</strong>.
+        </p>
+        <p style="color: #FAF9F5;">
+          That record becomes an immutable part of Gauri's permanent health history. <strong>That's Vetra. It connects the entire healthcare journey around the animal."</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="say-box">
+      <strong>Why this works:</strong> Judges immediately understand the product because you gave them a relatable farmer, a specific cow, and an end-to-end outcome rather than confusing technical jargon.
+    </div>
+
+  </div>
+  <div class="page-footer">
+    <span>VETRA TEAM PITCH CHEAT SHEET // CONFIDENTIAL</span>
+    <span class="page-number">PAGE 2 OF 7</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 3: LIVE DEMO TABLE ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // PITCH CHEAT SHEET</span>
+    <span class="sec-badge">PAGE 3 // LIVE DEMO</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">STAGE DEMONSTRATION</div>
+    <h2 class="section-title">The 4-Minute Demo: "Click This, Say This"</h2>
+    <div class="section-subtitle">A bulletproof, synchronized guide for live phone or emulator product demonstrations.</div>
+  </div>
+  <div class="content-body">
+    
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 14%;">TIME</th>
+            <th style="width: 18%;">SCREEN</th>
+            <th style="width: 28%;">WHAT TO DO</th>
+            <th style="width: 40%;">WHAT TO SAY</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong class="mono" style="color: #2D5A27;">0:00–0:40</strong></td>
+            <td><strong>Animal Passport</strong></td>
+            <td>Open Gauri (<span class="mono">IND-MH-84920</span>). Show telemetry and history tiles.</td>
+            <td><em>"Meet Gauri. Vetra gives every animal a persistent digital health identity. Instead of scattered paper slips, her healthcare is organized around her."</em></td>
+          </tr>
+          <tr>
+            <td><strong class="mono" style="color: #2D5A27;">0:40–1:40</strong></td>
+            <td><strong>AI Advisor</strong></td>
+            <td>Tap <em>"Ask AI Advisor"</em>. Type: <em>"Gauri stopped eating and seems lethargic."</em> Tap chip: <em>"Drinking normally"</em>.</td>
+            <td><em>"Gauri has stopped eating. Instead of giving a generic answer, Vetra's Advisor asks targeted follow-up questions using her available animal context."</em></td>
+          </tr>
+          <tr>
+            <td><strong class="mono" style="color: #2D5A27;">1:40–2:20</strong></td>
+            <td><strong>Assessment</strong></td>
+            <td>Scroll to show Moderate Risk card, AI Confidence score, and safety disclaimer.</td>
+            <td><em>"This is an AI-assisted preliminary assessment, not a diagnosis. The system separates AI confidence from clinical certainty and directs the farmer to a vet."</em></td>
+          </tr>
+          <tr>
+            <td><strong class="mono" style="color: #2D5A27;">2:20–3:00</strong></td>
+            <td><strong>Book Vet</strong></td>
+            <td>Tap <strong>"Book Vet Consultation"</strong>. Show pre-filled symptoms and confirm.</td>
+            <td><em>"Once veterinary attention is needed, the farmer moves directly from screening to professional care in two taps."</em></td>
+          </tr>
+          <tr>
+            <td><strong class="mono" style="color: #2D5A27;">3:00–3:40</strong></td>
+            <td><strong>EVMR Record</strong></td>
+            <td>Show completed appointment and immutable EVMR clinical chart.</td>
+            <td><em>"After the doctor examines Gauri, the clinical findings and prescription become an immutable part of her continuing medical history."</em></td>
+          </tr>
+          <tr>
+            <td><strong class="mono" style="color: #2D5A27;">3:40–4:00</strong></td>
+            <td><strong>Dashboard</strong></td>
+            <td>Return to main Dashboard showing live stats and pending records.</td>
+            <td><em>"So Vetra is not just a scanner or booking app. It connects identity, health records, AI triage, and veterinary care into one continuous system."</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card card-terracotta" style="padding: 8px 11px;">
+      <div class="card-title" style="font-size: 8.2pt;">💡 Golden Demo Advice for the Presenter</div>
+      <p style="font-size: 7.8pt; color: #8C523A;">
+        <strong>Never rush through screens.</strong> When you open the AI Advisor, pause for 2 seconds to let the judges see the interactive suggestion chips. When you show the assessment, point out the bold <em>"Requires Veterinarian Review"</em> badge.
+      </p>
+    </div>
+
+  </div>
+  <div class="page-footer">
+    <span>VETRA TEAM PITCH CHEAT SHEET // CONFIDENTIAL</span>
+    <span class="page-number">PAGE 3 OF 7</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 4: THE 5 FEATURES ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // PITCH CHEAT SHEET</span>
+    <span class="sec-badge">PAGE 4 // CORE FEATURES</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">PRODUCT ARCHITECTURE</div>
+    <h2 class="section-title">The 5 Features You Actually Need to Know</h2>
+    <div class="section-subtitle">Five simple, colorful cards explaining what each feature does and the exact one-liner to say.</div>
+  </div>
+  <div class="content-body">
+    
+    <div class="card card-accent" style="padding: 8px 11px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+        <span style="font-weight: 800; color: #2D5A27; font-size: 8.4pt;">1. ANIMAL PASSPORT</span>
+        <span class="badge badge-green">IDENTITY</span>
+      </div>
+      <p style="font-size: 7.7pt; margin-bottom: 3px;"><strong>What it is:</strong> Digital identity + health history profile for each livestock animal.</p>
+      <div class="say-box" style="padding: 4px 8px; font-size: 7.5pt;"><strong>SAY:</strong> "Every animal gets a persistent healthcare identity that holds its lifetime records."</div>
+    </div>
+
+    <div class="card card-terracotta" style="padding: 8px 11px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+        <span style="font-weight: 800; color: #8C523A; font-size: 8.4pt;">2. ELECTRONIC VET MEDICAL RECORD (EVMR)</span>
+        <span class="badge badge-terracotta">CLINICAL</span>
+      </div>
+      <p style="font-size: 7.7pt; margin-bottom: 3px;"><strong>What it is:</strong> Immutable digital clinical chart generated exclusively by a veterinarian.</p>
+      <div class="say-box" style="padding: 4px 8px; font-size: 7.5pt;"><strong>SAY:</strong> "The veterinarian's confirmed diagnosis becomes an unchangeable part of the medical history."</div>
+    </div>
+
+    <div class="card card-amber" style="padding: 8px 11px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+        <span style="font-weight: 800; color: #8F5902; font-size: 8.4pt;">3. VETERINARY BOOKING &amp; DISPATCH</span>
+        <span class="badge badge-amber">OPERATIONS</span>
+      </div>
+      <p style="font-size: 7.7pt; margin-bottom: 3px;"><strong>What it is:</strong> Deterministic booking workflow connecting farmers with nearby licensed practitioners.</p>
+      <div class="say-box" style="padding: 4px 8px; font-size: 7.5pt;"><strong>SAY:</strong> "Vetra turns an informal phone/WhatsApp struggle into a structured, reliable care workflow."</div>
+    </div>
+
+    <div class="card card-accent" style="padding: 8px 11px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+        <span style="font-weight: 800; color: #2D5A27; font-size: 8.4pt;">4. AI DISEASE SCANNER</span>
+        <span class="badge badge-green">VISION AI</span>
+      </div>
+      <p style="font-size: 7.7pt; margin-bottom: 3px;"><strong>What it is:</strong> Camera-based visual screening for visible lesions and physical symptoms.</p>
+      <div class="say-box" style="padding: 4px 8px; font-size: 7.5pt;"><strong>SAY:</strong> "It scans visible signs to provide an AI-assisted preliminary assessment, not a definitive diagnosis."</div>
+    </div>
+
+    <div class="card card-dark" style="padding: 8px 11px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+        <span style="font-weight: 800; color: #68BB59; font-size: 8.4pt;">5. AI VETERINARY ADVISOR</span>
+        <span class="badge badge-amber">TRIAGE AI</span>
+      </div>
+      <p style="font-size: 7.7pt; color: #FAF9F5; margin-bottom: 3px;"><strong>What it is:</strong> Conversational triage assistant anchored to the animal's historical health record.</p>
+      <div class="say-box" style="padding: 4px 8px; font-size: 7.5pt; background: rgba(255,255,255,0.15); color: #FAF9F5; border-left: 3px solid #68BB59;">
+        <strong>SAY:</strong> "The Advisor understands the animal's available medical context rather than acting like a generic chatbot."
+      </div>
+    </div>
+
+    <!-- Giant Anchor Banner -->
+    <div class="card" style="background: #2D5A27; color: #FFFFFF; text-align: center; padding: 7px 10px;">
+      <div style="font-size: 6.8pt; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #CDE8C7;">THE ONE SENTENCE TO REMEMBER</div>
+      <div style="font-size: 8.2pt; font-weight: 700; margin-top: 1.5px;">
+        "Vetra connects the animal, the farmer, the veterinarian, the medical record, and assistive AI into one continuous healthcare journey."
+      </div>
+    </div>
+
+  </div>
+  <div class="page-footer">
+    <span>VETRA TEAM PITCH CHEAT SHEET // CONFIDENTIAL</span>
+    <span class="page-number">PAGE 4 OF 7</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 5: AI QUESTIONS JUDGES ASK ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // PITCH CHEAT SHEET</span>
+    <span class="sec-badge">PAGE 5 // AI DEFENSE</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">JUDGE DEFENSE</div>
+    <h2 class="section-title">"If They Attack the AI, Don't Panic"</h2>
+    <div class="section-subtitle">Six sharp, confident answers to the toughest AI questions panels and judges will throw at you.</div>
+  </div>
+  <div class="content-body">
+    
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title" style="font-size: 8.1pt; color: #8C523A;">Q1. "Does your AI diagnose diseases?"</div>
+        <p style="font-size: 7.6pt; line-height: 1.4;">
+          <strong>ANSWER:</strong> "No. Vetra provides an <strong>AI-assisted preliminary assessment</strong>. Definitive clinical diagnosis and prescription treatment remain strictly with a licensed veterinarian."
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="font-size: 8.1pt; color: #8C523A;">Q2. "Why not just use ChatGPT?"</div>
+        <p style="font-size: 7.6pt; line-height: 1.4;">
+          <strong>ANSWER:</strong> "Because a generic chatbot doesn't have the cow's persistent medical context. Vetra's Advisor is connected to the specific animal's identity, species, and historical medical records."
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title" style="font-size: 8.1pt; color: #8C523A;">Q3. "What if the AI is wrong?"</div>
+        <p style="font-size: 7.6pt; line-height: 1.4;">
+          <strong>ANSWER:</strong> "We designed the AI conservatively. It is non-prescriptive, explicitly labels model confidence, provides safety disclaimers, and escalates concerning cases toward veterinary review."
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="font-size: 8.1pt; color: #8C523A;">Q4. "Why need this if vets exist?"</div>
+        <p style="font-size: 7.6pt; line-height: 1.4;">
+          <strong>ANSWER:</strong> "Vetra isn't replacing the veterinarian. It improves what happens before, during, and after the visit by organizing animal history, screening symptoms, and streamlining the care workflow."
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title" style="font-size: 8.1pt; color: #8C523A;">Q5. "What is your biggest differentiator?"</div>
+        <p style="font-size: 7.6pt; line-height: 1.4;">
+          <strong>ANSWER:</strong> "We aren't building just a chatbot, just a booking app, or just an animal ledger. Vetra connects all those pieces around the animal's long-term healthcare journey."
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="font-size: 8.1pt; color: #8C523A;">Q6. "What happens after the AI assessment?"</div>
+        <p style="font-size: 7.6pt; line-height: 1.4;">
+          <strong>ANSWER:</strong> "The farmer moves directly into professional veterinary care, and the doctor's confirmed clinical findings become part of the animal's ongoing immutable medical record."
+        </p>
+      </div>
+    </div>
+
+    <div class="say-box">
+      <strong>Presenter Rule:</strong> Never argue with a judge. If a judge expresses skepticism about AI, smile and say: <em>"We completely agree with your concern. That is exactly why Vetra treats AI as assistive screening and keeps the licensed veterinarian in total clinical control."</em>
+    </div>
+
+  </div>
+  <div class="page-footer">
+    <span>VETRA TEAM PITCH CHEAT SHEET // CONFIDENTIAL</span>
+    <span class="page-number">PAGE 5 OF 7</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 6: BUSINESS & IMPACT ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // PITCH CHEAT SHEET</span>
+    <span class="sec-badge">PAGE 6 // BUSINESS &amp; IMPACT</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">BUSINESS &amp; ROI</div>
+    <h2 class="section-title">"If They Ask Why This Matters"</h2>
+    <div class="section-subtitle">Concise stakeholder impact answers and high-level monetization models.</div>
+  </div>
+  <div class="content-body">
+    
+    <div class="grid-3">
+      <div class="card card-accent" style="padding: 8px 10px;">
+        <div class="card-title" style="font-size: 8pt;">WHY FARMERS?</div>
+        <p style="font-size: 7.5pt;">
+          "Better access to care, early symptom awareness, protection of daily milk income, and verifiable animal health records that increase livestock valuation."
+        </p>
+      </div>
+
+      <div class="card card-terracotta" style="padding: 8px 10px;">
+        <div class="card-title" style="font-size: 8pt;">WHY VETERINARIANS?</div>
+        <p style="font-size: 7.5pt;">
+          "Better pre-visit clinical context, structured digital EVMRs in under 45 seconds, optimized daily field routes, and eliminated paper registers."
+        </p>
+      </div>
+
+      <div class="card card-amber" style="padding: 8px 10px;">
+        <div class="card-title" style="font-size: 8pt;">WHY ECOSYSTEM?</div>
+        <p style="font-size: 7.5pt;">
+          "Connecting individual animal health events creates real-time visibility into regional disease patterns to contain outbreaks before they spread."
+        </p>
+      </div>
+    </div>
+
+    <!-- Monetization Card -->
+    <div class="card card-dark" style="padding: 10px 13px;">
+      <div style="font-weight: 800; font-size: 8.5pt; color: #FAF9F5; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.06em;">
+        💰 HOW CAN VETRA MAKE MONEY? (HIGH-LEVEL)
+      </div>
+      <p style="font-size: 7.4pt; color: #CDE8C7; margin-bottom: 5px;">
+        <em>Clearly label these as potential monetization pathways grounded in veterinary market structure:</em>
+      </p>
+      <div class="grid-2" style="font-size: 7.5pt; color: #FAF9F5; gap: 7px;">
+        <div>• <strong>Veterinary Practice SaaS:</strong> Clinic subscriptions for practice management and EVMR tools.</div>
+        <div>• <strong>Enterprise Livestock Operations:</strong> Per-head software licenses for commercial herds &amp; feedlots.</div>
+        <div>• <strong>Dairy Cooperative Deployments:</strong> Herd health and milk supply biosecurity dashboards.</div>
+        <div>• <strong>Institutional &amp; Insurance APIs:</strong> Verification feeds for claim settlement and epidemic monitoring.</div>
+      </div>
+    </div>
+
+    <!-- Bigger Vision Card -->
+    <div class="card card-accent" style="padding: 9px 12px;">
+      <div style="font-weight: 800; font-size: 8.4pt; color: #2D5A27; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px;">
+        🌍 THE BIGGER VISION (5-SECOND CLOSER)
+      </div>
+      <p style="font-size: 7.9pt; color: #1E3D1A; font-weight: 600;">
+        "Today, Vetra manages the healthcare journey of an individual animal. The long-term vision is to connect individual health records into herd-level and regional disease intelligence."
+      </p>
+    </div>
+
+  </div>
+  <div class="page-footer">
+    <span>VETRA TEAM PITCH CHEAT SHEET // CONFIDENTIAL</span>
+    <span class="page-number">PAGE 6 OF 7</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 7: FINAL CHEAT SHEET ================= -->
+<div class="page">
+  <div class="page-header">
+    <span class="doc-title">VETRA // PITCH CHEAT SHEET</span>
+    <span class="sec-badge">PAGE 7 // CLOSING CHEAT SHEET</span>
+  </div>
+  <div class="section-headline">
+    <div class="section-number">FINAL SUMMARY</div>
+    <h2 class="section-title">"If You Remember Nothing Else"</h2>
+    <div class="section-subtitle">The ultimate competition cheat sheet: giant diagram, 30s pitch, golden rules, and emergency fallback.</div>
+  </div>
+  <div class="content-body">
+    
+    <!-- Giant Visual Architecture Card -->
+    <div class="card card-accent" style="text-align: center; padding: 7px 10px;">
+      <div style="font-weight: 800; font-size: 7.3pt; color: #8C523A; letter-spacing: 0.08em; text-transform: uppercase;">THE PROBLEM: FRAGMENTED LIVESTOCK HEALTHCARE</div>
+      <div style="font-weight: 800; font-size: 10pt; color: #2D5A27; margin: 1px 0;">↓ VETRA UNIFIES THE ECOSYSTEM ↓</div>
+      <div style="display: flex; justify-content: center; gap: 6px; margin: 3px 0;">
+        <span class="badge badge-green" style="font-size: 7pt;">ANIMAL PASSPORT</span>
+        <span style="font-weight: 800; color: #8C523A;">+</span>
+        <span class="badge badge-green" style="font-size: 7pt;">MEDICAL RECORDS (EVMR)</span>
+        <span style="font-weight: 800; color: #8C523A;">+</span>
+        <span class="badge badge-green" style="font-size: 7pt;">ASSISTIVE AI</span>
+        <span style="font-weight: 800; color: #8C523A;">+</span>
+        <span class="badge badge-green" style="font-size: 7pt;">VETERINARY CARE</span>
+      </div>
+      <div style="font-weight: 800; font-size: 10pt; color: #2D5A27; margin: 1px 0;">↓</div>
+      <div style="font-weight: 800; font-size: 7.6pt; color: #2D5A27; text-transform: uppercase;">THE OUTCOME: CONTINUOUS, PROTECTED LIVESTOCK HEALTHCARE</div>
+    </div>
+
+    <!-- 30-Second Pitch -->
+    <div class="card card-dark" style="padding: 9px 12px;">
+      <div style="font-weight: 800; font-size: 8.2pt; color: #68BB59; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.06em;">
+        ⚡ THE 30-SECOND PITCH (MEMORIZE THIS)
+      </div>
+      <p style="font-size: 7.8pt; line-height: 1.44; color: #FAF9F5;">
+        "Over 500 million livestock animals in agricultural economies have zero digital medical records. When animals fall sick, farmers can't find veterinarians, past treatments are forgotten, and preventable outbreaks wipe out entire herds. 
+        <strong>Vetra is the digital operating system for livestock healthcare.</strong> We give every animal an immutable health passport, connect farmers to veterinarians, and provide context-aware AI screening. We don't replace doctors—we give them the records and triage tools to save livestock before it's too late."
+      </p>
+    </div>
+
+    <!-- Three Golden Rules -->
+    <div class="card card-amber" style="padding: 7px 11px;">
+      <div style="font-weight: 800; font-size: 7.9pt; color: #8F5902; margin-bottom: 2px; text-transform: uppercase;">
+        🏆 THE THREE GOLDEN RULES OF PRESENTING VETRA
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 7.5pt; font-weight: 700; color: #613C01;">
+        <span>1. Tell the Gauri story.</span>
+        <span>2. Never call AI a doctor.</span>
+        <span>3. Vets are the clinical authority.</span>
+      </div>
+    </div>
+
+    <!-- Emergency Fallback Script -->
+    <div class="card alert-box" style="border-left: 4px solid #B93826; padding: 7px 10px;">
+      <div style="font-weight: 800; font-size: 7.7pt; color: #B93826; margin-bottom: 1px;">🆘 IF YOUR MIND GOES BLANK ON STAGE, SAY THIS:</div>
+      <p style="font-size: 7.6pt; color: #781E12; font-style: italic;">
+        "Vetra is a connected digital healthcare platform for livestock. We give every animal a persistent health identity, connect farmers with veterinarians, maintain medical history, and use AI as an assistive screening layer — not as a replacement for veterinary care."
+      </p>
+    </div>
+
+  </div>
+  <div class="page-footer">
+    <span>VETRA TEAM PITCH CHEAT SHEET // CONFIDENTIAL</span>
+    <span class="page-number">PAGE 7 OF 7</span>
+  </div>
+</div>
+
+</body>
+</html>
