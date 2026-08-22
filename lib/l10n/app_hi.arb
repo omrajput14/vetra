@@ -230,5 +230,8 @@
   "noVetsFound": "अभी कोई पशु चिकित्सक पंजीकृत नहीं है",
   "noVetsFoundDesc": "अपने क्षेत्र में सक्रिय पंजीकृत पशु चिकित्सकों की जांच के लिए रीफ़्रेश करें।",
   "emergencyAvailable": "आपातकालीन सेवा उपलब्ध",
-  "verifiedPractitioner": "सत्यापित पशु चिकित्सक"
+  "verifiedPractitioner": "सत्यापित पशु चिकित्सक",
+  "verifiedVeterinarian": "प्रमाणित पशु चिकित्सक",
+  "noVerifiedVets": "कोई प्रमाणित पशु चिकित्सक उपलब्ध नहीं है",
+  "noVerifiedVetsDesc": "कृपया कुछ समय बाद पुनः प्रयास करें।"
 }

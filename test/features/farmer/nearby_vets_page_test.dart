@@ -28,7 +28,7 @@ Widget createTestApp({
 
 void main() {
   group('VetCard Widget Tests', () {
-    testWidgets('renders vet information and dual action buttons in English', (tester) async {
+    testWidgets('renders verified vet information, badge and dual action buttons in English', (tester) async {
       bool callTapped = false;
       bool bookTapped = false;
 
@@ -37,10 +37,10 @@ void main() {
           child: VetCard(
             name: 'Dr. Ananya Roy',
             designation: 'Bovine Medicine • Roy Animal Hospital',
-            distance: 'Verified Practitioner',
             rating: 5.0,
             phoneNumber: '+919876543210',
             emergencyAvailable: true,
+            isVerified: true,
             onCallTap: () => callTapped = true,
             onBookTap: () => bookTapped = true,
           ),
@@ -49,7 +49,9 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Dr. Ananya Roy'), findsOneWidget);
-      expect(find.text('Bovine Medicine • Roy Animal Hospital • Verified Practitioner'), findsOneWidget);
+      expect(find.text('Verified Veterinarian'), findsOneWidget);
+      expect(find.byIcon(Icons.verified), findsOneWidget);
+      expect(find.text('Bovine Medicine • Roy Animal Hospital'), findsOneWidget);
       expect(find.text('5.0'), findsOneWidget);
       expect(find.text('Emergency Available'), findsOneWidget);
       expect(find.text('Call Vet'), findsOneWidget);
@@ -62,45 +64,49 @@ void main() {
       expect(bookTapped, isTrue);
     });
 
-    testWidgets('renders in Hindi localization correctly', (tester) async {
+    testWidgets('renders Verified Veterinarian badge in Hindi localization correctly', (tester) async {
       await tester.pumpWidget(
         createTestApp(
           locale: const Locale('hi'),
           child: const VetCard(
             name: 'डॉ. अनन्या रॉय',
             designation: 'बोवाइन मेडिसिन • रॉय एनिमल हॉस्पिटल',
-            distance: 'सत्यापित पशु चिकित्सक',
             rating: 5.0,
             phoneNumber: '+919876543210',
             emergencyAvailable: true,
+            isVerified: true,
           ),
         ),
       );
       await tester.pumpAndSettle();
 
       expect(find.text('डॉ. अनन्या रॉय'), findsOneWidget);
+      expect(find.text('प्रमाणित पशु चिकित्सक'), findsOneWidget);
+      expect(find.byIcon(Icons.verified), findsOneWidget);
       expect(find.text('आपातकालीन सेवा उपलब्ध'), findsOneWidget);
       expect(find.text('पशु चिकित्सक को कॉल करें'), findsOneWidget);
       expect(find.text('अपॉइंटमेंट बुक करें'), findsOneWidget);
     });
 
-    testWidgets('renders in Marathi localization correctly', (tester) async {
+    testWidgets('renders Verified Veterinarian badge in Marathi localization correctly', (tester) async {
       await tester.pumpWidget(
         createTestApp(
           locale: const Locale('mr'),
           child: const VetCard(
             name: 'डॉ. अनन्या रॉय',
             designation: 'बोव्हाइन मेडिसिन • रॉय ॲनिमल हॉस्पिटल',
-            distance: 'सत्यापित पशुवैद्यक',
             rating: 5.0,
             phoneNumber: '+919876543210',
             emergencyAvailable: true,
+            isVerified: true,
           ),
         ),
       );
       await tester.pumpAndSettle();
 
       expect(find.text('डॉ. अनन्या रॉय'), findsOneWidget);
+      expect(find.text('प्रमाणित पशुवैद्यक'), findsOneWidget);
+      expect(find.byIcon(Icons.verified), findsOneWidget);
       expect(find.text('तातडीची सेवा उपलब्ध'), findsOneWidget);
       expect(find.text('पशुवैद्यकांना कॉल करा'), findsOneWidget);
       expect(find.text('तपासणी बुक करा'), findsOneWidget);

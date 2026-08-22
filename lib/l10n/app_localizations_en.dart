@@ -716,4 +716,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verifiedPractitioner => 'Verified Practitioner';
+
+  @override
+  String get verifiedVeterinarian => 'Verified Veterinarian';
+
+  @override
+  String get noVerifiedVets => 'No verified veterinarians available';
+
+  @override
+  String get noVerifiedVetsDesc => 'Please check again later.';
 }

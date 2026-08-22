@@ -230,5 +230,8 @@
   "noVetsFound": "अद्याप कोणतेही नोंदणीकृत पशुवैद्यक उपलब्ध नाहीत",
   "noVetsFoundDesc": "आपल्या क्षेत्रातील सक्रिय नोंदणीकृत पशुवैद्यक तपासण्यासाठी रिफ्रेश करा.",
   "emergencyAvailable": "तातडीची सेवा उपलब्ध",
-  "verifiedPractitioner": "सत्यापित पशुवैद्यक"
+  "verifiedPractitioner": "सत्यापित पशुवैद्यक",
+  "verifiedVeterinarian": "प्रमाणित पशुवैद्यक",
+  "noVerifiedVets": "कोणतेही प्रमाणित पशुवैद्यक उपलब्ध नाहीत",
+  "noVerifiedVetsDesc": "कृपया थोड्या वेळाने पुन्हा तपासा."
 }

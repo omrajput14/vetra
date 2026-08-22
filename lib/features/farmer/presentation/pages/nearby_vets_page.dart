@@ -63,7 +63,7 @@ class _NearbyVetsPageState extends ConsumerState<NearbyVetsPage> {
                     padding: const EdgeInsets.all(16),
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
                         decoration: BoxDecoration(
                           color: AppColors.surfaceCard,
                           borderRadius: BorderRadius.circular(12),
@@ -71,53 +71,25 @@ class _NearbyVetsPageState extends ConsumerState<NearbyVetsPage> {
                         ),
                         child: Column(
                           children: [
-                            const Icon(Icons.local_hospital_outlined, size: 48, color: AppColors.primary),
-                            const SizedBox(height: 12),
-                            Text(
-                              l10n?.noVetsFound ?? 'No Registered Vets Online Yet',
-                              style: AppTypography.cardTitle,
+                            const Icon(
+                              Icons.verified_user_outlined,
+                              size: 52,
+                              color: AppColors.primary,
                             ),
-                            const SizedBox(height: 6),
+                            const SizedBox(height: 14),
                             Text(
-                              l10n?.noVetsFoundDesc ??
-                                  'Swipe down or tap refresh to check for active veterinarians registered in your area.',
+                              l10n?.noVerifiedVets ?? 'No verified veterinarians available',
+                              style: AppTypography.cardTitle,
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              l10n?.noVerifiedVetsDesc ?? 'Please check again later.',
                               style: AppTypography.captionMetadata,
                               textAlign: TextAlign.center,
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text('Sample Registered Practitioners', style: AppTypography.sectionHeading),
-                      const SizedBox(height: 12),
-                      VetCard(
-                        name: 'Dr. S. Patel',
-                        designation: 'Large Animals Officer • Rural Clinic',
-                        distance: l10n?.verifiedPractitioner ?? 'Verified Practitioner',
-                        rating: 4.9,
-                        phoneNumber: '+919876543210',
-                        emergencyAvailable: true,
-                        onCallTap: () => CallService.instance.handleCall(
-                          context,
-                          '+919876543210',
-                          l10n: l10n,
-                        ),
-                        onBookTap: () => context.push('/appointment-booking', extra: {'vetName': 'Dr. S. Patel'}),
-                      ),
-                      const SizedBox(height: 12),
-                      VetCard(
-                        name: 'Dr. E. Carter',
-                        designation: 'Equine & Bovine Specialist • Apex Care',
-                        distance: l10n?.verifiedPractitioner ?? 'Verified Practitioner',
-                        rating: 4.7,
-                        phoneNumber: null,
-                        emergencyAvailable: false,
-                        onCallTap: () => CallService.instance.handleCall(
-                          context,
-                          null,
-                          l10n: l10n,
-                        ),
-                        onBookTap: () => context.push('/appointment-booking', extra: {'vetName': 'Dr. E. Carter'}),
                       ),
                     ],
                   )
@@ -134,14 +106,17 @@ class _NearbyVetsPageState extends ConsumerState<NearbyVetsPage> {
                       final phoneNumber = v['phoneNumber']?.toString() ?? v['phone']?.toString();
                       final isEmergency = v['emergencyAvailable'] == true;
                       final rating = (v['rating'] is num) ? (v['rating'] as num).toDouble() : 5.0;
+                      final isVerified = v['verified'] == true ||
+                          v['verificationStatus'] == 'VERIFIED' ||
+                          v['verificationStatus'] == null;
 
                       return VetCard(
                         name: vetName,
                         designation: '$spec • $clinic',
-                        distance: l10n?.verifiedPractitioner ?? 'Verified Practitioner',
                         rating: rating,
                         phoneNumber: phoneNumber,
                         emergencyAvailable: isEmergency,
+                        isVerified: isVerified,
                         onCallTap: () => CallService.instance.handleCall(
                           context,
                           phoneNumber,

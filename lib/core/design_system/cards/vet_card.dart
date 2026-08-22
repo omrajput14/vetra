@@ -3,15 +3,17 @@ import '../../../l10n/app_localizations.dart';
 import '../app_colors.dart';
 import '../app_spacing.dart';
 import '../app_typography.dart';
+import '../badges/verified_badge.dart';
 
-/// Card component for displaying veterinarian profiles in directory and discovery views.
+/// Card component for displaying verified veterinarian profiles in directory and discovery views.
 class VetCard extends StatelessWidget {
   final String name;
   final String designation;
-  final String distance;
+  final String? distance;
   final double rating;
   final String? phoneNumber;
   final bool? emergencyAvailable;
+  final bool isVerified;
   final VoidCallback? onCallTap;
   final VoidCallback? onBookTap;
   final VoidCallback? onTap;
@@ -20,10 +22,11 @@ class VetCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.designation,
-    required this.distance,
+    this.distance,
     required this.rating,
     this.phoneNumber,
     this.emergencyAvailable,
+    this.isVerified = true,
     this.onCallTap,
     this.onBookTap,
     this.onTap,
@@ -53,6 +56,7 @@ class VetCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const CircleAvatar(
                   radius: 26,
@@ -65,8 +69,17 @@ class VetCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(name, style: AppTypography.cardTitle),
-                      const SizedBox(height: 2),
-                      Text('$designation • $distance', style: AppTypography.captionMetadata),
+                      if (isVerified) ...[
+                        const SizedBox(height: 4),
+                        const VerifiedBadge(compact: true),
+                      ],
+                      const SizedBox(height: 4),
+                      Text(
+                        distance != null && distance!.isNotEmpty
+                            ? '$designation • $distance'
+                            : designation,
+                        style: AppTypography.captionMetadata,
+                      ),
                       const SizedBox(height: 4),
                       Row(
                         children: [

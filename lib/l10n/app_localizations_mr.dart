@@ -716,4 +716,13 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get verifiedPractitioner => 'सत्यापित पशुवैद्यक';
+
+  @override
+  String get verifiedVeterinarian => 'प्रमाणित पशुवैद्यक';
+
+  @override
+  String get noVerifiedVets => 'कोणतेही प्रमाणित पशुवैद्यक उपलब्ध नाहीत';
+
+  @override
+  String get noVerifiedVetsDesc => 'कृपया थोड्या वेळाने पुन्हा तपासा.';
 }

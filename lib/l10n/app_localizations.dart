@@ -1485,6 +1485,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Verified Practitioner'**
   String get verifiedPractitioner;
+
+  /// No description provided for @verifiedVeterinarian.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Veterinarian'**
+  String get verifiedVeterinarian;
+
+  /// No description provided for @noVerifiedVets.
+  ///
+  /// In en, this message translates to:
+  /// **'No verified veterinarians available'**
+  String get noVerifiedVets;
+
+  /// No description provided for @noVerifiedVetsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check again later.'**
+  String get noVerifiedVetsDesc;
 }
 
 class _AppLocalizationsDelegate

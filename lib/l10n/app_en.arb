@@ -230,5 +230,8 @@
   "noVetsFound": "No Registered Vets Online Yet",
   "noVetsFoundDesc": "Swipe down or tap refresh to check for active veterinarians registered in your area.",
   "emergencyAvailable": "Emergency Available",
-  "verifiedPractitioner": "Verified Practitioner"
+  "verifiedPractitioner": "Verified Practitioner",
+  "verifiedVeterinarian": "Verified Veterinarian",
+  "noVerifiedVets": "No verified veterinarians available",
+  "noVerifiedVetsDesc": "Please check again later."
 }
