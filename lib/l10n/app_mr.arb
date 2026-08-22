@@ -222,5 +222,13 @@
   "aiAdvisorTitle": "एआय पशुवैद्यकीय सल्लागार",
   "describeAnimalProblem": "जनावराची लक्षणे किंवा समस्या सांगा...",
   "typeMessageHint": "संदेश लिहा किंवा माइक दाबा...",
-  "send": "पाठवा"
+  "send": "पाठवा",
+  "callVet": "पशुवैद्यकांना कॉल करा",
+  "contactUnavailable": "संपर्क उपलब्ध नाही",
+  "bookAppointment": "तपासणी बुक करा",
+  "nearbyVetsDirectory": "जवळपासचे पशुवैद्यक निर्देशिका",
+  "noVetsFound": "अद्याप कोणतेही नोंदणीकृत पशुवैद्यक उपलब्ध नाहीत",
+  "noVetsFoundDesc": "आपल्या क्षेत्रातील सक्रिय नोंदणीकृत पशुवैद्यक तपासण्यासाठी रिफ्रेश करा.",
+  "emergencyAvailable": "तातडीची सेवा उपलब्ध",
+  "verifiedPractitioner": "सत्यापित पशुवैद्यक"
 }

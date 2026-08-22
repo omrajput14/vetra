@@ -93,6 +93,7 @@ class LanguageSettingsPage extends ConsumerWidget {
     required bool isSelected,
   }) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () async {
         await ref.read(localeProvider.notifier).setLanguageCode(code);
         if (context.mounted) {

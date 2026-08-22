@@ -222,5 +222,13 @@
   "aiAdvisorTitle": "AI Veterinary Advisor",
   "describeAnimalProblem": "Describe your animal problem...",
   "typeMessageHint": "Type message or tap mic...",
-  "send": "Send"
+  "send": "Send",
+  "callVet": "Call Vet",
+  "contactUnavailable": "Contact unavailable",
+  "bookAppointment": "Book Appointment",
+  "nearbyVetsDirectory": "Nearby Vets Directory",
+  "noVetsFound": "No Registered Vets Online Yet",
+  "noVetsFoundDesc": "Swipe down or tap refresh to check for active veterinarians registered in your area.",
+  "emergencyAvailable": "Emergency Available",
+  "verifiedPractitioner": "Verified Practitioner"
 }

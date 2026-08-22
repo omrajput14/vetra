@@ -691,4 +691,29 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get send => 'पाठवा';
+
+  @override
+  String get callVet => 'पशुवैद्यकांना कॉल करा';
+
+  @override
+  String get contactUnavailable => 'संपर्क उपलब्ध नाही';
+
+  @override
+  String get bookAppointment => 'तपासणी बुक करा';
+
+  @override
+  String get nearbyVetsDirectory => 'जवळपासचे पशुवैद्यक निर्देशिका';
+
+  @override
+  String get noVetsFound => 'अद्याप कोणतेही नोंदणीकृत पशुवैद्यक उपलब्ध नाहीत';
+
+  @override
+  String get noVetsFoundDesc =>
+      'आपल्या क्षेत्रातील सक्रिय नोंदणीकृत पशुवैद्यक तपासण्यासाठी रिफ्रेश करा.';
+
+  @override
+  String get emergencyAvailable => 'तातडीची सेवा उपलब्ध';
+
+  @override
+  String get verifiedPractitioner => 'सत्यापित पशुवैद्यक';
 }

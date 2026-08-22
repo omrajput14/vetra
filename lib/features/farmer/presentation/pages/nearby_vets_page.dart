@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/cards/vet_card.dart';
 import '../../../../core/design_system/navigation/farmer_bottom_navigation.dart';
+import '../../../../core/localization/locale_provider.dart';
+import '../../../../core/services/call_service.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
-class NearbyVetsPage extends StatefulWidget {
+class NearbyVetsPage extends ConsumerStatefulWidget {
   const NearbyVetsPage({super.key});
 
   @override
-  State<NearbyVetsPage> createState() => _NearbyVetsPageState();
+  ConsumerState<NearbyVetsPage> createState() => _NearbyVetsPageState();
 }
 
-class _NearbyVetsPageState extends State<NearbyVetsPage> {
+class _NearbyVetsPageState extends ConsumerState<NearbyVetsPage> {
   @override
   void initState() {
     super.initState();
@@ -24,6 +28,9 @@ class _NearbyVetsPageState extends State<NearbyVetsPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(localeProvider);
+    final l10n = AppLocalizations.of(context);
+
     return AnimatedBuilder(
       animation: authNotifier,
       builder: (context, _) {
@@ -34,7 +41,10 @@ class _NearbyVetsPageState extends State<NearbyVetsPage> {
           appBar: AppBar(
             backgroundColor: AppColors.surfaceCard,
             elevation: 0,
-            title: Text('Nearby Vets Directory', style: AppTypography.screenTitle),
+            title: Text(
+              l10n?.nearbyVetsDirectory ?? 'Nearby Vets Directory',
+              style: AppTypography.screenTitle,
+            ),
             actions: [
               IconButton(
                 icon: const Icon(Icons.refresh, color: AppColors.primary),
@@ -63,10 +73,14 @@ class _NearbyVetsPageState extends State<NearbyVetsPage> {
                           children: [
                             const Icon(Icons.local_hospital_outlined, size: 48, color: AppColors.primary),
                             const SizedBox(height: 12),
-                            Text('No Registered Vets Online Yet', style: AppTypography.cardTitle),
+                            Text(
+                              l10n?.noVetsFound ?? 'No Registered Vets Online Yet',
+                              style: AppTypography.cardTitle,
+                            ),
                             const SizedBox(height: 6),
                             Text(
-                              'Swipe down or tap refresh to check for active veterinarians registered in your area.',
+                              l10n?.noVetsFoundDesc ??
+                                  'Swipe down or tap refresh to check for active veterinarians registered in your area.',
                               style: AppTypography.captionMetadata,
                               textAlign: TextAlign.center,
                             ),
@@ -78,17 +92,31 @@ class _NearbyVetsPageState extends State<NearbyVetsPage> {
                       const SizedBox(height: 12),
                       VetCard(
                         name: 'Dr. S. Patel',
-                        designation: 'Large Animals Officer',
-                        distance: '2.5 km away',
+                        designation: 'Large Animals Officer • Rural Clinic',
+                        distance: l10n?.verifiedPractitioner ?? 'Verified Practitioner',
                         rating: 4.9,
+                        phoneNumber: '+919876543210',
+                        emergencyAvailable: true,
+                        onCallTap: () => CallService.instance.handleCall(
+                          context,
+                          '+919876543210',
+                          l10n: l10n,
+                        ),
                         onBookTap: () => context.push('/appointment-booking', extra: {'vetName': 'Dr. S. Patel'}),
                       ),
                       const SizedBox(height: 12),
                       VetCard(
                         name: 'Dr. E. Carter',
-                        designation: 'Equine & Bovine Specialist',
-                        distance: '4.1 km away',
+                        designation: 'Equine & Bovine Specialist • Apex Care',
+                        distance: l10n?.verifiedPractitioner ?? 'Verified Practitioner',
                         rating: 4.7,
+                        phoneNumber: null,
+                        emergencyAvailable: false,
+                        onCallTap: () => CallService.instance.handleCall(
+                          context,
+                          null,
+                          l10n: l10n,
+                        ),
                         onBookTap: () => context.push('/appointment-booking', extra: {'vetName': 'Dr. E. Carter'}),
                       ),
                     ],
@@ -100,15 +128,25 @@ class _NearbyVetsPageState extends State<NearbyVetsPage> {
                     itemBuilder: (context, index) {
                       final v = vets[index];
                       final vetId = v['id']?.toString() ?? '';
-                      final vetName = v['fullName']?.toString() ?? 'Dr. Veterinarian';
+                      final vetName = v['name']?.toString() ?? v['fullName']?.toString() ?? 'Dr. Veterinarian';
                       final spec = v['specialization']?.toString() ?? v['qualification']?.toString() ?? 'Veterinary Officer';
-                      final clinic = v['clinicName']?.toString() ?? 'Clinical Practice';
+                      final clinic = v['clinic']?.toString() ?? v['clinicName']?.toString() ?? 'Clinical Practice';
+                      final phoneNumber = v['phoneNumber']?.toString() ?? v['phone']?.toString();
+                      final isEmergency = v['emergencyAvailable'] == true;
+                      final rating = (v['rating'] is num) ? (v['rating'] as num).toDouble() : 5.0;
 
                       return VetCard(
                         name: vetName,
                         designation: '$spec • $clinic',
-                        distance: 'Verified Practitioner',
-                        rating: 5.0,
+                        distance: l10n?.verifiedPractitioner ?? 'Verified Practitioner',
+                        rating: rating,
+                        phoneNumber: phoneNumber,
+                        emergencyAvailable: isEmergency,
+                        onCallTap: () => CallService.instance.handleCall(
+                          context,
+                          phoneNumber,
+                          l10n: l10n,
+                        ),
                         onBookTap: () => context.push(
                           '/appointment-booking',
                           extra: {'vetId': vetId, 'vetName': vetName},
@@ -120,7 +158,10 @@ class _NearbyVetsPageState extends State<NearbyVetsPage> {
           floatingActionButton: FloatingActionButton.extended(
             backgroundColor: AppColors.primary,
             icon: const Icon(Icons.add_task, color: Colors.white),
-            label: Text('Book Appointment', style: AppTypography.buttonLabel.copyWith(color: Colors.white)),
+            label: Text(
+              l10n?.bookAppointment ?? 'Book Appointment',
+              style: AppTypography.buttonLabel.copyWith(color: Colors.white),
+            ),
             onPressed: () => context.push('/appointment-booking'),
           ),
           bottomNavigationBar: FarmerBottomNavigation(

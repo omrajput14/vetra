@@ -26,5 +26,9 @@
 	<string>Vetra needs microphone access for voice input to the AI Veterinary Advisor.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Vetra uses speech recognition to convert spoken symptom descriptions into text.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tel</string>
+	</array>
 </dict>
 </plist>

@@ -222,5 +222,13 @@
   "aiAdvisorTitle": "एआई पशुचिकित्सा सलाहकार",
   "describeAnimalProblem": "पशु के लक्षण या समस्या बताएं...",
   "typeMessageHint": "संदेश लिखें या माइक दबाएं...",
-  "send": "भेजें"
+  "send": "भेजें",
+  "callVet": "पशु चिकित्सक को कॉल करें",
+  "contactUnavailable": "संपर्क उपलब्ध नहीं है",
+  "bookAppointment": "अपॉइंटमेंट बुक करें",
+  "nearbyVetsDirectory": "नजदीकी पशु चिकित्सक निर्देशिका",
+  "noVetsFound": "अभी कोई पशु चिकित्सक पंजीकृत नहीं है",
+  "noVetsFoundDesc": "अपने क्षेत्र में सक्रिय पंजीकृत पशु चिकित्सकों की जांच के लिए रीफ़्रेश करें।",
+  "emergencyAvailable": "आपातकालीन सेवा उपलब्ध",
+  "verifiedPractitioner": "सत्यापित पशु चिकित्सक"
 }

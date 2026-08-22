@@ -1437,6 +1437,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send'**
   String get send;
+
+  /// No description provided for @callVet.
+  ///
+  /// In en, this message translates to:
+  /// **'Call Vet'**
+  String get callVet;
+
+  /// No description provided for @contactUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact unavailable'**
+  String get contactUnavailable;
+
+  /// No description provided for @bookAppointment.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Appointment'**
+  String get bookAppointment;
+
+  /// No description provided for @nearbyVetsDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby Vets Directory'**
+  String get nearbyVetsDirectory;
+
+  /// No description provided for @noVetsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No Registered Vets Online Yet'**
+  String get noVetsFound;
+
+  /// No description provided for @noVetsFoundDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe down or tap refresh to check for active veterinarians registered in your area.'**
+  String get noVetsFoundDesc;
+
+  /// No description provided for @emergencyAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Available'**
+  String get emergencyAvailable;
+
+  /// No description provided for @verifiedPractitioner.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Practitioner'**
+  String get verifiedPractitioner;
 }
 
 class _AppLocalizationsDelegate

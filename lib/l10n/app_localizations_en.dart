@@ -691,4 +691,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get send => 'Send';
+
+  @override
+  String get callVet => 'Call Vet';
+
+  @override
+  String get contactUnavailable => 'Contact unavailable';
+
+  @override
+  String get bookAppointment => 'Book Appointment';
+
+  @override
+  String get nearbyVetsDirectory => 'Nearby Vets Directory';
+
+  @override
+  String get noVetsFound => 'No Registered Vets Online Yet';
+
+  @override
+  String get noVetsFoundDesc =>
+      'Swipe down or tap refresh to check for active veterinarians registered in your area.';
+
+  @override
+  String get emergencyAvailable => 'Emergency Available';
+
+  @override
+  String get verifiedPractitioner => 'Verified Practitioner';
 }
