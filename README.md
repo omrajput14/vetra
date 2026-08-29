@@ -60,7 +60,7 @@ Key architectural features include:
 
 ## System Architecture
 
-Vetra enforces strict Clean Architecture conventions with unidirectional data flows (Presentation -> Domain <- Data).
+Vetra enforces strict Clean Architecture conventions with unidirectional data flows (Presentation --> Domain <-- Data).
 
 ### End-to-End System Topology
 
