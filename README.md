@@ -52,7 +52,7 @@ Field veterinary healthcare in rural agricultural ecosystems operates under seve
 
 **Vetra (Veterinary Operating System / VetOS)** solves these challenges through an enterprise-grade mobile application pairing a **Flutter 3 Clean Architecture** client with **Spring Boot microservices**, **PostGIS spatial clustering**, **cryptographic Ed25519 animal passports**, and an **offline-first store-and-forward sync pipeline**.
 
----
+ ---
 
 ## Core Capabilities
 
