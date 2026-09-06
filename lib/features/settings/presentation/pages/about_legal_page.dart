@@ -13,7 +13,7 @@ class AboutLegalPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('About Vetra', style: AppTypography.screenTitle),
+        title: Text('About PASHU SATHI', style: AppTypography.screenTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => context.pop(),
@@ -23,9 +23,15 @@ class AboutLegalPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.health_and_safety, size: 64, color: AppColors.primary),
-            const SizedBox(height: 16),
-            Text('VETRA v1.0.0', style: AppTypography.screenTitle),
+            Image.asset(
+              'assets/branding/vetra_logo_transparent.png',
+              width: 90,
+              height: 90,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 20),
+            Text('PASHU SATHI v1.0.0', style: AppTypography.screenTitle),
+            const SizedBox(height: 4),
             Text('Livestock Surveillance & Tele-Health System', style: AppTypography.captionMetadata),
           ],
         ),

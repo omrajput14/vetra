@@ -24,7 +24,7 @@ class DashboardModel {
       activeAlertsCount: (json['activeAlertsCount'] as num?)?.toInt() ?? 0,
       medicalRecordsCreatedCount: (json['medicalRecordsCreatedCount'] as num?)?.toInt() ?? 0,
       userName: json['userName']?.toString() ?? 'User',
-      facilityName: json['facilityName']?.toString() ?? 'Vetra Platform',
+      facilityName: json['facilityName']?.toString() ?? 'PASHU SATHI Platform',
       role: json['role']?.toString() ?? 'FARMER',
     );
   }

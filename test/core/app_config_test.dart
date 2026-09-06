@@ -5,28 +5,28 @@ import 'package:vetra/core/config/api_config.dart';
 void main() {
   group('AppConfig Environment Tests', () {
     tearDown(() {
-      // Restore default staging environment
-      AppConfig.useStaging();
+      AppConfig.useProduction();
     });
 
-    test('Default environment is Staging', () {
+    test('Default environment is Production', () {
+      AppConfig.useProduction();
+      expect(AppConfig.environment, Environment.production);
+      expect(AppConfig.baseUrl, 'https://api.vetra.co.in');
+      expect(AppConfig.apiBaseUrl, 'https://api.vetra.co.in/api/v1');
+      expect(ApiConfig.baseUrl, 'https://api.vetra.co.in');
+    });
+
+    test('Switching to Staging environment uses HTTPS base URL', () {
       AppConfig.useStaging();
       expect(AppConfig.environment, Environment.staging);
-      expect(AppConfig.baseUrl, 'https://api.vetra.dpdns.org');
-      expect(AppConfig.apiBaseUrl, 'https://api.vetra.dpdns.org/api/v1');
-      expect(ApiConfig.baseUrl, 'https://api.vetra.dpdns.org');
+      expect(AppConfig.baseUrl, 'https://api.vetra.co.in');
+      expect(AppConfig.apiBaseUrl, 'https://api.vetra.co.in/api/v1');
     });
 
     test('Switching to Development environment changes base URL', () {
       AppConfig.useDevelopment();
       expect(AppConfig.environment, Environment.development);
-      expect(AppConfig.baseUrl, contains(':8080'));
-    });
-
-    test('Switching to Production environment changes base URL', () {
-      AppConfig.useProduction();
-      expect(AppConfig.environment, Environment.production);
-      expect(AppConfig.baseUrl, 'https://api.vetra.app');
+      expect(AppConfig.baseUrl, 'https://api.vetra.co.in');
     });
 
     test('Timeouts and retry parameters are properly configured', () {

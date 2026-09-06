@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import '../../data/models/ai_scan_model.dart';
-import '../../data/repositories/ai_scan_repository_impl.dart';
+import '../../data/repositories/offline_first_ai_scan_repository.dart';
 import '../../domain/repositories/ai_scan_repository.dart';
 import '../../../animal/data/api/animal_api_service.dart';
+import '../../../animal/data/datasources/animal_local_datasource.dart';
 
 class AIScanNotifier extends ChangeNotifier {
   final AIScanRepository _repository;
@@ -11,7 +12,7 @@ class AIScanNotifier extends ChangeNotifier {
   AIScanNotifier({
     AIScanRepository? repository,
     AnimalApiService? animalApiService,
-  })  : _repository = repository ?? AIScanRepositoryImpl(),
+  })  : _repository = repository ?? OfflineFirstAIScanRepository(),
         _animalApiService = animalApiService ?? AnimalApiService();
 
   String? _selectedImagePath;
@@ -51,13 +52,27 @@ class AIScanNotifier extends ChangeNotifier {
 
   Future<void> fetchFarmerAnimals() async {
     try {
-      final res = await _animalApiService.listAnimals();
-      if (res['data'] is List) {
-        _farmerAnimals = (res['data'] as List)
-            .map((item) => Map<String, dynamic>.from(item as Map))
-            .toList();
-        if (_farmerAnimals.isNotEmpty && _selectedAnimalId == null) {
+      final localAnimals = await AnimalLocalDatasource.instance.getAll();
+      if (localAnimals.isNotEmpty) {
+        _farmerAnimals = localAnimals.map((a) => {
+          'id': a.id,
+          'animalName': a.displayName,
+          'tagNumber': a.tagNumber,
+          'species': a.species,
+          'breed': a.breed,
+        }).toList();
+        if (_selectedAnimalId == null && _farmerAnimals.isNotEmpty) {
           _selectedAnimalId = _farmerAnimals.first['id']?.toString();
+        }
+      } else {
+        final res = await _animalApiService.listAnimals();
+        if (res['data'] is List) {
+          _farmerAnimals = (res['data'] as List)
+              .map((item) => Map<String, dynamic>.from(item as Map))
+              .toList();
+          if (_farmerAnimals.isNotEmpty && _selectedAnimalId == null) {
+            _selectedAnimalId = _farmerAnimals.first['id']?.toString();
+          }
         }
       }
     } catch (_) {

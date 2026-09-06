@@ -4,6 +4,8 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../../../../core/widgets/image_picker_field.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/animal_provider.dart';
 
 class AddAnimalPage extends StatefulWidget {
@@ -18,8 +20,8 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
   final _tagController = TextEditingController();
   final _qrController = TextEditingController();
   final _breedController = TextEditingController();
-  final _photoUrlController = TextEditingController();
 
+  String? _selectedPhotoPath;
   String _selectedSpecies = 'CATTLE';
   String _selectedGender = 'FEMALE';
   bool _isSubmitting = false;
@@ -33,7 +35,6 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
     _tagController.dispose();
     _qrController.dispose();
     _breedController.dispose();
-    _photoUrlController.dispose();
     super.dispose();
   }
 
@@ -54,7 +55,7 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
       species: _selectedSpecies,
       breed: _breedController.text.trim().isEmpty ? null : _breedController.text.trim(),
       gender: _selectedGender,
-      photoUrl: _photoUrlController.text.trim().isEmpty ? null : _photoUrlController.text.trim(),
+      localPhotoPath: _selectedPhotoPath,
     );
     if (!mounted) return;
     setState(() => _isSubmitting = false);
@@ -74,12 +75,14 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Register New Animal', style: AppTypography.screenTitle),
+        title: Text(l10n?.addAnimal ?? 'Register New Animal', style: AppTypography.screenTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => context.pop(),
@@ -93,6 +96,14 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
             const SizedBox(height: 8),
             Text('Enter official tag and optional animal name.', style: AppTypography.captionMetadata),
             const SizedBox(height: 24),
+            ImagePickerField(
+              label: l10n?.animalPhoto ?? 'Animal Photo',
+              initialLocalPath: _selectedPhotoPath,
+              onImageChanged: (path) {
+                setState(() => _selectedPhotoPath = path);
+              },
+            ),
+            const SizedBox(height: 16),
             AppTextField(
               controller: _nameController,
               labelText: 'Animal Name (Optional)',
@@ -101,21 +112,21 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
             const SizedBox(height: 16),
             AppTextField(
               controller: _tagController,
-              labelText: 'Ear Tag Number *',
+              labelText: '${l10n?.tagNumber ?? "Ear Tag Number"} *',
               hintText: 'e.g. NL-93842',
             ),
             const SizedBox(height: 16),
             AppTextField(
               controller: _qrController,
-              labelText: 'QR Code Identifier (Optional)',
+              labelText: '${l10n?.qrPassport ?? "QR Code Identifier"} (Optional)',
               hintText: 'e.g. QR-99410',
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               initialValue: _selectedSpecies,
-              decoration: const InputDecoration(
-                labelText: 'Species *',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: '${l10n?.species ?? "Species"} *',
+                border: const OutlineInputBorder(),
               ),
               items: _speciesOptions.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
               onChanged: (val) {
@@ -125,26 +136,20 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
             const SizedBox(height: 16),
             AppTextField(
               controller: _breedController,
-              labelText: 'Breed (Optional)',
+              labelText: '${l10n?.breed ?? "Breed"} (Optional)',
               hintText: 'e.g. Holstein / Jersey',
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               initialValue: _selectedGender,
-              decoration: const InputDecoration(
-                labelText: 'Gender *',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: '${l10n?.gender ?? "Gender"} *',
+                border: const OutlineInputBorder(),
               ),
               items: _genderOptions.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
               onChanged: (val) {
                 if (val != null) setState(() => _selectedGender = val);
               },
-            ),
-            const SizedBox(height: 16),
-            AppTextField(
-              controller: _photoUrlController,
-              labelText: 'Photo URL (Optional)',
-              hintText: 'https://...',
             ),
             const SizedBox(height: 32),
             PrimaryButton(

@@ -45,6 +45,19 @@ class SettingsOverviewPage extends StatelessWidget {
               context.go('/welcome');
             },
           ),
+          const SizedBox(height: 32),
+          Center(
+            child: Column(
+              children: [
+                Image.asset('assets/branding/vetra_logo_transparent.png', height: 44, width: 44),
+                const SizedBox(height: 8),
+                Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 16, letterSpacing: 1.2)),
+                const SizedBox(height: 2),
+                Text('v1.0.0 (Build 1)', style: AppTypography.captionMetadata),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
         ],
       ),
     );

@@ -49,3 +49,29 @@ manifest.json
 scratch/
 *.tmp
 *.log
+
+# ─── APKs, App Bundles & Build Outputs ────────────────────────────────
+*.apk
+*.aab
+*.ipa
+*.ap_
+
+# ─── Graphify Knowledge Graph ─────────────────────────────────────────
+graphify-out/
+.graphify/
+
+# ─── AI Agents & Assistant Workspaces ─────────────────────────────────
+.claude/
+.gemini/
+.agents/
+
+# ─── Python Bytecode & Environments ───────────────────────────────────
+__pycache__/
+*.py[cod]
+
+# ─── OS Metadata ──────────────────────────────────────────────────────
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

@@ -1,16 +1,19 @@
+// ignore_for_file: deprecated_member_use_from_same_package
 import 'package:vetra/core/models/veterinarian.dart';
 
+/// Abstract interface retained for test scaffolding compatibility.
+/// Do NOT use MockVetRepository in production code.
 abstract class VetRepository {
   Future<List<Veterinarian>> getNearbyVets();
 }
 
+/// BUG 4 FIX: All hardcoded fake veterinarians removed.
+/// Returns an empty list — production code uses authNotifier.fetchNearbyVets().
+@Deprecated('Do not use in production — returns empty list intentionally.')
 class MockVetRepository implements VetRepository {
   @override
   Future<List<Veterinarian>> getNearbyVets() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return const [
-      Veterinarian(id: 'V1', name: 'Dr. Rajesh Kumar', designation: 'Govt Vet Officer', distance: '2.5 km', rating: 4.9),
-      Veterinarian(id: 'V2', name: 'Dr. Priya Sharma', designation: 'Surgeon', distance: '5.1 km', rating: 4.8),
-    ];
+    // Intentionally empty — no hardcoded/fake vet data in production.
+    return const [];
   }
 }

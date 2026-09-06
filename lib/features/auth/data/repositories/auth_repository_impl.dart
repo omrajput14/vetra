@@ -12,29 +12,40 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<UserModel> registerFarmer({
     required String email,
     required String fullName,
-    required String phone,
+    String? phone,
     required String password,
     String? farmName,
     String? village,
+    String? taluka,
     String? district,
     String? state,
+    double? latitude,
+    double? longitude,
     int? animalCount,
     String? preferredLanguage,
   }) async {
     final lang = preferredLanguage ?? await _storage.getPreferredLanguage() ?? 'en';
-    final response = await _apiService.registerFarmer({
+    final cleanPhone = (phone != null && phone.trim().isNotEmpty)
+        ? phone.trim().replaceAll(RegExp(r'\s+'), '')
+        : null;
+
+    final body = <String, dynamic>{
       'email': email.trim().replaceAll(' ', ''),
-      'phone': phone.trim(),
+      if (cleanPhone != null) 'phone': cleanPhone,
       'password': password,
       'fullName': fullName.trim(),
-      'farmName': farmName?.trim(),
-      'village': village?.trim(),
-      'district': district?.trim(),
-      'state': state?.trim(),
-      'animalCount': animalCount,
+      if (farmName != null && farmName.trim().isNotEmpty) 'farmName': farmName.trim(),
+      if (village != null && village.trim().isNotEmpty) 'village': village.trim(),
+      if (taluka != null && taluka.trim().isNotEmpty) 'taluka': taluka.trim(),
+      if (district != null && district.trim().isNotEmpty) 'district': district.trim(),
+      if (state != null && state.trim().isNotEmpty) 'state': state.trim(),
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      if (animalCount != null) 'animalCount': animalCount,
       'preferredLanguage': lang,
-    });
+    };
 
+    final response = await _apiService.registerFarmer(body);
     return await _processAuthResponse(response);
   }
 
@@ -48,6 +59,13 @@ class AuthRepositoryImpl implements AuthRepository {
     required String qualification,
     required String specialization,
     String? clinicName,
+    String? clinicAddress,
+    String? village,
+    String? taluka,
+    String? district,
+    String? state,
+    double? latitude,
+    double? longitude,
     required String experience,
     String? preferredLanguage,
   }) async {
@@ -64,6 +82,13 @@ class AuthRepositoryImpl implements AuthRepository {
       'qualification': qualification.trim(),
       'specialization': specialization.trim(),
       'clinicName': clinicName?.trim(),
+      'clinicAddress': clinicAddress?.trim(),
+      'village': village?.trim(),
+      'taluka': taluka?.trim(),
+      'district': district?.trim(),
+      'state': state?.trim(),
+      'latitude': latitude,
+      'longitude': longitude,
       'yearsExperience': yearsExp,
       'preferredLanguage': lang,
     });
@@ -122,24 +147,44 @@ class AuthRepositoryImpl implements AuthRepository {
     String? phone,
     String? farmName,
     String? village,
+    String? taluka,
     String? district,
     String? state,
+    double? latitude,
+    double? longitude,
     String? clinicName,
+    String? clinicAddress,
     String? specialization,
     String? qualification,
     int? yearsExperience,
+    bool? isAvailable,
+    bool? emergencyAvailable,
+    String? shiftSchedule,
+    String? profilePhotoUrl,
+    String? certificateUrl,
   }) async {
     final response = await _apiService.updateProfile({
       'fullName': fullName,
       'phone': phone,
       'farmName': farmName,
       'village': village,
+      'taluka': taluka,
       'district': district,
       'state': state,
+      'latitude': latitude,
+      'longitude': longitude,
       'clinicName': clinicName,
+      'clinicAddress': clinicAddress,
       'specialization': specialization,
       'qualification': qualification,
       'yearsExperience': yearsExperience,
+      'isAvailable': isAvailable,
+      'available': isAvailable,
+      'emergencyAvailable': emergencyAvailable,
+      'isEmergencyAvailable': emergencyAvailable,
+      'shiftSchedule': shiftSchedule,
+      'profilePhotoUrl': profilePhotoUrl,
+      'certificateUrl': certificateUrl,
     });
 
     final userData = response['data'] as Map<String, dynamic>;
@@ -210,7 +255,33 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> listVets() async {
-    return await _apiService.listVets();
+  Future<List<Map<String, dynamic>>> listVets({
+    double? latitude,
+    double? longitude,
+    double? radiusKm,
+    String? village,
+    String? taluka,
+    String? district,
+  }) async {
+    return await _apiService.listVets(
+      latitude: latitude,
+      longitude: longitude,
+      radiusKm: radiusKm,
+      village: village,
+      taluka: taluka,
+      district: district,
+    );
+  }
+
+  @override
+  Future<String> uploadProfilePhoto(String filePath) async {
+    final response = await _apiService.uploadProfilePhoto(filePath);
+    final data = response['data'] as Map<String, dynamic>?;
+    return data?['photoUrl']?.toString() ?? '';
+  }
+
+  @override
+  Future<void> deleteProfilePhoto() async {
+    await _apiService.deleteProfilePhoto();
   }
 }

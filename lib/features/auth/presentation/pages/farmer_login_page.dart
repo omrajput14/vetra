@@ -25,8 +25,6 @@ class _FarmerLoginPageState extends ConsumerState<FarmerLoginPage> {
   @override
   void initState() {
     super.initState();
-    _phoneController.text = 'voice.farmer.demo@vetra.app';
-    _passwordController.text = 'Password@123';
   }
 
   @override
@@ -90,65 +88,86 @@ class _FarmerLoginPageState extends ConsumerState<FarmerLoginPage> {
           const SizedBox(width: 8),
         ],
       ),
+      // resizeToAvoidBottomInset=true (default) so scaffold shrinks for keyboard.
+      // Using SingleChildScrollView prevents RenderFlex overflow when keyboard opens.
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 12),
-              Text(l10n?.signIn ?? 'Farmer Sign In', style: AppTypography.screenTitle),
-              const SizedBox(height: 8),
-              Text(
-                'Access herd surveillance and animal health records.',
-                style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: 32),
-              AppTextField(
-                controller: _phoneController,
-                labelText: '${l10n?.phone ?? "Phone"} / ${l10n?.email ?? "Email"}',
-                hintText: 'e.g. farmer@vetra.app',
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 20),
-              AppTextField(
-                controller: _passwordController,
-                labelText: l10n?.password ?? 'Password',
-                hintText: 'Enter account password',
-                obscureText: _obscurePassword,
-                suffixIcon: IconButton(
-                  icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: AppColors.textMetadata),
-                  onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () => context.push('/forgot-password'),
-                  child: Text(l10n?.forgotPassword ?? 'Forgot Password?', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
-                ),
-              ),
-              const Spacer(),
-              PrimaryButton(
-                label: _isLoading ? (l10n?.loading ?? 'Authenticating...') : (l10n?.login ?? 'Login'),
-                onPressed: _isLoading ? null : () => _handleLogin(),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).padding.top -
+                  MediaQuery.of(context).padding.bottom -
+                  kToolbarHeight,
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${l10n?.dontHaveAccount ?? "Don't have an account?"} ', style: AppTypography.captionMetadata),
-                  GestureDetector(
-                    onTap: () => context.push('/farmer-register'),
-                    child: Text(
-                      l10n?.createAccount ?? 'Create Farmer Account',
-                      style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Image.asset('assets/branding/vetra_logo_transparent.png', height: 36, width: 36),
+                      const SizedBox(width: 10),
+                      Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, letterSpacing: 1.2, fontSize: 20)),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(l10n?.signIn ?? 'Farmer Sign In', style: AppTypography.screenTitle),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Access herd surveillance and animal health records.',
+                    style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
+                  ),
+                  const SizedBox(height: 32),
+                  AppTextField(
+                    controller: _phoneController,
+                    labelText: '${l10n?.phone ?? "Phone"} / ${l10n?.email ?? "Email"}',
+                    hintText: 'e.g. farmer@vetra.app',
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 20),
+                  AppTextField(
+                    controller: _passwordController,
+                    labelText: l10n?.password ?? 'Password',
+                    hintText: 'Enter account password',
+                    obscureText: _obscurePassword,
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: AppColors.textMetadata),
+                      onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                     ),
                   ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => context.push('/forgot-password'),
+                      child: Text(l10n?.forgotPassword ?? 'Forgot Password?', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                  const Spacer(),
+                  PrimaryButton(
+                    label: _isLoading ? (l10n?.loading ?? 'Authenticating...') : (l10n?.login ?? 'Login'),
+                    onPressed: _isLoading ? null : () => _handleLogin(),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${l10n?.dontHaveAccount ?? "Don't have an account?"} ', style: AppTypography.captionMetadata),
+                      GestureDetector(
+                        onTap: () => context.push('/farmer-register'),
+                        child: Text(
+                          l10n?.createAccount ?? 'Create Farmer Account',
+                          style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
                 ],
               ),
-              const SizedBox(height: 24),
-            ],
+            ),
           ),
         ),
       ),

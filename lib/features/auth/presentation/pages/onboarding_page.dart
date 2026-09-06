@@ -22,14 +22,11 @@ class OnboardingPage extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      Image.asset(
+                        'assets/branding/vetra_logo_transparent.png',
                         width: 140,
                         height: 140,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withValues(alpha: 0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.shield_outlined, size: 80, color: AppColors.primary),
+                        fit: BoxFit.contain,
                       ),
                       const SizedBox(height: 32),
                       Text('Protect Your Herd', style: AppTypography.screenTitle, textAlign: TextAlign.center),

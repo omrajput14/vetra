@@ -9,7 +9,7 @@ class AppLocalizationsHi extends AppLocalizations {
   AppLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
-  String get appName => 'वेट्रा';
+  String get appName => 'पशु साथी (PASHU SATHI)';
 
   @override
   String get chooseLanguage => 'अपनी पसंदीदा भाषा चुनें';
@@ -61,7 +61,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get signIn => 'साइन इन करें';
 
   @override
-  String get welcomeToVetra => 'वेट्रा में आपका स्वागत है';
+  String get welcomeToVetra => 'पशु साथी (PASHU SATHI) में आपका स्वागत है';
 
   @override
   String get chooseHowToContinue => 'आगे बढ़ने के लिए विकल्प चुनें';
@@ -105,10 +105,27 @@ class AppLocalizationsHi extends AppLocalizations {
   String get village => 'गाँव';
 
   @override
+  String get taluka => 'तालुका / ब्लॉक';
+
+  @override
   String get district => 'जिला';
 
   @override
   String get state => 'राज्य';
+
+  @override
+  String get locationPermissionTitle =>
+      'PASHU SATHI को अपने स्थान का उपयोग करने दें';
+
+  @override
+  String get locationPermissionDesc =>
+      'आपका स्थान हमें नजदीकी पशु चिकित्सकों को खोजने, स्थानीय पशु स्वास्थ्य अलर्ट प्रदान करने और आपके क्षेत्र में बीमारी के जोखिमों की पहचान करने में मदद करता है।';
+
+  @override
+  String get allowLocation => 'स्थान की अनुमति दें';
+
+  @override
+  String get notNow => 'अभी नहीं';
 
   @override
   String get animalCount => 'पशुओं की संख्या';
@@ -282,7 +299,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get symptoms => 'लक्षण';
 
   @override
-  String get treatment => 'नैदानिक उपचार';
+  String get treatment => 'उपचार';
 
   @override
   String get prescriptions => 'दवाइयाँ (Rx)';
@@ -362,7 +379,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get analyzingScan =>
-      'वेट्रा विज़न एआई द्वारा दृश्य लक्षणों का विश्लेषण किया जा रहा है...';
+      'पशु साथी विज़न एआई द्वारा दृश्य लक्षणों का विश्लेषण किया जा रहा है...';
 
   @override
   String get suspectedCondition => 'संभावित रोग / स्थिति';
@@ -447,7 +464,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpSupport => 'सहायता एवं समर्थन';
 
   @override
-  String get aboutLegal => 'वेट्रा के बारे में और कानूनी जानकारी';
+  String get aboutLegal => 'पशु साथी के बारे में और कानूनी जानकारी';
 
   @override
   String get logout => 'लॉग आउट';
@@ -726,4 +743,129 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get noVerifiedVetsDesc => 'कृपया कुछ समय बाद पुनः प्रयास करें।';
+
+  @override
+  String get animalPassport => 'डिजिटल पशु पासपोर्ट';
+
+  @override
+  String get healthTimeline => 'जीवनकाल स्वास्थ्य टाइमलाइन';
+
+  @override
+  String get vaccination => 'टीकाकरण';
+
+  @override
+  String get consultation => 'पशुचिकित्सक परामर्श';
+
+  @override
+  String get diagnosis => 'निदान';
+
+  @override
+  String get aiScreening => 'एआई स्वास्थ्य स्क्रीनिंग';
+
+  @override
+  String get observation => 'स्वास्थ्य अवलोकन';
+
+  @override
+  String get noHealthRecords => 'अभी कोई स्वास्थ्य रिकॉर्ड नहीं है';
+
+  @override
+  String get noHealthRecordsDesc =>
+      'एआई स्क्रीनिंग, टीकाकरण और पशुचिकित्सक परामर्श यहां पशु के जीवनकाल टाइमलाइन में दिखाई देंगे।';
+
+  @override
+  String get addHealthRecord => 'स्वास्थ्य रिकॉर्ड जोड़ें';
+
+  @override
+  String get recordSource => 'स्रोत';
+
+  @override
+  String get attentionRequired => 'ध्यान आवश्यक';
+
+  @override
+  String get treatmentInProgress => 'उपचार जारी है';
+
+  @override
+  String get protectedStatus => 'सुरक्षित / टीकाकृत';
+
+  @override
+  String get immediateVetAttentionRecommended =>
+      'तत्काल पशु चिकित्सा परामर्श की अनुशंसा की जाती है।';
+
+  @override
+  String get bookVetNow => 'तत्काल पशु चिकित्सक बुक करें';
+
+  @override
+  String get emergencyCareWarning =>
+      'गंभीर स्थिति का पता चला। बिना किसी देरी के तत्काल पशु चिकित्सा हस्तक्षेप आवश्यक है।';
+
+  @override
+  String get noVerifiedVetsNearby =>
+      'वर्तमान में आस-पास कोई सत्यापित पशु चिकित्सक उपलब्ध नहीं है।';
+
+  @override
+  String get selectAnimalFirst => 'कृपया पहले एक पशु चुनें';
+
+  @override
+  String get zoonoticHumanHealthRisk => 'ज़ूनोटिक / मानव स्वास्थ्य जोखिम';
+
+  @override
+  String get zoonoticWarningMessage =>
+      'यह बीमारी मनुष्यों को भी प्रभावित कर सकती है। सीधे संपर्क से बचें और पशु चिकित्सा/जन स्वास्थ्य मार्गदर्शन लें।';
+
+  @override
+  String get zoonoticGuidance => 'जन स्वास्थ्य परामर्श';
+
+  @override
+  String get estimatedSavingsTitle => 'शीघ्र पहचान से अनुमानित बचत';
+
+  @override
+  String get modeledEstimate => 'मॉडल अनुमान';
+
+  @override
+  String get estimatedSavingsUnavailable => 'अनुमानित बचत अनुपलब्ध है';
+
+  @override
+  String get modeledSavingsTooltip =>
+      'पंजीकृत पशुधन डेटा और शीघ्र पहचान पर आधारित मॉडल अनुमान। यह कोई लेखापरीक्षित वित्तीय आंकड़ा नहीं है।';
+
+  @override
+  String get animalPhoto => 'पशु फोटो (वैकल्पिक)';
+
+  @override
+  String get takePhotoCamera => 'कैमरा';
+
+  @override
+  String get chooseFromGallery => 'गैलरी';
+
+  @override
+  String get removePhoto => 'फोटो हटाएं';
+
+  @override
+  String get retakePhoto => 'दोबारा फोटो लें';
+
+  @override
+  String get profilePhoto => 'प्रोफ़ाइल फोटो';
+
+  @override
+  String get photoPreview => 'फोटो पूर्वावलोकन';
+
+  @override
+  String get urdu => 'उर्दू';
+
+  @override
+  String get permissionCameraDenied =>
+      'फोटो खींचने के लिए कैमरा अनुमति आवश्यक है';
+
+  @override
+  String get permissionGalleryDenied =>
+      'गैलरी से फोटो चुनने के लिए स्टोरेज अनुमति आवश्यक है';
+
+  @override
+  String get uploadingPhoto => 'फोटो अपलोड हो रहा है...';
+
+  @override
+  String get photoUploadedSuccess => 'फोटो सफलतापूर्वक अपलोड हो गया';
+
+  @override
+  String get photoRemovedSuccess => 'फोटो सफलतापूर्वक हटा दिया गया';
 }

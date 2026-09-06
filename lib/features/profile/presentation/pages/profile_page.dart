@@ -74,6 +74,19 @@ class ProfilePage extends StatelessWidget {
                   if (context.mounted) context.go('/welcome');
                 },
               ),
+              const SizedBox(height: 32),
+              Center(
+                child: Column(
+                  children: [
+                    Image.asset('assets/branding/vetra_logo_transparent.png', height: 40, width: 40),
+                    const SizedBox(height: 8),
+                    Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 16, letterSpacing: 1.2)),
+                    const SizedBox(height: 2),
+                    Text('Livestock Health Platform', style: AppTypography.captionMetadata),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
             ],
           ),
           bottomNavigationBar: FarmerBottomNavigation(

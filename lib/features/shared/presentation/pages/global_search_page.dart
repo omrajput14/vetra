@@ -26,7 +26,7 @@ class GlobalSearchPage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Text('Type query to search Vetra database', style: AppTypography.captionMetadata),
+        child: Text('Type query to search PASHU SATHI database', style: AppTypography.captionMetadata),
       ),
     );
   }

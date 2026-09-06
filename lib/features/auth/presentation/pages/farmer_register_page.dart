@@ -6,6 +6,7 @@ import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
 import '../../../../core/localization/locale_provider.dart';
+import '../../../../core/services/location_service.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
@@ -23,6 +24,7 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
   final _farmNameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _villageController = TextEditingController();
+  final _talukaController = TextEditingController();
   final _districtController = TextEditingController();
   final _stateController = TextEditingController();
   final _animalCountController = TextEditingController();
@@ -30,6 +32,10 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
   String _selectedLanguage = 'en';
   bool _isLoading = false;
   bool _obscurePassword = true;
+  bool _isDetectingLocation = false;
+  bool _locationBannerDismissed = false;
+  double? _latitude;
+  double? _longitude;
 
   @override
   void initState() {
@@ -51,17 +57,61 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
     _farmNameController.dispose();
     _phoneController.dispose();
     _villageController.dispose();
+    _talukaController.dispose();
     _districtController.dispose();
     _stateController.dispose();
     _animalCountController.dispose();
     super.dispose();
   }
 
+  Future<void> _handleRequestLocation() async {
+    setState(() => _isDetectingLocation = true);
+    try {
+      final result = await LocationService.instance.getCurrentLocation();
+      if (!mounted) return;
+      if (result != null) {
+        setState(() {
+          _latitude = result.latitude;
+          _longitude = result.longitude;
+          _locationBannerDismissed = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Farm GPS coordinates captured successfully'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not obtain GPS. You can enter village & taluka manually.'),
+            backgroundColor: Colors.orange,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Location error: $e'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isDetectingLocation = false);
+      }
+    }
+  }
+
   Future<void> _handleRegister() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
     final name = _nameController.text.trim();
-    final phone = _phoneController.text.trim();
+    final rawPhone = _phoneController.text.trim();
 
     if (email.isEmpty || password.isEmpty || name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -70,21 +120,69 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
       return;
     }
 
+    // Client-side email validation
+    final emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+    if (!emailRegex.hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a valid email address (e.g. name@domain.com)'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    // Client-side password length validation
+    if (password.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password must be at least 6 characters long'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    // Client-side animal count validation
+    final rawAnimalCount = _animalCountController.text.trim();
+    if (rawAnimalCount.isNotEmpty) {
+      final count = int.tryParse(rawAnimalCount);
+      if (count == null || count < 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter a valid animal count (0 or greater)'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+        return;
+      }
+    }
+
     setState(() => _isLoading = true);
 
     // Sync selected language to localeProvider
     await ref.read(localeProvider.notifier).setLanguageCode(_selectedLanguage);
 
+    final cleanPhone = rawPhone.isEmpty ? null : rawPhone.replaceAll(RegExp(r'\s+'), '');
+    final cleanFarmName = _farmNameController.text.trim().isEmpty ? null : _farmNameController.text.trim();
+    final cleanVillage = _villageController.text.trim().isEmpty ? null : _villageController.text.trim();
+    final cleanTaluka = _talukaController.text.trim().isEmpty ? null : _talukaController.text.trim();
+    final cleanDistrict = _districtController.text.trim().isEmpty ? null : _districtController.text.trim();
+    final cleanState = _stateController.text.trim().isEmpty ? null : _stateController.text.trim();
+
     final success = await authNotifier.registerFarmer(
       email: email,
       password: password,
       name: name,
-      farmName: _farmNameController.text.trim(),
-      phone: phone.isEmpty ? '+15550199' : phone,
-      village: _villageController.text.trim(),
-      district: _districtController.text.trim(),
-      state: _stateController.text.trim(),
-      animalCount: _animalCountController.text.trim(),
+      farmName: cleanFarmName ?? '',
+      phone: cleanPhone,
+      village: cleanVillage ?? '',
+      taluka: cleanTaluka,
+      district: cleanDistrict ?? '',
+      state: cleanState ?? '',
+      latitude: _latitude,
+      longitude: _longitude,
+      animalCount: rawAnimalCount.isEmpty ? null : rawAnimalCount,
       preferredLanguage: _selectedLanguage,
     );
     if (!mounted) return;
@@ -119,7 +217,14 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           children: [
-            const SizedBox(height: 12),
+            Row(
+              children: [
+                Image.asset('assets/branding/vetra_logo_transparent.png', height: 36, width: 36),
+                const SizedBox(width: 10),
+                Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, letterSpacing: 1.2, fontSize: 20)),
+              ],
+            ),
+            const SizedBox(height: 16),
             Text('Register Your Farm', style: AppTypography.screenTitle),
             const SizedBox(height: 8),
             Text(
@@ -141,9 +246,20 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
                 _buildLanguageChip('hi', '🇮🇳 हिंदी'),
                 const SizedBox(width: 8),
                 _buildLanguageChip('mr', '🇮🇳 मराठी'),
+                const SizedBox(width: 6),
+                _buildLanguageChip('ur', '🇮🇳 اردو'),
               ],
             ),
             const SizedBox(height: 20),
+
+            // Location Permission Pre-prompt Card
+            if (!_locationBannerDismissed && _latitude == null) ...[
+              _buildLocationPrePromptCard(l10n),
+              const SizedBox(height: 20),
+            ] else if (_latitude != null && _longitude != null) ...[
+              _buildLocationVerifiedCard(),
+              const SizedBox(height: 20),
+            ],
 
             AppTextField(
               controller: _emailController,
@@ -171,6 +287,8 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
             const SizedBox(height: 16),
             AppTextField(controller: _villageController, labelText: l10n?.village ?? 'Village', hintText: 'Oakhaven'),
             const SizedBox(height: 16),
+            AppTextField(controller: _talukaController, labelText: l10n?.taluka ?? 'Taluka / Block', hintText: 'East Taluka'),
+            const SizedBox(height: 16),
             AppTextField(controller: _districtController, labelText: l10n?.district ?? 'District', hintText: 'Valley Region'),
             const SizedBox(height: 16),
             AppTextField(controller: _stateController, labelText: l10n?.state ?? 'State', hintText: 'Central Province'),
@@ -184,6 +302,121 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
             const SizedBox(height: 24),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildLocationPrePromptCard(AppLocalizations? l10n) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.06),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.location_on_rounded, color: AppColors.primary, size: 22),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  l10n?.locationPermissionTitle ?? 'Allow VETRA to use your location',
+                  style: AppTypography.cardTitle.copyWith(fontSize: 15),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            l10n?.locationPermissionDesc ??
+                'Your location helps us find nearby veterinarians, provide local animal-health alerts, and identify disease risks in your area.',
+            style: AppTypography.bodySmall.copyWith(color: AppColors.textSecondary, height: 1.4),
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: ElevatedButton.icon(
+                  onPressed: _isDetectingLocation ? null : _handleRequestLocation,
+                  icon: _isDetectingLocation
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                        )
+                      : const Icon(Icons.my_location, size: 18),
+                  label: Text(l10n?.allowLocation ?? 'Allow Location'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleEdges.rounded10,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                flex: 2,
+                child: TextButton(
+                  onPressed: () => setState(() => _locationBannerDismissed = true),
+                  child: Text(
+                    l10n?.notNow ?? 'Not Now',
+                    style: const TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLocationVerifiedCard() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.green.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.green.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.check_circle_rounded, color: Colors.green, size: 22),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'GPS Coordinates Attached',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Colors.green),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '${_latitude!.toStringAsFixed(4)}° N, ${_longitude!.toStringAsFixed(4)}° E',
+                  style: AppTypography.bodySmall.copyWith(color: AppColors.textSecondary),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.refresh, size: 20, color: AppColors.textSecondary),
+            onPressed: _isDetectingLocation ? null : _handleRequestLocation,
+            tooltip: 'Refresh GPS',
+          ),
+        ],
       ),
     );
   }
@@ -219,4 +452,8 @@ class _FarmerRegisterPageState extends ConsumerState<FarmerRegisterPage> {
       ),
     );
   }
+}
+
+class RoundedRectangleEdges {
+  static final rounded10 = RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
 }

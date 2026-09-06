@@ -6,9 +6,13 @@ import '../../../../core/network/network_exceptions.dart';
 class AnimalApiService {
   final Dio _dio = ApiClient.instance.dio;
 
-  Future<Map<String, dynamic>> createAnimal(Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> createAnimal(Map<String, dynamic> body, {String? idempotencyKey}) async {
     try {
-      final response = await _dio.post(ApiConfig.animals, data: body);
+      final response = await _dio.post(
+        ApiConfig.animals,
+        data: body,
+        options: idempotencyKey != null ? Options(headers: {'Idempotency-Key': idempotencyKey}) : null,
+      );
       return response.data;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
@@ -67,6 +71,57 @@ class AnimalApiService {
 
       final response = await _dio.get(ApiConfig.animalSearch, queryParameters: queryParams);
       return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> getAnimalHealthRecords(String animalId) async {
+    try {
+      final response = await _dio.get('${ApiConfig.animals}/$animalId/health-records');
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> createHealthRecord(String animalId, Map<String, dynamic> body) async {
+    try {
+      final response = await _dio.post('${ApiConfig.animals}/$animalId/health-records', data: body);
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> getLatestHealthStatus(String animalId) async {
+    try {
+      final response = await _dio.get('${ApiConfig.animals}/$animalId/health-records/latest-status');
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> uploadAnimalPhoto(String animalId, String filePath) async {
+    try {
+      final fileName = filePath.split('/').last;
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(filePath, filename: fileName),
+      });
+      final response = await _dio.post(
+        '${ApiConfig.animals}/$animalId/photo',
+        data: formData,
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<void> deleteAnimalPhoto(String animalId) async {
+    try {
+      await _dio.delete('${ApiConfig.animals}/$animalId/photo');
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
     }

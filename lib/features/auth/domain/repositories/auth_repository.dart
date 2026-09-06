@@ -4,12 +4,15 @@ abstract class AuthRepository {
   Future<UserModel> registerFarmer({
     required String email,
     required String fullName,
-    required String phone,
+    String? phone,
     required String password,
     String? farmName,
     String? village,
+    String? taluka,
     String? district,
     String? state,
+    double? latitude,
+    double? longitude,
     int? animalCount,
     String? preferredLanguage,
   });
@@ -23,6 +26,13 @@ abstract class AuthRepository {
     required String qualification,
     required String specialization,
     String? clinicName,
+    String? clinicAddress,
+    String? village,
+    String? taluka,
+    String? district,
+    String? state,
+    double? latitude,
+    double? longitude,
     required String experience,
     String? preferredLanguage,
   });
@@ -44,12 +54,21 @@ abstract class AuthRepository {
     String? phone,
     String? farmName,
     String? village,
+    String? taluka,
     String? district,
     String? state,
+    double? latitude,
+    double? longitude,
     String? clinicName,
+    String? clinicAddress,
     String? specialization,
     String? qualification,
     int? yearsExperience,
+    bool? isAvailable,
+    bool? emergencyAvailable,
+    String? shiftSchedule,
+    String? profilePhotoUrl,
+    String? certificateUrl,
   });
 
   Future<void> logout();
@@ -59,5 +78,15 @@ abstract class AuthRepository {
     required String newPassword,
   });
 
-  Future<List<Map<String, dynamic>>> listVets();
+  Future<List<Map<String, dynamic>>> listVets({
+    double? latitude,
+    double? longitude,
+    double? radiusKm,
+    String? village,
+    String? taluka,
+    String? district,
+  });
+
+  Future<String> uploadProfilePhoto(String filePath);
+  Future<void> deleteProfilePhoto();
 }

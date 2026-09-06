@@ -12,7 +12,7 @@ enum Environment {
 class AppConfig {
   AppConfig._();
 
-  static Environment _environment = kDebugMode ? Environment.development : Environment.staging;
+  static Environment _environment = Environment.production;
 
   /// Returns the active environment.
   static Environment get environment => _environment;
@@ -25,10 +25,10 @@ class AppConfig {
   /// Convenience preset for Development environment.
   static void useDevelopment() => setEnvironment(Environment.development);
 
-  /// Convenience preset for Staging environment (AWS HTTPS).
+  /// Convenience preset for Staging environment (HTTPS).
   static void useStaging() => setEnvironment(Environment.staging);
 
-  /// Convenience preset for Production environment.
+  /// Convenience preset for Production environment (HTTPS).
   static void useProduction() => setEnvironment(Environment.production);
 
   /// Canonical Base URL for API requests.
@@ -39,14 +39,11 @@ class AppConfig {
     }
     switch (_environment) {
       case Environment.staging:
-        return 'https://api.vetra.dpdns.org';
       case Environment.production:
-        return 'https://api.vetra.app';
+        return 'https://api.vetra.co.in';
       case Environment.development:
         if (kIsWeb) return 'http://localhost:8080';
-        return defaultTargetPlatform == TargetPlatform.android
-            ? 'http://127.0.0.1:8080'
-            : 'http://localhost:8080';
+        return 'https://api.vetra.co.in';
     }
   }
 

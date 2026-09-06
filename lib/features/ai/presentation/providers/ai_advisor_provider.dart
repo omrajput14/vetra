@@ -32,6 +32,12 @@ class AIAdvisorNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setErrorMessage(String? error) {
+    _errorMessage = error;
+    _isLoading = false;
+    notifyListeners();
+  }
+
   void clearSession() {
     _currentSession = null;
     _errorMessage = null;
@@ -41,6 +47,13 @@ class AIAdvisorNotifier extends ChangeNotifier {
   }
 
   Future<bool> startSession(String animalId, {String? initialMessage, String? preferredLanguage}) async {
+    if (animalId.trim().isEmpty) {
+      _isLoading = false;
+      _errorMessage = 'No active animal context';
+      notifyListeners();
+      return false;
+    }
+
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();

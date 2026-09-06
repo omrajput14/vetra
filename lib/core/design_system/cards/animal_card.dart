@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import '../app_colors.dart';
 import '../app_spacing.dart';
 import '../app_typography.dart';
+import '../../widgets/authenticated_image.dart';
 
 class AnimalCard extends StatelessWidget {
   final String name;
   final String tagId;
   final String breed;
   final String status;
+  final String? photoUrl;
+  final String? localPhotoPath;
   final VoidCallback onTap;
 
   const AnimalCard({
@@ -16,6 +19,8 @@ class AnimalCard extends StatelessWidget {
     required this.tagId,
     required this.breed,
     required this.status,
+    this.photoUrl,
+    this.localPhotoPath,
     required this.onTap,
   });
 
@@ -33,14 +38,24 @@ class AnimalCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: AppColors.surfaceContainer,
-                borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+              child: AuthenticatedImage(
+                localPhotoPath: localPhotoPath,
+                photoUrl: photoUrl,
+                width: 56,
+                height: 56,
+                fit: BoxFit.cover,
+                placeholder: Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceContainer,
+                    borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
+                  ),
+                  child: const Icon(Icons.pets, color: AppColors.primary, size: 32),
+                ),
               ),
-              child: const Icon(Icons.pets, color: AppColors.primary, size: 32),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -53,10 +68,18 @@ class AnimalCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: AppColors.brandPrimary.withValues(alpha: 0.2),
+                      color: status.toUpperCase() == 'DECEASED'
+                          ? AppColors.alertCritical.withValues(alpha: 0.15)
+                          : AppColors.brandPrimary.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(AppSpacing.radiusPill),
                     ),
-                    child: Text(status, style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      status,
+                      style: AppTypography.captionMetadata.copyWith(
+                        color: status.toUpperCase() == 'DECEASED' ? AppColors.alertCritical : AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),

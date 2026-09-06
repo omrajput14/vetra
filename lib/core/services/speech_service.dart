@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'tts_service.dart';
 
 /// Operational states of the SpeechService.
 enum VoiceState {
@@ -130,6 +131,7 @@ class SpeechService implements BaseSpeechService {
     if (_speechToText.isListening) {
       await stopListening();
     }
+    await TtsService.instance.stop();
 
     final localeId = mapLocaleId(languageCode);
     _state = VoiceState.listening;

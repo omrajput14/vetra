@@ -7,7 +7,15 @@ class AuthService {
   static final AuthService instance = AuthService._();
   AuthService._();
 
-  final AuthRepository _repository = AuthRepositoryImpl();
+  AuthRepository _repository = AuthRepositoryImpl();
+
+  void setRepository(AuthRepository repo) {
+    _repository = repo;
+  }
+
+  void setCurrentUser(UserModel? user) {
+    _currentUser = user;
+  }
 
   UserModel? _currentUser;
   bool _isLoading = false;
@@ -60,11 +68,14 @@ class AuthService {
     required String email,
     required String name,
     required String farmName,
-    required String phone,
+    String? phone,
     required String password,
     required String village,
+    String? taluka,
     required String district,
     required String state,
+    double? latitude,
+    double? longitude,
     String? animalCount,
     String? preferredLanguage,
   }) async {
@@ -79,8 +90,11 @@ class AuthService {
         password: password,
         farmName: farmName,
         village: village,
+        taluka: taluka,
         district: district,
         state: state,
+        latitude: latitude,
+        longitude: longitude,
         animalCount: count,
         preferredLanguage: preferredLanguage,
       );
@@ -124,6 +138,13 @@ class AuthService {
     required String qualification,
     required String specialization,
     String? clinicName,
+    String? clinicAddress,
+    String? village,
+    String? taluka,
+    String? district,
+    String? state,
+    double? latitude,
+    double? longitude,
     required String experience,
     String? preferredLanguage,
   }) async {
@@ -139,6 +160,13 @@ class AuthService {
         qualification: qualification,
         specialization: specialization,
         clinicName: clinicName,
+        clinicAddress: clinicAddress,
+        village: village,
+        taluka: taluka,
+        district: district,
+        state: state,
+        latitude: latitude,
+        longitude: longitude,
         experience: experience,
         preferredLanguage: preferredLanguage,
       );
@@ -157,12 +185,21 @@ class AuthService {
     String? phone,
     String? farmName,
     String? village,
+    String? taluka,
     String? district,
     String? state,
+    double? latitude,
+    double? longitude,
     String? clinicName,
+    String? clinicAddress,
     String? specialization,
     String? qualification,
     int? yearsExperience,
+    bool? isAvailable,
+    bool? emergencyAvailable,
+    String? shiftSchedule,
+    String? profilePhotoUrl,
+    String? certificateUrl,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -172,12 +209,21 @@ class AuthService {
         phone: phone,
         farmName: farmName,
         village: village,
+        taluka: taluka,
         district: district,
         state: state,
+        latitude: latitude,
+        longitude: longitude,
         clinicName: clinicName,
+        clinicAddress: clinicAddress,
         specialization: specialization,
         qualification: qualification,
         yearsExperience: yearsExperience,
+        isAvailable: isAvailable,
+        emergencyAvailable: emergencyAvailable,
+        shiftSchedule: shiftSchedule,
+        profilePhotoUrl: profilePhotoUrl,
+        certificateUrl: certificateUrl,
       );
       return true;
     } catch (e) {
@@ -199,11 +245,67 @@ class AuthService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> listVets() async {
+  Future<List<Map<String, dynamic>>> listVets({
+    double? latitude,
+    double? longitude,
+    double? radiusKm,
+    String? village,
+    String? taluka,
+    String? district,
+  }) async {
     try {
-      return await _repository.listVets();
+      return await _repository.listVets(
+        latitude: latitude,
+        longitude: longitude,
+        radiusKm: radiusKm,
+        village: village,
+        taluka: taluka,
+        district: district,
+      );
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<String?> uploadProfilePhoto(String filePath) async {
+    _isLoading = true;
+    _errorMessage = null;
+    try {
+      final url = await _repository.uploadProfilePhoto(filePath);
+      if (_currentUser != null && url.isNotEmpty) {
+        final updatedMeta = Map<String, dynamic>.from(_currentUser!.metadata);
+        updatedMeta['profilePhotoUrl'] = url;
+        _currentUser = _currentUser!.copyWith(
+          metadata: updatedMeta,
+        );
+      }
+      return url;
+    } catch (e) {
+      _errorMessage = e.toString();
+      return null;
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  Future<bool> deleteProfilePhoto() async {
+    _isLoading = true;
+    _errorMessage = null;
+    try {
+      await _repository.deleteProfilePhoto();
+      if (_currentUser != null) {
+        final updatedMeta = Map<String, dynamic>.from(_currentUser!.metadata);
+        updatedMeta['profilePhotoUrl'] = null;
+        _currentUser = _currentUser!.copyWith(
+          metadata: updatedMeta,
+        );
+      }
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
     }
   }
 }

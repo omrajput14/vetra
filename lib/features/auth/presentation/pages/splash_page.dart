@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
@@ -16,6 +17,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    FlutterNativeSplash.remove();
     _initSession();
   }
 
@@ -52,20 +54,14 @@ class _SplashPageState extends State<SplashPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceContainer,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.outlineVariant, width: 2),
-                  ),
-                  child: const Center(
-                    child: Icon(Icons.health_and_safety, size: 64, color: AppColors.primary),
-                  ),
+                Image.asset(
+                  'assets/branding/vetra_logo_transparent.png',
+                  width: 130,
+                  height: 130,
+                  fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 24),
-                Text('VETRA', style: AppTypography.screenTitle.copyWith(fontSize: 28)),
+                Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(fontSize: 28)),
                 const SizedBox(height: 4),
                 Text('Livestock Health & Surveillance', style: AppTypography.captionMetadata),
                 const SizedBox(height: 32),

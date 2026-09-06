@@ -6,6 +6,7 @@ import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
 import '../../../../core/localization/locale_provider.dart';
+import '../../../../core/services/location_service.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
@@ -25,10 +26,18 @@ class _VetRegisterPageState extends ConsumerState<VetRegisterPage> {
   final _qualController = TextEditingController();
   final _specController = TextEditingController();
   final _clinicController = TextEditingController();
+  final _clinicAddressController = TextEditingController();
+  final _villageController = TextEditingController();
+  final _talukaController = TextEditingController();
+  final _districtController = TextEditingController();
+  final _stateController = TextEditingController();
   final _expController = TextEditingController();
 
   bool _isLoading = false;
   bool _obscurePassword = true;
+  bool _isDetectingLocation = false;
+  double? _latitude;
+  double? _longitude;
 
   @override
   void dispose() {
@@ -40,8 +49,55 @@ class _VetRegisterPageState extends ConsumerState<VetRegisterPage> {
     _qualController.dispose();
     _specController.dispose();
     _clinicController.dispose();
+    _clinicAddressController.dispose();
+    _villageController.dispose();
+    _talukaController.dispose();
+    _districtController.dispose();
+    _stateController.dispose();
     _expController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleRequestLocation() async {
+    setState(() => _isDetectingLocation = true);
+    try {
+      final result = await LocationService.instance.getCurrentLocation();
+      if (!mounted) return;
+      if (result != null) {
+        setState(() {
+          _latitude = result.latitude;
+          _longitude = result.longitude;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Clinic GPS coordinates captured successfully'),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not obtain GPS. You can enter village & taluka manually.'),
+            backgroundColor: Colors.orange,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Location error: $e'),
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isDetectingLocation = false);
+      }
+    }
   }
 
   Future<void> _handleRegister() async {
@@ -71,6 +127,13 @@ class _VetRegisterPageState extends ConsumerState<VetRegisterPage> {
       qualification: _qualController.text.trim().isEmpty ? 'BVSc & AH' : _qualController.text.trim(),
       specialization: _specController.text.trim().isEmpty ? 'General Medicine' : _specController.text.trim(),
       clinicName: _clinicController.text.trim(),
+      clinicAddress: _clinicAddressController.text.trim(),
+      village: _villageController.text.trim(),
+      taluka: _talukaController.text.trim(),
+      district: _districtController.text.trim(),
+      state: _stateController.text.trim(),
+      latitude: _latitude,
+      longitude: _longitude,
       experience: _expController.text.trim().isEmpty ? '5' : _expController.text.trim(),
       preferredLanguage: currentLang,
     );
@@ -110,7 +173,14 @@ class _VetRegisterPageState extends ConsumerState<VetRegisterPage> {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           children: [
-            const SizedBox(height: 12),
+            Row(
+              children: [
+                Image.asset('assets/branding/vetra_logo_transparent.png', height: 36, width: 36),
+                const SizedBox(width: 10),
+                Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, letterSpacing: 1.2, fontSize: 20)),
+              ],
+            ),
+            const SizedBox(height: 16),
             Text(l10n?.registerPractice ?? 'Register Practice', style: AppTypography.screenTitle),
             const SizedBox(height: 8),
             Text(
@@ -127,6 +197,8 @@ class _VetRegisterPageState extends ConsumerState<VetRegisterPage> {
                 _buildLanguageChip('hi', '🇮🇳 हिंदी', activeLocale.languageCode == 'hi'),
                 const SizedBox(width: 8),
                 _buildLanguageChip('mr', '🇮🇳 मराठी', activeLocale.languageCode == 'mr'),
+                const SizedBox(width: 6),
+                _buildLanguageChip('ur', '🇮🇳 اردو', activeLocale.languageCode == 'ur'),
               ],
             ),
             const SizedBox(height: 20),
@@ -157,7 +229,7 @@ class _VetRegisterPageState extends ConsumerState<VetRegisterPage> {
             AppTextField(
               controller: _phoneController,
               labelText: l10n?.phone ?? 'Phone Number',
-              hintText: '+15550188',
+              hintText: '+919876543210',
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 16),
@@ -183,6 +255,99 @@ class _VetRegisterPageState extends ConsumerState<VetRegisterPage> {
               controller: _clinicController,
               labelText: l10n?.clinicName ?? 'Clinic Name (Optional)',
               hintText: 'Valley Animal Clinic',
+            ),
+            const SizedBox(height: 16),
+            AppTextField(
+              controller: _clinicAddressController,
+              labelText: 'Clinic Address',
+              hintText: 'Shop 4, Market Yard Road',
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    controller: _villageController,
+                    labelText: l10n?.village ?? 'Village / City',
+                    hintText: 'Baramati',
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: AppTextField(
+                    controller: _talukaController,
+                    labelText: l10n?.taluka ?? 'Taluka',
+                    hintText: 'Baramati',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    controller: _districtController,
+                    labelText: l10n?.district ?? 'District',
+                    hintText: 'Pune',
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: AppTextField(
+                    controller: _stateController,
+                    labelText: l10n?.state ?? 'State',
+                    hintText: 'Maharashtra',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceCard,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.outlineVariant),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    _latitude != null ? Icons.location_on : Icons.location_searching,
+                    color: _latitude != null ? AppColors.primary : AppColors.textMetadata,
+                    size: 24,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _latitude != null ? 'GPS Location Captured' : 'Clinic GPS Coordinates',
+                          style: AppTypography.cardTitle.copyWith(fontSize: 14),
+                        ),
+                        Text(
+                          _latitude != null
+                              ? '${_latitude!.toStringAsFixed(4)}, ${_longitude!.toStringAsFixed(4)}'
+                              : 'Auto-detect for precision farmer discovery',
+                          style: AppTypography.captionMetadata,
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: _isDetectingLocation ? null : _handleRequestLocation,
+                    icon: _isDetectingLocation
+                        ? const SizedBox(
+                            width: 14,
+                            height: 14,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.my_location, size: 16),
+                    label: Text(_isDetectingLocation ? 'Locating...' : 'Get GPS'),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
             AppTextField(

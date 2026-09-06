@@ -34,4 +34,13 @@ class ApiConfig {
   // Medical Record Endpoints
   static const String medicalRecords = '/api/v1/medical-records';
   static const String animalMedicalHistory = '/api/v1/animals';
+
+  // Disease Surveillance Endpoints
+  static const String diseaseReports = '/api/v1/disease/reports';
+  static const String outbreaks = '/api/v1/disease/outbreaks';
+  static const String diseaseRegistry = '/api/v1/disease/registry';
+
+  // Mortality Endpoints
+  static const String mortalities = '/api/v1/mortalities';
+
 }

@@ -8,6 +8,8 @@ class ProfileHeaderCard extends StatelessWidget {
   final String qualification;
   final String specialization;
   final String hospital;
+  final String? profilePhotoUrl;
+  final String? verificationStatus;
 
   const ProfileHeaderCard({
     super.key,
@@ -16,10 +18,15 @@ class ProfileHeaderCard extends StatelessWidget {
     required this.qualification,
     required this.specialization,
     required this.hospital,
+    this.profilePhotoUrl,
+    this.verificationStatus,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isVerified = verificationStatus == 'VERIFIED';
+    final isPending = verificationStatus == 'PENDING' || verificationStatus == null;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -46,19 +53,30 @@ class ProfileHeaderCard extends StatelessWidget {
                   color: AppColors.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                   border: Border.all(color: AppColors.primary.withValues(alpha: 0.2), width: 2),
+                  image: (profilePhotoUrl != null && profilePhotoUrl!.isNotEmpty)
+                      ? DecorationImage(image: NetworkImage(profilePhotoUrl!), fit: BoxFit.cover)
+                      : null,
                 ),
-                child: const Icon(Icons.medical_services_outlined, size: 36, color: AppColors.primary),
+                child: (profilePhotoUrl == null || profilePhotoUrl!.isEmpty)
+                    ? const Icon(Icons.medical_services_outlined, size: 36, color: AppColors.primary)
+                    : null,
               ),
               Positioned(
                 bottom: 0,
                 right: 0,
                 child: Container(
                   padding: const EdgeInsets.all(3),
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
+                  decoration: BoxDecoration(
+                    color: isVerified
+                        ? Colors.green
+                        : (isPending ? AppColors.cautionAmber : AppColors.alertCritical),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.check, size: 12, color: Colors.white),
+                  child: Icon(
+                    isVerified ? Icons.check : (isPending ? Icons.hourglass_empty : Icons.close),
+                    size: 12,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],

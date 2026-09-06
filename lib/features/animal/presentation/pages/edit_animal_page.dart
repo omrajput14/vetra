@@ -4,6 +4,8 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../../../../core/widgets/image_picker_field.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/animal_provider.dart';
 
 class EditAnimalPage extends StatefulWidget {
@@ -19,8 +21,9 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
   final _tagController = TextEditingController();
   final _qrController = TextEditingController();
   final _breedController = TextEditingController();
-  final _photoUrlController = TextEditingController();
 
+  String? _selectedPhotoPath;
+  String? _currentPhotoUrl;
   String _selectedSpecies = 'CATTLE';
   String _selectedGender = 'FEMALE';
   bool _isSubmitting = false;
@@ -36,7 +39,9 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
     _tagController.text = animal.tagNumber;
     _qrController.text = animal.qrCodeId ?? '';
     _breedController.text = animal.breed ?? '';
-    _photoUrlController.text = animal.photoUrl ?? '';
+    _selectedPhotoPath = animal.localPhotoPath;
+    _currentPhotoUrl = animal.photoUrl;
+
     if (_speciesOptions.contains(animal.species.toUpperCase())) {
       _selectedSpecies = animal.species.toUpperCase();
     }
@@ -51,7 +56,6 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
     _tagController.dispose();
     _qrController.dispose();
     _breedController.dispose();
-    _photoUrlController.dispose();
     super.dispose();
   }
 
@@ -73,7 +77,8 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
       species: _selectedSpecies,
       breed: _breedController.text.trim().isEmpty ? null : _breedController.text.trim(),
       gender: _selectedGender,
-      photoUrl: _photoUrlController.text.trim().isEmpty ? null : _photoUrlController.text.trim(),
+      localPhotoPath: _selectedPhotoPath,
+      photoUrl: _currentPhotoUrl,
     );
     if (!mounted) return;
     setState(() => _isSubmitting = false);
@@ -93,6 +98,8 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
@@ -110,6 +117,18 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
           children: [
             Text('Update Animal Details', style: AppTypography.screenTitle.copyWith(fontSize: 20)),
             const SizedBox(height: 24),
+            ImagePickerField(
+              label: l10n?.animalPhoto ?? 'Animal Photo',
+              initialLocalPath: _selectedPhotoPath,
+              initialRemoteUrl: _currentPhotoUrl,
+              onImageChanged: (path) {
+                setState(() {
+                  _selectedPhotoPath = path;
+                  if (path == null) _currentPhotoUrl = null;
+                });
+              },
+            ),
+            const SizedBox(height: 16),
             AppTextField(
               controller: _nameController,
               labelText: 'Animal Name (Optional)',
@@ -118,21 +137,21 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
             const SizedBox(height: 16),
             AppTextField(
               controller: _tagController,
-              labelText: 'Ear Tag Number *',
+              labelText: '${l10n?.tagNumber ?? 'Ear Tag Number'} *',
               hintText: 'e.g. NL-93842',
             ),
             const SizedBox(height: 16),
             AppTextField(
               controller: _qrController,
-              labelText: 'QR Code Identifier',
+              labelText: l10n?.qrPassport ?? 'QR Code Identifier',
               hintText: 'e.g. QR-99410',
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               initialValue: _selectedSpecies,
-              decoration: const InputDecoration(
-                labelText: 'Species *',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: '${l10n?.species ?? 'Species'} *',
+                border: const OutlineInputBorder(),
               ),
               items: _speciesOptions.map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
               onChanged: (val) {
@@ -142,26 +161,20 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
             const SizedBox(height: 16),
             AppTextField(
               controller: _breedController,
-              labelText: 'Breed',
+              labelText: l10n?.breed ?? 'Breed',
               hintText: 'e.g. Holstein',
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               initialValue: _selectedGender,
-              decoration: const InputDecoration(
-                labelText: 'Gender *',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: '${l10n?.gender ?? 'Gender'} *',
+                border: const OutlineInputBorder(),
               ),
               items: _genderOptions.map((g) => DropdownMenuItem(value: g, child: Text(g))).toList(),
               onChanged: (val) {
                 if (val != null) setState(() => _selectedGender = val);
               },
-            ),
-            const SizedBox(height: 16),
-            AppTextField(
-              controller: _photoUrlController,
-              labelText: 'Photo URL',
-              hintText: 'https://...',
             ),
             const SizedBox(height: 32),
             PrimaryButton(

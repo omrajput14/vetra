@@ -8,8 +8,10 @@ class AnimalModel {
   final String species;
   final String? breed;
   final String gender;
+  final String? status;
   final String? birthDate;
   final String? photoUrl;
+  final String? localPhotoPath;
   final String createdAt;
   final String updatedAt;
 
@@ -23,13 +25,41 @@ class AnimalModel {
     required this.species,
     this.breed,
     required this.gender,
+    this.status = 'ACTIVE',
     this.birthDate,
     this.photoUrl,
+    this.localPhotoPath,
     required this.createdAt,
     required this.updatedAt,
   });
 
   String get displayName => (animalName != null && animalName!.isNotEmpty) ? animalName! : tagNumber;
+
+  bool get isDeceased => status?.toUpperCase() == 'DECEASED';
+
+  AnimalModel copyWith({
+    String? status,
+    String? photoUrl,
+    String? localPhotoPath,
+  }) {
+    return AnimalModel(
+      id: id,
+      farmerId: farmerId,
+      farmerName: farmerName,
+      animalName: animalName,
+      tagNumber: tagNumber,
+      qrCodeId: qrCodeId,
+      species: species,
+      breed: breed,
+      gender: gender,
+      status: status ?? this.status,
+      birthDate: birthDate,
+      photoUrl: photoUrl ?? this.photoUrl,
+      localPhotoPath: localPhotoPath ?? this.localPhotoPath,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+    );
+  }
 
   factory AnimalModel.fromJson(Map<String, dynamic> json) {
     return AnimalModel(
@@ -42,8 +72,10 @@ class AnimalModel {
       species: json['species']?.toString() ?? 'CATTLE',
       breed: json['breed']?.toString(),
       gender: json['gender']?.toString() ?? 'FEMALE',
+      status: json['status']?.toString() ?? 'ACTIVE',
       birthDate: json['birthDate']?.toString(),
       photoUrl: json['photoUrl']?.toString(),
+      localPhotoPath: json['localPhotoPath']?.toString(),
       createdAt: json['createdAt']?.toString() ?? '',
       updatedAt: json['updatedAt']?.toString() ?? '',
     );
@@ -60,10 +92,19 @@ class AnimalModel {
       'species': species,
       'breed': breed,
       'gender': gender,
+      'status': status,
       'birthDate': birthDate,
       'photoUrl': photoUrl,
+      'localPhotoPath': localPhotoPath,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
     };
   }
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AnimalModel && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

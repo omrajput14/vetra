@@ -21,4 +21,21 @@ abstract class AppointmentRepository {
   Future<AppointmentModel> completeAppointment(String id, {String? notes});
 
   Future<AppointmentModel> cancelAppointment(String id, {String? reason});
+
+  Future<List<dynamic>> getMessages(String appointmentId);
+
+  Future<Map<String, dynamic>> sendMessage({
+    required String appointmentId,
+    required String content,
+    String? messageType,
+    String? treatmentPayloadJson,
+  });
+
+  Future<AppointmentModel> startEnRoute(String id);
+
+  Future<AppointmentModel> markArrived(String id);
+
+  Future<AppointmentLiveLocationDto> updateLocation(String id, double latitude, double longitude, {double? accuracy});
+
+  Future<AppointmentLiveLocationDto> getLiveLocation(String id);
 }

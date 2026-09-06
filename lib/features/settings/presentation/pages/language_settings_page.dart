@@ -78,6 +78,16 @@ class LanguageSettingsPage extends ConsumerWidget {
             code: 'mr',
             isSelected: currentLocale.languageCode == 'mr',
           ),
+          const SizedBox(height: 12),
+          _buildOption(
+            context: context,
+            ref: ref,
+            flag: '🇮🇳',
+            title: 'اردو',
+            subtitle: 'Urdu',
+            code: 'ur',
+            isSelected: currentLocale.languageCode == 'ur',
+          ),
         ],
       ),
     );

@@ -54,6 +54,13 @@ class AppTypography {
     color: AppColors.textMetadata,
   );
 
+  static TextStyle bodySmall = GoogleFonts.lexend(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    height: 18 / 13,
+    color: AppColors.textPrimary,
+  );
+
   static TextStyle vetDataRow = GoogleFonts.inter(
     fontSize: 15,
     fontWeight: FontWeight.w400,

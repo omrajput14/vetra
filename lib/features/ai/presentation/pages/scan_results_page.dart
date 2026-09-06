@@ -4,6 +4,10 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../appointment/data/models/appointment_dto.dart';
+import '../../../disease/presentation/providers/disease_registry_provider.dart';
+import '../../../disease/presentation/widgets/zoonotic_warning_banner.dart';
 import '../providers/ai_scan_provider.dart';
 
 class ScanResultsPage extends StatelessWidget {
@@ -13,6 +17,7 @@ class ScanResultsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final result = aiScanNotifier.lastScanResult;
     final imagePath =
         extraData?['imagePath']?.toString() ?? aiScanNotifier.selectedImagePath;
@@ -29,6 +34,13 @@ class ScanResultsPage extends StatelessWidget {
         'This is an AI-assisted preliminary assessment and is not a confirmed veterinary diagnosis.';
     final String provider = result?.aiProvider ?? 'VETRA_AI';
     final String model = result?.aiModel ?? 'NOOP-V1';
+
+    final bool isEmergency =
+        severity.toUpperCase() == 'EMERGENCY' || severity.toUpperCase() == 'CRITICAL';
+    final bool isZoonotic = diseaseRegistryNotifier.isZoonotic(diagnosis);
+    final targetAnimalId = extraData?['animalId']?.toString() ??
+        aiScanNotifier.selectedAnimalId ??
+        '';
 
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
@@ -251,6 +263,95 @@ class ScanResultsPage extends StatelessWidget {
             ),
           ),
 
+          // Feature 2: Zoonotic Disease Alert Styling (if transmissible to humans)
+          if (isZoonotic) ...[
+            const SizedBox(height: 12),
+            ZoonoticWarningBanner(diseaseName: diagnosis),
+          ],
+
+          // Feature 1: Emergency AI Triage Warning & BOOK VET NOW Banner
+          if (isEmergency) ...[
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.alertCritical.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: AppColors.alertCritical,
+                  width: 1.8,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.warning_amber_rounded,
+                        color: AppColors.alertCritical,
+                        size: 26,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          l10n?.immediateVetAttentionRecommended ??
+                              'Immediate veterinary attention recommended.',
+                          style: AppTypography.cardTitle.copyWith(
+                            color: AppColors.alertCritical,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    l10n?.emergencyCareWarning ??
+                        'Critical condition detected. Immediate veterinary intervention required without delay.',
+                    style: AppTypography.bodyDefault.copyWith(
+                      color: AppColors.textPrimary,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.flash_on, color: Colors.white, size: 20),
+                      label: Text(
+                        l10n?.bookVetNow ?? 'BOOK VET NOW',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.alertCritical,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 3,
+                      ),
+                      onPressed: () {
+                        context.push('/appointment-booking', extra: {
+                          'animalId': targetAnimalId,
+                          'isEmergency': true,
+                          'visitType': VisitType.emergency,
+                          'reason': 'EMERGENCY AI TRIAGE: $diagnosis',
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+
           const SizedBox(height: 16),
 
           // Clinical Safety Disclaimer
@@ -284,11 +385,28 @@ class ScanResultsPage extends StatelessWidget {
 
           // Primary & Secondary Actions
           PrimaryButton(
-            label: 'Book Vet Consultation',
-            onPressed: () => context.push('/appointment-booking'),
+            label: 'Discuss with AI Veterinary Advisor',
+            onPressed: () {
+              context.push('/ai-advisor', extra: targetAnimalId);
+            },
           ),
 
           const SizedBox(height: 12),
+
+          if (!isEmergency) ...[
+            OutlinedButton(
+              onPressed: () => context.push('/appointment-booking', extra: {
+                'animalId': targetAnimalId,
+                'reason': diagnosis,
+              }),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 50),
+                side: const BorderSide(color: AppColors.primary),
+              ),
+              child: const Text('Book Vet Consultation'),
+            ),
+            const SizedBox(height: 12),
+          ],
 
           OutlinedButton(
             onPressed: () => context.go('/farmer-dashboard'),
@@ -332,6 +450,7 @@ class ScanResultsPage extends StatelessWidget {
     Color color = Colors.grey;
     switch (severity.toUpperCase()) {
       case 'CRITICAL':
+      case 'EMERGENCY':
       case 'SEVERE':
         color = Colors.redAccent;
         break;

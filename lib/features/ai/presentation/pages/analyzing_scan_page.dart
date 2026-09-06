@@ -16,6 +16,7 @@ class AnalyzingScanPage extends StatefulWidget {
 
 class _AnalyzingScanPageState extends State<AnalyzingScanPage> {
   bool _isSubmitting = true;
+  bool _isOfflineSaved = false;
   String? _error;
 
   @override
@@ -29,6 +30,7 @@ class _AnalyzingScanPageState extends State<AnalyzingScanPage> {
   Future<void> _startAnalysis() async {
     setState(() {
       _isSubmitting = true;
+      _isOfflineSaved = false;
       _error = null;
     });
 
@@ -52,7 +54,17 @@ class _AnalyzingScanPageState extends State<AnalyzingScanPage> {
     if (!mounted) return;
 
     if (success) {
-      context.go('/scan-results', extra: {'imagePath': imagePath, 'animalId': animalId});
+      final scan = aiScanNotifier.lastScanResult;
+      if (scan != null && scan.status == 'PENDING_UPLOAD') {
+        // Saved offline in local queue
+        setState(() {
+          _isSubmitting = false;
+          _isOfflineSaved = true;
+        });
+      } else {
+        // Online analysis complete
+        context.go('/scan-results', extra: {'imagePath': imagePath, 'animalId': animalId});
+      }
     } else {
       setState(() {
         _isSubmitting = false;
@@ -80,14 +92,49 @@ class _AnalyzingScanPageState extends State<AnalyzingScanPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (_isSubmitting) ...[
-                const CircularProgressIndicator(color: AppColors.brandPrimary, strokeWidth: 3),
+                const CircularProgressIndicator(color: AppColors.primary, strokeWidth: 3),
                 const SizedBox(height: 24),
-                Text('Analyzing Photo...', style: AppTypography.screenTitle),
+                Text('Processing Scan...', style: AppTypography.screenTitle),
                 const SizedBox(height: 8),
                 Text(
-                  'Transmitting lesion scan to Vetra AI Diagnostic Platform...',
+                  'Processing livestock image for VETRA AI Diagnostic Platform...',
                   style: AppTypography.captionMetadata,
                   textAlign: TextAlign.center,
+                ),
+              ] else if (_isOfflineSaved) ...[
+                Container(
+                  width: 64,
+                  height: 64,
+                  decoration: BoxDecoration(
+                    color: AppColors.cautionAmber.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.cloud_upload_outlined, size: 36, color: AppColors.cautionAmber),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Scan Saved Locally (Offline)',
+                  style: AppTypography.screenTitle.copyWith(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Your photo and animal scan are saved securely on this device.\n\nWhen internet connection is restored, VETRA will automatically upload this scan to the cloud AI platform for complete diagnosis.',
+                  style: AppTypography.captionMetadata.copyWith(fontSize: 13, height: 1.4),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 32),
+                PrimaryButton(
+                  label: 'Return to Dashboard',
+                  onPressed: () => context.go('/farmer-dashboard'),
+                ),
+                const SizedBox(height: 12),
+                OutlinedButton(
+                  onPressed: () => context.pop(),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                  child: const Text('Scan Another Animal'),
                 ),
               ] else ...[
                 const Icon(Icons.error_outline, color: Colors.redAccent, size: 64),

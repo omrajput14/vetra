@@ -1,21 +1,32 @@
 import 'package:flutter/foundation.dart';
 import '../../data/models/appointment_dto.dart';
+import '../../data/models/chat_message_model.dart';
 import '../../data/repositories/appointment_repository_impl.dart';
 import '../../domain/repositories/appointment_repository.dart';
 import 'package:vetra/features/dashboard/presentation/providers/dashboard_provider.dart';
 
 class AppointmentNotifier extends ChangeNotifier {
-  final AppointmentRepository _repository = AppointmentRepositoryImpl();
+  AppointmentRepository _repository = AppointmentRepositoryImpl();
+
+  void setRepository(AppointmentRepository repo) {
+    _repository = repo;
+  }
 
   List<AppointmentModel> _appointments = [];
   AppointmentModel? _selectedAppointment;
   bool _isLoading = false;
   String? _errorMessage;
 
+  final Map<String, List<ChatMessageModel>> _chatMessages = {};
+  bool _isChatLoading = false;
+
   List<AppointmentModel> get appointments => _appointments;
   AppointmentModel? get selectedAppointment => _selectedAppointment;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+
+  bool get isChatLoading => _isChatLoading;
+  List<ChatMessageModel> getMessages(String appointmentId) => _chatMessages[appointmentId] ?? [];
 
   List<AppointmentModel> get pendingAppointments =>
       _appointments.where((a) => a.status == AppointmentStatus.pending).toList();
@@ -105,6 +116,68 @@ class AppointmentNotifier extends ChangeNotifier {
 
   Future<bool> cancelAppointment(String id, {String? reason}) async {
     return _updateAppointmentState(() => _repository.cancelAppointment(id, reason: reason));
+  }
+
+  Future<bool> startEnRoute(String id) async {
+    return _updateAppointmentState(() => _repository.startEnRoute(id));
+  }
+
+  Future<bool> markArrived(String id) async {
+    return _updateAppointmentState(() => _repository.markArrived(id));
+  }
+
+  Future<AppointmentLiveLocationDto?> getLiveLocation(String id) async {
+    try {
+      return await _repository.getLiveLocation(id);
+    } catch (e) {
+      debugPrint("[AppointmentNotifier] Error fetching live location: $e");
+      return null;
+    }
+  }
+
+
+  Future<void> loadChatMessages(String appointmentId) async {
+    _isChatLoading = true;
+    notifyListeners();
+
+    try {
+      final rawList = await _repository.getMessages(appointmentId);
+      final messages = rawList
+          .map((m) => ChatMessageModel.fromJson(m as Map<String, dynamic>))
+          .toList();
+      _chatMessages[appointmentId] = messages;
+    } catch (e) {
+      _chatMessages[appointmentId] = _chatMessages[appointmentId] ?? [];
+    } finally {
+      _isChatLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> sendChatMessage({
+    required String appointmentId,
+    required String content,
+    String? messageType,
+    String? treatmentPayloadJson,
+  }) async {
+    try {
+      final res = await _repository.sendMessage(
+        appointmentId: appointmentId,
+        content: content,
+        messageType: messageType,
+        treatmentPayloadJson: treatmentPayloadJson,
+      );
+      final data = res['data'] as Map<String, dynamic>;
+      final newMsg = ChatMessageModel.fromJson(data);
+      final list = _chatMessages[appointmentId] ?? [];
+      _chatMessages[appointmentId] = [...list, newMsg];
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      notifyListeners();
+      return false;
+    }
   }
 
   Future<bool> _updateAppointmentState(Future<AppointmentModel> Function() action) async {

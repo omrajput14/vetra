@@ -90,74 +90,93 @@ class _VetLoginPageState extends ConsumerState<VetLoginPage> {
           const SizedBox(width: 8),
         ],
       ),
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 12),
-              Text(l10n?.vetSignIn ?? 'Veterinarian Sign In', style: AppTypography.screenTitle),
-              const SizedBox(height: 8),
-              Text(
-                l10n?.vetSignInSubtitle ?? 'Access clinical diagnostics and regional outbreak triage.',
-                style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
-              ),
-              const SizedBox(height: 32),
-              AppTextField(
-                controller: _emailController,
-                labelText: l10n?.email ?? 'Email',
-                hintText: 'dr.smith@clinic.com',
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 16),
-              AppTextField(
-                controller: _licenseController,
-                labelText: l10n?.registrationNumber ?? 'Veterinary Registration Number (Optional)',
-                hintText: 'VET-9941-XX',
-              ),
-              const SizedBox(height: 16),
-              AppTextField(
-                controller: _passwordController,
-                labelText: l10n?.password ?? 'Password',
-                hintText: 'Enter clinical password',
-                obscureText: _obscurePassword,
-                suffixIcon: IconButton(
-                  icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: AppColors.textMetadata),
-                  onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () => context.push('/forgot-password'),
-                  child: Text(
-                    l10n?.forgotPassword ?? 'Forgot Password?',
-                    style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              const Spacer(),
-              PrimaryButton(
-                label: _isLoading ? (l10n?.loading ?? 'Authenticating...') : (l10n?.login ?? 'Login'),
-                onPressed: _isLoading ? null : () => _handleLogin(),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).padding.top -
+                  MediaQuery.of(context).padding.bottom -
+                  kToolbarHeight,
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${l10n?.newPractitioner ?? "New Practitioner?"} ', style: AppTypography.captionMetadata),
-                  GestureDetector(
-                    onTap: () => context.push('/vet-register'),
-                    child: Text(
-                      l10n?.createAccount ?? 'Register',
-                      style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Image.asset('assets/branding/vetra_logo_transparent.png', height: 36, width: 36),
+                      const SizedBox(width: 10),
+                      Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, letterSpacing: 1.2, fontSize: 20)),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(l10n?.vetSignIn ?? 'Veterinarian Sign In', style: AppTypography.screenTitle),
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n?.vetSignInSubtitle ?? 'Access clinical diagnostics and regional outbreak triage.',
+                    style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
+                  ),
+                  const SizedBox(height: 32),
+                  AppTextField(
+                    controller: _emailController,
+                    labelText: l10n?.email ?? 'Email',
+                    hintText: 'dr.smith@clinic.com',
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  const SizedBox(height: 16),
+                  AppTextField(
+                    controller: _licenseController,
+                    labelText: l10n?.registrationNumber ?? 'Veterinary Registration Number (Optional)',
+                    hintText: 'VET-9941-XX',
+                  ),
+                  const SizedBox(height: 16),
+                  AppTextField(
+                    controller: _passwordController,
+                    labelText: l10n?.password ?? 'Password',
+                    hintText: 'Enter clinical password',
+                    obscureText: _obscurePassword,
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: AppColors.textMetadata),
+                      onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                     ),
                   ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () => context.push('/forgot-password'),
+                      child: Text(
+                        l10n?.forgotPassword ?? 'Forgot Password?',
+                        style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  PrimaryButton(
+                    label: _isLoading ? (l10n?.loading ?? 'Authenticating...') : (l10n?.login ?? 'Login'),
+                    onPressed: _isLoading ? null : () => _handleLogin(),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${l10n?.newPractitioner ?? "New Practitioner?"} ', style: AppTypography.captionMetadata),
+                      GestureDetector(
+                        onTap: () => context.push('/vet-register'),
+                        child: Text(
+                          l10n?.createAccount ?? 'Register',
+                          style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
                 ],
               ),
-              const SizedBox(height: 24),
-            ],
+            ),
           ),
         ),
       ),

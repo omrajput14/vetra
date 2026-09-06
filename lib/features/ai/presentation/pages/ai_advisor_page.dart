@@ -1,3 +1,5 @@
+import 'package:vetra/features/appointment/data/models/appointment_dto.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,9 +8,11 @@ import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/localization/locale_provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/services/speech_service.dart';
+import '../../../../core/services/tts_service.dart';
 import '../../../animal/presentation/providers/animal_provider.dart';
 import '../../data/models/ai_advisor_models.dart';
 import '../providers/ai_advisor_provider.dart';
+import '../providers/ai_scan_provider.dart';
 
 class AIAdvisorPage extends ConsumerStatefulWidget {
   final String animalId;
@@ -29,14 +33,30 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   late final SpeechService _speechService;
+  late final TtsService _ttsService;
+  StreamSubscription<TtsPlaybackState>? _ttsSubscription;
   late final AnimationController _pulseController;
   late final Animation<double> _pulseAnimation;
   VoiceState _voiceState = VoiceState.idle;
+  TtsState _ttsState = TtsState.idle;
+  String? _speakingMessageId;
+  bool _autoSpeakNextResponse = false;
 
   @override
   void initState() {
     super.initState();
     _speechService = SpeechService.instance;
+    _ttsService = TtsService.instance;
+
+    _ttsSubscription = _ttsService.stateStream.listen((playback) {
+      if (mounted) {
+        setState(() {
+          _ttsState = playback.state;
+          _speakingMessageId = playback.messageId;
+        });
+      }
+    });
+
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
@@ -45,21 +65,29 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final currentLocale = ref.read(localeProvider);
       if (widget.sessionId != null && widget.sessionId!.isNotEmpty) {
         aiAdvisorNotifier.loadSession(widget.sessionId!);
       } else {
-        aiAdvisorNotifier.startSession(
-          widget.animalId,
-          preferredLanguage: currentLocale.languageCode,
-        );
+        final targetId = await _resolveActiveAnimalId();
+        if (targetId != null && targetId.isNotEmpty) {
+          animalNotifier.setSelectedAnimalId(targetId);
+          aiAdvisorNotifier.startSession(
+            targetId,
+            preferredLanguage: currentLocale.languageCode,
+          );
+        } else {
+          aiAdvisorNotifier.setErrorMessage('No active animal context');
+        }
       }
     });
   }
 
   @override
   void dispose() {
+    _ttsSubscription?.cancel();
+    _ttsService.stop();
     _speechService.cancelListening();
     _pulseController.dispose();
     _messageController.dispose();
@@ -67,6 +95,28 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
     super.dispose();
   }
 
+
+  Future<String?> _resolveActiveAnimalId() async {
+    if (widget.animalId.trim().isNotEmpty) {
+      return widget.animalId.trim();
+    }
+    if (animalNotifier.selectedAnimalId != null && animalNotifier.selectedAnimalId!.trim().isNotEmpty) {
+      return animalNotifier.selectedAnimalId!.trim();
+    }
+    if (aiScanNotifier.selectedAnimalId != null && aiScanNotifier.selectedAnimalId!.trim().isNotEmpty) {
+      return aiScanNotifier.selectedAnimalId!.trim();
+    }
+    // If the animal list is empty (e.g. user navigated directly to AI Advisor),
+    // load from local cache first before giving up. This ensures AI Advisor
+    // always uses the same authoritative local-first source as My Animals.
+    if (animalNotifier.animals.isEmpty) {
+      await animalNotifier.loadAnimals();
+    }
+    if (animalNotifier.animals.isNotEmpty) {
+      return animalNotifier.animals.first.id;
+    }
+    return null;
+  }
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
@@ -82,6 +132,11 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
   Future<void> _handleToggleVoiceInput() async {
     final l10n = AppLocalizations.of(context);
     final activeLocale = ref.read(localeProvider);
+
+    // Stop any ongoing TTS speech first
+    if (_ttsState == TtsState.playing) {
+      await _ttsService.stop();
+    }
 
     if (_voiceState == VoiceState.listening) {
       await _speechService.stopListening();
@@ -108,6 +163,8 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
       }
       return;
     }
+
+    _autoSpeakNextResponse = true;
 
     if (mounted) {
       setState(() {
@@ -157,7 +214,12 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
     );
   }
 
-  Future<void> _handleSendMessage([String? prefilledText]) async {
+  Future<void> _handleSendMessage([String? prefilledText, bool isVoice = false]) async {
+    // Stop any ongoing TTS or voice listening
+    if (_ttsState == TtsState.playing) {
+      await _ttsService.stop();
+    }
+
     if (_voiceState == VoiceState.listening) {
       await _speechService.stopListening();
       _pulseController.stop();
@@ -176,9 +238,15 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
     }
 
     final currentLocale = ref.read(localeProvider);
-    final animals = animalNotifier.animals;
-    final fallbackAnimalId = animals.isNotEmpty ? animals.first.id : widget.animalId;
-    final targetAnimalId = widget.animalId.isNotEmpty ? widget.animalId : fallbackAnimalId;
+    final targetAnimalId = await _resolveActiveAnimalId();
+    if (targetAnimalId == null || targetAnimalId.isEmpty) {
+      aiAdvisorNotifier.setErrorMessage('No active animal context');
+      return;
+    }
+    animalNotifier.setSelectedAnimalId(targetAnimalId);
+
+    final shouldAutoSpeak = _autoSpeakNextResponse || isVoice;
+    _autoSpeakNextResponse = false;
 
     final success = await aiAdvisorNotifier.sendMessage(
       text,
@@ -187,6 +255,19 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
     );
     if (success) {
       _scrollToBottom();
+      if (shouldAutoSpeak) {
+        final messages = aiAdvisorNotifier.messages;
+        if (messages.isNotEmpty) {
+          final latest = messages.last;
+          if (!latest.isUser) {
+            await _ttsService.speak(
+              latest.content,
+              languageCode: currentLocale.languageCode,
+              messageId: latest.id,
+            );
+          }
+        }
+      }
     }
   }
 
@@ -199,9 +280,12 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
       animation: Listenable.merge([aiAdvisorNotifier, animalNotifier]),
       builder: (context, _) {
         final animals = animalNotifier.animals;
+        final activeId = widget.animalId.isNotEmpty
+            ? widget.animalId
+            : (animalNotifier.selectedAnimalId ?? (animals.isNotEmpty ? animals.first.id : ''));
         final animal = animals.isNotEmpty
             ? animals.firstWhere(
-                (a) => a.id == widget.animalId,
+                (a) => a.id == activeId,
                 orElse: () => animals.first,
               )
             : null;
@@ -247,10 +331,16 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
               ),
               IconButton(
                 icon: const Icon(Icons.refresh, color: AppColors.textSecondary),
-                onPressed: () => aiAdvisorNotifier.startSession(
-                  widget.animalId,
-                  preferredLanguage: activeLocale.languageCode,
-                ),
+                onPressed: () async {
+                  final targetId = await _resolveActiveAnimalId();
+                  if (targetId != null && targetId.isNotEmpty) {
+                    animalNotifier.setSelectedAnimalId(targetId);
+                    aiAdvisorNotifier.startSession(
+                      targetId,
+                      preferredLanguage: activeLocale.languageCode,
+                    );
+                  }
+                },
                 tooltip: l10n?.startNewSession ?? 'Start New Session',
               ),
             ],
@@ -294,10 +384,24 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
                                       style: AppTypography.bodyDefault.copyWith(fontSize: 14)),
                                   const SizedBox(height: 16),
                                   ElevatedButton(
-                                    onPressed: () => aiAdvisorNotifier.startSession(
-                                      widget.animalId,
-                                      preferredLanguage: activeLocale.languageCode,
-                                    ),
+                                    onPressed: () async {
+                                      final targetId = await _resolveActiveAnimalId();
+                                      if (targetId != null && targetId.isNotEmpty) {
+                                        animalNotifier.setSelectedAnimalId(targetId);
+                                        aiAdvisorNotifier.startSession(
+                                          targetId,
+                                          preferredLanguage: activeLocale.languageCode,
+                                        );
+                                      } else {
+                                        if (!context.mounted) return;
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(l10n?.noAnimalsYet ?? 'Please add or select an animal first.'),
+                                            backgroundColor: AppColors.alertCritical,
+                                          ),
+                                        );
+                                      }
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColors.primary),
                                     child: Text(l10n?.retry ?? 'Try Again',
@@ -398,7 +502,12 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
             ),
           ),
           ElevatedButton(
-            onPressed: () => context.push('/appointment-booking', extra: animalId),
+            onPressed: () => context.push('/appointment-booking', extra: {
+              'animalId': animalId,
+              'isEmergency': true,
+              'visitType': VisitType.emergency,
+              'reason': 'EMERGENCY AI TRIAGE: Urgent Clinical Concern',
+            }),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.alertCritical,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -473,13 +582,88 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
                       ),
                     ],
                   ),
-                  child: Text(
-                    msg.content,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: isUser ? Colors.white : AppColors.textPrimary,
-                      height: 1.4,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        msg.content,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isUser ? Colors.white : AppColors.textPrimary,
+                          height: 1.4,
+                        ),
+                      ),
+                      if (!isUser) ...[
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                if (_ttsState == TtsState.playing && _speakingMessageId == msg.id) {
+                                  _ttsService.stop();
+                                } else {
+                                  final activeLocale = ref.read(localeProvider);
+                                  _ttsService.speak(
+                                    msg.content,
+                                    languageCode: activeLocale.languageCode,
+                                    messageId: msg.id,
+                                  );
+                                }
+                              },
+                              borderRadius: BorderRadius.circular(14),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: (_ttsState == TtsState.playing && _speakingMessageId == msg.id)
+                                      ? AppColors.primary.withValues(alpha: 0.12)
+                                      : AppColors.surfaceBackground,
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: (_ttsState == TtsState.playing && _speakingMessageId == msg.id)
+                                        ? AppColors.primary
+                                        : AppColors.borderHairline,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      (_ttsState == TtsState.playing && _speakingMessageId == msg.id)
+                                          ? Icons.volume_up_rounded
+                                          : Icons.volume_up_outlined,
+                                      size: 14,
+                                      color: (_ttsState == TtsState.playing && _speakingMessageId == msg.id)
+                                          ? AppColors.primary
+                                          : AppColors.textSecondary,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      (_ttsState == TtsState.playing && _speakingMessageId == msg.id)
+                                          ? _getSpeakingLabel(ref.read(localeProvider).languageCode)
+                                          : _getReadAloudLabel(ref.read(localeProvider).languageCode),
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: (_ttsState == TtsState.playing && _speakingMessageId == msg.id)
+                                            ? FontWeight.bold
+                                            : FontWeight.w500,
+                                        color: (_ttsState == TtsState.playing && _speakingMessageId == msg.id)
+                                            ? AppColors.primary
+                                            : AppColors.textSecondary,
+                                      ),
+                                    ),
+                                    if (_ttsState == TtsState.playing && _speakingMessageId == msg.id) ...[
+                                      const SizedBox(width: 4),
+                                      const Icon(Icons.stop_circle_rounded, size: 14, color: AppColors.alertCritical),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ],
                   ),
                 ),
               ),
@@ -792,11 +976,11 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (isListening)
+            if (_voiceState == VoiceState.listening)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: AppColors.alertCritical.withValues(alpha: 0.1),
                 child: Row(
                   children: [
                     ScaleTransition(
@@ -813,11 +997,11 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        l10n?.voiceListening ?? 'Listening...',
+                        _getListeningBannerText(ref.watch(localeProvider).languageCode),
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primary,
+                          color: AppColors.alertCritical,
                         ),
                       ),
                     ),
@@ -829,6 +1013,90 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
                           Icons.close_rounded,
                           size: 18,
                           color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else if (_ttsState == TtsState.playing)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                color: AppColors.primary.withValues(alpha: 0.12),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.volume_up_rounded,
+                      size: 18,
+                      color: AppColors.primary,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        _getSpeakingBannerText(ref.watch(localeProvider).languageCode),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => _ttsService.stop(),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.alertCritical.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.stop_circle_rounded,
+                              size: 14,
+                              color: AppColors.alertCritical,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              _getStopLabel(ref.watch(localeProvider).languageCode),
+                              style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.alertCritical,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else if (isSending)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                color: AppColors.primary.withValues(alpha: 0.08),
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        _getThinkingBannerText(ref.watch(localeProvider).languageCode),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primary,
                         ),
                       ),
                     ),
@@ -846,7 +1114,7 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(
                           color: isListening
-                              ? AppColors.primary
+                              ? AppColors.alertCritical
                               : AppColors.borderHairline,
                           width: isListening ? 1.5 : 1.0,
                         ),
@@ -865,7 +1133,7 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
                           hintStyle: TextStyle(
                             fontSize: 14,
                             color: isListening
-                                ? AppColors.primary
+                                ? AppColors.alertCritical
                                 : AppColors.textSecondary,
                             fontWeight: isListening
                                 ? FontWeight.w500
@@ -896,7 +1164,9 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
                       child: Material(
                         color: isListening
                             ? AppColors.alertCritical
-                            : AppColors.surfaceBackground,
+                            : (_ttsState == TtsState.playing
+                                ? AppColors.primary.withValues(alpha: 0.15)
+                                : AppColors.surfaceBackground),
                         shape: const CircleBorder(),
                         elevation: isListening ? 2 : 0,
                         child: InkWell(
@@ -910,7 +1180,9 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
                               border: Border.all(
                                 color: isListening
                                     ? AppColors.alertCritical
-                                    : AppColors.borderHairline,
+                                    : (_ttsState == TtsState.playing
+                                        ? AppColors.primary
+                                        : AppColors.borderHairline),
                               ),
                             ),
                             child: Icon(
@@ -958,6 +1230,72 @@ class _AIAdvisorPageState extends ConsumerState<AIAdvisorPage>
         ),
       ),
     );
+  }
+
+  String _getSpeakingLabel(String lang) {
+    switch (lang.toLowerCase()) {
+      case 'mr':
+        return 'बोलत आहे';
+      case 'hi':
+        return 'बोल रहा है';
+      default:
+        return 'Speaking';
+    }
+  }
+
+  String _getReadAloudLabel(String lang) {
+    switch (lang.toLowerCase()) {
+      case 'mr':
+        return 'ऐका';
+      case 'hi':
+        return 'सुनें';
+      default:
+        return 'Read Aloud';
+    }
+  }
+
+  String _getStopLabel(String lang) {
+    switch (lang.toLowerCase()) {
+      case 'mr':
+        return 'थांबवा';
+      case 'hi':
+        return 'रोकें';
+      default:
+        return 'Stop';
+    }
+  }
+
+  String _getListeningBannerText(String lang) {
+    switch (lang.toLowerCase()) {
+      case 'mr':
+        return 'मराठीत ऐकत आहे... लक्षणे सांगा';
+      case 'hi':
+        return 'हिंदी में सुन रहा है... लक्षण बताएं';
+      default:
+        return 'Listening in English... Speak symptoms now';
+    }
+  }
+
+  String _getSpeakingBannerText(String lang) {
+    switch (lang.toLowerCase()) {
+      case 'mr':
+        return 'एआय उत्तर वाचत आहे...';
+      case 'hi':
+        return 'एआई उत्तर पढ़ रहा है...';
+      default:
+        return 'AI is speaking response...';
+    }
+  }
+
+  String _getThinkingBannerText(String lang) {
+    switch (lang.toLowerCase()) {
+      case 'mr':
+        return 'प्राण्याच्या नोंदी तपासून एआय विश्लेषण करत आहे...';
+      case 'hi':
+        return 'पशु संदर्भ के साथ एआई विश्लेषण कर रहा है...';
+      default:
+        return 'AI is analyzing with live animal context...';
+    }
   }
 
   String _getRiskLabel(AIAdvisorRiskLevel level, AppLocalizations? l10n) {

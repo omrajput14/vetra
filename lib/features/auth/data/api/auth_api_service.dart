@@ -88,11 +88,53 @@ class AuthApiService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> listVets() async {
+  Future<List<Map<String, dynamic>>> listVets({
+    double? latitude,
+    double? longitude,
+    double? radiusKm,
+    String? village,
+    String? taluka,
+    String? district,
+  }) async {
     try {
-      final response = await _dio.get(ApiConfig.vets);
+      final queryParams = <String, dynamic>{};
+      if (latitude != null) queryParams['latitude'] = latitude;
+      if (longitude != null) queryParams['longitude'] = longitude;
+      if (radiusKm != null) queryParams['radiusKm'] = radiusKm;
+      if (village != null && village.trim().isNotEmpty) queryParams['village'] = village.trim();
+      if (taluka != null && taluka.trim().isNotEmpty) queryParams['taluka'] = taluka.trim();
+      if (district != null && district.trim().isNotEmpty) queryParams['district'] = district.trim();
+
+      final response = await _dio.get(
+        ApiConfig.vets,
+        queryParameters: queryParams.isNotEmpty ? queryParams : null,
+      );
       final data = response.data['data'] as List;
       return data.map((e) => e as Map<String, dynamic>).toList();
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> uploadProfilePhoto(String filePath) async {
+    try {
+      final fileName = filePath.split('/').last;
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(filePath, filename: fileName),
+      });
+      final response = await _dio.post(
+        '/api/v1/users/profile/photo',
+        data: formData,
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<void> deleteProfilePhoto() async {
+    try {
+      await _dio.delete('/api/v1/users/profile/photo');
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
     }

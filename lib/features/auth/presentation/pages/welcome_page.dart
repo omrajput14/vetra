@@ -37,9 +37,15 @@ class WelcomePage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12),
+              Image.asset(
+                'assets/branding/vetra_logo_transparent.png',
+                width: 56,
+                height: 56,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 16),
               Text(
-                l10n?.welcomeToVetra ?? 'Welcome to Vetra',
+                l10n?.welcomeToVetra ?? 'Welcome to PASHU SATHI',
                 style: AppTypography.screenTitle.copyWith(fontSize: 28),
               ),
               const SizedBox(height: 8),

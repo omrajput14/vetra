@@ -70,4 +70,52 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
     final data = res['data'] as Map<String, dynamic>;
     return AppointmentModel.fromJson(data);
   }
+
+  @override
+  Future<List<dynamic>> getMessages(String appointmentId) async {
+    return await _apiService.getAppointmentMessages(appointmentId);
+  }
+
+  @override
+  Future<Map<String, dynamic>> sendMessage({
+    required String appointmentId,
+    required String content,
+    String? messageType,
+    String? treatmentPayloadJson,
+  }) async {
+    final body = {
+      'content': content,
+      if (messageType != null) 'messageType': messageType,
+      if (treatmentPayloadJson != null) 'treatmentPayloadJson': treatmentPayloadJson,
+    };
+    return await _apiService.sendAppointmentMessage(appointmentId, body);
+  }
+
+  @override
+  Future<AppointmentModel> startEnRoute(String id) async {
+    final res = await _apiService.startEnRoute(id);
+    final data = res["data"] as Map<String, dynamic>;
+    return AppointmentModel.fromJson(data);
+  }
+
+  @override
+  Future<AppointmentModel> markArrived(String id) async {
+    final res = await _apiService.markArrived(id);
+    final data = res["data"] as Map<String, dynamic>;
+    return AppointmentModel.fromJson(data);
+  }
+
+  @override
+  Future<AppointmentLiveLocationDto> updateLocation(String id, double latitude, double longitude, {double? accuracy}) async {
+    final res = await _apiService.updateLocation(id, latitude, longitude, accuracy: accuracy);
+    final data = res["data"] as Map<String, dynamic>;
+    return AppointmentLiveLocationDto.fromJson(data);
+  }
+
+  @override
+  Future<AppointmentLiveLocationDto> getLiveLocation(String id) async {
+    final res = await _apiService.getLiveLocation(id);
+    final data = res["data"] as Map<String, dynamic>;
+    return AppointmentLiveLocationDto.fromJson(data);
+  }
 }

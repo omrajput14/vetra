@@ -5,11 +5,12 @@ import '../app_spacing.dart';
 import '../app_typography.dart';
 import '../badges/verified_badge.dart';
 
-/// Card component for displaying verified veterinarian profiles in directory and discovery views.
+/// Card component for displaying veterinarian profiles in directory and discovery views.
 class VetCard extends StatelessWidget {
   final String name;
   final String designation;
   final String? distance;
+  final String? matchTypeLabel;
   final double rating;
   final String? phoneNumber;
   final bool? emergencyAvailable;
@@ -23,6 +24,7 @@ class VetCard extends StatelessWidget {
     required this.name,
     required this.designation,
     this.distance,
+    this.matchTypeLabel,
     required this.rating,
     this.phoneNumber,
     this.emergencyAvailable,
@@ -35,7 +37,6 @@ class VetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-
     return GestureDetector(
       onTap: onTap ?? onBookTap,
       child: Container(
@@ -68,32 +69,71 @@ class VetCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(name, style: AppTypography.cardTitle),
-                      if (isVerified) ...[
-                        const SizedBox(height: 4),
-                        const VerifiedBadge(compact: true),
-                      ],
+                      // BUG 1 FIX: overflow ellipsis on name
+                      Text(name, style: AppTypography.cardTitle, overflow: TextOverflow.ellipsis, maxLines: 1),
                       const SizedBox(height: 4),
-                      Text(
-                        distance != null && distance!.isNotEmpty
-                            ? '$designation • $distance'
-                            : designation,
-                        style: AppTypography.captionMetadata,
+                      // BUG 1 FIX: Wrap instead of Row — no horizontal overflow possible
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          if (isVerified)
+                            const VerifiedBadge(compact: true)
+                          else
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: AppColors.cautionAmber.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: AppColors.cautionAmber.withValues(alpha: 0.4)),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.pending_actions, size: 10, color: AppColors.cautionAmber),
+                                  SizedBox(width: 3),
+                                  Text('Verification Pending', style: TextStyle(color: AppColors.cautionAmber, fontSize: 10, fontWeight: FontWeight.w600)),
+                                ],
+                              ),
+                            ),
+                          if (matchTypeLabel != null && matchTypeLabel!.isNotEmpty)
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(alpha: 0.08),
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+                              ),
+                              child: Text(matchTypeLabel!, overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.w600)),
+                            ),
+                        ],
                       ),
                       const SizedBox(height: 4),
-                      Row(
+                      Text(
+                        distance != null && distance!.isNotEmpty ? '\$designation • \$distance' : designation,
+                        style: AppTypography.captionMetadata,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                      const SizedBox(height: 4),
+                      // BUG 1 FIX: rating + emergency badge in Wrap
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          const Icon(Icons.star, color: AppColors.cautionAmber, size: 16),
-                          const SizedBox(width: 4),
-                          Text(
-                            rating.toStringAsFixed(1),
-                            style: AppTypography.captionMetadata.copyWith(
-                              color: AppColors.textPrimary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.star, color: AppColors.cautionAmber, size: 16),
+                              const SizedBox(width: 4),
+                              Text(rating.toStringAsFixed(1),
+                                style: AppTypography.captionMetadata.copyWith(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+                            ],
                           ),
-                          if (emergencyAvailable == true) ...[
-                            const SizedBox(width: 8),
+                          if (emergencyAvailable == true)
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
@@ -106,18 +146,11 @@ class VetCard extends StatelessWidget {
                                 children: [
                                   const Icon(Icons.emergency, size: 10, color: AppColors.alertCritical),
                                   const SizedBox(width: 2),
-                                  Text(
-                                    l10n?.emergencyAvailable ?? 'Emergency Available',
-                                    style: const TextStyle(
-                                      color: AppColors.alertCritical,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  Text(l10n?.emergencyAvailable ?? 'Emergency',
+                                    style: const TextStyle(color: AppColors.alertCritical, fontSize: 10, fontWeight: FontWeight.bold)),
                                 ],
                               ),
                             ),
-                          ],
                         ],
                       ),
                     ],
@@ -126,7 +159,7 @@ class VetCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 14),
-            // Dual Action Buttons: [📞 Call Vet] & [📅 Book Appointment]
+            // BUG 1 FIX: shorter labels "Call" + "Book" — can't overflow
             Row(
               children: [
                 Expanded(
@@ -139,11 +172,8 @@ class VetCard extends StatelessWidget {
                       backgroundColor: AppColors.primary.withValues(alpha: 0.04),
                     ),
                     icon: const Icon(Icons.call_rounded, size: 17, color: AppColors.primary),
-                    label: Text(
-                      l10n?.callVet ?? 'Call Vet',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    label: Text(l10n?.callVet ?? 'Call',
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12), overflow: TextOverflow.ellipsis),
                     onPressed: onCallTap,
                   ),
                 ),
@@ -158,12 +188,9 @@ class VetCard extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                     icon: const Icon(Icons.calendar_month, size: 17),
-                    label: Text(
-                      l10n?.bookAppointment ?? 'Book Appointment',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    onPressed: onBookTap ?? onTap,
+                    label: Text(l10n?.bookAppointment ?? 'Book',
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12), overflow: TextOverflow.ellipsis),
+                    onPressed: onBookTap,
                   ),
                 ),
               ],

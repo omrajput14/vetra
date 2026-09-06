@@ -76,7 +76,7 @@ class MedicalRecordDetailsPage extends StatelessWidget {
                   children: [
                     _buildMetaRow(Icons.person_pin, 'Attending Vet', record.veterinarianName ?? 'Dr. Veterinarian'),
                     const Divider(height: 16),
-                    _buildMetaRow(Icons.local_hospital, 'Clinic / Practice', record.clinicName ?? 'Vetra Clinical Practice'),
+                    _buildMetaRow(Icons.local_hospital, 'Clinic / Practice', record.clinicName ?? 'PASHU SATHI Clinical Practice'),
                     const Divider(height: 16),
                     _buildMetaRow(Icons.agriculture, 'Owner / Farmer', record.farmerName ?? 'Livestock Owner'),
                   ],

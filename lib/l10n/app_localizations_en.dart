@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'Vetra';
+  String get appName => 'PASHU SATHI';
 
   @override
   String get chooseLanguage => 'Choose your preferred language';
@@ -61,7 +61,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signIn => 'Sign In';
 
   @override
-  String get welcomeToVetra => 'Welcome to Vetra';
+  String get welcomeToVetra => 'Welcome to PASHU SATHI';
 
   @override
   String get chooseHowToContinue => 'Choose how you want to continue';
@@ -105,10 +105,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get village => 'Village';
 
   @override
+  String get taluka => 'Taluka / Block';
+
+  @override
   String get district => 'District';
 
   @override
   String get state => 'State';
+
+  @override
+  String get locationPermissionTitle =>
+      'Allow PASHU SATHI to use your location';
+
+  @override
+  String get locationPermissionDesc =>
+      'Your location helps us find nearby veterinarians, provide local animal-health alerts, and identify disease risks in your area.';
+
+  @override
+  String get allowLocation => 'Allow Location';
+
+  @override
+  String get notNow => 'Not Now';
 
   @override
   String get animalCount => 'Animal Count';
@@ -282,7 +299,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get symptoms => 'Symptoms';
 
   @override
-  String get treatment => 'Clinical Treatment';
+  String get treatment => 'Treatment';
 
   @override
   String get prescriptions => 'Prescriptions';
@@ -362,7 +379,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get analyzingScan =>
-      'Analyzing visual patterns with Vetra Vision AI...';
+      'Analyzing visual patterns with PASHU SATHI Vision AI...';
 
   @override
   String get suspectedCondition => 'Suspected Condition';
@@ -446,7 +463,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpSupport => 'Help & Support';
 
   @override
-  String get aboutLegal => 'About Vetra & Legal';
+  String get aboutLegal => 'About PASHU SATHI & Legal';
 
   @override
   String get logout => 'Logout';
@@ -725,4 +742,129 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noVerifiedVetsDesc => 'Please check again later.';
+
+  @override
+  String get animalPassport => 'Digital Animal Passport';
+
+  @override
+  String get healthTimeline => 'Lifetime Health Timeline';
+
+  @override
+  String get vaccination => 'Vaccination';
+
+  @override
+  String get consultation => 'Vet Consultation';
+
+  @override
+  String get diagnosis => 'Diagnosis';
+
+  @override
+  String get aiScreening => 'AI Health Screening';
+
+  @override
+  String get observation => 'Health Observation';
+
+  @override
+  String get noHealthRecords => 'No Health Records Yet';
+
+  @override
+  String get noHealthRecordsDesc =>
+      'AI screenings, vaccinations, and veterinary consultations will appear here in the animal\'s lifetime timeline.';
+
+  @override
+  String get addHealthRecord => 'Add Health Record';
+
+  @override
+  String get recordSource => 'Source';
+
+  @override
+  String get attentionRequired => 'Attention Required';
+
+  @override
+  String get treatmentInProgress => 'Treatment in Progress';
+
+  @override
+  String get protectedStatus => 'Protected / Vaccinated';
+
+  @override
+  String get immediateVetAttentionRecommended =>
+      'Immediate veterinary attention recommended.';
+
+  @override
+  String get bookVetNow => 'BOOK VET NOW';
+
+  @override
+  String get emergencyCareWarning =>
+      'Critical condition detected. Immediate veterinary intervention required without delay.';
+
+  @override
+  String get noVerifiedVetsNearby =>
+      'No verified veterinarians are currently available nearby.';
+
+  @override
+  String get selectAnimalFirst => 'Please select an animal first';
+
+  @override
+  String get zoonoticHumanHealthRisk => 'ZOONOTIC / HUMAN HEALTH RISK';
+
+  @override
+  String get zoonoticWarningMessage =>
+      'This disease may affect humans. Avoid direct contact and seek veterinary/public-health guidance.';
+
+  @override
+  String get zoonoticGuidance => 'Public Health Advisory';
+
+  @override
+  String get estimatedSavingsTitle => 'Estimated savings from early detection';
+
+  @override
+  String get modeledEstimate => 'Modeled estimate';
+
+  @override
+  String get estimatedSavingsUnavailable => 'Estimated savings unavailable';
+
+  @override
+  String get modeledSavingsTooltip =>
+      'Modeled from registered livestock data and early-detection assumptions. Not an audited financial figure.';
+
+  @override
+  String get animalPhoto => 'Animal Photo (Optional)';
+
+  @override
+  String get takePhotoCamera => 'Camera';
+
+  @override
+  String get chooseFromGallery => 'Gallery';
+
+  @override
+  String get removePhoto => 'Remove Photo';
+
+  @override
+  String get retakePhoto => 'Retake Photo';
+
+  @override
+  String get profilePhoto => 'Profile Photo';
+
+  @override
+  String get photoPreview => 'Photo Preview';
+
+  @override
+  String get urdu => 'Urdu';
+
+  @override
+  String get permissionCameraDenied =>
+      'Camera permission is required to capture photos';
+
+  @override
+  String get permissionGalleryDenied =>
+      'Storage permission is required to select photos from gallery';
+
+  @override
+  String get uploadingPhoto => 'Uploading photo...';
+
+  @override
+  String get photoUploadedSuccess => 'Photo uploaded successfully';
+
+  @override
+  String get photoRemovedSuccess => 'Photo removed successfully';
 }

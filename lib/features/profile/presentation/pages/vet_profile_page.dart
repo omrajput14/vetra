@@ -56,6 +56,13 @@ class _VetProfilePageState extends State<VetProfilePage> {
             backgroundColor: AppColors.surfaceCard,
             elevation: 0,
             title: Text(l10n?.vetProfile ?? 'Veterinarian Profile', style: AppTypography.screenTitle),
+            leading: Navigator.of(context).canPop()
+                ? IconButton(
+                    icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+                    tooltip: 'Back',
+                    onPressed: () => context.pop(),
+                  )
+                : null,
           ),
           body: ListView(
             padding: const EdgeInsets.all(16),
@@ -67,13 +74,18 @@ class _VetProfilePageState extends State<VetProfilePage> {
                 qualification: qualification,
                 specialization: specialization,
                 hospital: hospital,
+                profilePhotoUrl: user?.profilePhotoUrl,
+                verificationStatus: user?.metadata['verificationStatus']?.toString(),
               ),
               const SizedBox(height: 14),
 
               // 2. Availability Status Card
               AvailabilityCard(
-                isAvailable: _isAvailable,
-                onChanged: (val) => setState(() => _isAvailable = val),
+                isAvailable: user?.isAvailable ?? _isAvailable,
+                onChanged: (val) async {
+                  setState(() => _isAvailable = val);
+                  await authNotifier.updateDutyStatus(val);
+                },
               ),
               const SizedBox(height: 20),
 
@@ -90,6 +102,20 @@ class _VetProfilePageState extends State<VetProfilePage> {
                 icon: Icons.workspace_premium_outlined,
                 label: l10n?.clinicalSpecialization ?? 'Clinical Specialization',
                 value: specialization,
+              ),
+              const SizedBox(height: 8),
+              InfoTile(
+                icon: Icons.location_city_outlined,
+                label: 'Clinic Address & Location',
+                value: user?.clinicAddress ?? (dash?.facilityName ?? 'Address not configured'),
+              ),
+              const SizedBox(height: 8),
+              InfoTile(
+                icon: Icons.verified_user_outlined,
+                label: 'Veterinary Council Certificate',
+                value: user?.certificateUrl != null
+                    ? 'Certificate Uploaded (${user?.certificateStatus})'
+                    : 'Pending Document Upload',
               ),
               const SizedBox(height: 8),
               InfoTile(
@@ -126,14 +152,14 @@ class _VetProfilePageState extends State<VetProfilePage> {
                 icon: Icons.calendar_today_outlined,
                 title: l10n?.clinicalSchedule ?? 'My Clinical Schedule',
                 subtitle: l10n?.clinicalScheduleSubtitle ?? 'View upcoming consultations and visits',
-                onTap: () => context.go('/consultation-history'),
+                onTap: () => context.push('/clinical-schedule'),
               ),
               const SizedBox(height: 8),
               ActionCard(
                 icon: Icons.tune_outlined,
                 title: l10n?.availabilityShiftSettings ?? 'Availability & Shift Settings',
                 subtitle: l10n?.availabilityShiftSubtitle ?? 'Configure emergency response hours',
-                onTap: () => context.push('/notification-preferences'),
+                onTap: () => context.push('/shift-settings'),
               ),
               const SizedBox(height: 8),
               ActionCard(
@@ -153,7 +179,19 @@ class _VetProfilePageState extends State<VetProfilePage> {
                   if (context.mounted) context.go('/welcome');
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
+              Center(
+                child: Column(
+                  children: [
+                    Image.asset('assets/branding/vetra_logo_transparent.png', height: 40, width: 40),
+                    const SizedBox(height: 8),
+                    Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 16, letterSpacing: 1.2)),
+                    const SizedBox(height: 2),
+                    Text('Veterinary Clinical Network', style: AppTypography.captionMetadata),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
             ],
           ),
           bottomNavigationBar: VetBottomNavigation(

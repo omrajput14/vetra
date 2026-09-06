@@ -12,6 +12,7 @@ class AIScanApiService {
   Future<AIScanModel> createScan({
     required String animalId,
     required String imagePath,
+    String? idempotencyKey,
   }) async {
     try {
       final file = File(imagePath);
@@ -29,6 +30,11 @@ class AIScanApiService {
           'animalId': animalId,
           'imageUrl': dataUri,
         },
+        options: Options(
+          sendTimeout: const Duration(seconds: 35),
+          receiveTimeout: const Duration(seconds: 35),
+          headers: idempotencyKey != null ? {'Idempotency-Key': idempotencyKey} : null,
+        ),
       );
 
       final responseData = response.data;

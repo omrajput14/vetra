@@ -1,4 +1,10 @@
+import '../../features/mortality/presentation/pages/report_mortality_page.dart';
+import '../../features/mortality/presentation/pages/vet_mortality_list_page.dart';
+import '../../features/mortality/presentation/pages/vet_mortality_detail_page.dart';
+import '../../features/mortality/data/models/mortality_dto.dart';
 import 'package:go_router/go_router.dart';
+import '../../features/disease/data/models/outbreak_dto.dart';
+
 import '../../core/models/user_role.dart';
 import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
@@ -29,6 +35,7 @@ import '../../features/animal/presentation/pages/add_animal_page.dart';
 import '../../features/animal/presentation/pages/edit_animal_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_qr_updated_page.dart';
+import '../../features/animal/data/models/animal_dto.dart';
 import '../../features/animal/presentation/pages/animal_passport_offline_state_page.dart';
 import '../../features/animal/presentation/pages/animal_timeline_page.dart';
 import '../../features/animal/presentation/pages/animal_gallery_page.dart';
@@ -58,6 +65,8 @@ import '../../features/maps/presentation/pages/risk_zone_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/profile/presentation/pages/edit_profile_page.dart';
 import '../../features/profile/presentation/pages/vet_profile_page.dart';
+import '../../features/profile/presentation/pages/shift_settings_page.dart';
+import '../../features/veterinarian/presentation/pages/clinical_schedule_page.dart';
 import '../../features/settings/presentation/pages/settings_overview_page.dart';
 import '../../features/settings/presentation/pages/notification_preferences_page.dart';
 import '../../features/settings/presentation/pages/language_settings_page.dart';
@@ -75,6 +84,7 @@ import '../../features/shared/presentation/pages/notification_details_page.dart'
 import '../../features/shared/presentation/pages/notifications_page.dart';
 import '../../features/shared/presentation/pages/qr_scanner_vet_page.dart';
 import '../../features/shared/presentation/pages/search_results_page.dart';
+import '../../features/appointment/presentation/pages/appointment_chat_page.dart';
 
 class AppRouter {
   AppRouter._();
@@ -113,7 +123,7 @@ class AppRouter {
 
       // Role Guards
       if (role == UserRole.farmer) {
-        if (loc.startsWith('/vet-dashboard') || loc.startsWith('/vet-requests') || loc.startsWith('/consultation-history') || loc.startsWith('/diagnosis-entry') || loc.startsWith('/vet-outbreak-map') || loc.startsWith('/vet-profile')) {
+        if (loc.startsWith('/vet-dashboard') || loc.startsWith('/vet-requests') || loc.startsWith('/consultation-history') || loc.startsWith('/diagnosis-entry') || loc.startsWith('/vet-outbreak-map') || loc.startsWith('/vet-profile') || loc.startsWith('/vet-mortality')) {
           return '/farmer-dashboard';
         }
       } else if (role == UserRole.veterinarian) {
@@ -208,6 +218,10 @@ class AppRouter {
         builder: (context, state) => const ConsultationHistoryPage(),
       ),
       GoRoute(
+        path: '/clinical-schedule',
+        builder: (context, state) => const ClinicalSchedulePage(),
+      ),
+      GoRoute(
         path: '/vet-verification',
         builder: (context, state) => const VetVerificationPage(),
       ),
@@ -225,7 +239,15 @@ class AppRouter {
       ),
       GoRoute(
         path: '/animal-passport-qr-updated',
-        builder: (context, state) => const AnimalPassportQrUpdatedPage(),
+        builder: (context, state) {
+          final extra = state.extra;
+          if (extra is AnimalModel) {
+            return AnimalPassportQrUpdatedPage(animal: extra);
+          } else if (extra is String) {
+            return AnimalPassportQrUpdatedPage(animalId: extra);
+          }
+          return const AnimalPassportQrUpdatedPage();
+        },
       ),
       GoRoute(
         path: '/animal-passport-offline',
@@ -296,6 +318,35 @@ class AppRouter {
         builder: (context, state) => ScanResultsPage(extraData: state.extra as Map<String, dynamic>?),
       ),
       GoRoute(
+        path: '/report-mortality',
+        builder: (context, state) {
+          final extra = state.extra;
+          String? animalId;
+          if (extra is String) {
+            animalId = extra;
+          } else if (extra is Map<String, dynamic>) {
+            animalId = extra['animalId'] as String?;
+          }
+          return ReportMortalityPage(initialAnimalId: animalId);
+        },
+      ),
+      GoRoute(
+        path: '/vet-mortality-inbox',
+        builder: (context, state) => const VetMortalityListPage(),
+      ),
+      GoRoute(
+        path: '/vet-mortality-detail',
+        builder: (context, state) {
+          final extra = state.extra;
+          if (extra is MortalityReportModel) {
+            return VetMortalityDetailPage(report: extra);
+          } else if (extra is String) {
+            return VetMortalityDetailPage(reportId: extra);
+          }
+          return const VetMortalityDetailPage();
+        },
+      ),
+      GoRoute(
         path: '/disease-scanner',
         builder: (context, state) => const DiseaseScannerPage(),
       ),
@@ -332,13 +383,21 @@ class AppRouter {
       ),
       GoRoute(
         path: '/nearby-outbreak-details',
-        builder: (context, state) => const NearbyOutbreakDetailsPage(),
+        builder: (context, state) {
+          final outbreak = state.extra is OutbreakModel ? state.extra as OutbreakModel : null;
+          return NearbyOutbreakDetailsPage(outbreak: outbreak);
+        },
       ),
       GoRoute(
         path: '/report-disease',
-        builder: (context, state) => const ReportDiseasePage(),
+        builder: (context, state) {
+          final animalId = state.extra is String
+              ? state.extra as String
+              : state.uri.queryParameters['animalId'];
+          return ReportDiseasePage(initialAnimalId: animalId);
+        },
       ),
-            GoRoute(
+      GoRoute(
         path: '/vet-outbreak-map',
         builder: (context, state) => const VetOutbreakMapPage(),
       ),
@@ -348,7 +407,10 @@ class AppRouter {
       ),
       GoRoute(
         path: '/risk-zone',
-        builder: (context, state) => const RiskZonePage(),
+        builder: (context, state) {
+          final outbreak = state.extra is OutbreakModel ? state.extra as OutbreakModel : null;
+          return RiskZonePage(initialOutbreak: outbreak);
+        },
       ),
       GoRoute(
         path: '/profile',
@@ -361,6 +423,10 @@ class AppRouter {
       GoRoute(
         path: '/vet-profile',
         builder: (context, state) => const VetProfilePage(),
+      ),
+      GoRoute(
+        path: '/shift-settings',
+        builder: (context, state) => const ShiftSettingsPage(),
       ),
       GoRoute(
         path: '/settings-overview',
@@ -409,6 +475,13 @@ class AppRouter {
       GoRoute(
         path: '/appointment-details',
         builder: (context, state) => AppointmentDetailsPage(appointmentId: state.extra?.toString()),
+      ),
+      GoRoute(
+        path: '/appointment-chat',
+        builder: (context, state) {
+          final id = state.extra?.toString() ?? state.uri.queryParameters['id'] ?? '';
+          return AppointmentChatPage(appointmentId: id);
+        },
       ),
       GoRoute(
         path: '/filters',

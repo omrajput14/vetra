@@ -14,4 +14,13 @@ class DashboardApiService {
       throw NetworkException.fromDioError(e);
     }
   }
+
+  Future<Map<String, dynamic>> getEconomicImpact() async {
+    try {
+      final response = await _dio.get('${ApiConfig.dashboard}/economic-impact');
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
 }

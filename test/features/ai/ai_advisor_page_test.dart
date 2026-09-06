@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:vetra/features/ai/data/models/ai_advisor_models.dart';
 import 'package:vetra/features/ai/presentation/pages/ai_advisor_page.dart';
 import 'package:vetra/features/ai/presentation/providers/ai_advisor_provider.dart';
+import 'package:vetra/features/animal/presentation/providers/animal_provider.dart';
 import 'package:vetra/l10n/app_localizations.dart';
 
 Widget _createTestApp(Widget child) {
@@ -262,5 +263,158 @@ void main() {
       // Find text field
       expect(find.byType(TextField), findsOneWidget);
     });
+    testWidgets('renders No active animal context fallback when no animal is selected/registered',
+        (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
+      animalNotifier.setSelectedAnimalId(null);
+      aiAdvisorNotifier.clearSession();
+      aiAdvisorNotifier.setErrorMessage('No active animal context');
+
+      await tester.pumpWidget(_createTestApp(const AIAdvisorPage(animalId: '')));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      expect(find.text('No active animal context'), findsOneWidget);
+      expect(find.text('Try Again'), findsOneWidget);
+    });
+
+    testWidgets('resolves active animal from animalNotifier when animalId is empty',
+        (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
+      final session = AIAdvisorSessionModel(
+        id: 'session-resolved',
+        animalId: 'animal-gauri',
+        animalName: 'Gauri',
+        species: 'Cattle',
+        breed: 'Gir',
+        userId: 'user-1',
+        status: AIAdvisorSessionStatus.questioning,
+        riskLevel: AIAdvisorRiskLevel.mild,
+        requiresVetReview: true,
+        turnCount: 1,
+        messages: [
+          AIAdvisorMessageModel(
+            id: 'msg-1',
+            senderType: 'USER',
+            content: 'my cow is sick',
+            turnNumber: 1,
+            followUpQuestions: const [],
+            createdAt: DateTime.now().subtract(const Duration(minutes: 2)),
+          ),
+          AIAdvisorMessageModel(
+            id: 'msg-2',
+            senderType: 'ADVISOR',
+            content: 'How long has this condition been observed?',
+            turnNumber: 1,
+            followUpQuestions: const ['Is she eating normally?'],
+            createdAt: DateTime.now().subtract(const Duration(minutes: 1)),
+          ),
+        ],
+        createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
+        updatedAt: DateTime.now(),
+      );
+
+      aiAdvisorNotifier.setCurrentSession(session);
+      animalNotifier.setSelectedAnimalId('animal-gauri');
+
+      await tester.pumpWidget(_createTestApp(const AIAdvisorPage(animalId: '')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('my cow is sick'), findsOneWidget);
+      expect(find.text('How long has this condition been observed?'), findsOneWidget);
+      expect(find.text('Is she eating normally?'), findsOneWidget);
+    });
+
+    testWidgets('multi-turn progression advances when farmer replies for 1 day',
+        (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(800, 1600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+
+      final multiTurnSession = AIAdvisorSessionModel(
+        id: 'session-turn-progression',
+        animalId: 'animal-gauri',
+        animalName: 'Gauri',
+        species: 'Cattle',
+        breed: 'Gir',
+        userId: 'user-1',
+        status: AIAdvisorSessionStatus.assessmentGenerated,
+        riskLevel: AIAdvisorRiskLevel.moderate,
+        requiresVetReview: true,
+        turnCount: 2,
+        messages: [
+          AIAdvisorMessageModel(
+            id: 'm1',
+            senderType: 'USER',
+            content: 'my cow is sick',
+            turnNumber: 1,
+            followUpQuestions: const [],
+            createdAt: DateTime.now().subtract(const Duration(minutes: 3)),
+          ),
+          AIAdvisorMessageModel(
+            id: 'm2',
+            senderType: 'ADVISOR',
+            content: 'How long has this condition been observed?',
+            turnNumber: 1,
+            followUpQuestions: const [],
+            createdAt: DateTime.now().subtract(const Duration(minutes: 2)),
+          ),
+          AIAdvisorMessageModel(
+            id: 'm3',
+            senderType: 'USER',
+            content: 'for 1 day',
+            turnNumber: 2,
+            followUpQuestions: const [],
+            createdAt: DateTime.now().subtract(const Duration(minutes: 1)),
+          ),
+          AIAdvisorMessageModel(
+            id: 'm4',
+            senderType: 'ADVISOR',
+            content: 'Thank you for confirming the 1-day timeline. Based on the symptoms and animal profile, here is the preliminary screening assessment.',
+            turnNumber: 2,
+            followUpQuestions: const [],
+            createdAt: DateTime.now(),
+          ),
+        ],
+        assessment: const AIAdvisorAssessmentModel(
+          possibleConditions: [
+            PossibleConditionModel(
+              condition: 'Acute Ruminal Indigestion (Suspected)',
+              confidence: 0.84,
+              reasoning: 'Acute onset within 24 hours with appetite sluggishness.',
+            ),
+          ],
+          userReportedSymptoms: ['Sick for 1 day', 'Appetite reduction'],
+          keyObservations: ['Early onset digestive disturbance pattern'],
+          riskLevel: AIAdvisorRiskLevel.moderate,
+          requiresVeterinarianReview: true,
+          recommendedNextStep: 'Keep animal in clean dry shelter and consult a veterinarian.',
+          disclaimer: 'This is an AI-assisted preliminary assessment and is not a confirmed veterinary diagnosis.',
+        ),
+        createdAt: DateTime.now().subtract(const Duration(minutes: 5)),
+        updatedAt: DateTime.now(),
+      );
+
+      aiAdvisorNotifier.setCurrentSession(multiTurnSession);
+
+      await tester.pumpWidget(_createTestApp(const AIAdvisorPage(animalId: 'animal-gauri')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('my cow is sick'), findsOneWidget);
+      expect(find.text('How long has this condition been observed?'), findsOneWidget);
+      expect(find.text('for 1 day'), findsOneWidget);
+      expect(
+          find.text(
+              'Thank you for confirming the 1-day timeline. Based on the symptoms and animal profile, here is the preliminary screening assessment.'),
+          findsOneWidget);
+      expect(find.text('Acute Ruminal Indigestion (Suspected)'), findsOneWidget);
+    });
   });
 }
+

@@ -7,6 +7,7 @@ import '../../../../core/design_system/navigation/vet_bottom_navigation.dart';
 import '../../../../core/localization/locale_provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'package:vetra/features/dashboard/presentation/providers/dashboard_provider.dart';
+import '../../../shared/presentation/widgets/sync_status_banner.dart';
 
 class VetDashboardPage extends ConsumerStatefulWidget {
   const VetDashboardPage({super.key});
@@ -46,12 +47,16 @@ class _VetDashboardPageState extends ConsumerState<VetDashboardPage> {
             backgroundColor: AppColors.surfaceCard,
             elevation: 0,
             title: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.medical_services, color: AppColors.primary, size: 26),
+                Image.asset('assets/branding/vetra_logo_transparent.png', height: 26, width: 26),
                 const SizedBox(width: 8),
-                Text(
-                  l10n?.vetDashboard ?? 'VET DASHBOARD',
-                  style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 18),
+                Flexible(
+                  child: Text(
+                    l10n?.vetDashboard ?? 'VET DASHBOARD',
+                    style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -76,6 +81,7 @@ class _VetDashboardPageState extends ConsumerState<VetDashboardPage> {
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
+                const SyncStatusBanner(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -164,6 +170,28 @@ class _VetDashboardPageState extends ConsumerState<VetDashboardPage> {
                         icon: Icons.add_task,
                         label: l10n?.diagnosisEntry ?? 'Diagnosis Entry',
                         onTap: () => context.push('/diagnosis-entry'),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildActionCard(
+                        context,
+                        icon: Icons.assignment_late_outlined,
+                        label: 'Mortality Reviews',
+                        onTap: () => context.push('/vet-mortality-inbox'),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildActionCard(
+                        context,
+                        icon: Icons.map_outlined,
+                        label: 'Outbreak Map',
+                        onTap: () => context.push('/vet-outbreak-map'),
                       ),
                     ),
                   ],

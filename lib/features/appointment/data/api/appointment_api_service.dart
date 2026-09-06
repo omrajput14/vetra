@@ -83,4 +83,71 @@ class AppointmentApiService {
       throw NetworkException.fromDioError(e);
     }
   }
+
+  Future<List<dynamic>> getAppointmentMessages(String appointmentId) async {
+    try {
+      final response = await _dio.get('${ApiConfig.appointments}/$appointmentId/messages');
+      if (response.data is Map<String, dynamic> && response.data['data'] != null) {
+        return response.data['data'] as List<dynamic>;
+      }
+      if (response.data is List) {
+        return response.data as List<dynamic>;
+      }
+      return [];
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> sendAppointmentMessage(String appointmentId, Map<String, dynamic> body) async {
+    try {
+      final response = await _dio.post('${ApiConfig.appointments}/$appointmentId/messages', data: body);
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> startEnRoute(String id) async {
+    try {
+      final response = await _dio.patch("${ApiConfig.appointments}/$id/en-route");
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> markArrived(String id) async {
+    try {
+      final response = await _dio.patch("${ApiConfig.appointments}/$id/arrive");
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> updateLocation(String id, double latitude, double longitude, {double? accuracy}) async {
+    try {
+      final response = await _dio.post(
+        "${ApiConfig.appointments}/$id/location",
+        data: {
+          "latitude": latitude,
+          "longitude": longitude,
+          if (accuracy != null) "accuracy": accuracy,
+        },
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
+  Future<Map<String, dynamic>> getLiveLocation(String id) async {
+    try {
+      final response = await _dio.get("${ApiConfig.appointments}/$id/location");
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
 }

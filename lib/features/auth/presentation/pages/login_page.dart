@@ -44,7 +44,14 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Image.asset('assets/branding/vetra_logo_transparent.png', height: 36, width: 36),
+                  const SizedBox(width: 10),
+                  Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, letterSpacing: 1.2, fontSize: 20)),
+                ],
+              ),
+              const SizedBox(height: 16),
               Text('Welcome Back', style: AppTypography.screenTitle),
               const SizedBox(height: 8),
               Text('Sign in to access your records.', style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary)),
@@ -88,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('New to Vetra? ', style: AppTypography.captionMetadata),
+                  Text('New to PASHU SATHI? ', style: AppTypography.captionMetadata),
                   GestureDetector(
                     onTap: () => context.go('/welcome'),
                     child: Text('Create Account', style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold)),

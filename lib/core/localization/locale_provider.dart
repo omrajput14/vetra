@@ -8,8 +8,9 @@ class AppLocales {
   static const Locale english = Locale('en');
   static const Locale hindi = Locale('hi');
   static const Locale marathi = Locale('mr');
+  static const Locale urdu = Locale('ur');
 
-  static const List<Locale> supported = [english, hindi, marathi];
+  static const List<Locale> supported = [english, hindi, marathi, urdu];
 
   static String getLanguageName(String languageCode) {
     switch (languageCode) {
@@ -17,6 +18,8 @@ class AppLocales {
         return 'हिंदी (Hindi)';
       case 'mr':
         return 'मराठी (Marathi)';
+      case 'ur':
+        return 'اردو (Urdu)';
       case 'en':
       default:
         return 'English';
@@ -29,6 +32,8 @@ class AppLocales {
         return 'हिंदी';
       case 'mr':
         return 'मराठी';
+      case 'ur':
+        return 'اردو';
       case 'en':
       default:
         return 'English';
@@ -53,7 +58,7 @@ class LocaleNotifier extends StateNotifier<Locale> {
     try {
       final savedCode = await _storageService.getPreferredLanguage();
       if (savedCode != null && savedCode.isNotEmpty) {
-        if (savedCode == 'hi' || savedCode == 'mr' || savedCode == 'en') {
+        if (savedCode == 'hi' || savedCode == 'mr' || savedCode == 'ur' || savedCode == 'en') {
           state = Locale(savedCode);
         }
       }
@@ -88,9 +93,9 @@ class LocaleNotifier extends StateNotifier<Locale> {
     }
   }
 
-  /// Convenience setter by language code ('en', 'hi', 'mr')
+  /// Convenience setter by language code ('en', 'hi', 'mr', 'ur')
   Future<void> setLanguageCode(String languageCode) async {
-    final validCode = (languageCode == 'hi' || languageCode == 'mr') ? languageCode : 'en';
+    final validCode = (languageCode == 'hi' || languageCode == 'mr' || languageCode == 'ur') ? languageCode : 'en';
     await setLocale(Locale(validCode));
   }
 }

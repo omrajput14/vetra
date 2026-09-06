@@ -1,4 +1,5 @@
 import '../../data/models/animal_dto.dart';
+import '../../data/models/animal_health_record_dto.dart';
 
 abstract class AnimalRepository {
   Future<AnimalModel> createAnimal({
@@ -10,6 +11,7 @@ abstract class AnimalRepository {
     required String gender,
     String? birthDate,
     String? photoUrl,
+    String? localPhotoPath,
   });
 
   Future<List<AnimalModel>> listAnimals();
@@ -26,6 +28,7 @@ abstract class AnimalRepository {
     required String gender,
     String? birthDate,
     String? photoUrl,
+    String? localPhotoPath,
   });
 
   Future<void> deleteAnimal(String id);
@@ -38,4 +41,13 @@ abstract class AnimalRepository {
     String? breed,
     String? gender,
   });
+
+  Future<List<AnimalHealthRecordModel>> getAnimalHealthRecords(String animalId);
+
+  Future<AnimalHealthRecordModel> createHealthRecord(String animalId, Map<String, dynamic> body);
+
+  Future<AnimalHealthStatusModel> getLatestHealthStatus(String animalId);
+
+  Future<String> uploadAnimalPhoto(String animalId, String filePath);
+  Future<void> deleteAnimalPhoto(String animalId);
 }

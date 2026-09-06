@@ -131,10 +131,7 @@ class _FarmerAppointmentsPageState extends State<FarmerAppointmentsPage> {
   }
 
   Widget _buildAppointmentCard(BuildContext context, AppointmentModel app) {
-    Color statusColor = AppColors.cautionAmber;
-    if (app.status == AppointmentStatus.confirmed) statusColor = AppColors.primary;
-    if (app.status == AppointmentStatus.completed) statusColor = Colors.green;
-    if (app.status == AppointmentStatus.cancelled || app.status == AppointmentStatus.rejected) statusColor = AppColors.alertCritical;
+    final statusColor = app.status.color;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),

@@ -8,6 +8,7 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_en.dart';
 import 'app_localizations_hi.dart';
 import 'app_localizations_mr.dart';
+import 'app_localizations_ur.dart';
 
 // ignore_for_file: type=lint
 
@@ -97,13 +98,14 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('hi'),
-    Locale('mr')
+    Locale('mr'),
+    Locale('ur')
   ];
 
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'Vetra'**
+  /// **'PASHU SATHI'**
   String get appName;
 
   /// No description provided for @chooseLanguage.
@@ -205,7 +207,7 @@ abstract class AppLocalizations {
   /// No description provided for @welcomeToVetra.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Vetra'**
+  /// **'Welcome to PASHU SATHI'**
   String get welcomeToVetra;
 
   /// No description provided for @chooseHowToContinue.
@@ -286,6 +288,12 @@ abstract class AppLocalizations {
   /// **'Village'**
   String get village;
 
+  /// No description provided for @taluka.
+  ///
+  /// In en, this message translates to:
+  /// **'Taluka / Block'**
+  String get taluka;
+
   /// No description provided for @district.
   ///
   /// In en, this message translates to:
@@ -297,6 +305,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'State'**
   String get state;
+
+  /// No description provided for @locationPermissionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow PASHU SATHI to use your location'**
+  String get locationPermissionTitle;
+
+  /// No description provided for @locationPermissionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location helps us find nearby veterinarians, provide local animal-health alerts, and identify disease risks in your area.'**
+  String get locationPermissionDesc;
+
+  /// No description provided for @allowLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow Location'**
+  String get allowLocation;
+
+  /// No description provided for @notNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Now'**
+  String get notNow;
 
   /// No description provided for @animalCount.
   ///
@@ -643,7 +675,7 @@ abstract class AppLocalizations {
   /// No description provided for @treatment.
   ///
   /// In en, this message translates to:
-  /// **'Clinical Treatment'**
+  /// **'Treatment'**
   String get treatment;
 
   /// No description provided for @prescriptions.
@@ -799,7 +831,7 @@ abstract class AppLocalizations {
   /// No description provided for @analyzingScan.
   ///
   /// In en, this message translates to:
-  /// **'Analyzing visual patterns with Vetra Vision AI...'**
+  /// **'Analyzing visual patterns with PASHU SATHI Vision AI...'**
   String get analyzingScan;
 
   /// No description provided for @suspectedCondition.
@@ -961,7 +993,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutLegal.
   ///
   /// In en, this message translates to:
-  /// **'About Vetra & Legal'**
+  /// **'About PASHU SATHI & Legal'**
   String get aboutLegal;
 
   /// No description provided for @logout.
@@ -1503,6 +1535,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please check again later.'**
   String get noVerifiedVetsDesc;
+
+  /// No description provided for @animalPassport.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital Animal Passport'**
+  String get animalPassport;
+
+  /// No description provided for @healthTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime Health Timeline'**
+  String get healthTimeline;
+
+  /// No description provided for @vaccination.
+  ///
+  /// In en, this message translates to:
+  /// **'Vaccination'**
+  String get vaccination;
+
+  /// No description provided for @consultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Vet Consultation'**
+  String get consultation;
+
+  /// No description provided for @diagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnosis'**
+  String get diagnosis;
+
+  /// No description provided for @aiScreening.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Health Screening'**
+  String get aiScreening;
+
+  /// No description provided for @observation.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Observation'**
+  String get observation;
+
+  /// No description provided for @noHealthRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'No Health Records Yet'**
+  String get noHealthRecords;
+
+  /// No description provided for @noHealthRecordsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'AI screenings, vaccinations, and veterinary consultations will appear here in the animal\'s lifetime timeline.'**
+  String get noHealthRecordsDesc;
+
+  /// No description provided for @addHealthRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Health Record'**
+  String get addHealthRecord;
+
+  /// No description provided for @recordSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get recordSource;
+
+  /// No description provided for @attentionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Attention Required'**
+  String get attentionRequired;
+
+  /// No description provided for @treatmentInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Treatment in Progress'**
+  String get treatmentInProgress;
+
+  /// No description provided for @protectedStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Protected / Vaccinated'**
+  String get protectedStatus;
+
+  /// No description provided for @immediateVetAttentionRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediate veterinary attention recommended.'**
+  String get immediateVetAttentionRecommended;
+
+  /// No description provided for @bookVetNow.
+  ///
+  /// In en, this message translates to:
+  /// **'BOOK VET NOW'**
+  String get bookVetNow;
+
+  /// No description provided for @emergencyCareWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical condition detected. Immediate veterinary intervention required without delay.'**
+  String get emergencyCareWarning;
+
+  /// No description provided for @noVerifiedVetsNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'No verified veterinarians are currently available nearby.'**
+  String get noVerifiedVetsNearby;
+
+  /// No description provided for @selectAnimalFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an animal first'**
+  String get selectAnimalFirst;
+
+  /// No description provided for @zoonoticHumanHealthRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'ZOONOTIC / HUMAN HEALTH RISK'**
+  String get zoonoticHumanHealthRisk;
+
+  /// No description provided for @zoonoticWarningMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This disease may affect humans. Avoid direct contact and seek veterinary/public-health guidance.'**
+  String get zoonoticWarningMessage;
+
+  /// No description provided for @zoonoticGuidance.
+  ///
+  /// In en, this message translates to:
+  /// **'Public Health Advisory'**
+  String get zoonoticGuidance;
+
+  /// No description provided for @estimatedSavingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated savings from early detection'**
+  String get estimatedSavingsTitle;
+
+  /// No description provided for @modeledEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Modeled estimate'**
+  String get modeledEstimate;
+
+  /// No description provided for @estimatedSavingsUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated savings unavailable'**
+  String get estimatedSavingsUnavailable;
+
+  /// No description provided for @modeledSavingsTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Modeled from registered livestock data and early-detection assumptions. Not an audited financial figure.'**
+  String get modeledSavingsTooltip;
+
+  /// No description provided for @animalPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Animal Photo (Optional)'**
+  String get animalPhoto;
+
+  /// No description provided for @takePhotoCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get takePhotoCamera;
+
+  /// No description provided for @chooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get chooseFromGallery;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Photo'**
+  String get removePhoto;
+
+  /// No description provided for @retakePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Retake Photo'**
+  String get retakePhoto;
+
+  /// No description provided for @profilePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Photo'**
+  String get profilePhoto;
+
+  /// No description provided for @photoPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Preview'**
+  String get photoPreview;
+
+  /// No description provided for @urdu.
+  ///
+  /// In en, this message translates to:
+  /// **'Urdu'**
+  String get urdu;
+
+  /// No description provided for @permissionCameraDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera permission is required to capture photos'**
+  String get permissionCameraDenied;
+
+  /// No description provided for @permissionGalleryDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage permission is required to select photos from gallery'**
+  String get permissionGalleryDenied;
+
+  /// No description provided for @uploadingPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading photo...'**
+  String get uploadingPhoto;
+
+  /// No description provided for @photoUploadedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo uploaded successfully'**
+  String get photoUploadedSuccess;
+
+  /// No description provided for @photoRemovedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo removed successfully'**
+  String get photoRemovedSuccess;
 }
 
 class _AppLocalizationsDelegate
@@ -1516,7 +1782,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'hi', 'mr'].contains(locale.languageCode);
+      <String>['en', 'hi', 'mr', 'ur'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1531,6 +1797,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsHi();
     case 'mr':
       return AppLocalizationsMr();
+    case 'ur':
+      return AppLocalizationsUr();
   }
 
   throw FlutterError(

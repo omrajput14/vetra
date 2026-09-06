@@ -5,6 +5,7 @@ import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/cards/animal_card.dart';
 import '../../../../core/design_system/navigation/farmer_bottom_navigation.dart';
 import '../../../animal/presentation/providers/animal_provider.dart';
+import 'package:vetra/features/dashboard/presentation/providers/dashboard_provider.dart';
 
 class MyAnimalsPage extends StatefulWidget {
   const MyAnimalsPage({super.key});
@@ -20,7 +21,9 @@ class _MyAnimalsPageState extends State<MyAnimalsPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      animalNotifier.loadAnimals();
+      animalNotifier.loadAnimals().then((_) {
+        dashboardNotifier.loadDashboard();
+      });
     });
   }
 
@@ -37,6 +40,7 @@ class _MyAnimalsPageState extends State<MyAnimalsPage> {
       builder: (context, _) {
         final animals = animalNotifier.animals;
         final isLoading = animalNotifier.isLoading;
+        final hasFetched = animalNotifier.hasFetchedFromServer;
 
         return Scaffold(
           backgroundColor: AppColors.surfaceBackground,
@@ -46,7 +50,13 @@ class _MyAnimalsPageState extends State<MyAnimalsPage> {
             title: Text('My Animals', style: AppTypography.screenTitle),
             actions: [
               IconButton(
+                icon: const Icon(Icons.qr_code_scanner, color: AppColors.primary),
+                tooltip: 'Scan Animal Tag QR',
+                onPressed: () => context.push('/qr-scanner-vet'),
+              ),
+              IconButton(
                 icon: const Icon(Icons.add, color: AppColors.primary),
+                tooltip: 'Add Animal',
                 onPressed: () => context.push('/add-animal'),
               ),
               const SizedBox(width: 8),
@@ -68,6 +78,11 @@ class _MyAnimalsPageState extends State<MyAnimalsPage> {
                   decoration: InputDecoration(
                     hintText: 'Search animals by name or tag number...',
                     prefixIcon: const Icon(Icons.search),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.qr_code_scanner, color: AppColors.primary),
+                      tooltip: 'Scan Animal Tag QR',
+                      onPressed: () => context.push('/qr-scanner-vet'),
+                    ),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                     filled: true,
                     fillColor: AppColors.surfaceCard,
@@ -79,23 +94,47 @@ class _MyAnimalsPageState extends State<MyAnimalsPage> {
                     ? const Center(child: CircularProgressIndicator())
                     : animals.isEmpty
                         ? Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.pets, size: 64, color: AppColors.textSecondary),
-                                const SizedBox(height: 16),
-                                Text('No registered animals found.', style: AppTypography.cardTitle),
-                                const SizedBox(height: 8),
-                                ElevatedButton.icon(
-                                  onPressed: () => context.push('/add-animal'),
-                                  icon: const Icon(Icons.add),
-                                  label: const Text('Add Your First Animal'),
-                                ),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.pets, size: 64, color: AppColors.textSecondary),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    hasFetched ? 'No registered animals found.' : 'Loading your animals...',
+                                    style: AppTypography.cardTitle,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  if (!hasFetched)
+                                    const Text(
+                                      'Syncing with server, please wait a moment.',
+                                      style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  else ...[
+                                    const Text(
+                                      'Register your first animal to get started with PASHU SATHI.',
+                                      style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    ElevatedButton.icon(
+                                      onPressed: () => context.push('/add-animal'),
+                                      icon: const Icon(Icons.add),
+                                      label: const Text('Add Your First Animal'),
+                                    ),
+                                  ],
+                                ],
+                              ),
                             ),
                           )
                         : RefreshIndicator(
-                            onRefresh: () async => await animalNotifier.loadAnimals(),
+                            onRefresh: () async {
+                              await animalNotifier.loadAnimals();
+                              await dashboardNotifier.loadDashboard();
+                            },
                             child: ListView.separated(
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                               itemCount: animals.length,
@@ -106,7 +145,9 @@ class _MyAnimalsPageState extends State<MyAnimalsPage> {
                                   name: animal.displayName,
                                   tagId: animal.tagNumber,
                                   breed: animal.breed ?? animal.species,
-                                  status: 'REGISTERED',
+                                  status: animal.status ?? 'REGISTERED',
+                                  photoUrl: animal.photoUrl,
+                                  localPhotoPath: animal.localPhotoPath,
                                   onTap: () => context.push('/animal-passport', extra: animal.id),
                                 );
                               },

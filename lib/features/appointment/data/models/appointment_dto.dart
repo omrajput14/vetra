@@ -1,6 +1,11 @@
+import 'package:flutter/material.dart';
+import '../../../../core/design_system/app_colors.dart';
+
 enum AppointmentStatus {
   pending,
   confirmed,
+  enRoute,
+  arrived,
   completed,
   cancelled,
   rejected;
@@ -9,6 +14,10 @@ enum AppointmentStatus {
     switch (status.toUpperCase()) {
       case 'CONFIRMED':
         return AppointmentStatus.confirmed;
+      case 'EN_ROUTE':
+        return AppointmentStatus.enRoute;
+      case 'ARRIVED':
+        return AppointmentStatus.arrived;
       case 'COMPLETED':
         return AppointmentStatus.completed;
       case 'CANCELLED':
@@ -27,12 +36,54 @@ enum AppointmentStatus {
         return 'Pending';
       case AppointmentStatus.confirmed:
         return 'Confirmed';
+      case AppointmentStatus.enRoute:
+        return 'En Route';
+      case AppointmentStatus.arrived:
+        return 'Arrived';
       case AppointmentStatus.completed:
         return 'Completed';
       case AppointmentStatus.cancelled:
         return 'Cancelled';
       case AppointmentStatus.rejected:
         return 'Rejected';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case AppointmentStatus.pending:
+        return AppColors.cautionAmber;
+      case AppointmentStatus.confirmed:
+        return AppColors.primary;
+      case AppointmentStatus.enRoute:
+        return AppColors.vetAccent;
+      case AppointmentStatus.arrived:
+        return Colors.teal;
+      case AppointmentStatus.completed:
+        return Colors.green;
+      case AppointmentStatus.cancelled:
+        return AppColors.alertCritical;
+      case AppointmentStatus.rejected:
+        return const Color(0xFF8E24AA);
+    }
+  }
+
+  IconData get icon {
+    switch (this) {
+      case AppointmentStatus.pending:
+        return Icons.hourglass_top;
+      case AppointmentStatus.confirmed:
+        return Icons.event_available;
+      case AppointmentStatus.enRoute:
+        return Icons.directions_car;
+      case AppointmentStatus.arrived:
+        return Icons.location_on;
+      case AppointmentStatus.completed:
+        return Icons.check_circle;
+      case AppointmentStatus.cancelled:
+        return Icons.cancel_outlined;
+      case AppointmentStatus.rejected:
+        return Icons.block;
     }
   }
 }
@@ -124,6 +175,9 @@ class AppointmentModel {
   final AppointmentStatus status;
   final String? veterinarianNotes;
   final String? cancellationReason;
+  final double? vetLatitude;
+  final double? vetLongitude;
+  final String? vetLocationUpdatedAt;
   final int? version;
   final String? createdAt;
   final String? updatedAt;
@@ -147,6 +201,9 @@ class AppointmentModel {
     required this.status,
     this.veterinarianNotes,
     this.cancellationReason,
+    this.vetLatitude,
+    this.vetLongitude,
+    this.vetLocationUpdatedAt,
     this.version,
     this.createdAt,
     this.updatedAt,
@@ -172,6 +229,9 @@ class AppointmentModel {
       status: AppointmentStatus.fromString(json['status'] as String? ?? 'PENDING'),
       veterinarianNotes: json['veterinarianNotes'] as String?,
       cancellationReason: json['cancellationReason'] as String?,
+      vetLatitude: json['vetLatitude'] != null ? (json['vetLatitude'] as num).toDouble() : null,
+      vetLongitude: json['vetLongitude'] != null ? (json['vetLongitude'] as num).toDouble() : null,
+      vetLocationUpdatedAt: json['vetLocationUpdatedAt'] as String?,
       version: (json['version'] as num?)?.toInt(),
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
@@ -198,9 +258,45 @@ class AppointmentModel {
       'status': status.name.toUpperCase(),
       'veterinarianNotes': veterinarianNotes,
       'cancellationReason': cancellationReason,
+      'vetLatitude': vetLatitude,
+      'vetLongitude': vetLongitude,
+      'vetLocationUpdatedAt': vetLocationUpdatedAt,
       'version': version,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
     };
+  }
+}
+
+
+class AppointmentLiveLocationDto {
+  final bool isLive;
+  final double? latitude;
+  final double? longitude;
+  final double? distanceKm;
+  final String? status;
+  final String? message;
+  final String? updatedAt;
+
+  AppointmentLiveLocationDto({
+    required this.isLive,
+    this.latitude,
+    this.longitude,
+    this.distanceKm,
+    this.status,
+    this.message,
+    this.updatedAt,
+  });
+
+  factory AppointmentLiveLocationDto.fromJson(Map<String, dynamic> json) {
+    return AppointmentLiveLocationDto(
+      isLive: json['isLive'] == true,
+      latitude: json['latitude'] != null ? (json['latitude'] as num).toDouble() : null,
+      longitude: json['longitude'] != null ? (json['longitude'] as num).toDouble() : null,
+      distanceKm: json['distanceKm'] != null ? (json['distanceKm'] as num).toDouble() : null,
+      status: json['status'] as String?,
+      message: json['message'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+    );
   }
 }
