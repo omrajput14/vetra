@@ -186,4 +186,108 @@ void main() {
     expect(find.text('1ml Subcutaneously'), findsOneWidget);
     expect(find.text('Dr. Ananya Roy'), findsOneWidget);
   });
+
+  testWidgets('AnimalPassportPage renders veterinary consultation card when EVMR record is added to timeline', (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+
+    final animal = AnimalModel(
+      id: 'a-103',
+      farmerId: 'f-1',
+      farmerName: 'Ramesh Patil',
+      animalName: 'Gauri',
+      tagNumber: 'MH-PUN-001',
+      species: 'CATTLE',
+      breed: 'Gir',
+      gender: 'FEMALE',
+      createdAt: '2026-01-01',
+      updatedAt: '2026-01-01',
+    );
+    animalNotifier.animals.add(animal);
+
+    // Initial state: empty timeline before consultation
+    mockRepo.records = [];
+    await tester.pumpWidget(createTestApp(child: const AnimalPassportPage(animalId: 'a-103')));
+    await tester.pump();
+    await tester.pumpAndSettle();
+
+    expect(find.text('No Health Records Yet'), findsOneWidget);
+
+    // After vet completes appointment and submits EVMR clinical consultation:
+    final consultationRecord = AnimalHealthRecordModel(
+      id: 'r-consult-1',
+      animalId: 'a-103',
+      recordType: 'VET_CONSULTATION',
+      source: 'VETERINARIAN',
+      title: 'Acute Bovine Mastitis',
+      diagnosis: 'Acute Bovine Mastitis',
+      symptoms: 'Swollen right hind quarter, high fever',
+      treatment: 'Intramammary Ceftiofur 125mg for 5 days',
+      veterinarianName: 'Dr. Rajesh Sharma',
+      recordedAt: '2026-09-10T12:00:00Z',
+    );
+    mockRepo.records = [consultationRecord];
+
+    // Reload timeline
+    await animalNotifier.loadTimeline('a-103');
+    await tester.pumpAndSettle();
+
+    // Verify empty state is replaced by EVMR consultation record
+    expect(find.text('No Health Records Yet'), findsNothing);
+    expect(find.text('Vet Consultation'), findsOneWidget);
+    expect(find.text('Acute Bovine Mastitis'), findsWidgets);
+    expect(find.text('Intramammary Ceftiofur 125mg for 5 days'), findsOneWidget);
+    expect(find.textContaining('Dr. Rajesh Sharma'), findsWidgets);
+  });
+
+  testWidgets('AnimalPassportPage pull-to-refresh triggers timeline reload', (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+
+    final animal = AnimalModel(
+      id: 'a-104',
+      farmerId: 'f-1',
+      farmerName: 'Ramesh Patil',
+      animalName: 'Nandini',
+      tagNumber: 'MH-PUN-002',
+      species: 'CATTLE',
+      breed: 'Gir',
+      gender: 'FEMALE',
+      createdAt: '2026-01-01',
+      updatedAt: '2026-01-01',
+    );
+    animalNotifier.animals.add(animal);
+    mockRepo.records = [];
+
+    await tester.pumpWidget(createTestApp(child: const AnimalPassportPage(animalId: 'a-104')));
+    await tester.pump();
+    await tester.pumpAndSettle();
+
+    expect(find.text('No Health Records Yet'), findsOneWidget);
+
+    // Simulate new consultation added on server
+    mockRepo.records = [
+      AnimalHealthRecordModel(
+        id: 'r-consult-2',
+        animalId: 'a-104',
+        recordType: 'VET_CONSULTATION',
+        source: 'VETERINARIAN',
+        title: 'Routine Health Checkup',
+        diagnosis: 'Healthy',
+        treatment: 'Multivitamin supplement 20ml orally',
+        veterinarianName: 'Dr. Rajesh Sharma',
+        recordedAt: '2026-09-10T12:30:00Z',
+      ),
+    ];
+
+    // Trigger pull to refresh onRefresh callback
+    await tester.widget<RefreshIndicator>(find.byType(RefreshIndicator)).onRefresh();
+    await tester.pumpAndSettle();
+
+    expect(find.text('No Health Records Yet'), findsNothing);
+    expect(find.text('Vet Consultation'), findsOneWidget);
+    expect(find.text('Routine Health Checkup'), findsOneWidget);
+  });
 }
