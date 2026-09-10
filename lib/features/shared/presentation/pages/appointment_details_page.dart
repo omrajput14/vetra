@@ -65,6 +65,7 @@ class _AppointmentDetailsPageState extends ConsumerState<AppointmentDetailsPage>
     _liveLocationTimer?.cancel();
     _notesController.dispose();
     _reasonController.dispose();
+    appointmentNotifier.clearSelectedAppointment();
     super.dispose();
   }
 
@@ -86,12 +87,12 @@ class _AppointmentDetailsPageState extends ConsumerState<AppointmentDetailsPage>
       body: AnimatedBuilder(
         animation: appointmentNotifier,
         builder: (context, _) {
-          if (appointmentNotifier.isLoading) {
+          final app = appointmentNotifier.selectedAppointment;
+          if (appointmentNotifier.isLoading && (app == null || (widget.appointmentId != null && app.id != widget.appointmentId))) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final app = appointmentNotifier.selectedAppointment;
-          if (app == null) {
+          if (app == null || (widget.appointmentId != null && app.id != widget.appointmentId)) {
             return Center(
               child: Text('Appointment details unavailable', style: AppTypography.bodyDefault),
             );

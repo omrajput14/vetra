@@ -52,17 +52,37 @@ class AppointmentNotifier extends ChangeNotifier {
     }
   }
 
+  void clearSelectedAppointment() {
+    _selectedAppointment = null;
+    notifyListeners();
+  }
+
   Future<AppointmentModel?> getAppointmentById(String id) async {
-    _isLoading = true;
+    // Clear stale selected appointment if it belongs to a different appointment
+    if (_selectedAppointment != null && _selectedAppointment!.id != id) {
+      _selectedAppointment = null;
+    }
+
+    // Immediately pre-seed from loaded appointment list if matching item exists
+    final existingIndex = _appointments.indexWhere((a) => a.id == id);
+    if (existingIndex != -1) {
+      _selectedAppointment = _appointments[existingIndex];
+    }
+
+    _isLoading = (_selectedAppointment == null);
     _errorMessage = null;
     notifyListeners();
 
     try {
-      _selectedAppointment = await _repository.getAppointmentById(id);
+      final fresh = await _repository.getAppointmentById(id);
+      _selectedAppointment = fresh;
+      if (existingIndex != -1) {
+        _appointments[existingIndex] = fresh;
+      }
       return _selectedAppointment;
     } catch (e) {
       _errorMessage = e.toString();
-      return null;
+      return _selectedAppointment;
     } finally {
       _isLoading = false;
       notifyListeners();
