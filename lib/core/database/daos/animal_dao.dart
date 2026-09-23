@@ -73,6 +73,12 @@ class AnimalDao extends DatabaseAccessor<VetraDatabase> with _$AnimalDaoMixin {
         ));
   }
 
+  /// Writes the given fields onto the row with this local id, leaving the rest
+  /// (server id, sync bookkeeping) untouched.
+  Future<void> updateByLocalId(String localId, AnimalsTableCompanion fields) {
+    return (update(animalsTable)..where((t) => t.localId.equals(localId))).write(fields);
+  }
+
   /// Updates the sync status of an animal.
   Future<void> updateSyncStatus(String localId, String status) {
     return (update(animalsTable)..where((t) => t.localId.equals(localId)))

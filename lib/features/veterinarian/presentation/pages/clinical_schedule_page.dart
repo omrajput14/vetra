@@ -11,14 +11,17 @@ import '../../../appointment/presentation/providers/appointment_provider.dart';
 class ClinicalSchedulePage extends StatefulWidget {
   final bool showBottomNav;
 
-  const ClinicalSchedulePage({super.key, this.showBottomNav = true});
+  /// Filter to open with, e.g. 'COMPLETED' when the vet came to record a diagnosis.
+  final String? initialFilter;
+
+  const ClinicalSchedulePage({super.key, this.showBottomNav = true, this.initialFilter});
 
   @override
   State<ClinicalSchedulePage> createState() => _ClinicalSchedulePageState();
 }
 
 class _ClinicalSchedulePageState extends State<ClinicalSchedulePage> {
-  String _selectedFilter = 'ALL'; // 'ALL', 'TODAY', 'UPCOMING', 'COMPLETED', 'CANCELLED'
+  late String _selectedFilter = widget.initialFilter ?? 'ALL'; // 'ALL', 'TODAY', 'UPCOMING', 'COMPLETED', 'CANCELLED'
   DateTime? _selectedDateFilter;
 
   @override

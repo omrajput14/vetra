@@ -17,6 +17,7 @@ class AnimalRepositoryImpl implements AnimalRepository {
     String? birthDate,
     String? photoUrl,
     String? localPhotoPath,
+    String? idempotencyKey,
   }) async {
     final response = await _apiService.createAnimal({
       'animalName': animalName,
@@ -27,7 +28,7 @@ class AnimalRepositoryImpl implements AnimalRepository {
       'gender': gender.toUpperCase(),
       'birthDate': birthDate,
       'photoUrl': photoUrl,
-    });
+    }, idempotencyKey: idempotencyKey);
     return AnimalModel.fromJson(response['data']);
   }
 

@@ -18,6 +18,7 @@ class SyncStatusNotifier extends ChangeNotifier {
   final SyncEngine _engine = SyncEngine.instance;
 
   int _pendingCount = 0;
+  int _failedCount = 0;
   bool _isSyncing = false;
   bool _isOnline = false;
 
@@ -26,7 +27,11 @@ class SyncStatusNotifier extends ChangeNotifier {
   bool get isOnline => _isOnline;
   bool get hasPendingItems => _pendingCount > 0;
 
+  /// Items that stopped retrying and need the user: counted apart from pending.
+  int get failedCount => _failedCount;
+
   StreamSubscription<int>? _queueSub;
+  StreamSubscription<int>? _failedSub;
   StreamSubscription<bool>? _networkSub;
 
   void _init() {
@@ -36,6 +41,11 @@ class SyncStatusNotifier extends ChangeNotifier {
     // Listen to queue count changes
     _queueSub = _queue.watchPendingCount().listen((count) {
       _pendingCount = count;
+      notifyListeners();
+    });
+
+    _failedSub = _queue.watchFailedCount().listen((count) {
+      _failedCount = count;
       notifyListeners();
     });
 
@@ -66,9 +76,21 @@ class SyncStatusNotifier extends ChangeNotifier {
     await _refreshState();
   }
 
+  /// Puts one failed item back in the queue and syncs straight away.
+  Future<void> retryFailed(String operationId) async {
+    await _queue.retry(operationId);
+    await syncNow();
+  }
+
+  Future<void> retryAllFailed() async {
+    await _queue.retryAllFailed();
+    await syncNow();
+  }
+
   @override
   void dispose() {
     _queueSub?.cancel();
+    _failedSub?.cancel();
     _networkSub?.cancel();
     super.dispose();
   }

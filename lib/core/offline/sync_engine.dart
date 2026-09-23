@@ -58,18 +58,21 @@ class SyncEngine {
       return;
     }
 
-    // Step 1: Verify real backend reachability before starting
-    final isReachable = await _network.checkNow();
-    if (!isReachable) {
-      debugPrint('[SyncEngine] Backend not reachable — sync postponed.');
-      return;
-    }
-
+    // Claim the engine before the first await. Reconnect, app resume and "Sync Now"
+    // can fire together; checking the flag and setting it only after the health
+    // ping let two loops run at once and send the same operation twice.
     _isSyncing = true;
     syncingNotifier.value = true;
-    debugPrint('[SyncEngine] Starting sync cycle...');
 
     try {
+      // Step 1: Verify real backend reachability before starting
+      final isReachable = await _network.checkNow();
+      if (!isReachable) {
+        debugPrint('[SyncEngine] Backend not reachable — sync postponed.');
+        return;
+      }
+      debugPrint('[SyncEngine] Starting sync cycle...');
+
       // Step 2: Recover any processing operations left behind by previous crashes
       await _queue.resetAllProcessing();
 
@@ -145,16 +148,27 @@ class SyncEngine {
 
       await _queue.markCompleted(op.operationId);
       debugPrint('[SyncEngine] Successfully synced ${op.operationType} (${op.operationId})');
-    } on NetworkException catch (e) {
-      debugPrint('[SyncEngine] Network exception on ${op.operationId}: ${e.message}');
-      await _queue.markFailed(op.operationId, e.message);
-    } on DioException catch (e) {
-      debugPrint('[SyncEngine] Dio exception on ${op.operationId}: ${e.message}');
-      await _queue.markFailed(op.operationId, e.message ?? 'Network error');
     } catch (e) {
-      debugPrint('[SyncEngine] Unexpected error on ${op.operationId}: $e');
-      await _queue.markFailed(op.operationId, e.toString());
+      final message = e is NetworkException
+          ? e.message
+          : e is DioException
+              ? (e.message ?? 'Network error')
+              : e.toString();
+      // A 4xx answer is final: the server will refuse the same request every time,
+      // so stop at once and show it rather than spending the retries.
+      final rejected = _isDefinitiveRejection(e);
+      debugPrint('[SyncEngine] ${rejected ? 'Rejected' : 'Failed'} ${op.operationId}: $message');
+      await _queue.markFailed(op.operationId, message, permanent: rejected);
     }
+  }
+
+  static bool _isDefinitiveRejection(Object e) {
+    final status = e is NetworkException
+        ? e.statusCode
+        : e is DioException
+            ? e.response?.statusCode
+            : null;
+    return status != null && status >= 400 && status < 500 && status != 408 && status != 429;
   }
 
   // ─── Operation Handlers ───────────────────────────────────────────────────

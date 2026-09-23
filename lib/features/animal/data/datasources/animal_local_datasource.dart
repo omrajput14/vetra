@@ -66,6 +66,35 @@ class AnimalLocalDatasource {
     return row.serverId == null || row.syncStatus == 'pendingSync' || row.syncStatus == 'localOnly';
   }
 
+  /// The local row's own id and its server id (null while it has never synced),
+  /// looked up by either id.
+  Future<({String localId, String? serverId, String? localPhotoPath, String? photoUrl})?> resolveIds(String id) async {
+    final row = await _dao.getByLocalId(id) ?? await _dao.getByServerId(id);
+    if (row == null) return null;
+    return (localId: row.localId, serverId: row.serverId, localPhotoPath: row.localPhotoPath, photoUrl: row.photoUrl);
+  }
+
+  /// Applies an edit made on this device to the existing row. Unlike [upsertAll]
+  /// it never invents a server id or marks the row synced.
+  Future<void> applyLocalEdit(String localId, AnimalModel edited) {
+    return _dao.updateByLocalId(
+      localId,
+      AnimalsTableCompanion(
+        animalName: Value(edited.animalName),
+        tagNumber: Value(edited.tagNumber),
+        qrCodeId: Value(edited.qrCodeId),
+        species: Value(edited.species),
+        breed: Value(edited.breed),
+        gender: Value(edited.gender),
+        birthDate: Value(edited.birthDate),
+        photoUrl: Value(edited.photoUrl),
+        localPhotoPath: Value(edited.localPhotoPath),
+        syncStatus: const Value('pendingSync'),
+        updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
+      ),
+    );
+  }
+
   /// Fetches by local UUID.
   Future<AnimalModel?> getByLocalId(String localId) async {
     final row = await _dao.getByLocalId(localId);

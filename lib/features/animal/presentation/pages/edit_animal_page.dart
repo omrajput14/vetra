@@ -85,7 +85,11 @@ class _EditAnimalPageState extends State<EditAnimalPage> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Animal details updated successfully')),
+        SnackBar(
+          content: Text(animalNotifier.lastSaveQueued
+              ? 'Saved on this device. The changes will be sent when you are back online.'
+              : 'Animal details updated successfully'),
+        ),
       );
       context.pop();
     } else {

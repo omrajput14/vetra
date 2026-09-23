@@ -12,8 +12,9 @@ class AIScanRepositoryImpl implements AIScanRepository {
   Future<AIScanModel> createScan({
     required String animalId,
     required String imagePath,
+    String? idempotencyKey,
   }) {
-    return _apiService.createScan(animalId: animalId, imagePath: imagePath);
+    return _apiService.createScan(animalId: animalId, imagePath: imagePath, idempotencyKey: idempotencyKey);
   }
 
   @override

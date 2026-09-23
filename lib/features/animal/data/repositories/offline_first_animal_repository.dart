@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/network/network_exceptions.dart';
 import '../../../../core/network/network_status_service.dart';
 import '../../../../core/offline/models/offline_operation.dart';
 import '../../../../core/offline/operation_queue.dart';
@@ -162,10 +163,13 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
     String? photoUrl,
     String? localPhotoPath,
   }) async {
-    final isOnline = await _network.checkNow();
+    // One id for this registration: the Idempotency-Key of the online request and
+    // the operation id of its queued copy. A request that timed out after the
+    // server saved it is then not created a second time when the queue replays it.
+    final localId = _uuid.v4();
 
     // --- Online path: try server directly, cache result ---
-    if (isOnline) {
+    if (await _network.checkNow()) {
       try {
         var serverModel = await _remote.createAnimal(
           animalName: animalName,
@@ -176,6 +180,7 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
           gender: gender,
           birthDate: birthDate,
           photoUrl: photoUrl,
+          idempotencyKey: localId,
         );
 
         if (localPhotoPath != null && localPhotoPath.isNotEmpty) {
@@ -197,12 +202,13 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
         debugPrint('[OfflineFirstAnimalRepo] Created online: ${serverModel.id}');
         return serverModel;
       } catch (e) {
-        debugPrint('[OfflineFirstAnimalRepo] Online create failed, falling back to offline: $e');
+        // The server answered and refused it: show why, do not queue.
+        if (isServerRejection(e)) rethrow;
+        debugPrint('[OfflineFirstAnimalRepo] Server unreachable, saving offline: $e');
       }
     }
 
-    // --- Offline path: generate local UUID, save, queue ---
-    final localId = _uuid.v4();
+    // --- Offline path: save locally, queue with the same id ---
     final now = DateTime.now();
 
     final optimisticModel = AnimalModel(
@@ -220,6 +226,7 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
       localPhotoPath: localPhotoPath,
       createdAt: now.toIso8601String(),
       updatedAt: now.toIso8601String(),
+      isPendingSync: true,
     );
 
     await _local.insert(optimisticModel);
@@ -238,6 +245,8 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
         'gender': gender.toUpperCase(),
         'birthDate': birthDate,
         'photoUrl': null,
+        // SyncEngine uploads this photo once the server has created the animal.
+        if (localPhotoPath != null && localPhotoPath.isNotEmpty) 'localPhotoPath': localPhotoPath,
       }),
     );
 
@@ -260,11 +269,18 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
     String? photoUrl,
     String? localPhotoPath,
   }) async {
-    // Try server if online
-    if (await _network.checkNow()) {
+    final ids = await _local.resolveIds(id);
+    // Never synced: the server does not know this animal yet, so the edit has to
+    // wait for its pending registration instead of going to an id that does not exist.
+    final neverSynced = ids != null && ids.serverId == null;
+    // Only a photo picked in this edit is uploaded; the one already on record is not.
+    final newPhoto = localPhotoPath != null && localPhotoPath.isNotEmpty && localPhotoPath != ids?.localPhotoPath;
+
+    if (!neverSynced && await _network.checkNow()) {
+      final serverId = ids?.serverId ?? id;
       try {
-        final updated = await _remote.updateAnimal(
-          id: id,
+        var updated = await _remote.updateAnimal(
+          id: serverId,
           animalName: animalName,
           tagNumber: tagNumber,
           qrCodeId: qrCodeId,
@@ -274,20 +290,31 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
           birthDate: birthDate,
           photoUrl: photoUrl,
         );
+        if (newPhoto) {
+          try {
+            final uploaded = await _remote.uploadAnimalPhoto(serverId, localPhotoPath);
+            if (uploaded.isNotEmpty) {
+              updated = updated.copyWith(photoUrl: uploaded, localPhotoPath: localPhotoPath);
+            }
+          } catch (e) {
+            debugPrint('[OfflineFirstAnimalRepo] Online photo upload failed: $e');
+          }
+        }
         await _local.upsertAll([updated]);
         return updated;
       } catch (e) {
-        debugPrint('[OfflineFirstAnimalRepo] Online update failed: $e');
+        // The server answered and refused the edit: show why, do not queue.
+        if (isServerRejection(e)) rethrow;
+        debugPrint('[OfflineFirstAnimalRepo] Server unreachable, saving edit offline: $e');
       }
     }
 
-    // Offline: update local record optimistically
-    final existing = await _local.getByLocalId(id) ?? await _local.getByServerId(id);
-    final opId = _uuid.v4();
-    final serverId = existing?.id; // null for offline-only animals
+    // Offline, or not yet on the server: apply the edit locally and queue it.
+    final existing = await _local.getById(id);
+    final localId = ids?.localId ?? id;
 
     final updated = AnimalModel(
-      id: id,
+      id: existing?.id ?? id,
       farmerId: existing?.farmerId ?? '',
       farmerName: existing?.farmerName ?? '',
       animalName: animalName,
@@ -298,21 +325,29 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
       gender: gender.toUpperCase(),
       birthDate: birthDate,
       photoUrl: photoUrl,
+      localPhotoPath: localPhotoPath ?? existing?.localPhotoPath,
       createdAt: existing?.createdAt ?? DateTime.now().toIso8601String(),
       updatedAt: DateTime.now().toIso8601String(),
+      isPendingSync: true,
     );
 
-    // Re-insert (upsert) the updated record
-    await _local.upsertAll([updated]);
-    await _local.updateSyncStatus(id, 'pendingSync');
+    if (ids != null) {
+      await _local.applyLocalEdit(localId, updated);
+    } else {
+      await _local.upsertAll([updated]);
+      await _local.updateSyncStatus(localId, 'pendingSync');
+    }
 
     await _queue.enqueue(
-      operationId: opId,
+      operationId: _uuid.v4(),
       operationType: OfflineOperationType.updateAnimal,
       entityType: 'animal',
-      entityLocalId: id,
+      entityLocalId: localId,
+      // The create operation's id is the animal's local id.
+      dependsOn: neverSynced ? localId : null,
       payloadJson: json.encode({
-        'serverId': serverId,
+        // Null until the animal is on the server; SyncEngine resolves it at send time.
+        'serverId': ids?.serverId,
         'animalName': animalName,
         'tagNumber': tagNumber,
         'qrCodeId': qrCodeId,
@@ -321,6 +356,7 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
         'gender': gender.toUpperCase(),
         'birthDate': birthDate,
         'photoUrl': photoUrl,
+        if (newPhoto) 'localPhotoPath': localPhotoPath,
       }),
     );
 
@@ -331,23 +367,30 @@ class OfflineFirstAnimalRepository implements AnimalRepository {
 
   @override
   Future<void> deleteAnimal(String id) async {
-    if (await _network.checkNow()) {
+    final ids = await _local.resolveIds(id);
+    final neverSynced = ids != null && ids.serverId == null;
+    final localId = ids?.localId ?? id;
+
+    if (!neverSynced && await _network.checkNow()) {
       try {
-        await _remote.deleteAnimal(id);
-        await _local.deleteByLocalId(id);
+        await _remote.deleteAnimal(ids?.serverId ?? id);
+        await _local.deleteByLocalId(localId);
         return;
       } catch (e) {
-        debugPrint('[OfflineFirstAnimalRepo] Online delete failed: $e');
+        // The server answered and refused the delete: show why, do not queue.
+        if (isServerRejection(e)) rethrow;
+        debugPrint('[OfflineFirstAnimalRepo] Server unreachable, queuing delete: $e');
       }
     }
 
-    // Offline: mark as deleted locally; queue deletion
-    await _local.updateSyncStatus(id, 'pendingSync');
+    // Offline, or not yet on the server: mark it and queue the deletion.
+    await _local.updateSyncStatus(localId, 'pendingSync');
     await _queue.enqueue(
       operationType: OfflineOperationType.deleteAnimal,
       entityType: 'animal',
-      entityLocalId: id,
-      payloadJson: json.encode({'localId': id}),
+      entityLocalId: localId,
+      dependsOn: neverSynced ? localId : null,
+      payloadJson: json.encode({'localId': localId}),
     );
   }
 

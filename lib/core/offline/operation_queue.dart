@@ -80,10 +80,20 @@ class OperationQueue {
     return _dao.markCompleted(operationId);
   }
 
-  /// Increments retryCount; promotes to FAILED after exceeding maxRetries.
-  Future<void> markFailed(String operationId, String error) {
+  /// Increments retryCount; promotes to FAILED after maxRetries attempts, or at
+  /// once when [permanent] (the server definitively rejected the operation).
+  Future<void> markFailed(String operationId, String error, {bool permanent = false}) {
     debugPrint('[OperationQueue] Failed operation $operationId: $error');
-    return _dao.markFailed(operationId, error);
+    return _dao.markFailed(operationId, error, permanent: permanent);
+  }
+
+  /// Sends a failed (or cancelled) operation again, with fresh retries.
+  Future<void> retry(String operationId) => _dao.requeue(operationId);
+
+  Future<void> retryAllFailed() async {
+    for (final op in await _dao.getAllFailed()) {
+      await _dao.requeue(op.operationId);
+    }
   }
 
   // ─── Startup recovery ──────────────────────────────────────────────────────
@@ -105,6 +115,12 @@ class OperationQueue {
 
   /// Stream of pending operation count — drives the sync status UI badge.
   Stream<int> watchPendingCount() => _dao.watchPendingCount();
+
+  /// Operations that will not sync without the user retrying them.
+  Stream<int> watchFailedCount() => _dao.watchFailedCount();
+
+  Stream<List<OfflineOperation>> watchFailed() =>
+      _dao.watchFailed().map((rows) => rows.map(_fromRow).toList());
 
   // ─── Queries ───────────────────────────────────────────────────────────────
 

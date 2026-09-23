@@ -62,7 +62,11 @@ class _AddAnimalPageState extends State<AddAnimalPage> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Animal registered successfully')),
+        SnackBar(
+          content: Text(animalNotifier.lastSaveQueued
+              ? 'Saved on this device. The animal will be registered when you are back online.'
+              : 'Animal registered successfully'),
+        ),
       );
       context.pop();
     } else {

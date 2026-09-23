@@ -15,6 +15,9 @@ class AnimalModel {
   final String createdAt;
   final String updatedAt;
 
+  /// Saved on this device only; the server has not received it yet.
+  final bool isPendingSync;
+
   AnimalModel({
     required this.id,
     required this.farmerId,
@@ -31,6 +34,7 @@ class AnimalModel {
     this.localPhotoPath,
     required this.createdAt,
     required this.updatedAt,
+    this.isPendingSync = false,
   });
 
   String get displayName => (animalName != null && animalName!.isNotEmpty) ? animalName! : tagNumber;
@@ -58,6 +62,7 @@ class AnimalModel {
       localPhotoPath: localPhotoPath ?? this.localPhotoPath,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      isPendingSync: isPendingSync,
     );
   }
 

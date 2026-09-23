@@ -7,7 +7,6 @@ import 'package:vetra/features/veterinarian/presentation/pages/vet_dashboard_pag
 import 'package:vetra/features/veterinarian/presentation/pages/vet_requests_page.dart';
 import 'package:vetra/features/veterinarian/presentation/pages/vet_verification_page.dart';
 import 'package:vetra/features/profile/presentation/pages/vet_profile_page.dart';
-import 'package:vetra/features/medical/presentation/pages/diagnosis_entry_page.dart';
 import 'package:vetra/l10n/app_localizations.dart';
 
 Widget createLocalizedVetTestWidget({
@@ -123,19 +122,6 @@ void main() {
       expect(find.text('लंबित'), findsOneWidget);
       expect(find.text('आगामी'), findsOneWidget);
       expect(find.text('पूर्ण'), findsOneWidget);
-    });
-
-    testWidgets('DiagnosisEntryPage renders in Marathi and English', (tester) async {
-      await tester.pumpWidget(
-        createLocalizedVetTestWidget(
-          child: const DiagnosisEntryPage(),
-          initialLocale: const Locale('mr'),
-        ),
-      );
-      await tester.pump(const Duration(milliseconds: 100));
-
-      expect(find.text('निदान नोंदणी'), findsOneWidget);
-      expect(find.text('जतन करा'), findsOneWidget);
     });
 
     testWidgets('VetVerificationPage renders in Hindi', (tester) async {

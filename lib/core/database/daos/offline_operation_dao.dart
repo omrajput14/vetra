@@ -84,13 +84,14 @@ class OfflineOperationDao extends DatabaseAccessor<VetraDatabase>
         ));
   }
 
-  /// Increments retryCount; marks FAILED if maxRetries is exceeded.
-  Future<void> markFailed(String operationId, String error) async {
+  /// Increments retryCount; marks FAILED once maxRetries attempts have been made,
+  /// or at once when [permanent] (the server definitively rejected it).
+  Future<void> markFailed(String operationId, String error, {bool permanent = false}) async {
     final op = await getById(operationId);
     if (op == null) return;
 
     final newRetryCount = op.retryCount + 1;
-    final newStatus = newRetryCount >= op.maxRetries ? 'failed' : 'pending';
+    final newStatus = permanent || newRetryCount >= op.maxRetries ? 'failed' : 'pending';
 
     await (update(offlineOperationsTable)
           ..where((t) => t.operationId.equals(operationId)))
@@ -147,10 +148,62 @@ class OfflineOperationDao extends DatabaseAccessor<VetraDatabase>
         .get();
   }
 
-  /// Returns all FAILED operations.
+  static const _stuck = ['failed', 'cancelled'];
+
+  /// Operations that will not sync on their own: FAILED after their retries, or
+  /// CANCELLED because an operation they depend on failed.
   Future<List<OfflineOperationsTableData>> getAllFailed() {
     return (select(offlineOperationsTable)
-          ..where((t) => t.status.equals('failed')))
+          ..where((t) => t.status.isIn(_stuck))
+          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
         .get();
+  }
+
+  Stream<List<OfflineOperationsTableData>> watchFailed() {
+    return (select(offlineOperationsTable)
+          ..where((t) => t.status.isIn(_stuck))
+          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
+        .watch();
+  }
+
+  Stream<int> watchFailedCount() {
+    final query = selectOnly(offlineOperationsTable)
+      ..addColumns([offlineOperationsTable.operationId.count()])
+      ..where(offlineOperationsTable.status.isIn(_stuck));
+    return query
+        .map((row) => row.read(offlineOperationsTable.operationId.count()) ?? 0)
+        .watchSingle();
+  }
+
+  /// Puts a failed/cancelled operation back in the queue with fresh retries.
+  /// A cancelled one is retried from the failed operation it was waiting on, and
+  /// everything cancelled because of that failure is revived with it.
+  Future<void> requeue(String operationId) {
+    return transaction(() async {
+      var rootId = operationId;
+      while (true) {
+        final op = await getById(rootId);
+        final parentId = op?.dependsOn;
+        if (parentId == null) break;
+        final parent = await getById(parentId);
+        if (parent == null || !_stuck.contains(parent.status)) break;
+        rootId = parentId;
+      }
+
+      final toRevive = [rootId];
+      while (toRevive.isNotEmpty) {
+        final id = toRevive.removeLast();
+        await (update(offlineOperationsTable)..where((t) => t.operationId.equals(id)))
+            .write(const OfflineOperationsTableCompanion(
+              status: Value('pending'),
+              retryCount: Value(0),
+              lastError: Value(null),
+            ));
+        final children = await (select(offlineOperationsTable)
+              ..where((t) => t.dependsOn.equals(id) & t.status.equals('cancelled')))
+            .get();
+        toRevive.addAll(children.map((c) => c.operationId));
+      }
+    });
   }
 }

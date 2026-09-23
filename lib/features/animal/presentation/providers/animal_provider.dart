@@ -23,6 +23,10 @@ class AnimalNotifier extends ChangeNotifier {
   // from "confirmed empty" so it shows the right empty state.
   bool _hasFetchedFromServer = false;
 
+  /// The last create/edit was saved on this device only (server unreachable).
+  bool _lastSaveQueued = false;
+  bool get lastSaveQueued => _lastSaveQueued;
+
   final Map<String, List<AnimalHealthRecordModel>> _healthTimelines = {};
   final Map<String, AnimalHealthStatusModel> _healthStatuses = {};
   bool _isTimelineLoading = false;
@@ -176,6 +180,7 @@ class AnimalNotifier extends ChangeNotifier {
         photoUrl: photoUrl,
         localPhotoPath: localPhotoPath,
       );
+      _lastSaveQueued = animal.isPendingSync;
       _animals.insert(0, animal);
       _selectedAnimalId = animal.id;
       return true;
@@ -216,6 +221,7 @@ class AnimalNotifier extends ChangeNotifier {
         photoUrl: photoUrl,
         localPhotoPath: localPhotoPath,
       );
+      _lastSaveQueued = updated.isPendingSync;
       final index = _animals.indexWhere((a) => a.id == id);
       if (index != -1) _animals[index] = updated;
       return true;

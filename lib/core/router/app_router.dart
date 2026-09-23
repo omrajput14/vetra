@@ -46,7 +46,6 @@ import '../../features/animal/presentation/pages/transfer_animal_ownership_page.
 import '../../features/medical/presentation/pages/add_prescription_page.dart';
 import '../../features/medical/presentation/pages/add_treatment_page.dart';
 import '../../features/medical/presentation/pages/deworming_record_page.dart';
-import '../../features/medical/presentation/pages/diagnosis_entry_page.dart';
 import '../../features/medical/presentation/pages/medical_history_details_page.dart';
 import '../../features/medical/presentation/pages/vaccination_details_page.dart';
 import '../../features/medical/presentation/pages/vaccination_schedule_page.dart';
@@ -84,6 +83,7 @@ import '../../features/shared/presentation/pages/notification_details_page.dart'
 import '../../features/shared/presentation/pages/notifications_page.dart';
 import '../../features/shared/presentation/pages/qr_scanner_vet_page.dart';
 import '../../features/shared/presentation/pages/search_results_page.dart';
+import '../../features/shared/presentation/pages/sync_issues_page.dart';
 import '../../features/appointment/presentation/pages/appointment_chat_page.dart';
 
 class AppRouter {
@@ -295,7 +295,9 @@ class AppRouter {
       ),
       GoRoute(
         path: '/diagnosis-entry',
-        builder: (context, state) => const DiagnosisEntryPage(),
+        // Diagnoses are recorded against a completed visit (Create Medical Record →
+        // POST /medical-records), so this opens the vet's completed visits.
+        builder: (context, state) => const ClinicalSchedulePage(initialFilter: 'COMPLETED'),
       ),
       GoRoute(
         path: '/medical-history-details',
@@ -502,6 +504,10 @@ class AppRouter {
       GoRoute(
         path: '/qr-scanner-vet',
         builder: (context, state) => const QrScannerVetPage(),
+      ),
+      GoRoute(
+        path: '/sync-issues',
+        builder: (context, state) => const SyncIssuesPage(),
       ),
       GoRoute(
         path: '/search-results',
