@@ -481,7 +481,14 @@ class _VetMortalityDetailPageState extends State<VetMortalityDetailPage> {
                             postMortemConducted: postMortem,
                           );
                           final ok = await mortalityNotifier.confirmCase(report.id, dto);
-                          if (ok) {
+                          if (ok && mortalityNotifier.lastReviewQueued) {
+                            messenger.showSnackBar(
+                              SnackBar(
+                                content: Text(mortalityNotifier.successMessage ?? "Saved on this device. Not sent yet."),
+                                backgroundColor: AppColors.cautionAmber,
+                              ),
+                            );
+                          } else if (ok) {
                             messenger.showSnackBar(
                               const SnackBar(
                                 content: Text("Mortality validated & confirmed!"),
@@ -571,7 +578,14 @@ class _VetMortalityDetailPageState extends State<VetMortalityDetailPage> {
                   clinicalNotes: notesController.text.trim().isNotEmpty ? notesController.text.trim() : null,
                 );
                 final ok = await mortalityNotifier.rejectCase(report.id, dto);
-                if (ok) {
+                if (ok && mortalityNotifier.lastReviewQueued) {
+                  messenger.showSnackBar(
+                    SnackBar(
+                      content: Text(mortalityNotifier.successMessage ?? "Saved on this device. Not sent yet."),
+                      backgroundColor: AppColors.cautionAmber,
+                    ),
+                  );
+                } else if (ok) {
                   messenger.showSnackBar(
                     const SnackBar(content: Text("Case report has been rejected."), backgroundColor: AppColors.alertCritical),
                   );

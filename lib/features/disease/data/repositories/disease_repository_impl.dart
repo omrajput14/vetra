@@ -10,8 +10,8 @@ class DiseaseRepositoryImpl implements DiseaseRepository {
       : _apiService = apiService ?? DiseaseApiService();
 
   @override
-  Future<DiseaseReportModel> createDiseaseReport(CreateDiseaseReportDto dto) {
-    return _apiService.createDiseaseReport(dto);
+  Future<DiseaseReportModel> createDiseaseReport(CreateDiseaseReportDto dto, {String? idempotencyKey}) {
+    return _apiService.createDiseaseReport(dto, idempotencyKey: idempotencyKey);
   }
 
   @override

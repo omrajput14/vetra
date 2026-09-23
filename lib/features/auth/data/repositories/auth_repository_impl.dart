@@ -1,4 +1,5 @@
 import '../../../../core/models/user_model.dart';
+import '../../../../core/network/network_exceptions.dart';
 import '../../../../core/models/user_role.dart';
 import '../../../../core/storage/secure_storage_service.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -124,21 +125,50 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _apiService.getCurrentUser();
       final userData = response['data'] as Map<String, dynamic>;
-      final roleStr = (userData['role'] ?? 'FARMER').toString().toUpperCase();
-      final role = roleStr == 'VETERINARIAN' ? UserRole.veterinarian : UserRole.farmer;
-
-      return UserModel(
-        id: userData['id'].toString(),
-        name: userData['fullName']?.toString() ?? 'User',
-        emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
-        role: role,
-        vetStatus: VetAccountStatus.active,
-        metadata: userData,
-      );
-    } catch (e) {
-      await _storage.clearAll();
-      return null;
+      await _storage.saveUserProfile(userData);
+      return _userFromData(userData);
+    } on NetworkException catch (e) {
+      if (e.statusCode == 401) {
+        // The server rejected the token (AuthInterceptor already tried a refresh).
+        await _storage.clearAll();
+        return null;
+      }
+      // Offline, timed out or server trouble: the session is still valid.
+      return getCachedUser();
+    } catch (_) {
+      return getCachedUser();
     }
+  }
+
+  @override
+  Future<UserModel?> getCachedUser() async {
+    final token = await _storage.getAccessToken();
+    if (token == null || token.isEmpty) return null;
+
+    final profile = await _storage.getUserProfile();
+    if (profile != null) return _userFromData(profile);
+
+    // Signed in before profiles were cached: rebuild what the tokens record.
+    final userId = await _storage.getUserId();
+    if (userId == null || userId.isEmpty) return null;
+    final role = await _storage.getUserRole() == UserRole.veterinarian.name
+        ? UserRole.veterinarian
+        : UserRole.farmer;
+    return UserModel(id: userId, name: 'User', emailOrPhone: '', role: role);
+  }
+
+  UserModel _userFromData(Map<String, dynamic> userData) {
+    final roleStr = (userData['role'] ?? 'FARMER').toString().toUpperCase();
+    final role = roleStr == 'VETERINARIAN' ? UserRole.veterinarian : UserRole.farmer;
+
+    return UserModel(
+      id: userData['id'].toString(),
+      name: userData['fullName']?.toString() ?? 'User',
+      emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
+      role: role,
+      vetStatus: VetAccountStatus.active,
+      metadata: userData,
+    );
   }
 
   @override
@@ -188,17 +218,8 @@ class AuthRepositoryImpl implements AuthRepository {
     });
 
     final userData = response['data'] as Map<String, dynamic>;
-    final roleStr = (userData['role'] ?? 'FARMER').toString().toUpperCase();
-    final role = roleStr == 'VETERINARIAN' ? UserRole.veterinarian : UserRole.farmer;
-
-    return UserModel(
-      id: userData['id'].toString(),
-      name: userData['fullName']?.toString() ?? 'User',
-      emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
-      role: role,
-      vetStatus: VetAccountStatus.active,
-      metadata: userData,
-    );
+    await _storage.saveUserProfile(userData);
+    return _userFromData(userData);
   }
 
   @override
@@ -244,14 +265,8 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     }
 
-    return UserModel(
-      id: userId,
-      name: userData['fullName']?.toString() ?? 'User',
-      emailOrPhone: userData['email']?.toString() ?? userData['phone']?.toString() ?? '',
-      role: role,
-      vetStatus: VetAccountStatus.active,
-      metadata: userData,
-    );
+    await _storage.saveUserProfile(userData);
+    return _userFromData(userData);
   }
 
   @override

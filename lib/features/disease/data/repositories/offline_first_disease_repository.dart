@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/network/network_exceptions.dart';
 import '../../../../core/network/network_status_service.dart';
 import '../../../../core/offline/models/offline_operation.dart';
 import '../../../../core/offline/operation_queue.dart';
@@ -57,7 +58,9 @@ class OfflineFirstDiseaseRepository implements DiseaseRepository {
     // --- Online path: submit immediately IF animal is already synced ---
     if (isOnline && !animalNeedsSync) {
       try {
-        final serverReport = await _remote.createDiseaseReport(dto);
+        // Same key the queued copy would use, so a timed-out request that did
+        // reach the server is not created twice when the queue replays it.
+        final serverReport = await _remote.createDiseaseReport(dto, idempotencyKey: localId);
         await _local.insert(
           dto,
           localId: localId,
@@ -68,7 +71,9 @@ class OfflineFirstDiseaseRepository implements DiseaseRepository {
         debugPrint('[OfflineFirstDiseaseRepo] Created disease report online: ${serverReport.id}');
         return serverReport;
       } catch (e) {
-        debugPrint('[OfflineFirstDiseaseRepo] Online submit failed, queuing offline: $e');
+        // The server answered and refused the report: show that to the user.
+        if (isServerRejection(e)) rethrow;
+        debugPrint('[OfflineFirstDiseaseRepo] Server unreachable, queuing offline: $e');
       }
     }
 
@@ -108,6 +113,7 @@ class OfflineFirstDiseaseRepository implements DiseaseRepository {
       notes: dto.notes,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
+      isPendingSync: true,
     );
   }
 

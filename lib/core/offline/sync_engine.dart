@@ -307,11 +307,22 @@ class SyncEngine {
       idempotencyKey: op.idempotencyKey,
     );
 
+    if (result.isAnalysisFailure) {
+      // The upload succeeded but the AI produced no diagnosis. Record that as it is;
+      // replaying the same upload would return the same failed scan.
+      await _aiLocal.markAnalysisFailed(
+        localId: op.entityLocalId,
+        serverId: result.id,
+        rawResultJson: json.encode(result.toJson()),
+      );
+      return;
+    }
+
     await _aiLocal.updateWithResult(
       localId: op.entityLocalId,
       serverId: result.id,
-      diagnosis: result.diagnosis ?? 'Preliminary AI Scan',
-      confidenceScore: result.confidenceScore ?? 0.0,
+      diagnosis: result.diagnosis!,
+      confidenceScore: result.confidenceScore,
       severity: result.severity,
       observationsJson: json.encode(result.observations),
       rawResultJson: json.encode(result.toJson()),

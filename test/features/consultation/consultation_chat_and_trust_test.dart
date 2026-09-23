@@ -185,6 +185,9 @@ class MockTestAuthRepository implements AuthRepository {
   Future<UserModel?> restoreSession() async => mockUser;
 
   @override
+  Future<UserModel?> getCachedUser() async => mockUser;
+
+  @override
   Future<List<Map<String, dynamic>>> listVets({
     double? latitude,
     double? longitude,

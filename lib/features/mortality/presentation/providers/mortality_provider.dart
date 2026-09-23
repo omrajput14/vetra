@@ -19,6 +19,7 @@ class MortalityNotifier extends ChangeNotifier {
   String? _errorMessage;
   String? _successMessage;
   bool _isOfflineSaved = false;
+  bool _lastReviewQueued = false;
   AnimalModel? _selectedAnimal;
   List<String> _diseaseCatalog = [];
   List<MortalityReportModel> _pendingCases = [];
@@ -29,6 +30,9 @@ class MortalityNotifier extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   String? get successMessage => _successMessage;
   bool get isOfflineSaved => _isOfflineSaved;
+
+  /// The last confirm/reject was saved on this device only (server unreachable).
+  bool get lastReviewQueued => _lastReviewQueued;
   AnimalModel? get selectedAnimal => _selectedAnimal;
   List<String> get diseaseCatalog => _diseaseCatalog;
   List<MortalityReportModel> get pendingCases => _pendingCases;
@@ -170,9 +174,15 @@ class MortalityNotifier extends ChangeNotifier {
 
     try {
       final updated = await _repository.confirmMortality(id, dto);
-      _pendingCases.removeWhere((c) => c.id == id);
-      _selectedCase = updated;
-      _successMessage = "Mortality case successfully confirmed.";
+      _lastReviewQueued = updated.status == "PENDING_SYNC";
+      if (_lastReviewQueued) {
+        // Not reviewed on the server yet: keep the case as it really is.
+        _successMessage = "Saved on this device. The confirmation will be sent when you are back online.";
+      } else {
+        _pendingCases.removeWhere((c) => c.id == id);
+        _selectedCase = updated;
+        _successMessage = "Mortality case successfully confirmed.";
+      }
       _isLoading = false;
       notifyListeners();
       return true;
@@ -192,9 +202,14 @@ class MortalityNotifier extends ChangeNotifier {
 
     try {
       final updated = await _repository.rejectMortality(id, dto);
-      _pendingCases.removeWhere((c) => c.id == id);
-      _selectedCase = updated;
-      _successMessage = "Mortality case rejected.";
+      _lastReviewQueued = updated.status == "PENDING_SYNC";
+      if (_lastReviewQueued) {
+        _successMessage = "Saved on this device. The rejection will be sent when you are back online.";
+      } else {
+        _pendingCases.removeWhere((c) => c.id == id);
+        _selectedCase = updated;
+        _successMessage = "Mortality case rejected.";
+      }
       _isLoading = false;
       notifyListeners();
       return true;

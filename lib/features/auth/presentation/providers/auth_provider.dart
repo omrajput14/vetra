@@ -38,6 +38,12 @@ class AuthNotifier extends ChangeNotifier {
     return result;
   }
 
+  Future<bool> restoreCachedSession() async {
+    final result = await _service.restoreCachedSession();
+    notifyListeners();
+    return result;
+  }
+
   Future<bool> loginFarmer(String identifier, String password) async {
     final success = await _service.loginFarmer(identifier: identifier, password: password);
     if (success) {

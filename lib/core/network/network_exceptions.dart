@@ -58,7 +58,7 @@ class NetworkException implements Exception {
         } else if (status == 404) {
           return NetworkException(msg.isNotEmpty ? msg : 'Resource not found.', statusCode: 404);
         } else if (status != null && status >= 500) {
-          return NetworkException('Unable to connect to PASHU SATHI services. Please try again later.', statusCode: status);
+          return NetworkException('$msg (server error $status). Please try again later.', statusCode: status);
         }
         return NetworkException(msg, statusCode: status);
 
@@ -74,4 +74,13 @@ class NetworkException implements Exception {
     }
   }
 }
+
+/// True when the server actually answered with an HTTP error (4xx/5xx).
+///
+/// Such an answer is final: replaying the same request later gets the same
+/// rejection, so it must be shown to the user rather than queued for sync.
+/// Anything else (no connection, timeout) means the request never got an answer.
+bool isServerRejection(Object error) =>
+    (error is NetworkException && error.statusCode != null) ||
+    (error is DioException && error.response != null);
 

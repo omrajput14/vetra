@@ -27,6 +27,9 @@ class MockAuthRepository implements AuthRepository {
   Future<UserModel?> restoreSession() async => mockUser;
 
   @override
+  Future<UserModel?> getCachedUser() async => mockUser;
+
+  @override
   Future<UserModel> updateProfile({
     String? fullName,
     String? phone,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/network/network_exceptions.dart';
 import '../../../../core/network/network_status_service.dart';
 import '../../../../core/offline/models/offline_operation.dart';
 import '../../../../core/offline/operation_queue.dart';
@@ -48,7 +49,9 @@ class OfflineFirstMortalityRepository implements MortalityRepository {
         debugPrint('[OfflineFirstMortalityRepo] Reported mortality online: ${serverReport.id}');
         return serverReport;
       } catch (e) {
-        debugPrint('[OfflineFirstMortalityRepo] Online submit failed, falling back to queue: $e');
+        // The server answered and refused the report: show that to the user.
+        if (isServerRejection(e)) rethrow;
+        debugPrint('[OfflineFirstMortalityRepo] Server unreachable, falling back to queue: $e');
       }
     }
 
@@ -125,7 +128,8 @@ class OfflineFirstMortalityRepository implements MortalityRepository {
         final res = await _api.confirmMortality(id, dto, idempotencyKey: localId);
         return res;
       } catch (e) {
-        debugPrint("[OfflineFirstMortalityRepo] Online confirm failed, queuing: $e");
+        if (isServerRejection(e)) rethrow;
+        debugPrint("[OfflineFirstMortalityRepo] Server unreachable, queuing confirm: $e");
       }
     }
 
@@ -143,7 +147,7 @@ class OfflineFirstMortalityRepository implements MortalityRepository {
       tagNumber: "",
       causeCategory: dto.causeCategory,
       diseaseName: dto.diseaseName,
-      status: "CONFIRMED",
+      status: "PENDING_SYNC",
       source: "VETERINARIAN",
       vetCauseCategory: dto.causeCategory,
       vetDiseaseName: dto.diseaseName,
@@ -165,7 +169,8 @@ class OfflineFirstMortalityRepository implements MortalityRepository {
         final res = await _api.rejectMortality(id, dto, idempotencyKey: localId);
         return res;
       } catch (e) {
-        debugPrint("[OfflineFirstMortalityRepo] Online reject failed, queuing: $e");
+        if (isServerRejection(e)) rethrow;
+        debugPrint("[OfflineFirstMortalityRepo] Server unreachable, queuing reject: $e");
       }
     }
 
@@ -182,7 +187,7 @@ class OfflineFirstMortalityRepository implements MortalityRepository {
       animalId: "",
       tagNumber: "",
       causeCategory: "UNKNOWN",
-      status: "REJECTED",
+      status: "PENDING_SYNC",
       source: "VETERINARIAN",
       vetRejectionReason: dto.rejectionReason,
       vetClinicalNotes: dto.clinicalNotes,

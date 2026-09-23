@@ -59,6 +59,9 @@ class DiseaseReportModel {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
+  /// Saved on this device only; the server has not received it yet.
+  final bool isPendingSync;
+
   const DiseaseReportModel({
     required this.id,
     required this.animalId,
@@ -77,6 +80,7 @@ class DiseaseReportModel {
     this.notes,
     this.createdAt,
     this.updatedAt,
+    this.isPendingSync = false,
   });
 
   factory DiseaseReportModel.fromJson(Map<String, dynamic> json) {

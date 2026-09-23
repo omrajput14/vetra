@@ -631,6 +631,29 @@ class _ReportDiseasePageState extends ConsumerState<ReportDiseasePage> {
   }
 
   Widget _buildSuccessState(String lang, DiseaseReportModel report) {
+    // Only a report the server accepted is "submitted". One saved while the
+    // server was unreachable says so plainly.
+    final pending = report.isPendingSync;
+    final accent = pending ? AppColors.cautionAmber : AppColors.primary;
+    final title = pending
+        ? (lang == 'mr'
+            ? 'या डिव्हाइसवर जतन केले — अद्याप सादर झाले नाही'
+            : (lang == 'hi' ? 'इस डिवाइस पर सहेजा गया — अभी जमा नहीं हुआ' : 'Saved on This Device — Not Yet Submitted'))
+        : (lang == 'mr'
+            ? 'रोग अहवाल यशस्वीरित्या नोंदवला!'
+            : (lang == 'hi' ? 'रोग रिपोर्ट सफलतापूर्वक दर्ज!' : 'Disease Report Submitted Successfully!'));
+    final body = pending
+        ? (lang == 'mr'
+            ? 'सर्व्हरशी संपर्क होऊ शकला नाही. नेटवर्क परत आल्यावर अहवाल आपोआप सादर केला जाईल.'
+            : (lang == 'hi'
+                ? 'सर्वर से संपर्क नहीं हो सका। कनेक्शन लौटते ही रिपोर्ट अपने आप जमा हो जाएगी।'
+                : 'The server could not be reached. The report will be submitted automatically when the connection returns.'))
+        : (lang == 'mr'
+            ? 'अहवाल VETRA साथरोग शोध प्रणालीला प्राप्त झाला आहे.'
+            : (lang == 'hi'
+                ? 'रिपोर्ट VETRA प्रकोप पहचान इंजन को प्राप्त हो गई है।'
+                : 'Report received by the VETRA Outbreak Detection Engine.'));
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -639,10 +662,10 @@ class _ReportDiseasePageState extends ConsumerState<ReportDiseasePage> {
           decoration: BoxDecoration(
             color: AppColors.surfaceCard,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+            border: Border.all(color: accent.withValues(alpha: 0.3)),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withValues(alpha: 0.08),
+                color: accent.withValues(alpha: 0.08),
                 blurRadius: 16,
                 offset: const Offset(0, 4),
               ),
@@ -655,26 +678,24 @@ class _ReportDiseasePageState extends ConsumerState<ReportDiseasePage> {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.15),
+                  color: accent.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.check_circle_rounded, size: 40, color: AppColors.primary),
+                child: Icon(
+                  pending ? Icons.cloud_upload_outlined : Icons.check_circle_rounded,
+                  size: 40,
+                  color: accent,
+                ),
               ),
               const SizedBox(height: 16),
               Text(
-                lang == 'mr'
-                    ? 'रोग अहवाल यशस्वीरित्या नोंदवला!'
-                    : (lang == 'hi' ? 'रोग रिपोर्ट सफलतापूर्वक दर्ज!' : 'Disease Report Submitted Successfully!'),
+                title,
                 textAlign: TextAlign.center,
                 style: AppTypography.cardTitle.copyWith(fontSize: 18, color: AppColors.textPrimary),
               ),
               const SizedBox(height: 8),
               Text(
-                lang == 'mr'
-                    ? 'अहवाल सुरक्षित जतन केला आहे. नेटवर्क उपलब्ध होताच साथरोग नियंत्रण प्रणालीत आपोआप सिंक होईल.'
-                    : (lang == 'hi'
-                        ? 'रिपोर्ट सुरक्षित सहेज ली गई है। इंटरनेट उपलब्ध होते ही यह VETRA सर्विलांस इंजन में स्वतः सिंक हो जाएगी।'
-                        : 'Report saved securely. It will automatically synchronize with the VETRA Outbreak Detection Engine once connected.'),
+                body,
                 textAlign: TextAlign.center,
                 style: AppTypography.captionMetadata.copyWith(fontSize: 12),
               ),

@@ -39,7 +39,7 @@ class AiScanDao extends DatabaseAccessor<VetraDatabase>
     required String localId,
     required String serverId,
     required String diagnosis,
-    required double confidenceScore,
+    required double? confidenceScore,
     required String severity,
     required String observationsJson,
     required String rawResultJson,
@@ -81,6 +81,25 @@ class AiScanDao extends DatabaseAccessor<VetraDatabase>
     return (update(aiScansTable)..where((t) => t.animalLocalId.equals(animalLocalId)))
         .write(AiScansTableCompanion(
           animalServerId: Value(animalServerId),
+          updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
+        ));
+  }
+
+  /// The server accepted the upload but its AI produced no diagnosis.
+  /// The record exists on the server, so it is synced; only the analysis failed.
+  Future<void> markAnalysisFailed({
+    required String localId,
+    required String serverId,
+    required String rawResultJson,
+  }) {
+    return (update(aiScansTable)..where((t) => t.localId.equals(localId)))
+        .write(AiScansTableCompanion(
+          serverId: Value(serverId),
+          status: const Value('FAILED'),
+          syncStatus: const Value('synced'),
+          diagnosis: const Value(null),
+          confidenceScore: const Value(null),
+          rawResultJson: Value(rawResultJson),
           updatedAt: Value(DateTime.now().millisecondsSinceEpoch),
         ));
   }

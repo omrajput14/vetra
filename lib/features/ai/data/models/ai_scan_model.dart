@@ -39,6 +39,12 @@ class AIScanModel {
     this.createdAt,
   });
 
+  /// The server stored the scan but produced no diagnosis: AI inference failed
+  /// (status FAILED) or never ran (status PENDING). Not a result to show.
+  bool get isAnalysisFailure =>
+      status != 'PENDING_UPLOAD' &&
+      (status == 'FAILED' || diagnosis == null || diagnosis!.trim().isEmpty);
+
   factory AIScanModel.fromJson(Map<String, dynamic> json) {
     String severity = json['severity']?.toString() ?? 'UNKNOWN';
     List<String> observations = [];

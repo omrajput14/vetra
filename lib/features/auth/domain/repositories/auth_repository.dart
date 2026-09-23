@@ -47,7 +47,13 @@ abstract class AuthRepository {
     required String password,
   });
 
+  /// Validates the stored session with the server. Returns null only when the
+  /// session is gone (no token, or the server rejected it with 401); a network
+  /// failure keeps the user signed in with their cached profile.
   Future<UserModel?> restoreSession();
+
+  /// The signed-in user as last known on this device, without any network call.
+  Future<UserModel?> getCachedUser();
 
   Future<UserModel> updateProfile({
     String? fullName,

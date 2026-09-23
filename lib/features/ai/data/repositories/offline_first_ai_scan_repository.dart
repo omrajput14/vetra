@@ -67,15 +67,25 @@ class OfflineFirstAIScanRepository implements AIScanRepository {
           animalLocalId: animalId,
           animalServerId: animalId,
           localImagePath: permanentPath,
-          status: 'COMPLETED',
+          status: serverScan.isAnalysisFailure ? 'FAILED' : 'COMPLETED',
           syncStatus: 'synced',
         );
+
+        if (serverScan.isAnalysisFailure) {
+          // Record the failure as it is. Never substitute a diagnosis the AI did not make.
+          await _local.markAnalysisFailed(
+            localId: serverScan.id,
+            serverId: serverScan.id,
+            rawResultJson: json.encode(serverScan.toJson()),
+          );
+          return serverScan;
+        }
 
         await _local.updateWithResult(
           localId: serverScan.id,
           serverId: serverScan.id,
-          diagnosis: serverScan.diagnosis ?? 'Healthy / No Acute Anomalies',
-          confidenceScore: serverScan.confidenceScore ?? 0.85,
+          diagnosis: serverScan.diagnosis!,
+          confidenceScore: serverScan.confidenceScore,
           severity: serverScan.severity,
           observationsJson: json.encode(serverScan.observations),
           rawResultJson: json.encode(serverScan.toJson()),

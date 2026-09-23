@@ -70,51 +70,64 @@ class AuthInterceptor extends Interceptor {
       _isRefreshing = true;
       try {
         final refreshToken = await _storage.getRefreshToken();
-        if (refreshToken != null && refreshToken.isNotEmpty) {
-          final refreshResponse = await dio.post(
+        if (refreshToken == null || refreshToken.isEmpty) {
+          await _handleRefreshFailure();
+          return handler.next(err);
+        }
+
+        final Response refreshResponse;
+        try {
+          refreshResponse = await dio.post(
             ApiConfig.refresh,
             data: {'refreshToken': refreshToken},
             options: Options(
               headers: {'Authorization': null}, // Ensure no stale Bearer token on refresh
             ),
           );
-
-          if (refreshResponse.statusCode == 200 && refreshResponse.data != null) {
-            final responseData = refreshResponse.data;
-            final data = responseData is Map<String, dynamic> ? responseData['data'] : null;
-
-            if (data != null && data['accessToken'] != null) {
-              final newAccessToken = data['accessToken'].toString();
-              final newRefreshToken = data['refreshToken']?.toString();
-
-              await _storage.saveAccessToken(newAccessToken);
-              if (newRefreshToken != null && newRefreshToken.isNotEmpty) {
-                final role = await _storage.getUserRole() ?? '';
-                final userId = await _storage.getUserId() ?? '';
-                await _storage.saveTokens(
-                  accessToken: newAccessToken,
-                  refreshToken: newRefreshToken,
-                  userRole: role,
-                  userId: userId,
-                );
-              }
-
-              // Release queued requests with new token
-              for (final completer in _refreshQueue) {
-                completer.complete(newAccessToken);
-              }
-              _refreshQueue.clear();
-
-              // Retry original failed request
-              requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
-              final retryResponse = await dio.fetch(requestOptions);
-              _isRefreshing = false;
-              return handler.resolve(retryResponse);
-            }
+        } on DioException catch (refreshErr) {
+          if (refreshErr.response != null) {
+            // The server answered the refresh call and refused it: the session is over.
+            await _handleRefreshFailure();
+            return handler.next(err);
           }
+          // The refresh never reached the server. Keep the session and report a
+          // connection failure instead of the 401, so callers do not sign the user out.
+          _releaseQueue(null);
+          return handler.next(refreshErr);
         }
-        // If refresh token missing or refresh request failed
-        await _handleRefreshFailure();
+
+        final responseData = refreshResponse.data;
+        final data = responseData is Map<String, dynamic> ? responseData['data'] : null;
+        if (refreshResponse.statusCode != 200 || data == null || data['accessToken'] == null) {
+          await _handleRefreshFailure();
+          return handler.next(err);
+        }
+
+        final newAccessToken = data['accessToken'].toString();
+        final newRefreshToken = data['refreshToken']?.toString();
+
+        await _storage.saveAccessToken(newAccessToken);
+        if (newRefreshToken != null && newRefreshToken.isNotEmpty) {
+          final role = await _storage.getUserRole() ?? '';
+          final userId = await _storage.getUserId() ?? '';
+          await _storage.saveTokens(
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+            userRole: role,
+            userId: userId,
+          );
+        }
+
+        // Release queued requests with new token
+        _releaseQueue(newAccessToken);
+
+        // Retry original failed request
+        requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
+        try {
+          return handler.resolve(await dio.fetch(requestOptions));
+        } on DioException catch (retryErr) {
+          return handler.next(retryErr);
+        }
       } catch (e) {
         await _handleRefreshFailure();
       } finally {
@@ -127,8 +140,12 @@ class AuthInterceptor extends Interceptor {
 
   Future<void> _handleRefreshFailure() async {
     await _storage.clearAll();
+    _releaseQueue(null);
+  }
+
+  void _releaseQueue(String? newToken) {
     for (final completer in _refreshQueue) {
-      completer.complete(null);
+      completer.complete(newToken);
     }
     _refreshQueue.clear();
   }

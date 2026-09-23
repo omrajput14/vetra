@@ -22,18 +22,19 @@ class ScanResultsPage extends StatelessWidget {
     final imagePath =
         extraData?['imagePath']?.toString() ?? aiScanNotifier.selectedImagePath;
 
-    final String status = result?.status ?? 'COMPLETED';
-    final String diagnosis =
-        result?.diagnosis ?? 'Inconclusive / Insufficient Visual Evidence';
-    final double confidence = result?.confidenceScore ?? 0.0;
-    final String severity = result?.severity ?? 'UNKNOWN';
-    final List<String> observations = result?.observations ?? [];
-    final String recommendedNextStep = result?.recommendedNextStep ??
-        'Schedule a clinical evaluation with a licensed veterinarian for on-site diagnosis.';
-    final String disclaimer = result?.disclaimer ??
-        'This is an AI-assisted preliminary assessment and is not a confirmed veterinary diagnosis.';
-    final String provider = result?.aiProvider ?? 'VETRA_AI';
-    final String model = result?.aiModel ?? 'NOOP-V1';
+    if (result == null || result.isAnalysisFailure) {
+      return _buildScanFailed(context, result?.status);
+    }
+
+    final String status = result.status;
+    final String diagnosis = result.diagnosis!;
+    final double confidence = result.confidenceScore ?? 0.0;
+    final String severity = result.severity;
+    final List<String> observations = result.observations;
+    final String recommendedNextStep = result.recommendedNextStep;
+    final String disclaimer = result.disclaimer;
+    final String provider = result.aiProvider ?? 'VETRA_AI';
+    final String model = result.aiModel ?? 'NOOP-V1';
 
     final bool isEmergency =
         severity.toUpperCase() == 'EMERGENCY' || severity.toUpperCase() == 'CRITICAL';
@@ -479,6 +480,46 @@ class ScanResultsPage extends StatelessWidget {
           color: color,
           fontWeight: FontWeight.bold,
           fontSize: 11,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScanFailed(BuildContext context, String? status) {
+    return Scaffold(
+      backgroundColor: AppColors.surfaceBackground,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Preliminary AI Assessment', style: AppTypography.screenTitle),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          onPressed: () => context.go('/farmer-dashboard'),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.redAccent, size: 64),
+            const SizedBox(height: 16),
+            Text('Scan failed, please retry',
+                style: AppTypography.screenTitle.copyWith(color: Colors.redAccent),
+                textAlign: TextAlign.center),
+            const SizedBox(height: 8),
+            Text(
+              'The AI could not analyse this photo, so no diagnosis was produced'
+              '${status != null ? ' (scan status: $status)' : ''}.',
+              style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            PrimaryButton(
+              label: 'Retake Photo',
+              onPressed: () => context.go('/disease-scanner'),
+            ),
+          ],
         ),
       ),
     );

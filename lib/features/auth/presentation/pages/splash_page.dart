@@ -24,9 +24,13 @@ class _SplashPageState extends State<SplashPage> {
   Future<void> _initSession() async {
     await Future.delayed(const Duration(milliseconds: 600));
     try {
+      // A slow or absent network must not sign the user out: after 3s, continue
+      // with the session cached on this device while validation finishes.
       final hasSession = await authNotifier.restoreSession().timeout(
         const Duration(seconds: 3),
-        onTimeout: () => false,
+        onTimeout: () => authNotifier
+            .restoreCachedSession()
+            .timeout(const Duration(seconds: 2), onTimeout: () => false),
       );
       if (!mounted) return;
 

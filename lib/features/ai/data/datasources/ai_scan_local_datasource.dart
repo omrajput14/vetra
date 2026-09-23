@@ -57,7 +57,7 @@ class AiScanLocalDatasource {
     required String localId,
     required String serverId,
     required String diagnosis,
-    required double confidenceScore,
+    required double? confidenceScore,
     required String severity,
     required String observationsJson,
     required String rawResultJson,
@@ -69,6 +69,18 @@ class AiScanLocalDatasource {
       confidenceScore: confidenceScore,
       severity: severity,
       observationsJson: observationsJson,
+      rawResultJson: rawResultJson,
+    );
+  }
+
+  Future<void> markAnalysisFailed({
+    required String localId,
+    required String serverId,
+    required String rawResultJson,
+  }) {
+    return _dao.markAnalysisFailed(
+      localId: localId,
+      serverId: serverId,
       rawResultJson: rawResultJson,
     );
   }

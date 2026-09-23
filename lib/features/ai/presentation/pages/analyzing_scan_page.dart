@@ -61,6 +61,13 @@ class _AnalyzingScanPageState extends State<AnalyzingScanPage> {
           _isSubmitting = false;
           _isOfflineSaved = true;
         });
+      } else if (scan == null || scan.isAnalysisFailure) {
+        // The server stored the photo but its AI produced no diagnosis.
+        setState(() {
+          _isSubmitting = false;
+          _error = 'Scan failed, please retry. The AI could not analyse this photo, '
+              'so no diagnosis was produced (scan status: ${scan?.status ?? 'unknown'}).';
+        });
       } else {
         // Online analysis complete
         context.go('/scan-results', extra: {'imagePath': imagePath, 'animalId': animalId});

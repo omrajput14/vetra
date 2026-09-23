@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
@@ -69,9 +70,12 @@ class _FarmerDashboardPageState extends ConsumerState<FarmerDashboardPage> {
       builder: (context, _) {
         final dash = dashboardNotifier.dashboard;
         final economic = dashboardNotifier.economicImpact;
-        final animalCount = dash?.registeredAnimalCount ?? 0;
-        final facilityName = dash?.facilityName ?? 'My Farm';
-        final userName = dash?.userName ?? (l10n?.welcomeFarmer ?? 'Farmer');
+        // Offline: identity comes from the profile cached at sign-in; counts are
+        // unknown ("—") rather than a made-up 0.
+        final cachedUser = authNotifier.currentUser;
+        final animalCount = dash?.registeredAnimalCount.toString() ?? '—';
+        final facilityName = dash?.facilityName ?? cachedUser?.farmName ?? 'My Farm';
+        final userName = dash?.userName ?? cachedUser?.name ?? 'Farmer';
 
         return Scaffold(
           backgroundColor: AppColors.surfaceBackground,
@@ -144,7 +148,7 @@ class _FarmerDashboardPageState extends ConsumerState<FarmerDashboardPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('$animalCount', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 32)),
+                              Text(animalCount, style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 32)),
                               Text(l10n?.statsAnimals ?? 'Registered Animals', style: AppTypography.captionMetadata),
                             ],
                           ),
@@ -165,7 +169,7 @@ class _FarmerDashboardPageState extends ConsumerState<FarmerDashboardPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${dash?.pendingAppointmentsCount ?? 0}', style: AppTypography.screenTitle.copyWith(color: AppColors.cautionAmber, fontSize: 32)),
+                              Text(dash?.pendingAppointmentsCount.toString() ?? '—', style: AppTypography.screenTitle.copyWith(color: AppColors.cautionAmber, fontSize: 32)),
                               Text(l10n?.statsAppointments ?? 'Checkups Due', style: AppTypography.captionMetadata),
                             ],
                           ),

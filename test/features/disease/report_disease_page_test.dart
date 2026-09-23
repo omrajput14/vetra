@@ -244,7 +244,8 @@ void main() {
 
       // Verify Success State rendered
       expect(find.text('Disease Report Submitted Successfully!'), findsOneWidget);
-      expect(find.text('Report saved securely. It will automatically synchronize with the VETRA Outbreak Detection Engine once connected.'), findsOneWidget);
+      expect(find.text('Report received by the VETRA Outbreak Detection Engine.'), findsOneWidget);
+      expect(find.text('Saved on This Device — Not Yet Submitted'), findsNothing);
       expect(find.text('SUSPECTED'), findsOneWidget);
       expect(find.text('18.5204° N, 73.8567° E'), findsOneWidget);
       expect(find.text('Done / Return to Dashboard'), findsOneWidget);
