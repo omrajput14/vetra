@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import '../models/user_role.dart';
 import '../network/api_client.dart';
 import '../router/app_router.dart';
 import 'auth_service.dart';
+import 'notification_center.dart';
 
 /// Top-level background handler for FCM messages when app is in background or terminated.
 @pragma('vm:entry-point')
@@ -16,6 +17,32 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   } catch (e) {
     debugPrint('[FCM Background Error] $e');
   }
+}
+
+/// Given to MaterialApp so a push can show a banner over whatever screen is open.
+final rootMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
+/// In-app banner for a push that arrives while the app is open (Android shows nothing
+/// on its own in that case). "View" opens the screen the push points at.
+void showPushBanner(RemoteMessage message) {
+  final title = message.notification?.title ?? message.data['title']?.toString() ?? 'PASHU SATHI Alert';
+  final body = message.notification?.body ?? message.data['body']?.toString() ?? '';
+  rootMessengerKey.currentState?.showSnackBar(SnackBar(
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        if (body.isNotEmpty) Text(body, maxLines: 2, overflow: TextOverflow.ellipsis),
+      ],
+    ),
+    behavior: SnackBarBehavior.floating,
+    action: SnackBarAction(
+      label: 'View',
+      onPressed: () => PushNotificationService.instance.handleNotificationTap(message.data),
+    ),
+    duration: const Duration(seconds: 6),
+  ));
 }
 
 /// Centralized singleton service for Firebase Cloud Messaging lifecycle,
@@ -163,49 +190,41 @@ class PushNotificationService {
     }
   }
 
-  /// Routes the user to the destination screen based on notification payload data.
+  /// Tap on a push: marks it read and opens its screen, or the inbox if it names none.
   void handleNotificationTap(Map<String, dynamic> data) {
     try {
-      final route = data['route']?.toString();
-      final appointmentId = data['appointmentId']?.toString();
-      final animalId = data['animalId']?.toString();
-      final outbreakId = data['outbreakId']?.toString();
-      final reportId = data['reportId']?.toString();
-
-      if (route != null && route.isNotEmpty) {
-        debugPrint('[FCM Deep-Link] Navigating to route: $route');
-        AppRouter.router.push(route);
-        return;
-      }
-
-      if (appointmentId != null && appointmentId.isNotEmpty) {
-        debugPrint('[FCM Deep-Link] Navigating to appointment details: $appointmentId');
-        AppRouter.router.push('/appointment-details', extra: appointmentId);
-        return;
-      }
-
-      if (animalId != null && animalId.isNotEmpty) {
-        debugPrint('[FCM Deep-Link] Navigating to animal passport: $animalId');
-        AppRouter.router.push('/animal-passport', extra: animalId);
-        return;
-      }
-
-      if (outbreakId != null && outbreakId.isNotEmpty) {
-        debugPrint('[FCM Deep-Link] Navigating to outbreak map');
-        AppRouter.router.push('/outbreak-map');
-        return;
-      }
-
-      if (reportId != null && reportId.isNotEmpty) {
-        debugPrint('[FCM Deep-Link] Navigating to disease information');
-        AppRouter.router.push('/disease-information');
-        return;
-      }
-
-      // Default fallback
-      AppRouter.router.push('/notifications');
+      notificationCenter.markRead(data['notificationId']?.toString());
+      if (!openNotificationTarget(data)) AppRouter.router.push('/notifications');
     } catch (e) {
       debugPrint('[FCM Routing Error] Could not navigate to notification destination: $e');
     }
+  }
+
+  /// Opens the screen a notification payload points at (push data or an inbox item's
+  /// payloadJson). Returns false when it points nowhere.
+  bool openNotificationTarget(Map<String, dynamic> data) {
+    String? id(String key) {
+      final v = data[key]?.toString();
+      return v == null || v.isEmpty ? null : v;
+    }
+
+    final route = id('route');
+    final isVet = AuthService.instance.currentRole == UserRole.veterinarian;
+    if (route != null) {
+      AppRouter.router.push(route);
+    } else if (id('appointmentId') != null) {
+      AppRouter.router.push('/appointment-details', extra: id('appointmentId'));
+    } else if (id('animalId') != null) {
+      AppRouter.router.push('/animal-passport', extra: id('animalId'));
+    } else if (id('outbreakId') != null) {
+      AppRouter.router.push(isVet ? '/vet-outbreak-map' : '/outbreak-map');
+    } else if (id('mortalityEventId') != null && isVet) {
+      AppRouter.router.push('/vet-mortality-inbox');
+    } else if (id('reportId') != null) {
+      AppRouter.router.push('/disease-information');
+    } else {
+      return false;
+    }
+    return true;
   }
 }

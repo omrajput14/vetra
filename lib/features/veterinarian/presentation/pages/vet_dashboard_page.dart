@@ -8,6 +8,7 @@ import '../../../../core/design_system/navigation/vet_bottom_navigation.dart';
 import '../../../../core/localization/locale_provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'package:vetra/features/dashboard/presentation/providers/dashboard_provider.dart';
+import '../../../shared/presentation/widgets/notification_bell.dart';
 import '../../../shared/presentation/widgets/sync_status_banner.dart';
 
 class VetDashboardPage extends ConsumerStatefulWidget {
@@ -73,10 +74,7 @@ class _VetDashboardPageState extends ConsumerState<VetDashboardPage> {
                   style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.notifications_none, color: AppColors.textPrimary),
-                onPressed: () => context.push('/notifications'),
-              ),
+              const NotificationBell(),
               const SizedBox(width: 4),
             ],
           ),

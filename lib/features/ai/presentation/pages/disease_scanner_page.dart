@@ -230,6 +230,13 @@ class _DiseaseScannerPageState extends State<DiseaseScannerPage>
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => context.pop(),
         ),
+        actions: [
+          IconButton(
+            tooltip: 'Scan history',
+            icon: const Icon(Icons.history, color: Colors.white),
+            onPressed: () => context.push('/scan-history'),
+          ),
+        ],
       ),
       body: Stack(
         children: [

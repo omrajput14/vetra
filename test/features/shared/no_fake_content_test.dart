@@ -55,10 +55,10 @@ void main() {
   });
 
   group('Reachable screens', () {
-    testWidgets('Security has no biometric switch that does nothing; it offers a real password change', (t) async {
+    testWidgets('Security has no always-on biometric switch that does nothing; it offers a real password change', (t) async {
       await _show(t, const SecurityPage());
       expect(find.text('Biometric Authentication'), findsNothing);
-      expect(find.byType(Switch), findsNothing);
+      expect(find.text('Require Fingerprint / FaceID to open app'), findsNothing);
       expect(find.text('Change Password'), findsWidgets);
     });
 

@@ -4,6 +4,8 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../../../../core/storage/secure_storage_service.dart';
+import '../../../../core/widgets/app_lock.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
 /// Change password via POST /auth/change-password. The server revokes every
@@ -21,6 +23,36 @@ class _SecurityPageState extends State<SecurityPage> {
   final _confirm = TextEditingController();
   bool _saving = false;
   String? _error;
+  bool? _lockOn;
+  String? _lockNote;
+
+  @override
+  void initState() {
+    super.initState();
+    SecureStorageService.instance.isAppLockEnabled().then((on) {
+      if (mounted) setState(() => _lockOn = on);
+    });
+  }
+
+  Future<void> _toggleLock(bool on) async {
+    if (on) {
+      if (!await AppLock.isSupported()) {
+        setState(() => _lockNote = 'Set up a screen lock (PIN, pattern or fingerprint) on this phone first.');
+        return;
+      }
+      if (!await AppLock.confirm('Confirm to turn on App lock')) {
+        setState(() => _lockNote = 'App lock was not turned on.');
+        return;
+      }
+    }
+    await SecureStorageService.instance.setAppLockEnabled(on);
+    if (mounted) {
+      setState(() {
+        _lockOn = on;
+        _lockNote = null;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -81,6 +113,21 @@ class _SecurityPageState extends State<SecurityPage> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
+          if (_lockOn != null)
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              activeTrackColor: AppColors.primary,
+              title: Text('App lock', style: AppTypography.cardTitle),
+              subtitle: Text(
+                'Ask for fingerprint or phone PIN when the app opens, or returns after 30 seconds away.',
+                style: AppTypography.captionMetadata,
+              ),
+              value: _lockOn!,
+              onChanged: _toggleLock,
+            ),
+          if (_lockNote != null)
+            Text(_lockNote!, style: AppTypography.bodyDefault.copyWith(color: AppColors.alertCritical)),
+          const Divider(height: 32),
           Text('Change Password', style: AppTypography.cardTitle),
           const SizedBox(height: 4),
           Text(

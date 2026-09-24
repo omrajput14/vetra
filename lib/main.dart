@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/design_system/app_theme.dart';
 import 'core/localization/locale_provider.dart';
 import 'core/router/app_router.dart';
+import 'core/services/notification_center.dart';
 import 'core/services/push_notification_service.dart';
+import 'core/widgets/app_lock.dart';
 import 'core/database/vetra_database.dart';
 import 'core/network/network_status_service.dart';
 import 'core/offline/sync_service.dart';
@@ -46,35 +48,14 @@ class _VetraAppState extends ConsumerState<VetraApp> {
   void initState() {
     super.initState();
     _lifecycleListener = AppLifecycleListener(
-      onResume: () => SyncService.instance.triggerSync(),
+      onResume: () {
+        SyncService.instance.triggerSync();
+        notificationCenter.refresh();
+      },
     );
-    // Listen for foreground FCM messages to show a snackbar notification banner
     PushNotificationService.instance.onForegroundMessage.listen((message) {
-      final title = message.notification?.title ?? message.data['title'] ?? 'PASHU SATHI Alert';
-      final body = message.notification?.body ?? message.data['body'] ?? '';
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                if (body.isNotEmpty) Text(body, maxLines: 2, overflow: TextOverflow.ellipsis),
-              ],
-            ),
-            behavior: SnackBarBehavior.floating,
-            action: SnackBarAction(
-              label: 'View',
-              onPressed: () {
-                PushNotificationService.instance.handleNotificationTap(message.data);
-              },
-            ),
-            duration: const Duration(seconds: 4),
-          ),
-        );
-      }
+      notificationCenter.pushArrived();
+      showPushBanner(message);
     });
   }
 
@@ -96,6 +77,8 @@ class _VetraAppState extends ConsumerState<VetraApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       routerConfig: AppRouter.router,
+      scaffoldMessengerKey: rootMessengerKey,
+      builder: (context, child) => AppLock(child: child ?? const SizedBox.shrink()),
     );
   }
 }
