@@ -20,7 +20,6 @@ import '../../features/auth/presentation/pages/register_role_selection_page.dart
 import '../../features/auth/presentation/pages/register_vet_details_page.dart';
 import '../../features/auth/presentation/pages/email_verification_page.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
-import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/farmer/presentation/pages/farmer_dashboard_page.dart';
 import '../../features/farmer/presentation/pages/farmer_appointments_page.dart';
 import '../../features/farmer/presentation/pages/my_animals_page.dart';
@@ -37,6 +36,7 @@ import '../../features/animal/presentation/pages/edit_animal_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_qr_updated_page.dart';
 import '../../features/animal/data/models/animal_dto.dart';
+import '../../features/animal/data/models/animal_health_record_dto.dart';
 import '../../features/animal/presentation/pages/animal_passport_offline_state_page.dart';
 import '../../features/animal/presentation/pages/animal_timeline_page.dart';
 import '../../features/animal/presentation/pages/animal_gallery_page.dart';
@@ -110,7 +110,7 @@ class AppRouter {
           loc == '/register-role';
 
       if (!isLoggedIn) {
-        if (!isAuthRoute && loc != '/forgot-password' && loc != '/reset-password' && loc != '/language-settings') {
+        if (!isAuthRoute && loc != '/forgot-password' &&loc != '/language-settings') {
           return '/welcome';
         }
         return null;
@@ -231,10 +231,6 @@ class AppRouter {
         builder: (context, state) => const ForgotPasswordPage(),
       ),
       GoRoute(
-        path: '/reset-password',
-        builder: (context, state) => const ResetPasswordPage(),
-      ),
-      GoRoute(
         path: '/farmer-dashboard',
         builder: (context, state) => const FarmerDashboardPage(),
       ),
@@ -328,15 +324,15 @@ class AppRouter {
       ),
       GoRoute(
         path: '/add-prescription',
-        builder: (context, state) => const AddPrescriptionPage(),
+        builder: (context, state) => AddPrescriptionPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/add-treatment',
-        builder: (context, state) => const AddTreatmentPage(),
+        builder: (context, state) => AddTreatmentPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/deworming-record',
-        builder: (context, state) => const DewormingRecordPage(),
+        builder: (context, state) => DewormingRecordPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/diagnosis-entry',
@@ -350,11 +346,13 @@ class AppRouter {
       ),
       GoRoute(
         path: '/vaccination-details',
-        builder: (context, state) => const VaccinationDetailsPage(),
+        builder: (context, state) => VaccinationDetailsPage(
+          record: state.extra is AnimalHealthRecordModel ? state.extra as AnimalHealthRecordModel : null,
+        ),
       ),
       GoRoute(
         path: '/vaccination-schedule',
-        builder: (context, state) => const VaccinationSchedulePage(),
+        builder: (context, state) => VaccinationSchedulePage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/analyzing-scan',
@@ -560,7 +558,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/search-results',
-        builder: (context, state) => const SearchResultsPage(),
+        builder: (context, state) => SearchResultsPage(query: state.extra is String ? state.extra as String : ''),
       ),
       GoRoute(
         path: '/admin-dashboard',

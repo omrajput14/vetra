@@ -4,9 +4,59 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/buttons/primary_button.dart';
 import '../../../../core/design_system/inputs/app_text_field.dart';
+import '../../../animal/presentation/providers/animal_provider.dart';
 
-class AddPrescriptionPage extends StatelessWidget {
-  const AddPrescriptionPage({super.key});
+/// Saves a prescription as a TREATMENT record on the animal's passport. The server
+/// records the signed-in vet as the prescriber.
+class AddPrescriptionPage extends StatefulWidget {
+  final String animalId;
+  const AddPrescriptionPage({super.key, this.animalId = ''});
+
+  @override
+  State<AddPrescriptionPage> createState() => _AddPrescriptionPageState();
+}
+
+class _AddPrescriptionPageState extends State<AddPrescriptionPage> {
+  final _medication = TextEditingController();
+  final _dosage = TextEditingController();
+  final _days = TextEditingController();
+  bool _saving = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _medication.dispose();
+    _dosage.dispose();
+    _days.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    final medication = _medication.text.trim(), dosage = _dosage.text.trim(), days = _days.text.trim();
+    if (medication.isEmpty || dosage.isEmpty) {
+      setState(() => _error = 'Enter the medication and dosage.');
+      return;
+    }
+    setState(() {
+      _saving = true;
+      _error = null;
+    });
+    final saved = await animalNotifier.addHealthRecord(widget.animalId, {
+      'recordType': 'TREATMENT',
+      'title': 'Prescription: $medication',
+      'treatment': days.isEmpty ? dosage : '$dosage for $days days',
+    });
+    if (!mounted) return;
+    if (!saved) {
+      setState(() {
+        _saving = false;
+        _error = animalNotifier.errorMessage ?? 'Could not save the prescription.';
+      });
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Prescription saved to the animal\'s passport.')));
+    context.pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +71,29 @@ class AddPrescriptionPage extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          const AppTextField(labelText: 'Medication Name', hintText: 'e.g. Oxytet 200 LA'),
-          const SizedBox(height: 16),
-          const AppTextField(labelText: 'Dosage', hintText: 'e.g. 10ml IM daily'),
-          const SizedBox(height: 16),
-          const AppTextField(labelText: 'Duration (Days)', hintText: '5', keyboardType: TextInputType.number),
-          const SizedBox(height: 24),
-          PrimaryButton(
-            label: 'Save Prescription',
-            onPressed: () => context.pop(),
-          ),
-        ],
-      ),
+      body: widget.animalId.isEmpty
+          ? Center(child: Text('Open this from an animal\'s passport.', style: AppTypography.captionMetadata))
+          : ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                AppTextField(labelText: 'Medication Name', hintText: 'e.g. Oxytet 200 LA', controller: _medication),
+                const SizedBox(height: 16),
+                AppTextField(labelText: 'Dosage', hintText: 'e.g. 10ml IM daily', controller: _dosage),
+                const SizedBox(height: 16),
+                AppTextField(
+                  labelText: 'Duration (Days)',
+                  hintText: 'e.g. 5',
+                  controller: _days,
+                  keyboardType: TextInputType.number,
+                ),
+                if (_error != null) ...[
+                  const SizedBox(height: 16),
+                  Text(_error!, style: AppTypography.bodyDefault.copyWith(color: AppColors.alertCritical)),
+                ],
+                const SizedBox(height: 24),
+                PrimaryButton(label: 'Save Prescription', isLoading: _saving, onPressed: _saving ? null : _save),
+              ],
+            ),
     );
   }
 }
