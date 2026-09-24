@@ -163,6 +163,13 @@ class _VetProfilePageState extends State<VetProfilePage> {
               ),
               const SizedBox(height: 8),
               ActionCard(
+                icon: Icons.notifications_outlined,
+                title: 'Notifications',
+                subtitle: 'What you are alerted about on this phone',
+                onTap: () => context.push('/notification-preferences'),
+              ),
+              const SizedBox(height: 8),
+              ActionCard(
                 icon: Icons.lock_outline,
                 title: l10n?.securitySettings ?? 'Security Settings',
                 subtitle: 'Change your password',

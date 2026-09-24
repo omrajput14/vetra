@@ -116,6 +116,24 @@ class SecureStorageService {
     }
   }
 
+  static const String _keyAppLock = 'app_lock_enabled';
+
+  Future<void> setAppLockEnabled(bool enabled) async {
+    try {
+      await _storage.write(key: _keyAppLock, value: enabled ? 'true' : 'false');
+    } catch (_) {
+      _memoryFallback[_keyAppLock] = enabled ? 'true' : 'false';
+    }
+  }
+
+  Future<bool> isAppLockEnabled() async {
+    try {
+      return await _storage.read(key: _keyAppLock) == 'true';
+    } catch (_) {
+      return _memoryFallback[_keyAppLock] == 'true';
+    }
+  }
+
   Future<void> clearAll() async {
     try {
       await _storage.deleteAll();

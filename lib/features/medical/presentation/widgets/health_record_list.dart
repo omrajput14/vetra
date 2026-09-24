@@ -40,7 +40,11 @@ class _HealthRecordListState extends State<HealthRecordList> {
   @override
   void initState() {
     super.initState();
-    if (widget.animalId.isNotEmpty) animalNotifier.loadTimeline(widget.animalId);
+    // After the first frame: loadTimeline notifies at once, which would rebuild the
+    // passport underneath while this route is still building.
+    if (widget.animalId.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => animalNotifier.loadTimeline(widget.animalId));
+    }
   }
 
   @override

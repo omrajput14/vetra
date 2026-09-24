@@ -17,7 +17,9 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
   @override
   void initState() {
     super.initState();
-    if (animalNotifier.animals.isEmpty) animalNotifier.loadAnimals();
+    if (animalNotifier.animals.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => animalNotifier.loadAnimals());
+    }
   }
 
   @override

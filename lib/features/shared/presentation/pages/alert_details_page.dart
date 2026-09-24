@@ -186,6 +186,18 @@ class AlertDetailsPage extends StatelessWidget {
             ),
           ],
 
+          const SizedBox(height: 20),
+          OutlinedButton.icon(
+            onPressed: () => context.push('/risk-zone', extra: o),
+            icon: const Icon(Icons.map_outlined),
+            label: const Text('Risk zone & safety guidance'),
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: () => context.push('/biosecurity-recommendations'),
+            icon: const Icon(Icons.health_and_safety_outlined),
+            label: const Text('Biosecurity checklist'),
+          ),
           const SizedBox(height: 24),
         ],
       ),

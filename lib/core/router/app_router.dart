@@ -161,7 +161,6 @@ class AppRouter {
         '/qr-scanner-vet',
         '/add-prescription',
         '/add-treatment',
-        '/deworming-record',
       };
 
       bool matchesExclusive(Set<String> routes, String location) =>
@@ -414,6 +413,13 @@ class AppRouter {
         path: '/scan-accuracy-comparison',
         builder: (context, state) => const ScanAccuracyComparisonPage(),
       ),
+      // Routes the backend puts in push payloads (NotificationEventListener).
+      GoRoute(path: '/ai-history', redirect: (context, state) => '/scan-history'),
+      GoRoute(
+        path: '/outbreaks',
+        redirect: (context, state) =>
+            authNotifier.currentRole == UserRole.veterinarian ? '/vet-outbreak-map' : '/outbreak-map',
+      ),
       GoRoute(
         path: '/scan-history',
         builder: (context, state) => const ScanHistoryPage(),
@@ -521,7 +527,9 @@ class AppRouter {
       ),
       GoRoute(
         path: '/appointment-details',
-        builder: (context, state) => AppointmentDetailsPage(appointmentId: state.extra?.toString()),
+        builder: (context, state) => AppointmentDetailsPage(
+          appointmentId: state.extra?.toString() ?? state.uri.queryParameters['id'],
+        ),
       ),
       GoRoute(
         path: '/appointment-chat',
