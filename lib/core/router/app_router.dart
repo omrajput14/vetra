@@ -4,6 +4,7 @@ import '../../features/mortality/presentation/pages/vet_mortality_detail_page.da
 import '../../features/mortality/data/models/mortality_dto.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/disease/data/models/outbreak_dto.dart';
+import '../../core/models/notification.dart';
 
 import '../../core/models/user_role.dart';
 import '../../features/auth/presentation/providers/auth_provider.dart';
@@ -19,7 +20,6 @@ import '../../features/auth/presentation/pages/register_role_selection_page.dart
 import '../../features/auth/presentation/pages/register_vet_details_page.dart';
 import '../../features/auth/presentation/pages/email_verification_page.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
-import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/farmer/presentation/pages/farmer_dashboard_page.dart';
 import '../../features/farmer/presentation/pages/farmer_appointments_page.dart';
 import '../../features/farmer/presentation/pages/my_animals_page.dart';
@@ -36,6 +36,7 @@ import '../../features/animal/presentation/pages/edit_animal_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_qr_updated_page.dart';
 import '../../features/animal/data/models/animal_dto.dart';
+import '../../features/animal/data/models/animal_health_record_dto.dart';
 import '../../features/animal/presentation/pages/animal_passport_offline_state_page.dart';
 import '../../features/animal/presentation/pages/animal_timeline_page.dart';
 import '../../features/animal/presentation/pages/animal_gallery_page.dart';
@@ -109,7 +110,7 @@ class AppRouter {
           loc == '/register-role';
 
       if (!isLoggedIn) {
-        if (!isAuthRoute && loc != '/forgot-password' && loc != '/reset-password' && loc != '/language-settings') {
+        if (!isAuthRoute && loc != '/forgot-password' &&loc != '/language-settings') {
           return '/welcome';
         }
         return null;
@@ -121,13 +122,56 @@ class AppRouter {
         return '/farmer-dashboard';
       }
 
-      // Role Guards
+      // Role Guards — allowlist approach.
+      //
+      // Each set names routes *exclusively* owned by one role.  A logged-in
+      // user attempting to access the opposite role's exclusive route is
+      // redirected to their own dashboard.  Routes in neither set are shared
+      // (accessible to both roles) and do NOT need to appear here.
+      //
+      // IMPORTANT: add new role-specific routes to the appropriate set below
+      // so they are protected automatically — do NOT add them to a denylist
+      // elsewhere, which risks silent leakage when new routes are introduced.
+      const farmerOnlyPrefixes = {
+        '/farmer-dashboard',
+        '/my-animals',
+        '/my-animals-offline',
+        '/add-animal',
+        '/edit-animal',
+        '/delete-animal-confirmation',
+        '/delete-animal',
+        '/transfer-animal-ownership',
+        '/nearby-vets',
+        '/farmer-appointments',
+        '/report-mortality',
+        '/breeding-record',
+      };
+      const vetOnlyPrefixes = {
+        '/vet-dashboard',
+        '/vet-requests',
+        '/consultation-history',
+        '/clinical-schedule',
+        '/diagnosis-entry',
+        '/vet-verification',
+        '/vet-outbreak-map',
+        '/vet-profile',
+        '/shift-settings',
+        '/vet-mortality-inbox',
+        '/vet-mortality-detail',
+        '/qr-scanner-vet',
+        '/add-prescription',
+        '/add-treatment',
+      };
+
+      bool matchesExclusive(Set<String> routes, String location) =>
+          routes.any((r) => location == r || location.startsWith('$r/'));
+
       if (role == UserRole.farmer) {
-        if (loc.startsWith('/vet-dashboard') || loc.startsWith('/vet-requests') || loc.startsWith('/consultation-history') || loc.startsWith('/diagnosis-entry') || loc.startsWith('/vet-outbreak-map') || loc.startsWith('/vet-profile') || loc.startsWith('/vet-mortality')) {
+        if (matchesExclusive(vetOnlyPrefixes, loc)) {
           return '/farmer-dashboard';
         }
       } else if (role == UserRole.veterinarian) {
-        if (loc.startsWith('/farmer-dashboard') || loc == '/my-animals' || loc == '/add-animal' || loc == '/edit-animal') {
+        if (matchesExclusive(farmerOnlyPrefixes, loc)) {
           return '/vet-dashboard';
         }
       }
@@ -184,10 +228,6 @@ class AppRouter {
       GoRoute(
         path: '/forgot-password',
         builder: (context, state) => const ForgotPasswordPage(),
-      ),
-      GoRoute(
-        path: '/reset-password',
-        builder: (context, state) => const ResetPasswordPage(),
       ),
       GoRoute(
         path: '/farmer-dashboard',
@@ -283,15 +323,15 @@ class AppRouter {
       ),
       GoRoute(
         path: '/add-prescription',
-        builder: (context, state) => const AddPrescriptionPage(),
+        builder: (context, state) => AddPrescriptionPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/add-treatment',
-        builder: (context, state) => const AddTreatmentPage(),
+        builder: (context, state) => AddTreatmentPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/deworming-record',
-        builder: (context, state) => const DewormingRecordPage(),
+        builder: (context, state) => DewormingRecordPage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/diagnosis-entry',
@@ -305,11 +345,13 @@ class AppRouter {
       ),
       GoRoute(
         path: '/vaccination-details',
-        builder: (context, state) => const VaccinationDetailsPage(),
+        builder: (context, state) => VaccinationDetailsPage(
+          record: state.extra is AnimalHealthRecordModel ? state.extra as AnimalHealthRecordModel : null,
+        ),
       ),
       GoRoute(
         path: '/vaccination-schedule',
-        builder: (context, state) => const VaccinationSchedulePage(),
+        builder: (context, state) => VaccinationSchedulePage(animalId: state.extra?.toString() ?? ''),
       ),
       GoRoute(
         path: '/analyzing-scan',
@@ -370,6 +412,13 @@ class AppRouter {
       GoRoute(
         path: '/scan-accuracy-comparison',
         builder: (context, state) => const ScanAccuracyComparisonPage(),
+      ),
+      // Routes the backend puts in push payloads (NotificationEventListener).
+      GoRoute(path: '/ai-history', redirect: (context, state) => '/scan-history'),
+      GoRoute(
+        path: '/outbreaks',
+        redirect: (context, state) =>
+            authNotifier.currentRole == UserRole.veterinarian ? '/vet-outbreak-map' : '/outbreak-map',
       ),
       GoRoute(
         path: '/scan-history',
@@ -460,7 +509,9 @@ class AppRouter {
       ),
       GoRoute(
         path: '/alert-details',
-        builder: (context, state) => const AlertDetailsPage(),
+        builder: (context, state) => AlertDetailsPage(
+          outbreak: state.extra is OutbreakModel ? state.extra as OutbreakModel : null,
+        ),
       ),
       GoRoute(
         path: '/alerts',
@@ -476,7 +527,9 @@ class AppRouter {
       ),
       GoRoute(
         path: '/appointment-details',
-        builder: (context, state) => AppointmentDetailsPage(appointmentId: state.extra?.toString()),
+        builder: (context, state) => AppointmentDetailsPage(
+          appointmentId: state.extra?.toString() ?? state.uri.queryParameters['id'],
+        ),
       ),
       GoRoute(
         path: '/appointment-chat',
@@ -495,7 +548,9 @@ class AppRouter {
       ),
       GoRoute(
         path: '/notification-details',
-        builder: (context, state) => const NotificationDetailsPage(),
+        builder: (context, state) => NotificationDetailsPage(
+          notification: state.extra is AppNotification ? state.extra as AppNotification : null,
+        ),
       ),
       GoRoute(
         path: '/notifications',
@@ -511,7 +566,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/search-results',
-        builder: (context, state) => const SearchResultsPage(),
+        builder: (context, state) => SearchResultsPage(query: state.extra is String ? state.extra as String : ''),
       ),
       GoRoute(
         path: '/admin-dashboard',

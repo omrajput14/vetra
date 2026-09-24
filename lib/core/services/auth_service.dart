@@ -53,6 +53,9 @@ class AuthService {
     return _currentUser != null;
   }
 
+  Future<void> changePassword({required String currentPassword, required String newPassword}) =>
+      _repository.changePassword(currentPassword: currentPassword, newPassword: newPassword);
+
   Future<bool> loginFarmer({required String identifier, required String password}) async {
     _isLoading = true;
     _errorMessage = null;

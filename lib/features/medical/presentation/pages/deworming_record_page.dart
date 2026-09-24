@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../core/design_system/app_colors.dart';
-import '../../../../core/design_system/app_typography.dart';
+import '../../../animal/data/models/animal_health_record_dto.dart';
+import '../widgets/health_record_list.dart';
+
+// ponytail: the backend has no DEWORMING record type, so deworming is recognised by
+// keyword in the record's text. Add a record type server-side if this misses entries.
+const _dewormingWords = [
+  'deworm', 'anthelmint', 'albendazole', 'fenbendazole', 'ivermectin',
+  'levamisole', 'oxyclozanide', 'closantel', 'praziquantel',
+];
+
+bool isDewormingRecord(AnimalHealthRecordModel r) {
+  final text = [r.title, r.treatment, r.description].whereType<String>().join(' ').toLowerCase();
+  return _dewormingWords.any(text.contains);
+}
 
 class DewormingRecordPage extends StatelessWidget {
-  const DewormingRecordPage({super.key});
+  final String animalId;
+  const DewormingRecordPage({super.key, this.animalId = ''});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.surfaceBackground,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text('Deworming History', style: AppTypography.screenTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => context.pop(),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          ListTile(
-            tileColor: AppColors.surfaceCard,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            leading: const Icon(Icons.medication, color: AppColors.primary),
-            title: Text('Albendazole Oral Drench', style: AppTypography.cardTitle.copyWith(fontSize: 16)),
-            subtitle: Text('Administered 15 Aug 2023 • Next due Nov 2023', style: AppTypography.captionMetadata),
-          ),
-        ],
-      ),
+    return HealthRecordList(
+      title: 'Deworming History',
+      animalId: animalId,
+      icon: Icons.medication,
+      where: isDewormingRecord,
+      subtitle: (r) => [
+        'Given ${formatRecordDate(r.recordedAt)}',
+        if (r.nextDueDate != null) 'Next due ${formatRecordDate(r.nextDueDate)}',
+      ].join(' • '),
+      emptyMessage: 'No deworming recorded for this animal yet.',
     );
   }
 }

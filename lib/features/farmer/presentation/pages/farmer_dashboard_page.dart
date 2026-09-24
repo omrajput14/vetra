@@ -10,6 +10,7 @@ import '../../../../l10n/app_localizations.dart';
 import 'package:vetra/features/dashboard/presentation/providers/dashboard_provider.dart';
 import '../../../animal/presentation/providers/animal_provider.dart';
 import '../../../disease/presentation/providers/disease_registry_provider.dart';
+import '../../../shared/presentation/widgets/notification_bell.dart';
 import '../../../shared/presentation/widgets/sync_status_banner.dart';
 
 class FarmerDashboardPage extends ConsumerStatefulWidget {
@@ -110,10 +111,7 @@ class _FarmerDashboardPageState extends ConsumerState<FarmerDashboardPage> {
                   style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.notifications_none, color: AppColors.textPrimary),
-                onPressed: () => context.push('/notifications'),
-              ),
+              const NotificationBell(),
               const SizedBox(width: 4),
             ],
           ),
@@ -210,9 +208,12 @@ class _FarmerDashboardPageState extends ConsumerState<FarmerDashboardPage> {
                         ],
                       ),
                       const SizedBox(height: 8),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
+                      // Wrap, not Row: on a phone (and in longer translations) the chip moves
+                      // under the text instead of overflowing the card.
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           if (economic != null && economic.hasSufficientData && economic.formattedValue != null)
                             Text(
@@ -231,7 +232,6 @@ class _FarmerDashboardPageState extends ConsumerState<FarmerDashboardPage> {
                                 fontStyle: FontStyle.italic,
                               ),
                             ),
-                          const SizedBox(width: 8),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(

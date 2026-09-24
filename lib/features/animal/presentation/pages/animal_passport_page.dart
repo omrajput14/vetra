@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/design_system/cards/health_timeline_card.dart';
+import '../../../../core/models/user_role.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../data/models/animal_dto.dart';
 import '../providers/animal_provider.dart';
@@ -188,7 +190,6 @@ class _AnimalPassportPageState extends State<AnimalPassportPage> {
                       Navigator.pop(ctx);
                       await animalNotifier.addHealthRecord(animal.id, {
                         'recordType': selectedType,
-                        'source': 'FARMER',
                         'title': titleController.text.trim(),
                         'symptoms': symptomsController.text.trim().isEmpty ? null : symptomsController.text.trim(),
                         'treatment': treatmentController.text.trim().isEmpty ? null : treatmentController.text.trim(),
@@ -512,6 +513,26 @@ class _AnimalPassportPageState extends State<AnimalPassportPage> {
                 _buildDetailTile(l10n?.breed ?? 'Breed', animal.breed ?? 'Native'),
                 _buildDetailTile(l10n?.gender ?? 'Gender', _getGenderLabel(animal.gender, l10n)),
                 _buildDetailTile(l10n?.fullName ?? 'Owner', animal.farmerName),
+
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final (label, icon, route, vetOnly) in const [
+                      ('Vaccinations', Icons.vaccines, '/vaccination-schedule', false),
+                      ('Deworming', Icons.medication, '/deworming-record', false),
+                      ('Add Prescription', Icons.receipt_long, '/add-prescription', true),
+                      ('Record Treatment', Icons.healing, '/add-treatment', true),
+                    ])
+                      if (!vetOnly || authNotifier.currentRole == UserRole.veterinarian)
+                        OutlinedButton.icon(
+                          onPressed: () => context.push(route, extra: animal.id),
+                          icon: Icon(icon, size: 18),
+                          label: Text(label),
+                        ),
+                  ],
+                ),
 
                 const SizedBox(height: 24),
 

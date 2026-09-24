@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
@@ -53,7 +54,13 @@ class SettingsOverviewPage extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text('PASHU SATHI', style: AppTypography.screenTitle.copyWith(color: AppColors.primary, fontSize: 16, letterSpacing: 1.2)),
                 const SizedBox(height: 2),
-                Text('v1.0.0 (Build 1)', style: AppTypography.captionMetadata),
+                FutureBuilder<PackageInfo>(
+                  future: PackageInfo.fromPlatform(),
+                  builder: (context, s) => Text(
+                    s.hasData ? 'v${s.data!.version} (Build ${s.data!.buildNumber})' : '',
+                    style: AppTypography.captionMetadata,
+                  ),
+                ),
               ],
             ),
           ),

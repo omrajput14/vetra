@@ -5,6 +5,8 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../../core/models/notification.dart';
 import '../../../../core/network/api_client.dart';
+import '../../../../core/services/notification_center.dart';
+import '../../../../core/services/push_notification_service.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -22,13 +24,36 @@ class _NotificationsPageState extends State<NotificationsPage> {
   void initState() {
     super.initState();
     _fetchNotifications();
+    notificationCenter.addListener(_reloadQuietly);
   }
 
-  Future<void> _fetchNotifications() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
+  @override
+  void dispose() {
+    notificationCenter.removeListener(_reloadQuietly);
+    super.dispose();
+  }
+
+  // A push arrived or an item was read: refresh without the full-screen spinner.
+  void _reloadQuietly() => _fetchNotifications(quiet: true);
+
+  Future<void> _open(AppNotification notif) async {
+    notificationCenter.markRead(notif.status == 'READ' ? null : notif.id);
+    Map<String, dynamic> payload = const {};
+    try {
+      payload = jsonDecode(notif.payloadJson ?? '') as Map<String, dynamic>;
+    } catch (_) {}
+    if (!PushNotificationService.instance.openNotificationTarget(payload)) {
+      context.push('/notification-details', extra: notif);
+    }
+  }
+
+  Future<void> _fetchNotifications({bool quiet = false}) async {
+    if (!quiet) {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+    }
 
     try {
       final dio = ApiClient.instance.dio;
@@ -130,6 +155,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   itemBuilder: (context, idx) {
                     final notif = _notifications[idx];
                     final isHighPriority = notif.priority == 'HIGH' || notif.priority == 'CRITICAL';
+                    final unread = notif.status != 'READ';
 
                     return Container(
                       decoration: BoxDecoration(
@@ -142,7 +168,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                           BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 4, offset: const Offset(0, 2)),
                         ],
                       ),
-                      child: ListTile(
+                      // Own Material so the tap ripple shows above the card colour.
+                      child: Material(type: MaterialType.transparency, child: ListTile(
                         leading: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
@@ -155,7 +182,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             size: 22,
                           ),
                         ),
-                        title: Text(notif.title, style: AppTypography.cardTitle.copyWith(fontSize: 15)),
+                        title: Text(
+                          notif.title,
+                          style: AppTypography.cardTitle.copyWith(
+                            fontSize: 15,
+                            fontWeight: unread ? FontWeight.w800 : FontWeight.w500,
+                          ),
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -168,19 +201,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             ),
                           ],
                         ),
-                        onTap: () {
-                          if (notif.payloadJson != null && notif.payloadJson!.isNotEmpty) {
-                            try {
-                              final map = jsonDecode(notif.payloadJson!) as Map<String, dynamic>;
-                              if (map['appointmentId'] != null) {
-                                context.push('/appointment-details', extra: map['appointmentId']);
-                                return;
-                              }
-                            } catch (_) {}
-                          }
-                          context.push('/notification-details');
-                        },
-                      ),
+                        trailing: unread
+                            ? Semantics(
+                                label: 'Unread',
+                                child: Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
+                                ),
+                              )
+                            : null,
+                        onTap: () => _open(notif),
+                      )),
                     );
                   },
                 ),

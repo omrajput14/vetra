@@ -15,10 +15,10 @@ class GlobalSearchPage extends StatelessWidget {
         elevation: 0,
         title: TextField(
           decoration: const InputDecoration(
-            hintText: 'Search animals, vets, diseases...',
+            hintText: 'Search your animals by name, tag or breed',
             border: InputBorder.none,
           ),
-          onSubmitted: (val) => context.push('/search-results'),
+          onSubmitted: (val) => context.push('/search-results', extra: val),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
@@ -26,7 +26,7 @@ class GlobalSearchPage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Text('Type query to search PASHU SATHI database', style: AppTypography.captionMetadata),
+        child: Text('Type and press search to find your animals', style: AppTypography.captionMetadata),
       ),
     );
   }

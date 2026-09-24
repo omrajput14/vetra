@@ -50,6 +50,17 @@ class AIScanApiService {
     }
   }
 
+  /// GET /ai/scans: the signed-in user's scans.
+  Future<List<AIScanModel>> listScans() async {
+    try {
+      final response = await _dio.get('/api/v1/ai/scans');
+      final list = response.data['data'] as List<dynamic>? ?? const [];
+      return list.map((e) => AIScanModel.fromJson(e as Map<String, dynamic>)).toList();
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
   /// Fetches an existing AI scan by ID.
   Future<AIScanModel> getScanById(String scanId) async {
     try {

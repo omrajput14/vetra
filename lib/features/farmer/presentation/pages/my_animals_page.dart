@@ -50,6 +50,11 @@ class _MyAnimalsPageState extends State<MyAnimalsPage> {
             title: Text('My Animals', style: AppTypography.screenTitle),
             actions: [
               IconButton(
+                icon: const Icon(Icons.search, color: AppColors.primary),
+                tooltip: 'Search animals',
+                onPressed: () => context.push('/global-search'),
+              ),
+              IconButton(
                 icon: const Icon(Icons.qr_code_scanner, color: AppColors.primary),
                 tooltip: 'Scan Animal Tag QR',
                 onPressed: () => context.push('/qr-scanner-vet'),
