@@ -208,9 +208,12 @@ class _FarmerDashboardPageState extends ConsumerState<FarmerDashboardPage> {
                         ],
                       ),
                       const SizedBox(height: 8),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
+                      // Wrap, not Row: on a phone (and in longer translations) the chip moves
+                      // under the text instead of overflowing the card.
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           if (economic != null && economic.hasSufficientData && economic.formattedValue != null)
                             Text(
@@ -229,7 +232,6 @@ class _FarmerDashboardPageState extends ConsumerState<FarmerDashboardPage> {
                                 fontStyle: FontStyle.italic,
                               ),
                             ),
-                          const SizedBox(width: 8),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
