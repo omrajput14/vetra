@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
+import '../../../animal/data/models/animal_health_record_dto.dart';
+import '../widgets/health_record_list.dart';
 
+/// Shows one vaccination record; fields the record does not have are left out.
 class VaccinationDetailsPage extends StatelessWidget {
-  const VaccinationDetailsPage({super.key});
+  final AnimalHealthRecordModel? record;
+  const VaccinationDetailsPage({super.key, this.record});
 
   @override
   Widget build(BuildContext context) {
+    final r = record;
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
@@ -19,19 +24,27 @@ class VaccinationDetailsPage extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('FMD Quadrivalent Vaccine', style: AppTypography.screenTitle),
-            const SizedBox(height: 8),
-            Text('Batch ID: VAX-2023-9904', style: AppTypography.captionMetadata),
-            Text('Administered by: Dr. S. Patel', style: AppTypography.bodyDefault),
-            Text('Expiry Date: 12 Oct 2025', style: AppTypography.captionMetadata),
-          ],
-        ),
-      ),
+      body: r == null
+          ? Center(child: Text('Vaccination record not found.', style: AppTypography.captionMetadata))
+          : ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Text(r.vaccineName ?? r.title, style: AppTypography.screenTitle),
+                const SizedBox(height: 12),
+                for (final (label, value) in [
+                  ('Given on', formatRecordDate(r.recordedAt)),
+                  ('Next due', r.nextDueDate == null ? null : formatRecordDate(r.nextDueDate)),
+                  ('Batch number', r.batchNumber),
+                  ('Administered by', r.veterinarianName),
+                  ('Notes', r.description),
+                ])
+                  if (value != null && value.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text('$label: $value', style: AppTypography.bodyDefault),
+                    ),
+              ],
+            ),
     );
   }
 }

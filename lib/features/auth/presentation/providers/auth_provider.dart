@@ -287,6 +287,16 @@ class AuthNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Returns null when the server accepted the change, otherwise its reason.
+  Future<String?> changePassword(String currentPassword, String newPassword) async {
+    try {
+      await _service.changePassword(currentPassword: currentPassword, newPassword: newPassword);
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   Future<void> logout() async {
     await PushNotificationService.instance.deactivateTokenOnLogout();
     await _service.logout();
