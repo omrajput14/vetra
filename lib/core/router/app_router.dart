@@ -4,6 +4,7 @@ import '../../features/mortality/presentation/pages/vet_mortality_detail_page.da
 import '../../features/mortality/data/models/mortality_dto.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/disease/data/models/outbreak_dto.dart';
+import '../../core/models/notification.dart';
 
 import '../../core/models/user_role.dart';
 import '../../features/auth/presentation/providers/auth_provider.dart';
@@ -121,13 +122,57 @@ class AppRouter {
         return '/farmer-dashboard';
       }
 
-      // Role Guards
+      // Role Guards — allowlist approach.
+      //
+      // Each set names routes *exclusively* owned by one role.  A logged-in
+      // user attempting to access the opposite role's exclusive route is
+      // redirected to their own dashboard.  Routes in neither set are shared
+      // (accessible to both roles) and do NOT need to appear here.
+      //
+      // IMPORTANT: add new role-specific routes to the appropriate set below
+      // so they are protected automatically — do NOT add them to a denylist
+      // elsewhere, which risks silent leakage when new routes are introduced.
+      const farmerOnlyPrefixes = {
+        '/farmer-dashboard',
+        '/my-animals',
+        '/my-animals-offline',
+        '/add-animal',
+        '/edit-animal',
+        '/delete-animal-confirmation',
+        '/delete-animal',
+        '/transfer-animal-ownership',
+        '/nearby-vets',
+        '/farmer-appointments',
+        '/report-mortality',
+        '/breeding-record',
+      };
+      const vetOnlyPrefixes = {
+        '/vet-dashboard',
+        '/vet-requests',
+        '/consultation-history',
+        '/clinical-schedule',
+        '/diagnosis-entry',
+        '/vet-verification',
+        '/vet-outbreak-map',
+        '/vet-profile',
+        '/shift-settings',
+        '/vet-mortality-inbox',
+        '/vet-mortality-detail',
+        '/qr-scanner-vet',
+        '/add-prescription',
+        '/add-treatment',
+        '/deworming-record',
+      };
+
+      bool matchesExclusive(Set<String> routes, String location) =>
+          routes.any((r) => location == r || location.startsWith('$r/'));
+
       if (role == UserRole.farmer) {
-        if (loc.startsWith('/vet-dashboard') || loc.startsWith('/vet-requests') || loc.startsWith('/consultation-history') || loc.startsWith('/diagnosis-entry') || loc.startsWith('/vet-outbreak-map') || loc.startsWith('/vet-profile') || loc.startsWith('/vet-mortality')) {
+        if (matchesExclusive(vetOnlyPrefixes, loc)) {
           return '/farmer-dashboard';
         }
       } else if (role == UserRole.veterinarian) {
-        if (loc.startsWith('/farmer-dashboard') || loc == '/my-animals' || loc == '/add-animal' || loc == '/edit-animal') {
+        if (matchesExclusive(farmerOnlyPrefixes, loc)) {
           return '/vet-dashboard';
         }
       }
@@ -460,7 +505,9 @@ class AppRouter {
       ),
       GoRoute(
         path: '/alert-details',
-        builder: (context, state) => const AlertDetailsPage(),
+        builder: (context, state) => AlertDetailsPage(
+          outbreak: state.extra is OutbreakModel ? state.extra as OutbreakModel : null,
+        ),
       ),
       GoRoute(
         path: '/alerts',
@@ -495,7 +542,9 @@ class AppRouter {
       ),
       GoRoute(
         path: '/notification-details',
-        builder: (context, state) => const NotificationDetailsPage(),
+        builder: (context, state) => NotificationDetailsPage(
+          notification: state.extra is AppNotification ? state.extra as AppNotification : null,
+        ),
       ),
       GoRoute(
         path: '/notifications',

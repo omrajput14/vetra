@@ -178,7 +178,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               }
                             } catch (_) {}
                           }
-                          context.push('/notification-details');
+                          context.push('/notification-details', extra: notif);
                         },
                       ),
                     );
