@@ -10,6 +10,12 @@ import 'package:vetra/features/animal/data/models/animal_dto.dart';
 import 'package:vetra/features/appointment/data/models/appointment_dto.dart';
 import 'package:vetra/features/dashboard/data/models/dashboard_dto.dart';
 
+// This suite registers real accounts and creates animals and appointments on production
+// (api.vetra.co.in) every run, so it only runs when asked: RUN_LIVE_E2E=true flutter test ...
+final _skipLive = Platform.environment['RUN_LIVE_E2E'] == 'true'
+    ? false
+    : 'Writes to production; set RUN_LIVE_E2E=true to run';
+
 void main() {
   group('Stage 15 — Live Azure Staging Integration & Contract Verification (api.vetra.co.in)', () {
     late Dio dio;
@@ -429,5 +435,5 @@ void main() {
         expect(e.response?.statusCode, anyOf(400, 401, 403));
       }
     });
-  });
+  }, skip: _skipLive);
 }
