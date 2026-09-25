@@ -359,21 +359,21 @@ class ScanResultsPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.amber.withValues(alpha: 0.08),
+              color: Colors.red.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
+              border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.info_outline, color: Colors.amber, size: 20),
+                const Icon(Icons.info_outline, color: Colors.red, size: 20),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     disclaimer,
                     style: TextStyle(
                       fontSize: 11,
-                      color: Colors.amber.shade200,
+                      color: Colors.red.shade300,
                       height: 1.35,
                     ),
                   ),
