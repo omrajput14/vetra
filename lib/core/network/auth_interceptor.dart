@@ -19,6 +19,7 @@ class AuthInterceptor extends Interceptor {
     '/auth/vet/register',
     '/auth/farmer/login',
     '/auth/vet/login',
+    '/auth/login',
     '/auth/refresh',
   ];
 

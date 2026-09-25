@@ -99,6 +99,17 @@ class AIScanApiService {
     }
   }
 
+  /// Para-vet: checked in the field, send to a vet (files a suspected case).
+  Future<AIScanModel> escalateScan(String scanId, {String? notes}) async {
+    try {
+      final response = await _dio.post('/api/v1/ai/scans/$scanId/escalate',
+          data: {if (notes != null && notes.isNotEmpty) 'notes': notes});
+      return AIScanModel.fromJson(response.data['data'] as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    }
+  }
+
   /// Fetches an existing AI scan by ID.
   Future<AIScanModel> getScanById(String scanId) async {
     try {

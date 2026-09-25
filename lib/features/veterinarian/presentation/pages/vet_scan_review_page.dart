@@ -6,6 +6,7 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../ai/data/api/ai_scan_api_service.dart';
 import '../../../ai/data/models/ai_scan_model.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
 
 String _when(String? iso) {
   final d = DateTime.tryParse(iso ?? '');
@@ -40,10 +41,12 @@ class ScanPhoto extends StatelessWidget {
   }
 }
 
-/// Vet's queue of AI scans that no vet has approved or rejected yet.
+/// Vet's queue of AI scans that no vet has approved or rejected yet (escalated ones first).
+/// With [paraVet], the para-vet's home: scans waiting for a field check.
 class VetScanReviewListPage extends StatefulWidget {
   final AIScanApiService? api;
-  const VetScanReviewListPage({super.key, this.api});
+  final bool paraVet;
+  const VetScanReviewListPage({super.key, this.api, this.paraVet = false});
 
   @override
   State<VetScanReviewListPage> createState() => _VetScanReviewListPageState();
@@ -83,7 +86,7 @@ class _VetScanReviewListPageState extends State<VetScanReviewListPage> {
       final page = await _api.listScansPage(page: _nextPage, size: _pageSize);
       if (!mounted) return;
       setState(() {
-        _queue.addAll(page.where((s) => s.awaitingVetReview));
+        _queue.addAll(page.where((s) => widget.paraVet ? s.awaitingParaVet : s.awaitingVetReview));
         _nextPage++;
         _hasMore = page.length == _pageSize;
       });
@@ -99,18 +102,45 @@ class _VetScanReviewListPageState extends State<VetScanReviewListPage> {
     if (reviewed == true && mounted) setState(() => _queue.removeWhere((s) => s.id == scan.id));
   }
 
+  String _subtitle(AIScanModel s) {
+    final escalated = s.isEscalated
+        ? 'Escalated by ${s.paraVetDisplayName ?? 'a para-vet'}'
+            '${s.triageNotes != null ? ': ${s.triageNotes}' : ''}'
+        : null;
+    return [escalated, s.animalName, s.farmerDisplayName, _when(s.createdAt)]
+        .whereType<String>()
+        .where((x) => x.isNotEmpty)
+        .join(' • ');
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Vets see what para-vets escalated first.
+    final ordered = [..._queue.where((s) => s.isEscalated), ..._queue.where((s) => !s.isEscalated)];
     return Scaffold(
       backgroundColor: AppColors.surfaceBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('AI Scans to Review', style: AppTypography.screenTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-          onPressed: () => context.pop(),
-        ),
+        automaticallyImplyLeading: false,
+        title: Text(widget.paraVet ? 'Scans to Check' : 'AI Scans to Review', style: AppTypography.screenTitle),
+        leading: widget.paraVet
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+                onPressed: () => context.pop(),
+              ),
+        actions: [
+          if (widget.paraVet)
+            IconButton(
+              tooltip: 'Sign out',
+              icon: const Icon(Icons.logout, color: AppColors.textPrimary),
+              onPressed: () {
+                authNotifier.logout();
+                context.go('/welcome');
+              },
+            ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _reload,
@@ -118,8 +148,12 @@ class _VetScanReviewListPageState extends State<VetScanReviewListPage> {
           padding: const EdgeInsets.all(16),
           children: [
             Text(
-              'Farmers\' AI scans need a vet\'s decision. Approving adds the diagnosis to the animal\'s '
-              'record and reports a confirmed case for outbreak monitoring.',
+              widget.paraVet
+                  ? 'Farmers\' AI scans in your area. Check the animal, then send real cases to a vet '
+                      '(it is reported as a suspected case) or close the ones that are not a disease.'
+                  : 'Farmers\' AI scans need a vet\'s decision. Scans escalated by para-vets come first. '
+                      'Approving adds the diagnosis to the animal\'s record and reports a confirmed case '
+                      'for outbreak monitoring.',
               style: AppTypography.captionMetadata,
             ),
             const SizedBox(height: 12),
@@ -131,7 +165,7 @@ class _VetScanReviewListPageState extends State<VetScanReviewListPage> {
                 child: Text('No scans waiting for review.',
                     textAlign: TextAlign.center, style: AppTypography.captionMetadata),
               ),
-            for (final s in _queue)
+            for (final s in ordered)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: ListTile(
@@ -142,10 +176,7 @@ class _VetScanReviewListPageState extends State<VetScanReviewListPage> {
                     '${s.diagnosis ?? 'Unclear'} (${((s.confidenceScore ?? 0) * 100).round()}%)',
                     style: AppTypography.cardTitle.copyWith(fontSize: 15),
                   ),
-                  subtitle: Text(
-                    [s.animalName, s.farmerDisplayName, _when(s.createdAt)].whereType<String>().where((x) => x.isNotEmpty).join(' • '),
-                    style: AppTypography.captionMetadata,
-                  ),
+                  subtitle: Text(_subtitle(s), style: AppTypography.captionMetadata),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => _open(s),
                 ),
@@ -163,7 +194,8 @@ class _VetScanReviewListPageState extends State<VetScanReviewListPage> {
 /// Asks why the AI is wrong; returns the reason (null when cancelled). Owns its controller so
 /// it stays alive through the closing animation.
 class _RejectReasonDialog extends StatefulWidget {
-  const _RejectReasonDialog();
+  final bool paraVet;
+  const _RejectReasonDialog({this.paraVet = false});
 
   @override
   State<_RejectReasonDialog> createState() => _RejectReasonDialogState();
@@ -181,16 +213,21 @@ class _RejectReasonDialogState extends State<_RejectReasonDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Reject AI result'),
+      title: Text(widget.paraVet ? 'Close this scan' : 'Reject AI result'),
       content: TextField(
         controller: _reason,
         autofocus: true,
         maxLines: 3,
-        decoration: const InputDecoration(hintText: 'Why is the AI result wrong? The farmer will see this.'),
+        decoration: InputDecoration(
+            hintText: widget.paraVet
+                ? 'What did you find? The farmer will see this.'
+                : 'Why is the AI result wrong? The farmer will see this.'),
       ),
       actions: [
         TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-        TextButton(onPressed: () => Navigator.pop(context, _reason.text.trim()), child: const Text('Reject')),
+        TextButton(
+            onPressed: () => Navigator.pop(context, _reason.text.trim()),
+            child: Text(widget.paraVet ? 'Close scan' : 'Reject')),
       ],
     );
   }
@@ -200,7 +237,8 @@ class _RejectReasonDialogState extends State<_RejectReasonDialog> {
 class VetScanReviewDetailPage extends StatefulWidget {
   final AIScanModel scan;
   final AIScanApiService? api;
-  const VetScanReviewDetailPage({super.key, required this.scan, this.api});
+  final bool paraVet;
+  const VetScanReviewDetailPage({super.key, required this.scan, this.api, this.paraVet = false});
 
   @override
   State<VetScanReviewDetailPage> createState() => _VetScanReviewDetailPageState();
@@ -246,10 +284,17 @@ class _VetScanReviewDetailPageState extends State<VetScanReviewDetailPage> {
         'Approved. Added to the animal\'s record and reported as a confirmed case.',
       );
 
+  void _escalate() => _decide(
+        () => _api.escalateScan(widget.scan.id, notes: _advice.text.trim()),
+        'Sent to a vet. It is now reported as a suspected case.',
+      );
+
   Future<void> _reject() async {
-    final reason = await showDialog<String>(context: context, builder: (_) => const _RejectReasonDialog());
+    final reason = await showDialog<String>(
+        context: context, builder: (_) => _RejectReasonDialog(paraVet: widget.paraVet));
     if (reason != null && reason.isNotEmpty) {
-      _decide(() => _api.rejectScan(widget.scan.id, reason), 'Rejected. The farmer has been told why.');
+      _decide(() => _api.rejectScan(widget.scan.id, reason),
+          widget.paraVet ? 'Closed. The farmer has been told why.' : 'Rejected. The farmer has been told why.');
     }
   }
 
@@ -261,7 +306,7 @@ class _VetScanReviewDetailPageState extends State<VetScanReviewDetailPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Review AI Scan', style: AppTypography.screenTitle),
+        title: Text(widget.paraVet ? 'Check AI Scan' : 'Review AI Scan', style: AppTypography.screenTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
           onPressed: () => context.pop(),
@@ -280,7 +325,32 @@ class _VetScanReviewDetailPageState extends State<VetScanReviewDetailPage> {
           Text('${s.diagnosis ?? 'Unclear'} · ${((s.confidenceScore ?? 0) * 100).round()}% confidence · ${s.severity}',
               style: AppTypography.bodyDefault.copyWith(fontWeight: FontWeight.w700)),
           for (final o in s.observations) Text('•  $o', style: AppTypography.bodyDefault),
+          if (s.isEscalated) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                'Escalated by ${s.paraVetDisplayName ?? 'a para-vet'} after a field check'
+                '${s.triageNotes != null ? ': ${s.triageNotes}' : '.'}',
+                style: AppTypography.bodyDefault.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
           const SizedBox(height: 16),
+          if (widget.paraVet)
+            TextField(
+              controller: _advice,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'What you saw at the farm (optional)',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          if (!widget.paraVet) ...[
           TextField(
             controller: _diagnosis,
             decoration: const InputDecoration(
@@ -298,21 +368,23 @@ class _VetScanReviewDetailPageState extends State<VetScanReviewDetailPage> {
               border: OutlineInputBorder(),
             ),
           ),
+          ],
           if (_error != null) ...[
             const SizedBox(height: 12),
             Text(_error!, style: AppTypography.bodyDefault.copyWith(color: AppColors.alertCritical)),
           ],
           const SizedBox(height: 20),
           ElevatedButton.icon(
-            onPressed: _busy ? null : _approve,
-            icon: const Icon(Icons.verified_outlined),
-            label: const Text('Approve'),
+            onPressed: _busy ? null : (widget.paraVet ? _escalate : _approve),
+            icon: Icon(widget.paraVet ? Icons.forward_to_inbox_outlined : Icons.verified_outlined),
+            label: Text(widget.paraVet ? 'Send to vet' : 'Approve'),
           ),
           const SizedBox(height: 8),
           OutlinedButton.icon(
             onPressed: _busy ? null : _reject,
             icon: const Icon(Icons.block, color: AppColors.alertCritical),
-            label: const Text('Reject', style: TextStyle(color: AppColors.alertCritical)),
+            label: Text(widget.paraVet ? 'Close: not a disease' : 'Reject',
+                style: const TextStyle(color: AppColors.alertCritical)),
           ),
         ],
       ),

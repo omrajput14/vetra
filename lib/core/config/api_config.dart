@@ -13,7 +13,7 @@ class ApiConfig {
   static const String farmerRegister = '/api/v1/auth/farmer/register';
   static const String farmerLogin = '/api/v1/auth/farmer/login';
   static const String vetRegister = '/api/v1/auth/vet/register';
-  static const String vetLogin = '/api/v1/auth/vet/login';
+  static const String vetLogin = '/api/v1/auth/login'; // vets and para-vets
   static const String refresh = '/api/v1/auth/refresh';
   static const String logout = '/api/v1/auth/logout';
   static const String changePassword = '/api/v1/auth/change-password';

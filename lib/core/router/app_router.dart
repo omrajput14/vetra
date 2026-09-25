@@ -121,6 +121,7 @@ class AppRouter {
       // If logged in and visiting auth page, redirect to active role dashboard
       if (isAuthRoute) {
         if (role == UserRole.veterinarian) return '/vet-dashboard';
+        if (role == UserRole.paraVet) return '/paravet-home';
         return '/farmer-dashboard';
       }
 
@@ -169,6 +170,12 @@ class AppRouter {
 
       bool matchesExclusive(Set<String> routes, String location) =>
           routes.any((r) => location == r || location.startsWith('$r/'));
+
+      // Para-vets only triage scans; everything else sends them back to their queue.
+      const paraVetAllowed = {'/paravet-home', '/vet-scan-review', '/notifications', '/language-settings'};
+      if (role == UserRole.paraVet) {
+        return paraVetAllowed.contains(loc) ? null : '/paravet-home';
+      }
 
       if (role == UserRole.farmer) {
         if (matchesExclusive(vetOnlyPrefixes, loc)) {
@@ -431,8 +438,14 @@ class AppRouter {
       GoRoute(
         path: '/vet-scan-review',
         builder: (context, state) => state.extra is AIScanModel
-            ? VetScanReviewDetailPage(scan: state.extra as AIScanModel)
+            ? VetScanReviewDetailPage(
+                scan: state.extra as AIScanModel,
+                paraVet: authNotifier.currentRole == UserRole.paraVet)
             : const VetScanReviewListPage(),
+      ),
+      GoRoute(
+        path: '/paravet-home',
+        builder: (context, state) => const VetScanReviewListPage(paraVet: true),
       ),
       GoRoute(
         path: '/scan-history',

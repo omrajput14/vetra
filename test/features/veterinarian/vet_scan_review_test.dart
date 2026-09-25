@@ -2,23 +2,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:vetra/core/models/user_role.dart';
 import 'package:vetra/core/network/network_exceptions.dart';
 import 'package:vetra/features/ai/data/api/ai_scan_api_service.dart';
 import 'package:vetra/features/ai/data/models/ai_scan_model.dart';
 import 'package:vetra/features/ai/presentation/pages/scan_history_page.dart';
 import 'package:vetra/features/veterinarian/presentation/pages/vet_scan_review_page.dart';
 
-AIScanModel _scan(String id, String status, {String? notes, String? vet}) => AIScanModel(
+AIScanModel _scan(String id, String status, {String? notes, String? vet, String? para, String? reason}) => AIScanModel(
       id: id, animalId: 'a1', animalName: 'Kapila', imageUrl: '', status: status,
       diagnosis: 'Lumpy Skin Disease', confidenceScore: 0.82, uploadedByUserName: 'Sunil Patil',
       notes: notes, verifiedByVetName: vet, createdAt: '2026-09-25T04:09:00Z',
+      triagedByName: para, triageNotes: para == null ? null : 'Nodules on neck', reviewNotes: reason,
     );
 
 class _FakeApi extends Fake implements AIScanApiService {
   List<AIScanModel> page = [];
   final approved = <Map<String, String?>>[];
   final rejected = <(String, String)>[];
+  final escalated = <(String, String?)>[];
   Object? error;
+
+  @override
+  Future<AIScanModel> escalateScan(String scanId, {String? notes}) async {
+    escalated.add((scanId, notes));
+    return _scan(scanId, 'ESCALATED', para: 'Ganesh Kale');
+  }
 
   @override
   Future<List<AIScanModel>> listScansPage({int page = 0, int size = 10}) async => page == 0 ? this.page : [];
@@ -38,15 +47,15 @@ class _FakeApi extends Fake implements AIScanApiService {
   }
 }
 
-Future<void> _pumpQueue(WidgetTester t, _FakeApi api) async {
+Future<void> _pumpQueue(WidgetTester t, _FakeApi api, {bool paraVet = false}) async {
   t.view.physicalSize = const Size(1080, 2400);
   t.view.devicePixelRatio = 1.0;
   addTearDown(t.view.reset);
   final router = GoRouter(routes: [
-    GoRoute(path: '/', builder: (_, __) => VetScanReviewListPage(api: api)),
+    GoRoute(path: '/', builder: (_, __) => VetScanReviewListPage(api: api, paraVet: paraVet)),
     GoRoute(
       path: '/vet-scan-review',
-      builder: (_, s) => VetScanReviewDetailPage(scan: s.extra as AIScanModel, api: api),
+      builder: (_, s) => VetScanReviewDetailPage(scan: s.extra as AIScanModel, api: api, paraVet: paraVet),
     ),
   ]);
   await t.pumpWidget(MaterialApp.router(routerConfig: router));
@@ -133,5 +142,36 @@ void main() {
     expect(find.textContaining('Confirmed by Dr. Anjali Deshmukh'), findsOneWidget);
     expect(find.textContaining('Not confirmed by Dr. Anjali Deshmukh'), findsOneWidget);
     expect(find.textContaining('Awaiting vet review'), findsOneWidget);
+  });
+
+  test('para-vet role and triage helpers', () {
+    expect(UserRole.fromApi('PARA_VET'), UserRole.paraVet);
+    expect(UserRole.fromApi('VETERINARIAN'), UserRole.veterinarian);
+    expect(UserRole.fromApi(null), UserRole.farmer);
+    expect(_scan('x', 'ESCALATED').awaitingVetReview, isTrue);
+    expect(_scan('x', 'ESCALATED').awaitingParaVet, isFalse);
+    expect(_scan('x', 'REJECTED', reason: 'Ringworm').rejectionReason, 'Ringworm');
+  });
+
+  testWidgets('para-vet sends a scan to a vet with field notes', (t) async {
+    final api = _FakeApi()..page = [_scan('s1', 'COMPLETED'), _scan('s2', 'ESCALATED', para: 'Ganesh Kale')];
+    await _pumpQueue(t, api, paraVet: true);
+    expect(find.text('Scans to Check'), findsOneWidget);
+    expect(find.textContaining('Lumpy Skin Disease (82%)'), findsOneWidget); // escalated one is not theirs any more
+    await t.tap(find.textContaining('Lumpy Skin Disease (82%)'));
+    await t.pumpAndSettle();
+    expect(find.text('Approve'), findsNothing);
+    await t.enterText(find.widgetWithText(TextField, 'What you saw at the farm (optional)'), 'Fever 40.5C, nodules');
+    await t.tap(find.text('Send to vet'));
+    await t.pumpAndSettle();
+    expect(api.escalated.single, ('s1', 'Fever 40.5C, nodules'));
+    expect(find.text('No scans waiting for review.'), findsOneWidget);
+  });
+
+  testWidgets('vet queue shows para-vet escalations first', (t) async {
+    final api = _FakeApi()..page = [_scan('s1', 'COMPLETED'), _scan('s2', 'ESCALATED', para: 'Ganesh Kale')];
+    await _pumpQueue(t, api);
+    final tiles = t.widgetList<ListTile>(find.byType(ListTile)).toList();
+    expect(((tiles.first.subtitle as Text).data ?? ''), startsWith('Escalated by Ganesh Kale: Nodules on neck'));
   });
 }

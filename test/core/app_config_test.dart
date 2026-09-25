@@ -42,7 +42,7 @@ void main() {
       expect(ApiConfig.farmerRegister, '/api/v1/auth/farmer/register');
       expect(ApiConfig.farmerLogin, '/api/v1/auth/farmer/login');
       expect(ApiConfig.vetRegister, '/api/v1/auth/vet/register');
-      expect(ApiConfig.vetLogin, '/api/v1/auth/vet/login');
+      expect(ApiConfig.vetLogin, '/api/v1/auth/login'); // shared by vets and para-vets
       expect(ApiConfig.refresh, '/api/v1/auth/refresh');
       expect(ApiConfig.animals, '/api/v1/animals');
       expect(ApiConfig.appointments, '/api/v1/appointments');

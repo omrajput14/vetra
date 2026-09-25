@@ -19,6 +19,10 @@ class AIScanModel {
   final String? createdAt;
   final String? uploadedByUserName;
   final String? verifiedByVetName;
+  final String? reviewNotes;
+  final String? triagedByName;
+  final String? triagedAt;
+  final String? triageNotes;
 
   AIScanModel({
     required this.id,
@@ -41,6 +45,10 @@ class AIScanModel {
     this.createdAt,
     this.uploadedByUserName,
     this.verifiedByVetName,
+    this.reviewNotes,
+    this.triagedByName,
+    this.triagedAt,
+    this.triageNotes,
   });
 
   // The backend fills these "names" with the account's email or phone; never show those.
@@ -48,13 +56,23 @@ class AIScanModel {
       v == null || v.contains('@') || RegExp(r'^\+?[0-9 ]{6,}$').hasMatch(v.trim()) ? null : v;
   String? get farmerDisplayName => _asName(uploadedByUserName);
   String? get vetDisplayName => _asName(verifiedByVetName);
+  String? get paraVetDisplayName => _asName(triagedByName);
 
-  /// Waiting for a vet: the AI finished and nobody has approved or rejected it yet.
-  bool get awaitingVetReview => status == 'COMPLETED';
+  /// Waiting for a vet: the AI finished (or a para-vet escalated it) and no vet has decided yet.
+  bool get awaitingVetReview => status == 'COMPLETED' || status == 'ESCALATED';
 
-  /// The backend stores a rejection as notes "REJECTED: <reason>".
-  String? get rejectionReason =>
-      status == 'REJECTED' && (notes?.startsWith('REJECTED: ') ?? false) ? notes!.substring(10) : null;
+  /// Waiting for a para-vet's field check.
+  bool get awaitingParaVet => status == 'COMPLETED';
+
+  /// A para-vet checked it in the field and sent it to a vet.
+  bool get isEscalated => status == 'ESCALATED';
+
+  /// Why the reviewer rejected it. Older scans stored this as notes "REJECTED: <reason>".
+  String? get rejectionReason {
+    if (status != 'REJECTED') return null;
+    if (reviewNotes != null && reviewNotes!.isNotEmpty) return reviewNotes;
+    return (notes?.startsWith('REJECTED: ') ?? false) ? notes!.substring(10) : null;
+  }
 
   /// The server stored the scan but produced no diagnosis: AI inference failed
   /// (status FAILED) or never ran (status PENDING). Not a result to show.
@@ -132,6 +150,10 @@ class AIScanModel {
       createdAt: json['createdAt']?.toString(),
       uploadedByUserName: json['uploadedByUserName']?.toString(),
       verifiedByVetName: json['verifiedByVetName']?.toString(),
+      reviewNotes: json['reviewNotes']?.toString(),
+      triagedByName: json['triagedByName']?.toString(),
+      triagedAt: json['triagedAt']?.toString(),
+      triageNotes: json['triageNotes']?.toString(),
     );
   }
 
@@ -155,6 +177,10 @@ class AIScanModel {
       'createdAt': createdAt,
       'uploadedByUserName': uploadedByUserName,
       'verifiedByVetName': verifiedByVetName,
+      'reviewNotes': reviewNotes,
+      'triagedByName': triagedByName,
+      'triagedAt': triagedAt,
+      'triageNotes': triageNotes,
     };
   }
 }

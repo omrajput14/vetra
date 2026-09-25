@@ -63,6 +63,7 @@ class _ScanHistoryPageState extends State<ScanHistoryPage> {
     final review = switch (s.status) {
       'VERIFIED' => 'Confirmed by ${s.vetDisplayName ?? 'a vet'}',
       'REJECTED' => 'Not confirmed by ${s.vetDisplayName ?? 'a vet'}',
+      'ESCALATED' => 'Checked by ${s.paraVetDisplayName ?? 'a para-vet'}, sent to a vet',
       'COMPLETED' => 'Awaiting vet review',
       _ => '',
     };

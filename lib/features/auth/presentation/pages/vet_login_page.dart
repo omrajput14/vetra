@@ -120,6 +120,8 @@ class _VetLoginPageState extends ConsumerState<VetLoginPage> {
                     l10n?.vetSignInSubtitle ?? 'Access clinical diagnostics and regional outbreak triage.',
                     style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
                   ),
+                  const SizedBox(height: 4),
+                  Text('Para-vets sign in here too.', style: AppTypography.captionMetadata),
                   const SizedBox(height: 32),
                   AppTextField(
                     controller: _emailController,

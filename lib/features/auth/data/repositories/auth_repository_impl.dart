@@ -112,6 +112,11 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     final response = await _apiService.loginVet(email.trim().replaceAll(' ', ''), password);
+    // The vet sign-in also serves para-vets; other accounts use their own sign-in.
+    final role = UserRole.fromApi(((response['data'] as Map)['user'] as Map)['role']);
+    if (role != UserRole.veterinarian && role != UserRole.paraVet) {
+      throw NetworkException('This is not a vet or para-vet account. Use the farmer sign-in.');
+    }
     return await _processAuthResponse(response);
   }
 
@@ -151,15 +156,13 @@ class AuthRepositoryImpl implements AuthRepository {
     // Signed in before profiles were cached: rebuild what the tokens record.
     final userId = await _storage.getUserId();
     if (userId == null || userId.isEmpty) return null;
-    final role = await _storage.getUserRole() == UserRole.veterinarian.name
-        ? UserRole.veterinarian
-        : UserRole.farmer;
+    final stored = await _storage.getUserRole();
+    final role = UserRole.values.firstWhere((r) => r.name == stored, orElse: () => UserRole.farmer);
     return UserModel(id: userId, name: 'User', emailOrPhone: '', role: role);
   }
 
   UserModel _userFromData(Map<String, dynamic> userData) {
-    final roleStr = (userData['role'] ?? 'FARMER').toString().toUpperCase();
-    final role = roleStr == 'VETERINARIAN' ? UserRole.veterinarian : UserRole.farmer;
+    final role = UserRole.fromApi(userData['role']);
 
     return UserModel(
       id: userData['id'].toString(),
@@ -247,8 +250,7 @@ class AuthRepositoryImpl implements AuthRepository {
     final refreshToken = data['refreshToken'].toString();
     final userData = data['user'] as Map<String, dynamic>;
 
-    final roleStr = (userData['role'] ?? 'FARMER').toString().toUpperCase();
-    final role = roleStr == 'VETERINARIAN' ? UserRole.veterinarian : UserRole.farmer;
+    final role = UserRole.fromApi(userData['role']);
     final userId = userData['id'].toString();
 
     await _storage.saveTokens(

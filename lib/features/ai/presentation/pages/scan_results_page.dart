@@ -57,24 +57,31 @@ class ScanResultsPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          if (result.status == 'VERIFIED' || result.status == 'REJECTED')
+          if (result.status == 'VERIFIED' || result.status == 'REJECTED' || result.isEscalated)
             Container(
               margin: const EdgeInsets.only(bottom: 12),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: (result.status == 'VERIFIED' ? AppColors.primary : AppColors.alertCritical)
+                color: (result.status == 'REJECTED' ? AppColors.alertCritical : AppColors.primary)
                     .withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
-                  Icon(result.status == 'VERIFIED' ? Icons.verified : Icons.block,
-                      color: result.status == 'VERIFIED' ? AppColors.primary : AppColors.alertCritical),
+                  Icon(
+                      result.status == 'VERIFIED'
+                          ? Icons.verified
+                          : result.isEscalated
+                              ? Icons.forward_to_inbox_outlined
+                              : Icons.block,
+                      color: result.status == 'REJECTED' ? AppColors.alertCritical : AppColors.primary),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       result.status == 'VERIFIED'
                           ? 'Confirmed by ${result.vetDisplayName ?? 'a veterinarian'}'
+                          : result.isEscalated
+                              ? 'Checked by ${result.paraVetDisplayName ?? 'a para-vet'} and sent to a vet for confirmation'
                           : 'Not confirmed by ${result.vetDisplayName ?? 'a veterinarian'}'
                               '${result.rejectionReason != null ? ': ${result.rejectionReason}' : ''}',
                       style: AppTypography.bodyDefault.copyWith(fontWeight: FontWeight.w600),
