@@ -6,7 +6,6 @@ import '../../../../core/design_system/app_colors.dart';
 import '../../../../core/design_system/app_typography.dart';
 import '../../../ai/data/api/ai_scan_api_service.dart';
 import '../../../ai/data/models/ai_scan_model.dart';
-import '../../../auth/presentation/providers/auth_provider.dart';
 
 String _when(String? iso) {
   final d = DateTime.tryParse(iso ?? '');
@@ -122,25 +121,11 @@ class _VetScanReviewListPageState extends State<VetScanReviewListPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        automaticallyImplyLeading: false,
         title: Text(widget.paraVet ? 'Scans to Check' : 'AI Scans to Review', style: AppTypography.screenTitle),
-        leading: widget.paraVet
-            ? null
-            : IconButton(
-                icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
-                onPressed: () => context.pop(),
-              ),
-        actions: [
-          if (widget.paraVet)
-            IconButton(
-              tooltip: 'Sign out',
-              icon: const Icon(Icons.logout, color: AppColors.textPrimary),
-              onPressed: () {
-                authNotifier.logout();
-                context.go('/welcome');
-              },
-            ),
-        ],
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.textPrimary),
+          onPressed: () => context.pop(),
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: _reload,

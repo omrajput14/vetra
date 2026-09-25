@@ -8,9 +8,12 @@ import '../../../../core/design_system/inputs/app_text_field.dart';
 import '../../../../core/localization/locale_provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
+import '../../../../core/models/user_role.dart';
 
+/// Vet sign-in; with [paraVet], the para-vet sign-in (same login endpoint, para-vet accounts only).
 class VetLoginPage extends ConsumerStatefulWidget {
-  const VetLoginPage({super.key});
+  final bool paraVet;
+  const VetLoginPage({super.key, this.paraVet = false});
 
   @override
   ConsumerState<VetLoginPage> createState() => _VetLoginPageState();
@@ -51,8 +54,21 @@ class _VetLoginPageState extends ConsumerState<VetLoginPage> {
     if (!mounted) return;
     setState(() => _isLoading = false);
 
+    // Each sign-in screen is for its own role: a para-vet account cannot use the vet one and back.
+    final isParaVet = authNotifier.currentRole == UserRole.paraVet;
+    if (success && isParaVet != widget.paraVet) {
+      await authNotifier.logout();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(isParaVet
+            ? 'This is a para-vet account. Go back and choose "Continue as Para-vet".'
+            : 'This is a vet account. Go back and choose "Continue as Veterinarian".'),
+        backgroundColor: Colors.red,
+      ));
+      return;
+    }
     if (success) {
-      context.go('/vet-dashboard');
+      context.go(widget.paraVet ? '/paravet-home' : '/vet-dashboard');
     } else {
       final msg = authNotifier.errorMessage ?? (l10n?.error ?? 'Veterinarian login failed');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -114,27 +130,30 @@ class _VetLoginPageState extends ConsumerState<VetLoginPage> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  Text(l10n?.vetSignIn ?? 'Veterinarian Sign In', style: AppTypography.screenTitle),
+                  Text(widget.paraVet ? 'Para-vet Sign In' : (l10n?.vetSignIn ?? 'Veterinarian Sign In'),
+                      style: AppTypography.screenTitle),
                   const SizedBox(height: 8),
                   Text(
-                    l10n?.vetSignInSubtitle ?? 'Access clinical diagnostics and regional outbreak triage.',
+                    widget.paraVet
+                        ? 'Check farmers\' AI scans in your area and record vaccination drives.'
+                        : (l10n?.vetSignInSubtitle ?? 'Access clinical diagnostics and regional outbreak triage.'),
                     style: AppTypography.bodyDefault.copyWith(color: AppColors.textSecondary),
                   ),
-                  const SizedBox(height: 4),
-                  Text('Para-vets sign in here too.', style: AppTypography.captionMetadata),
                   const SizedBox(height: 32),
                   AppTextField(
                     controller: _emailController,
                     labelText: l10n?.email ?? 'Email',
-                    hintText: 'dr.smith@clinic.com',
+                    hintText: widget.paraVet ? 'name@example.com' : 'dr.smith@clinic.com',
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 16),
-                  AppTextField(
-                    controller: _licenseController,
-                    labelText: l10n?.registrationNumber ?? 'Veterinary Registration Number (Optional)',
-                    hintText: 'VET-9941-XX',
-                  ),
+                  if (!widget.paraVet) ...[
+                    const SizedBox(height: 16),
+                    AppTextField(
+                      controller: _licenseController,
+                      labelText: l10n?.registrationNumber ?? 'Veterinary Registration Number (Optional)',
+                      hintText: 'VET-9941-XX',
+                    ),
+                  ],
                   const SizedBox(height: 16),
                   AppTextField(
                     controller: _passwordController,
@@ -165,9 +184,10 @@ class _VetLoginPageState extends ConsumerState<VetLoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('${l10n?.newPractitioner ?? "New Practitioner?"} ', style: AppTypography.captionMetadata),
+                      Text(widget.paraVet ? 'New para-vet? ' : '${l10n?.newPractitioner ?? "New Practitioner?"} ',
+                          style: AppTypography.captionMetadata),
                       GestureDetector(
-                        onTap: () => context.push('/vet-register'),
+                        onTap: () => context.push(widget.paraVet ? '/paravet-register' : '/vet-register'),
                         child: Text(
                           l10n?.createAccount ?? 'Register',
                           style: AppTypography.captionMetadata.copyWith(color: AppColors.primary, fontWeight: FontWeight.bold),

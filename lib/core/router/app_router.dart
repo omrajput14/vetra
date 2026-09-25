@@ -1,3 +1,4 @@
+import '../../features/paravet/presentation/paravet_pages.dart';
 import '../../features/mortality/presentation/pages/report_mortality_page.dart';
 import '../../features/mortality/presentation/pages/vet_mortality_list_page.dart';
 import '../../features/mortality/presentation/pages/vet_mortality_detail_page.dart';
@@ -109,7 +110,9 @@ class AppRouter {
           loc == '/vet-login' ||
           loc == '/vet-register' ||
           loc == '/login' ||
-          loc == '/register-role';
+          loc == '/register-role' ||
+          loc == '/paravet-login' ||
+          loc == '/paravet-register';
 
       if (!isLoggedIn) {
         if (!isAuthRoute && loc != '/forgot-password' &&loc != '/language-settings') {
@@ -172,7 +175,10 @@ class AppRouter {
           routes.any((r) => location == r || location.startsWith('$r/'));
 
       // Para-vets only triage scans; everything else sends them back to their queue.
-      const paraVetAllowed = {'/paravet-home', '/vet-scan-review', '/notifications', '/language-settings'};
+      const paraVetAllowed = {
+        '/paravet-home', '/paravet-scans', '/paravet-drives', '/paravet-drive',
+        '/vet-scan-review', '/notifications', '/language-settings',
+      };
       if (role == UserRole.paraVet) {
         return paraVetAllowed.contains(loc) ? null : '/paravet-home';
       }
@@ -443,10 +449,15 @@ class AppRouter {
                 paraVet: authNotifier.currentRole == UserRole.paraVet)
             : const VetScanReviewListPage(),
       ),
+      GoRoute(path: '/paravet-home', builder: (context, state) => const ParaVetHomePage()),
+      GoRoute(path: '/paravet-scans', builder: (context, state) => const VetScanReviewListPage(paraVet: true)),
+      GoRoute(path: '/paravet-drives', builder: (context, state) => const ParaVetDrivesPage()),
       GoRoute(
-        path: '/paravet-home',
-        builder: (context, state) => const VetScanReviewListPage(paraVet: true),
+        path: '/paravet-drive',
+        builder: (context, state) => ParaVetDriveDetailPage(drive: state.extra as ParaVetDrive),
       ),
+      GoRoute(path: '/paravet-login', builder: (context, state) => const VetLoginPage(paraVet: true)),
+      GoRoute(path: '/paravet-register', builder: (context, state) => const ParaVetRegisterPage()),
       GoRoute(
         path: '/scan-history',
         builder: (context, state) => const ScanHistoryPage(),
