@@ -57,6 +57,32 @@ class ScanResultsPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          if (result.status == 'VERIFIED' || result.status == 'REJECTED')
+            Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: (result.status == 'VERIFIED' ? AppColors.primary : AppColors.alertCritical)
+                    .withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Icon(result.status == 'VERIFIED' ? Icons.verified : Icons.block,
+                      color: result.status == 'VERIFIED' ? AppColors.primary : AppColors.alertCritical),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      result.status == 'VERIFIED'
+                          ? 'Confirmed by ${result.vetDisplayName ?? 'a veterinarian'}'
+                          : 'Not confirmed by ${result.vetDisplayName ?? 'a veterinarian'}'
+                              '${result.rejectionReason != null ? ': ${result.rejectionReason}' : ''}',
+                      style: AppTypography.bodyDefault.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           // Captured Image Card
           if (imagePath != null && File(imagePath).existsSync())
             Container(

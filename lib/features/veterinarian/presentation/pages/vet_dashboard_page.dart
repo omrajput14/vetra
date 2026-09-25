@@ -198,6 +198,13 @@ class _VetDashboardPageState extends ConsumerState<VetDashboardPage> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 12),
+                _buildActionCard(
+                  context,
+                  icon: Icons.fact_check_outlined,
+                  label: 'Review AI Scans',
+                  onTap: () => context.push('/vet-scan-reviews'),
+                ),
               ],
             ),
           ),

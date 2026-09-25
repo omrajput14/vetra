@@ -17,6 +17,8 @@ class AIScanModel {
   final String status;
   final String? notes;
   final String? createdAt;
+  final String? uploadedByUserName;
+  final String? verifiedByVetName;
 
   AIScanModel({
     required this.id,
@@ -37,7 +39,22 @@ class AIScanModel {
     required this.status,
     this.notes,
     this.createdAt,
+    this.uploadedByUserName,
+    this.verifiedByVetName,
   });
+
+  // The backend fills these "names" with the account's email or phone; never show those.
+  static String? _asName(String? v) =>
+      v == null || v.contains('@') || RegExp(r'^\+?[0-9 ]{6,}$').hasMatch(v.trim()) ? null : v;
+  String? get farmerDisplayName => _asName(uploadedByUserName);
+  String? get vetDisplayName => _asName(verifiedByVetName);
+
+  /// Waiting for a vet: the AI finished and nobody has approved or rejected it yet.
+  bool get awaitingVetReview => status == 'COMPLETED';
+
+  /// The backend stores a rejection as notes "REJECTED: <reason>".
+  String? get rejectionReason =>
+      status == 'REJECTED' && (notes?.startsWith('REJECTED: ') ?? false) ? notes!.substring(10) : null;
 
   /// The server stored the scan but produced no diagnosis: AI inference failed
   /// (status FAILED) or never ran (status PENDING). Not a result to show.
@@ -113,6 +130,8 @@ class AIScanModel {
       status: json['status']?.toString() ?? 'PENDING',
       notes: notesRaw,
       createdAt: json['createdAt']?.toString(),
+      uploadedByUserName: json['uploadedByUserName']?.toString(),
+      verifiedByVetName: json['verifiedByVetName']?.toString(),
     );
   }
 
@@ -134,6 +153,8 @@ class AIScanModel {
       'status': status,
       'notes': notes,
       'createdAt': createdAt,
+      'uploadedByUserName': uploadedByUserName,
+      'verifiedByVetName': verifiedByVetName,
     };
   }
 }

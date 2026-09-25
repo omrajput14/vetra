@@ -37,6 +37,8 @@ import '../../features/animal/presentation/pages/animal_passport_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_qr_updated_page.dart';
 import '../../features/animal/data/models/animal_dto.dart';
 import '../../features/animal/data/models/animal_health_record_dto.dart';
+import '../../features/ai/data/models/ai_scan_model.dart';
+import '../../features/veterinarian/presentation/pages/vet_scan_review_page.dart';
 import '../../features/animal/presentation/pages/animal_passport_offline_state_page.dart';
 import '../../features/animal/presentation/pages/animal_timeline_page.dart';
 import '../../features/animal/presentation/pages/animal_gallery_page.dart';
@@ -161,6 +163,8 @@ class AppRouter {
         '/qr-scanner-vet',
         '/add-prescription',
         '/add-treatment',
+        '/vet-scan-review',
+        '/vet-scan-reviews',
       };
 
       bool matchesExclusive(Set<String> routes, String location) =>
@@ -419,6 +423,16 @@ class AppRouter {
         path: '/outbreaks',
         redirect: (context, state) =>
             authNotifier.currentRole == UserRole.veterinarian ? '/vet-outbreak-map' : '/outbreak-map',
+      ),
+      GoRoute(
+        path: '/vet-scan-reviews',
+        builder: (context, state) => const VetScanReviewListPage(),
+      ),
+      GoRoute(
+        path: '/vet-scan-review',
+        builder: (context, state) => state.extra is AIScanModel
+            ? VetScanReviewDetailPage(scan: state.extra as AIScanModel)
+            : const VetScanReviewListPage(),
       ),
       GoRoute(
         path: '/scan-history',

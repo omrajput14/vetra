@@ -60,7 +60,13 @@ class _ScanHistoryPageState extends State<ScanHistoryPage> {
         : s.isAnalysisFailure
             ? 'Scan failed'
             : '${s.diagnosis} (${((s.confidenceScore ?? 0) * 100).round()}%)';
-    return [result, when].where((x) => x.isNotEmpty).join(' • ');
+    final review = switch (s.status) {
+      'VERIFIED' => 'Confirmed by ${s.vetDisplayName ?? 'a vet'}',
+      'REJECTED' => 'Not confirmed by ${s.vetDisplayName ?? 'a vet'}',
+      'COMPLETED' => 'Awaiting vet review',
+      _ => '',
+    };
+    return [result, review, when].where((x) => x.isNotEmpty).join(' • ');
   }
 
   void _open(AIScanModel s) {
